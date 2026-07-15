@@ -1,0 +1,545 @@
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {
+  ArrowRight,
+  ChevronLeft,
+  ChevronRight,
+  ChevronDown,
+  ChevronUp,
+  Download,
+  LibraryBig,
+  Search,
+  CheckCircle2,
+  Clock,
+} from 'lucide-react';
+import DashboardShell from '../components/DashboardShell';
+import { assessmentsMap } from '../data/assessments';
+import { ASSESSMENT_TYPES } from '../data/assessmentTypes';
+
+const PRACTICE_ATTEMPTS_KEY = 'careerSensePracticeAttempts';
+
+const coverModules = import.meta.glob('../assets/test-covers/*.{jpg,jpeg,png,gif}', {
+  eager: true,
+  import: 'default',
+});
+
+const coverByBaseName = Object.fromEntries(
+  Object.entries(coverModules).map(([path, asset]) => {
+    const fileName = path.split('/').pop() || '';
+    const baseName = fileName.replace(/\.[^.]+$/, '').toLowerCase();
+    return [baseName, asset];
+  }),
+);
+
+const assessmentTypeEntries = Object.entries(ASSESSMENT_TYPES);
+const coverOverrides = {
+  [ASSESSMENT_TYPES.communication]: 'communication',
+  [ASSESSMENT_TYPES.caseStudy]: 'casestudy',
+  [ASSESSMENT_TYPES.systemDesign]: 'systemdesign',
+  [ASSESSMENT_TYPES.cognitive_ability]: 'cognitive-ability',
+  [ASSESSMENT_TYPES.architecture_sandbox]: 'architecture-sandbox',
+  [ASSESSMENT_TYPES.product_case_ai]: 'product-case-ai',
+  [ASSESSMENT_TYPES.debugging_duel]: 'debugging-duel',
+  [ASSESSMENT_TYPES.daily_incident]: 'daily-incident',
+  [ASSESSMENT_TYPES.zoho_books]: 'zoho',
+  [ASSESSMENT_TYPES.tallyprime]: 'tally',
+  [ASSESSMENT_TYPES.busy_accounting]: 'bas',
+  [ASSESSMENT_TYPES.marg_erp]: 'marg',
+  [ASSESSMENT_TYPES.oracle_financials]: 'oracle',
+  [ASSESSMENT_TYPES.dynamics_365_finance]: 'd365',
+  [ASSESSMENT_TYPES.gst_india_pro]: 'gst',
+  [ASSESSMENT_TYPES.accounting_fundamentals]: 'accounting',
+  [ASSESSMENT_TYPES.financial_statement_analysis]: 'fsa',
+  [ASSESSMENT_TYPES.banking_treasury]: 'banking',
+  [ASSESSMENT_TYPES.payroll_compliance]: 'payroll',
+  [ASSESSMENT_TYPES.mis_reporting]: 'mis',
+  [ASSESSMENT_TYPES.mathematics_statistics]: 'mathematics',
+  [ASSESSMENT_TYPES.python_ai]: 'python for ai',
+  [ASSESSMENT_TYPES.numpy_ai]: 'numpy',
+  [ASSESSMENT_TYPES.pandas_ai]: 'pandas',
+  [ASSESSMENT_TYPES.openai_apis]: 'open ai',
+  [ASSESSMENT_TYPES.langchain]: 'langchain',
+  [ASSESSMENT_TYPES.llamaindex]: 'llama',
+  [ASSESSMENT_TYPES.hugging_face]: 'hugging',
+  [ASSESSMENT_TYPES.vector_databases]: 'vector',
+  [ASSESSMENT_TYPES.ml_deployment]: 'mld',
+  [ASSESSMENT_TYPES.docker_ai]: 'docker',
+  [ASSESSMENT_TYPES.cicd_ml]: 'ci:cd',
+  [ASSESSMENT_TYPES.ml_monitoring]: 'mm',
+  [ASSESSMENT_TYPES.aws_ai_services]: 'aws for ai',
+  [ASSESSMENT_TYPES.google_vertex_ai]: 'google vertex',
+  [ASSESSMENT_TYPES.regression_ml]: 'regression',
+  [ASSESSMENT_TYPES.classification_ml]: 'classification',
+  [ASSESSMENT_TYPES.ensemble_models]: 'ensemble',
+  [ASSESSMENT_TYPES.prompt_engineering]: 'prompt',
+  [ASSESSMENT_TYPES.llm_fundamentals]: 'llm fundamentals',
+  [ASSESSMENT_TYPES.rag_ai]: 'rag',
+  [ASSESSMENT_TYPES.ai_agents]: 'ai agents',
+  [ASSESSMENT_TYPES.vector_database_ops]: 'vector database',
+  [ASSESSMENT_TYPES.llm_deployment]: 'llm deployement',
+};
+
+const getCoverForAssessment = (assessmentId) => {
+  const matchedKey = assessmentTypeEntries.find(([, value]) => value === assessmentId)?.[0];
+  const lookupKey = (coverOverrides[assessmentId] || matchedKey || 'practice-test').toLowerCase();
+  return coverByBaseName[lookupKey] || coverByBaseName['practice-test'] || null;
+};
+
+const TRACKS = {
+  ALL: 'All',
+  SKILLS: 'Skills',
+  ACCOUNTING: 'Accounting',
+  AI_ML: 'AI/ML',
+  SCENARIO_LABS: 'Scenario Labs',
+  WORKPLACE: 'Workplace',
+  ANALYTICS: 'Analytics',
+  LANGUAGES: 'Languages',
+  DOMAINS: 'Domains',
+  CLOUD_SECURITY: 'Cloud & Security',
+};
+
+const TRACK_BY_ID = new Map([
+  [ASSESSMENT_TYPES.communication, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.sjt, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.culture, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.ethics, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.critical_thinking, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.conflict, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.eq, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.presentation, TRACKS.WORKPLACE],
+
+  [ASSESSMENT_TYPES.aptitude, TRACKS.ANALYTICS],
+  [ASSESSMENT_TYPES.numerical, TRACKS.ANALYTICS],
+  [ASSESSMENT_TYPES.cognitive_ability, TRACKS.ANALYTICS],
+  [ASSESSMENT_TYPES.finance, TRACKS.ANALYTICS],
+
+  [ASSESSMENT_TYPES.caseStudy, TRACKS.SCENARIO_LABS],
+  [ASSESSMENT_TYPES.architecture_sandbox, TRACKS.SCENARIO_LABS],
+  [ASSESSMENT_TYPES.product_case_ai, TRACKS.SCENARIO_LABS],
+  [ASSESSMENT_TYPES.debugging_duel, TRACKS.SCENARIO_LABS],
+  [ASSESSMENT_TYPES.daily_incident, TRACKS.SCENARIO_LABS],
+
+  [ASSESSMENT_TYPES.french, TRACKS.LANGUAGES],
+  [ASSESSMENT_TYPES.german, TRACKS.LANGUAGES],
+  [ASSESSMENT_TYPES.spanish, TRACKS.LANGUAGES],
+  [ASSESSMENT_TYPES.japanese, TRACKS.LANGUAGES],
+  [ASSESSMENT_TYPES.chinese, TRACKS.LANGUAGES],
+
+  [ASSESSMENT_TYPES.quickbooks, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.zoho_books, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.tallyprime, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.vyapar, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.busy_accounting, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.marg_erp, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.oracle_financials, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.dynamics_365_finance, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.gst_india_pro, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.accounting_fundamentals, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.financial_statement_analysis, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.banking_treasury, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.payroll_compliance, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.mis_reporting, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.ifrs, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.auditing, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.domain_accounting, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.domain_ar, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.domain_ap, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.domain_fa, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.tax_india, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.tax_usa, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.tax_europe, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.tax_uae, TRACKS.ACCOUNTING],
+
+  [ASSESSMENT_TYPES.aiml, TRACKS.AI_ML],
+  [ASSESSMENT_TYPES.r_prog, TRACKS.AI_ML],
+  [ASSESSMENT_TYPES.spark, TRACKS.AI_ML],
+
+  [ASSESSMENT_TYPES.aws, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.azure, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.gcp, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.docker, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.kubernetes, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.jenkins, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.terraform, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.hacking, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.security_plus, TRACKS.CLOUD_SECURITY],
+  [ASSESSMENT_TYPES.owasp, TRACKS.CLOUD_SECURITY],
+]);
+
+const DOMAIN_PREFIXES = ['domain-'];
+const DOMAIN_CATEGORY_KEYWORDS = ['industry knowledge'];
+const AI_ML_CATEGORY_KEYWORDS = ['ai/ml', 'artificial intelligence', 'machine learning', 'mlops', 'llm', 'rag'];
+const ANALYTICS_CATEGORY_KEYWORDS = ['analytics', 'analytical reasoning', 'quantitative'];
+const WORKPLACE_CATEGORY_KEYWORDS = [
+  'workplace',
+  'organizational values',
+  'client-facing readiness',
+  'workplace integrity',
+];
+const SKILLS_CATEGORY_KEYWORDS = [
+  'software development',
+  'project management',
+  'product management',
+  'business operations',
+  'data tools',
+  'databases',
+  'marketing',
+  'design & creative',
+  'hr & recruitment',
+  'engineering architecture',
+  'software quality',
+  'advanced tech',
+];
+
+const getTrack = (assessment) => {
+  const directTrack = TRACK_BY_ID.get(assessment.id);
+  if (directTrack) return directTrack;
+
+  const category = (assessment.category || '').toLowerCase();
+
+  if (assessment.id.startsWith('language-')) return TRACKS.LANGUAGES;
+  if (assessment.id.startsWith('tax-')) return TRACKS.ACCOUNTING;
+  if (DOMAIN_PREFIXES.some((prefix) => assessment.id.startsWith(prefix))) return TRACKS.DOMAINS;
+  if (DOMAIN_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.DOMAINS;
+  if (AI_ML_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.AI_ML;
+  if (ANALYTICS_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.ANALYTICS;
+  if (WORKPLACE_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.WORKPLACE;
+  if (/cloud|infrastructure|security|devops/.test(category)) return TRACKS.CLOUD_SECURITY;
+  if (SKILLS_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.SKILLS;
+
+  return TRACKS.SKILLS;
+};
+
+const formatAttempts = (attempts) => {
+  const grouped = new Map();
+  attempts.forEach((attempt) => {
+    const current = grouped.get(attempt.assessmentId);
+    if (!current || attempt.score > current.score) {
+      grouped.set(attempt.assessmentId, attempt);
+    }
+  });
+  return grouped;
+};
+
+const filterTabs = [
+  TRACKS.ALL,
+  TRACKS.SKILLS,
+  TRACKS.ACCOUNTING,
+  TRACKS.AI_ML,
+  TRACKS.SCENARIO_LABS,
+  TRACKS.WORKPLACE,
+  TRACKS.ANALYTICS,
+  TRACKS.LANGUAGES,
+  TRACKS.DOMAINS,
+  TRACKS.CLOUD_SECURITY,
+];
+
+export default function PracticeHub() {
+  const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
+  const [activeFilter, setActiveFilter] = useState('All');
+  const [attemptMap, setAttemptMap] = useState(new Map());
+  const [showCompletedAssessments, setShowCompletedAssessments] = useState(true);
+  const completedScrollerRef = useRef(null);
+
+  useEffect(() => {
+    try {
+      const storedAttempts = JSON.parse(localStorage.getItem(PRACTICE_ATTEMPTS_KEY) || '[]');
+      setAttemptMap(formatAttempts(storedAttempts));
+    } catch (error) {
+      console.error('Failed to load practice attempts:', error);
+      setAttemptMap(new Map());
+    }
+  }, []);
+
+  const assessments = useMemo(() => (
+    Object.values(assessmentsMap).map((assessment) => {
+      const bestAttempt = attemptMap.get(assessment.id);
+      return {
+        ...assessment,
+        questionCount: assessment.questions?.length || 0,
+        track: getTrack(assessment),
+        cover: getCoverForAssessment(assessment.id),
+        bestScore: bestAttempt?.score ?? null,
+        hasAttempt: Boolean(bestAttempt),
+      };
+    })
+  ), [attemptMap]);
+
+  const filteredAssessments = useMemo(() => (
+    assessments.filter((assessment) => {
+      const matchesFilter = activeFilter === 'All' || assessment.track === activeFilter;
+      const q = searchQuery.trim().toLowerCase();
+      const matchesSearch = !q || [
+        assessment.title,
+        assessment.shortTitle,
+        assessment.category,
+        assessment.description,
+      ].filter(Boolean).some((value) => value.toLowerCase().includes(q));
+      return matchesFilter && matchesSearch;
+    })
+  ), [assessments, activeFilter, searchQuery]);
+  const completedAssessments = useMemo(
+    () => filteredAssessments.filter((assessment) => assessment.hasAttempt),
+    [filteredAssessments],
+  );
+  const availableAssessments = useMemo(
+    () => filteredAssessments.filter((assessment) => !assessment.hasAttempt),
+    [filteredAssessments],
+  );
+
+  const scrollCompletedAssessments = (direction) => {
+    const container = completedScrollerRef.current;
+    if (!container) return;
+    const scrollAmount = Math.max(320, Math.round(container.clientWidth * 0.82));
+    container.scrollBy({
+      left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth',
+    });
+  };
+
+  return (
+    <DashboardShell
+      title="Practice Hub"
+      subtitle="Operational insights across your skills, proficiency, and readiness."
+      activeTab="practice-hub"
+      contentClassName="bg-[#f4fafa] px-6 pb-12 pt-0 sm:px-10"
+      scrollHeader
+    >
+      <div className="mx-auto max-w-7xl">
+        {/* Controls Section (Filters & Search) */}
+        <section className="rounded-2xl border border-slate-200/75 bg-white shadow-sm mb-8">
+          <div className="flex flex-col gap-4 border-b border-slate-100 p-5 lg:flex-row lg:items-center lg:justify-between">
+            <div>
+              <h3 className="text-base font-semibold tracking-tight text-slate-800">Available Assessments</h3>
+              <p className="text-xs text-slate-500 mt-0.5">Filter by track or search by keyword</p>
+            </div>
+
+            <div className="flex w-full flex-col gap-3 sm:flex-row lg:w-auto">
+              <button
+                type="button"
+                onClick={() => navigate('/my-certificates')}
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-slate-200/80 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200"
+              >
+                <Download className="h-4 w-4 text-slate-400" />
+                My Reports
+              </button>
+
+              <div className="relative w-full lg:w-[26rem]">
+                <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder="Search assessments..."
+                  className="w-full rounded-xl border border-slate-200 bg-slate-50/50 py-2.5 pl-10 pr-4 text-sm text-slate-800 shadow-sm outline-none transition-all placeholder:text-slate-400 focus:border-teal-500 focus:bg-white focus:ring-2 focus:ring-teal-500/20"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Filter Tabs with hidden scrollbar via CSS utilities */}
+          <div className="overflow-x-auto px-5 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div className="flex items-center gap-2">
+              {filterTabs.map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  onClick={() => setActiveFilter(tab)}
+                  className={`relative shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                    activeFilter === tab
+                      ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-200/50'
+                      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'
+                  }`}
+                >
+                  {tab === 'All' ? 'All Modules' : tab}
+                </button>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {completedAssessments.length > 0 ? (
+          <section className="mb-10">
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-bold tracking-tight text-slate-900">Completed Assessments</h3>
+                <p className="mt-1 text-sm text-slate-500">Your finished tests are grouped here for quick review and retakes.</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700 ring-1 ring-teal-200/60">
+                  {completedAssessments.length} completed
+                </span>
+                {showCompletedAssessments ? (
+                  <div className="hidden items-center gap-2 md:flex">
+                    <button
+                      type="button"
+                      onClick={() => scrollCompletedAssessments('left')}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
+                      aria-label="Scroll completed assessments left"
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => scrollCompletedAssessments('right')}
+                      className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-700 shadow-sm transition hover:bg-slate-50"
+                      aria-label="Scroll completed assessments right"
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </button>
+                  </div>
+                ) : null}
+                <button
+                  type="button"
+                  onClick={() => setShowCompletedAssessments((current) => !current)}
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                >
+                  {showCompletedAssessments ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                  {showCompletedAssessments ? 'Minimize' : 'Maximize'}
+                </button>
+              </div>
+            </div>
+            {showCompletedAssessments ? (
+              <div className="space-y-4">
+                <div
+                  ref={completedScrollerRef}
+                  className="flex snap-x snap-mandatory gap-6 overflow-x-auto pb-3 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+                >
+                  {completedAssessments.map((assessment) => (
+                    <div key={assessment.id} className="w-[320px] min-w-[320px] snap-start lg:w-[calc((100%-4.5rem)/4)] lg:min-w-[calc((100%-4.5rem)/4)]">
+                      <AssessmentCard assessment={assessment} onOpen={() => navigate(`/practice-hub/test/${assessment.id}`)} />
+                    </div>
+                  ))}
+                </div>
+                <div className="flex items-center justify-center gap-2 md:hidden">
+                  <button
+                    type="button"
+                    onClick={() => scrollCompletedAssessments('left')}
+                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                    Left
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => scrollCompletedAssessments('right')}
+                    className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 shadow-sm transition hover:bg-slate-50"
+                  >
+                    Right
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <div className="rounded-2xl border border-dashed border-slate-300 bg-white px-6 py-8 text-sm text-slate-500">
+                Completed assessments are minimized. Expand this section anytime to review scores or retake tests.
+              </div>
+            )}
+          </section>
+        ) : null}
+
+        {availableAssessments.length > 0 ? (
+          <section>
+            <div className="mb-5 flex items-center justify-between gap-4">
+              <div>
+                <h3 className="text-xl font-bold tracking-tight text-slate-900">Available Assessments</h3>
+                <p className="mt-1 text-sm text-slate-500">Start a new practice module from the remaining available assessments.</p>
+              </div>
+              <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600 ring-1 ring-slate-200">
+                {availableAssessments.length} available
+              </span>
+            </div>
+            <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+              {availableAssessments.map((assessment) => (
+                <AssessmentCard key={assessment.id} assessment={assessment} onOpen={() => navigate(`/practice-hub/test/${assessment.id}`)} />
+              ))}
+            </div>
+          </section>
+        ) : null}
+
+        {filteredAssessments.length === 0 ? (
+          <div className="mt-8 flex flex-col items-center justify-center rounded-3xl border border-dashed border-slate-300 bg-white px-8 py-16 text-center shadow-sm">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-slate-50 text-slate-400 mb-4">
+              <Search className="h-8 w-8" />
+            </div>
+            <h3 className="text-lg font-bold text-slate-900">No assessments found</h3>
+            <p className="mt-2 text-sm text-slate-500 max-w-sm">
+              We couldn't find any practice modules matching your current search or filter criteria. Try adjusting your selections.
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                setSearchQuery('');
+                setActiveFilter('All');
+              }}
+              className="mt-6 text-sm font-semibold text-teal-600 hover:text-teal-700"
+            >
+              Clear filters & search
+            </button>
+          </div>
+        ) : null}
+      </div>
+    </DashboardShell>
+  );
+}
+
+function AssessmentCard({ assessment, onOpen }) {
+  return (
+    <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/75 bg-white shadow-sm transition-all duration-300 hover:border-teal-200 hover:shadow-lg hover:shadow-teal-900/5">
+      <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden border-b border-slate-100 bg-slate-100/50">
+        {assessment.cover ? (
+          <img
+            src={assessment.cover}
+            alt={assessment.title}
+            className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex h-full items-center justify-center">
+            <LibraryBig className="h-8 w-8 text-slate-300" />
+          </div>
+        )}
+        <div className="absolute right-3 top-3 rounded-md bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-700 shadow-sm backdrop-blur">
+          {assessment.track}
+        </div>
+      </div>
+
+      <div className="flex flex-1 flex-col p-5">
+        <h4 className="mb-2 text-base font-semibold leading-snug text-slate-900 transition-colors group-hover:text-teal-700">
+          {assessment.shortTitle || assessment.title}
+        </h4>
+        <p className="mb-5 flex-1 text-sm leading-relaxed text-slate-500 line-clamp-3">
+          {assessment.description}
+        </p>
+
+        <div className="mt-auto border-t border-slate-100 pt-4">
+          <div className="mb-4 flex items-center justify-between">
+            {assessment.hasAttempt ? (
+              <div className="flex items-center gap-2">
+                <span className="flex items-center gap-1 rounded-md bg-teal-50 px-2 py-1 text-xs font-semibold text-teal-700 ring-1 ring-teal-200/50">
+                  <CheckCircle2 className="h-3 w-3" />
+                  Completed
+                </span>
+                <span className="text-xs font-medium text-slate-500">Score: {assessment.bestScore}%</span>
+              </div>
+            ) : (
+              <span className="flex items-center gap-1.5 text-xs font-medium text-slate-500">
+                <Clock className="h-3.5 w-3.5" />
+                {assessment.durationMinutes} Minutes
+              </span>
+            )}
+          </div>
+
+          <button
+            type="button"
+            onClick={onOpen}
+            className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-slate-50 px-4 py-2.5 text-sm font-semibold text-teal-700 transition-colors hover:bg-teal-50 hover:text-teal-800"
+          >
+            {assessment.hasAttempt ? 'Retake Assessment' : 'Start Assessment'}
+            <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+          </button>
+        </div>
+      </div>
+    </article>
+  );
+}

@@ -1,0 +1,10 @@
+{
+  "name": "AI Recruiter",
+  "short_name": "AI Recruiter",
+  "description": "TalentSense AI-powered hiring platform",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f8fafc",
+  "theme_color": "#10b981",
+  "icons": []
+}

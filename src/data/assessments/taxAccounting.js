@@ -1,0 +1,12 @@
+export { domainAccountingData } from './questions/domainAccountingData';
+export { domainFintechData } from './questions/domainFintechData';
+export { domainPrData } from './questions/domainPrData';
+export { domainAdvertisingData } from './questions/domainAdvertisingData';
+export { domainArData } from './questions/domainArData';
+export { domainApData } from './questions/domainApData';
+export { domainFaData } from './questions/domainFaData';
+export { taxIndiaData } from './questions/taxIndiaData';
+export { taxUsaData } from './questions/taxUsaData';
+export { taxEuropeData } from './questions/taxEuropeData';
+export { taxUaeData } from './questions/taxUaeData';
+export { auditingData } from './questions/auditingData';

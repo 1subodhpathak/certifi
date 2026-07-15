@@ -1,0 +1,38 @@
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
+import Home from './pages/Home';
+import Dashboard from './pages/Dashboard';
+
+// Mock Test Page (Placeholder)
+const AssessmentRoom = () => (
+  <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center">
+    <div className="text-center">
+      <h1 className="text-4xl font-bold mb-4">Assessment Environment</h1>
+      <p className="text-slate-400">Webcam check initializing...</p>
+      <p className="text-xs text-slate-600 mt-2">To be built in next step</p>
+    </div>
+  </div>
+);
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<HomeWrapper />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/test" element={<AssessmentRoom />} />
+      </Routes>
+    </Router>
+  );
+}
+
+// Wrapper to handle navigation from Home
+function HomeWrapper() {
+  const navigate = useNavigate();
+  // We attach this to the buttons in Home.tsx manually later, 
+  // or we can wrap the Home component to pass navigation props.
+  // For now, let's just render Home. 
+  // TIP: Go to Home.tsx and change the <button> onClick to navigate('/dashboard')
+  return <Home />;
+}
+
+export default App;

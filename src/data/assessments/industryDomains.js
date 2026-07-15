@@ -1,0 +1,12 @@
+export { criticalThinkingData } from './questions/criticalThinkingData';
+export { domainFinanceData } from './questions/domainFinanceData';
+export { domainHealthcareData } from './questions/domainHealthcareData';
+export { domainProcurementData } from './questions/domainProcurementData';
+export { domainItSoftwareData } from './questions/domainItSoftwareData';
+export { domainItHardwareData } from './questions/domainItHardwareData';
+export { domainTelecomData } from './questions/domainTelecomData';
+export { domainPaperData } from './questions/domainPaperData';
+export { domainMediaData } from './questions/domainMediaData';
+export { domainEpcData } from './questions/domainEpcData';
+export { domainTextileData } from './questions/domainTextileData';
+export { domainRetailData } from './questions/domainRetailData';
