@@ -330,7 +330,9 @@ export default function MyProfile() {
         }
 
         const data = await response.json();
-        setField('avatar', data.url);
+        const apiBase = import.meta.env.VITE_API_URL || '';
+        const imageUrl = data.url?.startsWith('/') ? `${apiBase}${data.url}` : data.url;
+        setField('avatar', imageUrl);
       })
       .catch((error) => {
         console.error('Failed to upload profile image:', error);
@@ -370,7 +372,9 @@ export default function MyProfile() {
         }
 
         const data = await response.json();
-        setField('bannerImage', data.url);
+        const apiBase = import.meta.env.VITE_API_URL || '';
+        const imageUrl = data.url?.startsWith('/') ? `${apiBase}${data.url}` : data.url;
+        setField('bannerImage', imageUrl);
       })
       .catch((error) => {
         console.error('Failed to upload cover image:', error);

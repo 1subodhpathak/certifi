@@ -72,6 +72,15 @@ export default function AssessmentRoom() {
   const [cameraInterruptionsLog, setCameraInterruptionsLog] = useState<Array<{ at: string; note: string }>>([]);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  // Ref callback: attach stream immediately when video element mounts,
+  // even if getUserMedia already resolved (fixes black screen on production builds)
+  const setVideoRef = (el: HTMLVideoElement | null) => {
+    videoRef.current = el;
+    if (el && streamRef.current) {
+      el.srcObject = streamRef.current;
+    }
+  };
   const startedAtRef = useRef(Date.now());
 
   useEffect(() => {
@@ -83,7 +92,10 @@ export default function AssessmentRoom() {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         streamRef.current = stream;
-        if (videoRef.current) videoRef.current.srcObject = stream;
+        // Attach to video element if it's already mounted; if not, setVideoRef handles it
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
         setHasCameraPermission(true);
       } catch (error) {
         alert('Camera permission is required to continue. Assessment cannot start without identity verification.');
@@ -382,7 +394,7 @@ export default function AssessmentRoom() {
           
           <div className="border-b border-slate-200 p-4 sm:p-5">
             <div className="relative mx-auto aspect-video w-full max-w-sm overflow-hidden rounded border border-slate-300 bg-black shadow-inner lg:max-w-none">
-              <video ref={videoRef} autoPlay muted playsInline className="h-full w-full scale-x-[-1] object-cover" />
+              <video ref={setVideoRef} autoPlay muted playsInline className="h-full w-full scale-x-[-1] object-cover" />
               <div className="absolute top-2 left-2 flex items-center gap-1.5 rounded-sm bg-red-600 px-2 py-0.5 text-[10px] font-bold text-white tracking-wider">
                 <div className="h-1.5 w-1.5 animate-pulse rounded-full bg-white" />
                 REC
