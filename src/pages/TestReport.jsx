@@ -321,7 +321,7 @@ export default function TestReport() {
 
   const handleClaimCertificate = () => {
     if (!certificateEligible) {
-      alert('This custom assessment is not certificate eligible. Only assessments with more than 20 questions can issue a certificate.');
+      alert('This custom assessment is not certificate eligible. Only assessments with 20 or more questions can issue a certificate.');
       return;
     }
     issueCertificate({ openAfterSave: true });
@@ -459,8 +459,8 @@ export default function TestReport() {
                   : 'border-amber-200 bg-amber-50 text-amber-800'
               }`}>
                 {certificateEligible
-                  ? 'Certificate unlocked: this assessment has more than 20 questions.'
-                  : 'Certificate locked: increase question count above 20 in Create Assessment to enable certificate issuance.'}
+                  ? 'Certificate unlocked: this assessment has 20 or more questions.'
+                  : 'Certificate locked: increase question count to 20 or more in Create Assessment to enable certificate issuance.'}
               </div>
 
               <div className="mt-6 flex flex-wrap gap-3">

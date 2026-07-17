@@ -160,7 +160,7 @@ export default function CreateAssessment() {
       caseStudyCount,
       totalMinutes: safeQuestionCount * safeTimePerQuestion,
       tokenEstimate,
-      certificateEligible: safeQuestionCount > 20,
+      certificateEligible: safeQuestionCount >= 20,
     };
   }, [difficulty, mcqRatio, questionCount, timePerQuestion]);
 
@@ -292,6 +292,72 @@ export default function CreateAssessment() {
       scrollHeader
       contentClassName="overflow-x-hidden bg-[#f4fafa] px-4 pb-4 sm:px-8 sm:pb-6"
     >
+      <style>{`
+        /* Custom range slider element */
+        .custom-range-input {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 100%;
+          background: transparent;
+          outline: none;
+          margin: 0;
+          padding: 0;
+          height: 24px;
+          display: flex;
+          align-items: center;
+        }
+
+        /* Webkit range slider runnable track (Chrome, Safari, Edge) */
+        .custom-range-input::-webkit-slider-runnable-track {
+          width: 100%;
+          height: 6px;
+          background: #e2e8f0; /* slate-200 track color */
+          border-radius: 9999px;
+          border: none;
+        }
+
+        /* Webkit range slider thumb (Chrome, Safari, Edge) */
+        .custom-range-input::-webkit-slider-thumb {
+          -webkit-appearance: none;
+          appearance: none;
+          width: 16px;
+          height: 16px;
+          border-radius: 9999px;
+          background: #0d9488; /* teal-600 */
+          border: none;
+          margin-top: -5px; /* Vertical centering: (6px / 2) - (16px / 2) = -5px */
+          cursor: pointer;
+          transition: background 0.15s ease-in-out;
+        }
+
+        .custom-range-input::-webkit-slider-thumb:hover {
+          background: #0f766e; /* teal-700 */
+        }
+
+        /* Mozilla range slider runnable track (Firefox) */
+        .custom-range-input::-moz-range-track {
+          width: 100%;
+          height: 6px;
+          background: #e2e8f0;
+          border-radius: 9999px;
+          border: none;
+        }
+
+        /* Mozilla range slider thumb (Firefox) */
+        .custom-range-input::-moz-range-thumb {
+          width: 16px;
+          height: 16px;
+          border: none;
+          border-radius: 9999px;
+          background: #0d9488; /* teal-600 */
+          cursor: pointer;
+          transition: background 0.15s ease-in-out;
+        }
+
+        .custom-range-input::-moz-range-thumb:hover {
+          background: #0f766e; /* teal-700 */
+        }
+      `}</style>
       <section className="w-full grid gap-6 lg:grid-cols-[3fr_1fr]">
         {/* Main Configuration Card */}
         <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
@@ -406,13 +472,11 @@ export default function CreateAssessment() {
                     type="button"
                     onClick={() => setDifficulty(option)}
                     disabled={isGenerating}
-                    className={`flex-1 py-2 text-sm transition-colors ${
-                      index !== 0 ? 'border-l border-slate-200' : ''
-                    } ${
-                      difficulty === option
+                    className={`flex-1 py-2 text-sm transition-colors ${index !== 0 ? 'border-l border-slate-200' : ''
+                      } ${difficulty === option
                         ? 'bg-slate-100 font-semibold text-slate-900'
                         : 'text-slate-600 hover:bg-slate-50 font-medium'
-                    }`}
+                      }`}
                   >
                     {option}
                   </button>
@@ -421,12 +485,12 @@ export default function CreateAssessment() {
             </div>
 
             {/* Range Slider */}
-              <div>
-                <div className="mb-1.5 flex items-center justify-between">
-                  <span className="text-sm font-medium text-slate-700">Number of Questions</span>
-                  <span className="text-sm font-semibold text-slate-900">{summary.questionCount}</span>
-                </div>
-              <div className="px-2">
+            <div>
+              <div className="mb-1.5 flex items-center justify-between">
+                <span className="text-sm font-medium text-slate-700">Number of Questions</span>
+                <span className="text-sm font-semibold text-slate-900">{summary.questionCount}</span>
+              </div>
+              <div className="px-0">
                 <input
                   type="range"
                   min="5"
@@ -435,23 +499,18 @@ export default function CreateAssessment() {
                   value={summary.questionCount}
                   onChange={(event) => setQuestionCount(Number(event.target.value))}
                   disabled={isGenerating}
-                  className="h-1.5 w-full cursor-pointer appearance-none rounded-full bg-slate-200 accent-teal-500 hover:accent-teal-600"
+                  className="custom-range-input cursor-pointer"
                 />
               </div>
               <div className="relative mt-1 h-5 px-2 text-xs font-semibold text-slate-700">
                 {QUESTION_MARKERS.map((value) => {
                   const percentage = ((value - 5) / (30 - 5)) * 100;
-                  const edgeClass = value === 5
-                    ? '-translate-x-0 text-left'
-                    : value === 30
-                      ? '-translate-x-full text-right'
-                      : '-translate-x-1/2 text-center';
 
                   return (
                     <span
                       key={value}
-                      className={`absolute top-0 ${edgeClass}`}
-                      style={{ left: `${percentage}%` }}
+                      className="absolute top-0 -translate-x-1/2 text-center"
+                      style={{ left: `calc(8px + (${percentage} * (100% - 16px) / 100))` }}
                     >
                       {value}
                     </span>
@@ -500,16 +559,15 @@ export default function CreateAssessment() {
             </div>
 
             {/* Info Banner */}
-            <div className={`flex items-center gap-2.5 rounded-lg px-4 py-3 text-sm border ${
-              summary.certificateEligible
-                ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
-                : 'border-amber-200 bg-amber-50 text-amber-800'
-            }`}>
+            <div className={`flex items-center gap-2.5 rounded-lg px-4 py-3 text-sm border ${summary.certificateEligible
+              ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+              : 'border-amber-200 bg-amber-50 text-amber-800'
+              }`}>
               <AlertCircle className={`h-4 w-4 shrink-0 ${summary.certificateEligible ? 'text-emerald-600' : 'text-amber-600'}`} />
               <p>
                 {summary.certificateEligible
-                  ? 'Certificate eligible: this assessment has more than 20 questions.'
-                  : 'Certificate rule: only assessments with more than 20 questions can issue a certificate.'}
+                  ? 'Certificate eligible: this assessment has 20 or more questions.'
+                  : 'Certificate rule: only assessments with 20 or more questions can issue a certificate.'}
               </p>
             </div>
           </div>
@@ -550,8 +608,8 @@ export default function CreateAssessment() {
             </div>
             <p className="text-xs text-slate-500 leading-tight mt-2">
               {summary.certificateEligible
-                ? 'This assessment qualifies for certificate issuance because it has more than 20 questions.'
-                : 'Increase the question count above 20 if you want this assessment to qualify for a certificate.'}
+                ? 'This assessment qualifies for certificate issuance because it has 20 or more questions.'
+                : 'Increase the question count to 20 or more if you want this assessment to qualify for a certificate.'}
             </p>
           </div>
 
@@ -560,7 +618,7 @@ export default function CreateAssessment() {
               Paid Service. CS Points [{summary.tokenEstimate.min}]-[{summary.tokenEstimate.max}] required.
               Confirmed: {config.title || 'Assessment'}, {summary.questionCount} Q, {difficulty}.
             </p>
-              <button
+            <button
               type="button"
               onClick={handleOpenConfirm}
               disabled={isGenerating || isValidatingSkill}
@@ -608,14 +666,13 @@ export default function CreateAssessment() {
                 </div>
               </div>
 
-              <div className={`mt-4 rounded-lg border px-3 py-2 text-sm ${
-                summary.certificateEligible
-                  ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
-                  : 'border-amber-200 bg-amber-50 text-amber-800'
-              }`}>
+              <div className={`mt-4 rounded-lg border px-3 py-2 text-sm ${summary.certificateEligible
+                ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
+                : 'border-amber-200 bg-amber-50 text-amber-800'
+                }`}>
                 {summary.certificateEligible
-                  ? 'This custom assessment can issue a certificate because it contains more than 20 questions.'
-                  : 'This custom assessment cannot issue a certificate yet. Set the question count above 20 to unlock certificate eligibility.'}
+                  ? 'This custom assessment can issue a certificate because it contains 20 or more questions.'
+                  : 'This custom assessment cannot issue a certificate yet. Set the question count to 20 or more to unlock certificate eligibility.'}
               </div>
 
               <div className="mt-6 flex gap-3">

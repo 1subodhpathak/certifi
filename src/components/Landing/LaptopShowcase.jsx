@@ -749,7 +749,7 @@ const CreateAssessmentScene = () => {
 
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-3 text-[0.7rem] text-yellow-700 flex gap-2 items-start">
           <AlertCircle size={14} className="shrink-0 mt-0.5" />
-          <p>Certificate rule: only assessments with more than 20 questions can issue a certificate.</p>
+          <p>Certificate rule: only assessments with 20 or more questions can issue a certificate.</p>
         </div>
       </div>
     </div>
@@ -777,7 +777,7 @@ const CreateAssessmentScene = () => {
           <div className="font-bold">Estimate : {activeConfig.estimate}</div>
         </div>
         <p className="text-[0.6rem] text-slate-500 mt-3 leading-relaxed">
-          Increase the question count above 20 if you want this assessment to qualify for a certificate.
+          Increase the question count to 20 or more if you want this assessment to qualify for a certificate.
           <br/><br/>
           Paid Service. CS Points {activeConfig.estimate} required. Confirmed: Custom AI Assessment, {activeConfig.questions} Q, {activeConfig.difficulty}.
         </p>
