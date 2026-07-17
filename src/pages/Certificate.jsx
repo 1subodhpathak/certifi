@@ -83,6 +83,43 @@ const globalStyles = `
   body * { visibility: hidden; }
   .print-container,
   .print-container * { visibility: visible; }
+
+  /* Print alignment adjustments */
+  .certificate-print-container {
+    aspect-ratio: 1.414/1 !important;
+    padding: 2rem !important;
+    box-sizing: border-box !important;
+  }
+  .certificate-inner-border {
+    padding: 2.5rem !important;
+    border-width: 4px !important;
+  }
+  .certificate-print-footer {
+    grid-template-columns: 1fr auto auto 1fr !important;
+    gap: 1.25rem !important;
+    padding-top: 2rem !important;
+  }
+  .certificate-print-seal-wrapper {
+    height: 7rem !important;
+    width: 7rem !important;
+  }
+  .certificate-print-seal-img {
+    height: 7.5rem !important;
+    width: 7.5rem !important;
+  }
+  .certificate-print-qr-wrapper {
+    padding: 0.5rem !important;
+  }
+  .certificate-print-qr-img {
+    height: 6rem !important;
+    width: 6rem !important;
+  }
+  .certificate-print-sig-wrapper {
+    height: 3rem !important;
+  }
+  .certificate-print-sig-img {
+    height: 5rem !important;
+  }
 }
 `;
 
@@ -653,9 +690,9 @@ export default function Certificate() {
 
             <div className="scroll-smooth">
           <div className="w-full max-w-[1180px] mx-auto overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
-            <div ref={certificateRef} className="print-container min-h-[36rem] w-full bg-[#FCFAF6] p-2 text-slate-900 select-none sm:aspect-[1.22/1] sm:min-h-0 sm:p-4 lg:aspect-[1.414/1] lg:p-8">
+            <div ref={certificateRef} className="print-container certificate-print-container min-h-[36rem] w-full bg-[#FCFAF6] p-2 text-slate-900 select-none sm:aspect-[1.22/1] sm:min-h-0 sm:p-4 lg:aspect-[1.414/1] lg:p-8">
               {/* Certificate Inner Border */}
-              <div className="relative flex h-full flex-col justify-between border-2 border-[#C5A880] bg-[#FCFAF6] p-3 shadow-inner sm:border-4 sm:p-5 lg:p-10">
+              <div className="certificate-inner-border relative flex h-full flex-col justify-between border-2 border-[#C5A880] bg-[#FCFAF6] p-3 shadow-inner sm:border-4 sm:p-5 lg:p-10">
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
                   <img
                     src={csWatermark}
@@ -730,7 +767,7 @@ export default function Certificate() {
                 </div>
 
                 {/* Footer Signatures & QR */}
-                <div className="relative z-10 grid grid-cols-2 items-end gap-x-3 gap-y-3 border-t border-[#C5A880]/40 pt-3 sm:gap-4 sm:pt-6 lg:grid-cols-[1fr,auto,auto,1fr] lg:gap-5 lg:pt-8">
+                <div className="certificate-print-footer relative z-10 grid grid-cols-2 items-end gap-x-3 gap-y-3 border-t border-[#C5A880]/40 pt-3 sm:gap-4 sm:pt-6 lg:grid-cols-[1fr,auto,auto,1fr] lg:gap-5 lg:pt-8">
                   <div>
                     <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[10px] sm:tracking-wider">Date of Validation</div>
                     <div className="mt-1 text-[7px] font-bold text-slate-900 sm:text-base">{certificate.date}</div>
@@ -738,22 +775,22 @@ export default function Certificate() {
                   </div>
 
                   <div className="flex flex-col items-center justify-center">
-                    <div className="relative flex h-12 w-12 items-center justify-center sm:h-28 sm:w-28">
+                    <div className="certificate-print-seal-wrapper relative flex h-12 w-12 items-center justify-center sm:h-28 sm:w-28">
                       <img
                         src={csSeal}
                         alt="CareerSense official seal"
-                        className="h-18 w-18 object-contain sm:h-30 sm:w-30"
+                        className="certificate-print-seal-img h-18 w-18 object-contain sm:h-30 sm:w-30"
                       />
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center rounded-xl px-2 py-2 text-center shadow-sm">
-                    <img src={qrCodeUrl} alt="Verification QR code" className="h-10 w-10 rounded-md sm:h-24 sm:w-24" />
+                  <div className="certificate-print-qr-wrapper flex flex-col items-center rounded-xl px-2 py-2 text-center shadow-sm">
+                    <img src={qrCodeUrl} alt="Verification QR code" className="certificate-print-qr-img h-10 w-10 rounded-md sm:h-24 sm:w-24" />
                   </div>
 
                   <div className="text-center">
-                    <div className="flex h-7 items-end justify-center sm:h-12">
-                      <img src={shagunSignature} alt="Authorized Signature" className="h-8 w-auto object-contain pb-1 mix-blend-multiply sm:h-20" />
+                    <div className="certificate-print-sig-wrapper flex h-7 items-end justify-center sm:h-12">
+                      <img src={shagunSignature} alt="Authorized Signature" className="certificate-print-sig-img h-8 w-auto object-contain pb-1 mix-blend-multiply sm:h-20" />
                     </div>
                     <div className="border-t border-slate-400/60 pt-1.5">
                       <div className="text-[6.5px] font-bold text-[#0A1D37] sm:text-sm">Shagun Nagpal</div>

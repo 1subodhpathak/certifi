@@ -37,38 +37,52 @@ export default function VerifyCertificate() {
   const [status, setStatus] = useState<VerificationStatus>('idle');
   const [result, setResult] = useState<any>(null);
 
-  const runVerification = (rawValue: string) => {
+  const runVerification = async (rawValue: string) => {
     const targetID = cleanCertificateId(rawValue);
     if (!targetID) return;
 
     setStatus('loading');
 
-    window.setTimeout(() => {
+    try {
+      let found: any = null;
+      
+      // 1. Try to fetch from backend (unauthenticated public route)
       try {
-        const found = findCertificateById(targetID);
-
-        if (!found) {
-          setResult(null);
-          setStatus('error');
-          return;
+        const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
+        const response = await fetch(`${baseUrl}/careersense/certifi/verify/${targetID}`);
+        if (response.ok) {
+          found = await response.json();
         }
+      } catch (apiErr) {
+        console.warn('Backend verification failed, falling back to local registry:', apiErr);
+      }
 
-        setResult({
-          ...found,
-          student: found.studentName || 'Alexander Bennett',
-          course: found.skill || found.title || 'Advanced Certificate Program in Data Science and Machine Learning',
-          issueDate: found.date || found.issuedAt || 'May 20, 2025',
-          score: String(found.score || '').includes('%') ? found.score : `${found.score || 89}%`,
-          verifiedId: cleanCertificateId(found.id || found.certificateId || 'CSA-ACDSML-2025-05874'),
-        });
+      // 2. Fallback to local storage registry (e.g. offline dev/unsynced fallback)
+      if (!found) {
+        found = findCertificateById(targetID);
+      }
 
-        setStatus('success');
-      } catch (error) {
-        console.error('Verification Error:', error);
+      if (!found) {
         setResult(null);
         setStatus('error');
+        return;
       }
-    }, 700);
+
+      setResult({
+        ...found,
+        student: found.studentName || 'Alexander Bennett',
+        course: found.skill || found.title || 'Advanced Certificate Program in Data Science and Machine Learning',
+        issueDate: found.date || found.issuedAt || 'May 20, 2025',
+        score: String(found.score || '').includes('%') ? found.score : `${found.score || 89}%`,
+        verifiedId: cleanCertificateId(found.id || found.certificateId || 'CSA-ACDSML-2025-05874'),
+      });
+
+      setStatus('success');
+    } catch (error) {
+      console.error('Verification Error:', error);
+      setResult(null);
+      setStatus('error');
+    }
   };
 
   useEffect(() => {

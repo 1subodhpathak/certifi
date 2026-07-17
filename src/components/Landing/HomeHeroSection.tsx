@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, BookOpenCheck, Code2, FileCheck2, Search } from 'lucide-react';
+import { ArrowRight, Award, BookOpenCheck, Code2, FileCheck2, Search } from 'lucide-react';
 import AnimatedHeroBackground from './AnimatedHeroBackground';
 import HeroCertificationPreview from './HeroCertificationPreview';
 
@@ -22,11 +22,13 @@ const HERO_WORDS = ['Smarter', 'Trusted', 'Verified', 'Career-ready'];
 type HomeHeroSectionProps = {
   onStartAssessment: () => void;
   onVerifyCertificate: () => void;
+  onSampleCertificate?: () => void;
 };
 
 export default function HomeHeroSection({
   onStartAssessment,
   onVerifyCertificate,
+  onSampleCertificate,
 }: HomeHeroSectionProps) {
   const [heroWordIdx, setHeroWordIdx] = useState(0);
   const [heroWordVisible, setHeroWordVisible] = useState(true);
@@ -86,21 +88,35 @@ export default function HomeHeroSection({
             performance, and issue credentials people can trust.
           </motion.p>
 
-          <motion.div variants={fadeInUp} className="mb-6 flex flex-col gap-3 sm:flex-row">
+          <motion.div variants={fadeInUp} className="mb-6 grid gap-3 sm:grid-cols-3">
             <button
               onClick={onStartAssessment}
-              className="group flex h-12 items-center justify-center gap-2 rounded-lg bg-teal-600 px-8 font-semibold text-white shadow-lg shadow-teal-600/20 transition hover:bg-teal-700"
+              className="group flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-teal-600 px-4 font-semibold text-white shadow-lg shadow-teal-600/20 transition hover:bg-teal-700"
             >
               Start Assessment
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
             </button>
-            
+
             <button
               onClick={onVerifyCertificate}
-              className="flex h-12 items-center justify-center gap-2 rounded-lg border border-teal-200 bg-teal-50 px-8 font-bold text-teal-700 shadow-sm transition hover:bg-teal-100"
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-teal-200 bg-teal-50 px-4 font-bold text-teal-700 shadow-sm transition hover:bg-teal-100"
             >
               <Search className="h-4 w-4" />
               Check & Verify
+            </button>
+
+            <button
+              onClick={() => {
+                if (onSampleCertificate) {
+                  onSampleCertificate();
+                } else {
+                  document.getElementById('certificate-verify')?.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
+              className="flex h-12 w-full items-center justify-center gap-2 rounded-lg border border-slate-200 bg-white px-4 font-bold text-slate-700 shadow-sm transition hover:bg-slate-50"
+            >
+              <Award className="h-4 w-4 text-amber-500" />
+              Sample Certificate
             </button>
           </motion.div>
 
