@@ -68,7 +68,19 @@ function resizeImageFile(file, { maxWidth = 320, maxHeight = 320, quality = 0.82
   });
 }
 
-function TimelineSection({ title, icon: Icon, items, onAdd, onChange, onRemove, accent = 'teal' }) {
+function TimelineSection({
+  title,
+  icon: Icon,
+  items,
+  originalItems = [],
+  onAdd,
+  onChange,
+  onRemove,
+  onSave,
+  savingIndex = null,
+  removingIndex = null,
+  accent = 'teal'
+}) {
   const chipClass =
     accent === 'amber'
       ? 'bg-amber-50 text-amber-600 ring-amber-200/50'
@@ -92,7 +104,7 @@ function TimelineSection({ title, icon: Icon, items, onAdd, onChange, onRemove, 
         <button
           type="button"
           onClick={onAdd}
-          className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200/80 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200"
+          className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl border border-slate-200/80 bg-white px-4 py-2 text-sm font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-200 cursor-pointer"
         >
           <Plus className="h-4 w-4 text-slate-400" />
           Add Entry
@@ -108,70 +120,115 @@ function TimelineSection({ title, icon: Icon, items, onAdd, onChange, onRemove, 
           </div>
         ) : null}
 
-        {items.map((item, index) => (
-          <div key={`${title}-${index}`} className="group relative rounded-xl border border-slate-100 bg-slate-50/50 p-5 transition-colors hover:border-slate-200 hover:bg-slate-50">
-            <div className="grid gap-5 md:grid-cols-2">
-              <div>
-                <label className={labelClasses}>Title</label>
-                <input
-                  value={item.title}
-                  onChange={(e) => onChange(index, 'title', e.target.value)}
-                  placeholder={title === 'Education' ? 'Degree / Program' : title === 'Awards' ? 'Award name' : 'Certification name'}
-                  className={inputClasses}
-                />
-              </div>
-              <div>
-                <label className={labelClasses}>Subtitle</label>
-                <input
-                  value={item.subtitle}
-                  onChange={(e) => onChange(index, 'subtitle', e.target.value)}
-                  placeholder={title === 'Education' ? 'School / University' : 'Issuer / Organization'}
-                  className={inputClasses}
-                />
-              </div>
-              <div>
-                <label className={labelClasses}>Start Date</label>
-                <input
-                  value={item.start}
-                  onChange={(e) => onChange(index, 'start', e.target.value)}
-                  placeholder="e.g. Jun 2022"
-                  className={inputClasses}
-                />
-              </div>
-              <div>
-                <label className={labelClasses}>End Date</label>
-                <input
-                  value={item.end}
-                  onChange={(e) => onChange(index, 'end', e.target.value)}
-                  placeholder="e.g. Present"
-                  className={inputClasses}
-                />
-              </div>
-            </div>
+        {items.map((item, index) => {
+          const orig = originalItems[index];
+          const isItemDirty = !orig || (
+            (item.title || '') !== (orig.title || '') ||
+            (item.subtitle || '') !== (orig.subtitle || '') ||
+            (item.start || '') !== (orig.start || '') ||
+            (item.end || '') !== (orig.end || '') ||
+            (item.description || '') !== (orig.description || '')
+          );
+          const isSaving = savingIndex === index;
+          const isRemoving = removingIndex === index;
 
-            <div className="mt-5">
-              <label className={labelClasses}>Description</label>
-              <textarea
-                value={item.description}
-                onChange={(e) => onChange(index, 'description', e.target.value)}
-                rows={3}
-                placeholder="Add a short description, highlights, or notes."
-                className={inputClasses}
-              />
-            </div>
+          return (
+            <div key={`${title}-${index}`} className="group relative rounded-xl border border-slate-100 bg-slate-50/50 p-5 transition-colors hover:border-slate-200 hover:bg-slate-50">
+              <div className="grid gap-5 md:grid-cols-2">
+                <div>
+                  <label className={labelClasses}>Title</label>
+                  <input
+                    value={item.title}
+                    onChange={(e) => onChange(index, 'title', e.target.value)}
+                    placeholder={title === 'Education' ? 'Degree / Program' : title === 'Awards' ? 'Award name' : 'Certification name'}
+                    className={inputClasses}
+                  />
+                </div>
+                <div>
+                  <label className={labelClasses}>Subtitle</label>
+                  <input
+                    value={item.subtitle}
+                    onChange={(e) => onChange(index, 'subtitle', e.target.value)}
+                    placeholder={title === 'Education' ? 'School / University' : 'Issuer / Organization'}
+                    className={inputClasses}
+                  />
+                </div>
+                <div>
+                  <label className={labelClasses}>Start Date</label>
+                  <input
+                    value={item.start}
+                    onChange={(e) => onChange(index, 'start', e.target.value)}
+                    placeholder="e.g. Jun 2022"
+                    className={inputClasses}
+                  />
+                </div>
+                <div>
+                  <label className={labelClasses}>End Date</label>
+                  <input
+                    value={item.end}
+                    onChange={(e) => onChange(index, 'end', e.target.value)}
+                    placeholder="e.g. Present"
+                    className={inputClasses}
+                  />
+                </div>
+              </div>
 
-            <div className="mt-5 flex justify-end border-t border-slate-200/60 pt-4">
-              <button
-                type="button"
-                onClick={() => onRemove(index)}
-                className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-50 hover:text-red-700"
-              >
-                <Trash2 className="h-4 w-4" />
-                Remove Entry
-              </button>
+              <div className="mt-5">
+                <label className={labelClasses}>Description</label>
+                <textarea
+                  value={item.description}
+                  onChange={(e) => onChange(index, 'description', e.target.value)}
+                  rows={3}
+                  placeholder="Add a short description, highlights, or notes."
+                  className={inputClasses}
+                />
+              </div>
+
+              <div className="mt-5 flex items-center justify-between border-t border-slate-200/60 pt-4">
+                <button
+                  type="button"
+                  disabled={!isItemDirty || isSaving || isRemoving}
+                  onClick={() => onSave && onSave(index)}
+                  className={`inline-flex items-center gap-1.5 rounded-xl px-4 py-2 text-xs font-bold transition-all shadow-xs ${
+                    isItemDirty && !isSaving && !isRemoving
+                      ? "bg-teal-600 hover:bg-teal-500 text-white cursor-pointer active:scale-95"
+                      : "bg-slate-200 text-slate-400 cursor-not-allowed opacity-60"
+                  }`}
+                >
+                  {isSaving ? (
+                    <>
+                      <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                      <span>Saving Entry...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Save className="h-3.5 w-3.5" />
+                      <span>Save Entry</span>
+                    </>
+                  )}
+                </button>
+                <button
+                  type="button"
+                  disabled={isRemoving || isSaving}
+                  onClick={() => onRemove && onRemove(index)}
+                  className="inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-sm font-medium text-red-500 transition-colors hover:bg-red-50 hover:text-red-700 cursor-pointer disabled:opacity-50"
+                >
+                  {isRemoving ? (
+                    <>
+                      <Loader2 className="h-4 w-4 animate-spin text-red-500" />
+                      <span>Removing...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="h-4 w-4" />
+                      <span>Remove Entry</span>
+                    </>
+                  )}
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     </section>
   );
@@ -186,6 +243,10 @@ export default function MyProfile() {
   const [savedNotice, setSavedNotice] = useState(false);
   const [isUploadingAvatar, setIsUploadingAvatar] = useState(false);
   const [isUploadingBanner, setIsUploadingBanner] = useState(false);
+  const [savingKey, setSavingKey] = useState(null);
+  const [removingKey, setRemovingKey] = useState(null);
+  const [hasSyncedForm, setHasSyncedForm] = useState(false);
+
   const [form, setForm] = useState(() => ({
     name: user?.name || '',
     avatar: user?.avatar || '',
@@ -201,8 +262,6 @@ export default function MyProfile() {
     certifications: user?.certifications || [],
     awards: user?.awards || [],
   }));
-
-  const [hasSyncedForm, setHasSyncedForm] = useState(false);
 
   useEffect(() => {
     if (user && isSynced && !hasSyncedForm) {
@@ -400,33 +459,25 @@ export default function MyProfile() {
     setSavedNotice(false);
   };
 
-  const removeTimelineItem = (field, index) => {
-    setForm((current) => ({
-      ...current,
-      [field]: current[field].filter((_, itemIndex) => itemIndex !== index),
-    }));
-    setSavedNotice(false);
-  };
-
-  const handleSave = () => {
+  const handleSaveWithForm = async (formToSave) => {
     const nextProfile = {
-      name: form.name.trim(),
-      avatar: form.avatar,
-      email: form.email.trim(),
-      phone: form.phone.trim(),
-      currentRole: form.currentRole.trim(),
-      currentCompany: form.currentCompany.trim(),
-      profileStatus: form.profileStatus.trim() || 'Open to Work',
-      location: form.location.trim(),
-      bio: form.bio.trim(),
-      bannerImage: form.bannerImage.trim() || DEFAULT_PROFILE_BANNER,
-      education: form.education,
-      certifications: form.certifications,
-      awards: form.awards,
+      name: (formToSave.name || '').trim(),
+      avatar: formToSave.avatar,
+      email: (formToSave.email || '').trim(),
+      phone: (formToSave.phone || '').trim(),
+      currentRole: (formToSave.currentRole || '').trim(),
+      currentCompany: (formToSave.currentCompany || '').trim(),
+      profileStatus: (formToSave.profileStatus || 'Open to Work').trim(),
+      location: (formToSave.location || '').trim(),
+      bio: (formToSave.bio || '').trim(),
+      bannerImage: (formToSave.bannerImage || DEFAULT_PROFILE_BANNER).trim(),
+      education: formToSave.education || [],
+      certifications: formToSave.certifications || [],
+      awards: formToSave.awards || [],
       publicProfileId: publicProfileId
     };
 
-    updateProfile(nextProfile);
+    await updateProfile(nextProfile);
     savePublicProfileSnapshot(
       { ...user, ...nextProfile },
       getStoredCertificates(),
@@ -435,10 +486,38 @@ export default function MyProfile() {
     setSavedNotice(true);
   };
 
+  const handleSaveEntry = async (field, index) => {
+    const key = `${field}-${index}`;
+    setSavingKey(key);
+    try {
+      await handleSaveWithForm(form);
+    } catch (err) {
+      console.error('Failed to save entry:', err);
+    } finally {
+      setSavingKey(null);
+    }
+  };
+
+  const handleRemoveEntry = async (field, index) => {
+    const key = `${field}-${index}`;
+    setRemovingKey(key);
+    const updatedItems = form[field].filter((_, itemIndex) => itemIndex !== index);
+    const updatedForm = { ...form, [field]: updatedItems };
+    setForm(updatedForm);
+
+    try {
+      await handleSaveWithForm(updatedForm);
+    } catch (err) {
+      console.error('Failed to remove entry:', err);
+    } finally {
+      setRemovingKey(null);
+    }
+  };
+
   return (
     <DashboardShell
       title="My Profile"
-      subtitle="Keep your professional profile updated for certificates details in sync."
+      subtitle="Your profile details are automatically synced from your main CareerSense Master Profile."
       activeTab="profile"
       contentClassName="px-8 py-8 pb-12 bg-[#f4fafa]"
     >
@@ -459,20 +538,16 @@ export default function MyProfile() {
                 )}
               </div>
               <div className="flex flex-col gap-3 border-t border-slate-200 bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
-                <p className="text-sm text-slate-500">Upload a custom cover image or reset back to the default banner.</p>
+                <p className="text-sm text-slate-500">Master cover banner synced from central profile.</p>
                 <div className="flex flex-wrap items-center gap-2">
-                  <label className="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-slate-200/80 bg-white px-3 py-2 text-xs font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900 focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-1">
-                    <ImagePlus className="h-3.5 w-3.5 text-slate-400" />
-                    Upload Cover Image
-                    <input type="file" accept="image/*" onChange={handleBannerUpload} className="hidden" />
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setField('bannerImage', DEFAULT_PROFILE_BANNER)}
-                    className="inline-flex shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                  <a
+                    href="https://careersenseai.com/dashboard?tab=My%20Profile"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-xl bg-teal-50 border border-teal-200 px-4 py-2 text-xs font-bold text-teal-700 transition hover:bg-teal-100"
                   >
-                    Reset Default
-                  </button>
+                    Edit Master Banner <ExternalLink size={13} />
+                  </a>
                 </div>
               </div>
             </div>
@@ -504,22 +579,6 @@ export default function MyProfile() {
                 <p className="mt-2 inline-flex items-center rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-700 ring-1 ring-teal-200/70">
                   Status: {form.profileStatus || 'Open to Work'}
                 </p>
-                
-                <div className="mt-4 flex flex-wrap items-center gap-2">
-                  <label className="inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-slate-200/80 bg-white px-3 py-1.5 text-xs font-medium text-slate-700 shadow-sm transition-all hover:bg-slate-50 hover:text-slate-900 focus-within:ring-2 focus-within:ring-teal-500 focus-within:ring-offset-1">
-                    <ImagePlus className="h-3.5 w-3.5 text-slate-400" />
-                    Upload Image
-                    <input type="file" accept="image/*" onChange={handleAvatarUpload} className="hidden" />
-                  </label>
-                  <button
-                    type="button"
-                    onClick={() => setField('avatar', '')}
-                    className="inline-flex items-center justify-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-medium text-slate-500 transition-colors hover:bg-red-50 hover:text-red-600"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                    Remove
-                  </button>
-                </div>
               </div>
             </div>
 
@@ -538,42 +597,42 @@ export default function MyProfile() {
                 <ExternalLink className="h-4 w-4" />
                 View Public Profile
               </button>
-              <button
-                type="button"
-                onClick={handleSave}
-                disabled={!isDirty}
-                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-600 px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 disabled:shadow-none"
+              <a
+                href="https://careersenseai.com/dashboard?tab=My%20Profile"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition-all hover:bg-teal-500 active:scale-95"
               >
-                <Save className="h-4 w-4" />
-                Save Profile
-              </button>
+                <ExternalLink className="h-4 w-4" />
+                Edit Profile
+              </a>
             </div>
           </div>
 
           <div className="mt-8 grid gap-5 border-t border-slate-100 pt-6 md:grid-cols-2 xl:grid-cols-3">
             <div>
               <label className={labelClasses}>Full Name</label>
-              <input value={form.name} onChange={(e) => setField('name', e.target.value)} className={inputClasses} placeholder="John Doe" />
+              <input value={form.name} readOnly className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed" placeholder="John Doe" />
             </div>
             <div>
               <label className={labelClasses}>Email Address</label>
-              <input value={form.email} onChange={(e) => setField('email', e.target.value)} type="email" className={inputClasses} placeholder="john@example.com" />
+              <input value={form.email} readOnly type="email" className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed" placeholder="john@example.com" />
             </div>
             <div>
               <label className={labelClasses}>Phone Number</label>
-              <input value={form.phone} onChange={(e) => setField('phone', e.target.value)} type="tel" className={inputClasses} placeholder="+1 (555) 000-0000" />
+              <input value={form.phone} readOnly type="tel" className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed" placeholder="+1 (555) 000-0000" />
             </div>
             <div>
               <label className={labelClasses}>Current Role / Designation</label>
-              <input value={form.currentRole} onChange={(e) => setField('currentRole', e.target.value)} className={inputClasses} placeholder="Senior Developer" />
+              <input value={form.currentRole} readOnly className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed" placeholder="Senior Developer" />
             </div>
             <div>
               <label className={labelClasses}>Current Company</label>
-              <input value={form.currentCompany} onChange={(e) => setField('currentCompany', e.target.value)} className={inputClasses} placeholder="Acme Corp" />
+              <input value={form.currentCompany} readOnly className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed" placeholder="Acme Corp" />
             </div>
             <div>
               <label className={labelClasses}>Profile Status</label>
-              <select value={form.profileStatus} onChange={(e) => setField('profileStatus', e.target.value)} className={inputClasses}>
+              <select value={form.profileStatus} disabled className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed">
                 {PROFILE_STATUS_OPTIONS.map((status) => (
                   <option key={status} value={status}>{status}</option>
                 ))}
@@ -583,7 +642,7 @@ export default function MyProfile() {
               <label className={labelClasses}>Location</label>
               <div className="relative">
                 <MapPin className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
-                <input value={form.location} onChange={(e) => setField('location', e.target.value)} className={`${inputClasses} pl-10`} placeholder="City, Country" />
+                <input value={form.location} readOnly className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed pl-10" placeholder="City, Country" />
               </div>
             </div>
           </div>
@@ -592,10 +651,10 @@ export default function MyProfile() {
             <label className={labelClasses}>Bio / Professional Summary</label>
             <textarea
               value={form.bio}
-              onChange={(e) => setField('bio', e.target.value)}
+              readOnly
               rows={4}
-              placeholder="Add a short professional summary, core interests, or anything recruiters should know."
-              className={inputClasses}
+              placeholder="Professional summary synced from master profile."
+              className="w-full rounded-xl border border-slate-200 bg-slate-100/70 px-4 py-2.5 text-sm font-semibold text-slate-700 shadow-2xs outline-none cursor-not-allowed"
             />
           </div>
         </section>
@@ -604,9 +663,13 @@ export default function MyProfile() {
           title="Education"
           icon={GraduationCap}
           items={form.education}
+          originalItems={user?.education || []}
           onAdd={() => addTimelineItem('education')}
           onChange={(index, key, value) => updateTimelineItem('education', index, key, value)}
-          onRemove={(index) => removeTimelineItem('education', index)}
+          onRemove={(index) => handleRemoveEntry('education', index)}
+          onSave={(index) => handleSaveEntry('education', index)}
+          savingIndex={savingKey?.startsWith('education-') ? parseInt(savingKey.split('-')[1], 10) : null}
+          removingIndex={removingKey?.startsWith('education-') ? parseInt(removingKey.split('-')[1], 10) : null}
           accent="blue"
         />
 
@@ -614,18 +677,26 @@ export default function MyProfile() {
           title="Certifications"
           icon={Briefcase}
           items={form.certifications}
+          originalItems={user?.certifications || []}
           onAdd={() => addTimelineItem('certifications')}
           onChange={(index, key, value) => updateTimelineItem('certifications', index, key, value)}
-          onRemove={(index) => removeTimelineItem('certifications', index)}
+          onRemove={(index) => handleRemoveEntry('certifications', index)}
+          onSave={(index) => handleSaveEntry('certifications', index)}
+          savingIndex={savingKey?.startsWith('certifications-') ? parseInt(savingKey.split('-')[1], 10) : null}
+          removingIndex={removingKey?.startsWith('certifications-') ? parseInt(removingKey.split('-')[1], 10) : null}
         />
 
         <TimelineSection
           title="Awards"
           icon={Award}
           items={form.awards}
+          originalItems={user?.awards || []}
           onAdd={() => addTimelineItem('awards')}
           onChange={(index, key, value) => updateTimelineItem('awards', index, key, value)}
-          onRemove={(index) => removeTimelineItem('awards', index)}
+          onRemove={(index) => handleRemoveEntry('awards', index)}
+          onSave={(index) => handleSaveEntry('awards', index)}
+          savingIndex={savingKey?.startsWith('awards-') ? parseInt(savingKey.split('-')[1], 10) : null}
+          removingIndex={removingKey?.startsWith('awards-') ? parseInt(removingKey.split('-')[1], 10) : null}
           accent="amber"
         />
       </div>
