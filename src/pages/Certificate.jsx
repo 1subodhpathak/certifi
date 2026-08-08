@@ -548,15 +548,24 @@ export default function Certificate() {
         ) : null}
 
         <aside
-          className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-slate-700/80 bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
+          className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#0e483c] bg-[#04201b] text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
             isMobileNavOpen ? 'translate-x-0' : '-translate-x-full'
           } ${isSidebarCollapsed ? 'md:w-20' : 'md:w-64'}`}
         >
-          <div className={`${isSidebarCollapsed ? 'p-4' : 'p-6'} border-b border-slate-700/70`}>
+          <div className={`${isSidebarCollapsed ? 'p-4' : 'p-5'} border-b border-[#0e483c]/70`}>
             <div className={`flex items-center gap-3 ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
               <div className="flex cursor-pointer items-center gap-3" onClick={() => handleNavigate('/')} title="CareerSense home">
-                <img src="/Logo1.png" alt="CareerSense logo" className="h-12 w-12 shrink-0 object-contain" />
-                {!isSidebarCollapsed ? <span className="text-lg font-bold tracking-tight text-white">CareerSense</span> : null}
+                <img src="/Logo1.png" alt="CareerSense logo" className="h-10 w-10 shrink-0 object-contain" />
+                {!isSidebarCollapsed ? (
+                  <div className="flex flex-col leading-none">
+                    <span className="text-lg font-black tracking-tight text-white whitespace-nowrap">
+                      Career<span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">Sense</span>
+                    </span>
+                    <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-teal-400/90 whitespace-nowrap">
+                      AI Certification Platform
+                    </span>
+                  </div>
+                ) : null}
               </div>
 
               {!isSidebarCollapsed ? (
@@ -566,7 +575,7 @@ export default function Certificate() {
                     if (window.innerWidth < 768) setIsMobileNavOpen(false);
                     else setIsSidebarCollapsed(true);
                   }}
-                  className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-700 bg-slate-700/70 text-slate-300 transition hover:bg-slate-600/80 hover:text-white"
+                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-teal-900/60 bg-teal-950/40 text-slate-400 transition hover:text-white"
                   aria-label={window.innerWidth < 768 ? 'Close sidebar' : 'Collapse sidebar'}
                 >
                   {window.innerWidth < 768 ? <X className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
@@ -605,16 +614,16 @@ export default function Certificate() {
             </nav>
           </div>
 
-          <div className="border-t border-slate-700/80 bg-slate-800/80 p-3">
-            <div className={`group flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-slate-700/80 ${isSidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
-              <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-slate-600 bg-slate-700">
-                {user?.avatar ? <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" /> : <User className="h-4 w-4 text-slate-400" />}
+          <div className="border-t border-[#0e483c] bg-[#031913]/90 p-3">
+            <div className={`group flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-teal-900/40 ${isSidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
+              <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-teal-700 bg-teal-950">
+                {user?.avatar ? <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" /> : <User className="h-4 w-4 text-teal-300" />}
               </div>
               {!isSidebarCollapsed ? (
                 <>
                   <div className="flex-1 overflow-hidden">
-                    <p className="truncate text-xs font-bold capitalize text-white transition-colors group-hover:text-teal-400">{user?.name}</p>
-                    <p className="truncate text-[10px] text-slate-500">{userMeta}</p>
+                    <p className="truncate text-xs font-bold capitalize text-white transition-colors group-hover:text-teal-300">{user?.name}</p>
+                    <p className="truncate text-[10px] text-slate-400">{userMeta}</p>
                   </div>
                   <LogOut onClick={handleLogout} className="h-3 w-3 text-slate-500 transition-colors hover:text-red-400" />
                 </>
@@ -651,7 +660,7 @@ export default function Certificate() {
                   icon={<Zap className="h-4 w-4" />}
                 />
                 <UsagePill
-                  label="Consumed"
+                  label="Bill"
                   value={`$${usageSummary.totalCostUsd.toFixed(4)}`}
                   accent="emerald"
                   icon={<span className="text-sm font-black">$</span>}

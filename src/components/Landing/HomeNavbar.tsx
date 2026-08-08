@@ -96,7 +96,7 @@ export default function HomeNavbar() {
                       <span className="text-sm font-black">$</span>
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Consumed</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
                       <p className="text-sm font-black text-slate-900">${totalCostUsd.toFixed(4)}</p>
                     </div>
                   </div>
@@ -165,7 +165,7 @@ export default function HomeNavbar() {
                         <p className="mt-1 text-base font-black text-slate-900">{totalCareerPoints}</p>
                       </div>
                       <div className="rounded-2xl border border-slate-200 bg-white px-3 py-3 shadow-sm">
-                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Consumed</p>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
                         <p className="mt-1 text-base font-black text-slate-900">${totalCostUsd.toFixed(4)}</p>
                       </div>
                     </div>

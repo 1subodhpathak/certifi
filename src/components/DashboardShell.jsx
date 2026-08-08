@@ -30,11 +30,11 @@ function SidebarItem({ icon: Icon, label, active = false, badge, collapsed = fal
       className={`group mb-1 flex w-full items-center rounded-lg text-xs font-medium transition-all ${
         collapsed ? 'justify-center px-2 py-3' : 'justify-between px-3 py-2.5'
       } ${
-        active ? 'border border-teal-500/20 bg-teal-600/10 text-teal-400' : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+        active ? 'border border-teal-500/30 bg-teal-600/20 text-teal-300 font-semibold shadow-2xs' : 'text-slate-300 hover:bg-teal-900/40 hover:text-white'
       }`}
     >
       <div className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
-        <Icon className={`h-4 w-4 ${active ? 'text-teal-400' : 'text-slate-500 transition-colors group-hover:text-white'}`} />
+        <Icon className={`h-4 w-4 ${active ? 'text-teal-300' : 'text-slate-400 transition-colors group-hover:text-white'}`} />
         {!collapsed ? label : null}
       </div>
       {badge && !collapsed ? (
@@ -144,7 +144,7 @@ export default function DashboardShell({
           <span className="text-sm font-black">$</span>
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Consumed</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
           <p className="text-sm font-black text-slate-900">${displayStats.totalCostUsd.toFixed(4)}</p>
         </div>
       </div>
@@ -198,19 +198,28 @@ export default function DashboardShell({
       ) : null}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-slate-800 bg-slate-900 text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
+        className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#0e483c] bg-[#04201b] text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
           isMobileNavOpen ? 'translate-x-0' : '-translate-x-full'
         } ${isSidebarCollapsed ? 'md:w-20' : 'md:w-64'}`}
       >
-        <div className={`${isSidebarCollapsed ? 'p-4' : 'p-6'} border-b border-slate-800/50`}>
+        <div className={`${isSidebarCollapsed ? 'p-4' : 'p-5'} border-b border-[#0e483c]/70`}>
           <div className={`flex items-center gap-3 ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>
             <div className="flex cursor-pointer items-center gap-3" onClick={() => handleNavigate('/')} title="CareerSense home">
               <img
                 src="/Logo1.png"
-                alt="Certifi.AI logo"
-                className="h-12 w-12 shrink-0 object-contain"
+                alt="CareerSense logo"
+                className="h-10 w-10 shrink-0 object-contain"
               />
-              {!isSidebarCollapsed ? <span className="text-lg font-bold tracking-tight text-white">CareerSense</span> : null}
+              {!isSidebarCollapsed ? (
+                <div className="flex flex-col leading-none">
+                  <span className="text-lg font-black tracking-tight text-white whitespace-nowrap">
+                    Career<span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">Sense</span>
+                  </span>
+                  <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-teal-400/90 whitespace-nowrap">
+                    AI Certification Platform
+                  </span>
+                </div>
+              ) : null}
             </div>
 
             {!isSidebarCollapsed ? (
@@ -223,7 +232,7 @@ export default function DashboardShell({
                     setIsSidebarCollapsed(true);
                   }
                 }}
-                className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-800 bg-slate-800/60 text-slate-400 transition hover:text-white"
+                className="flex h-8 w-8 items-center justify-center rounded-lg border border-teal-900/60 bg-teal-950/40 text-slate-400 transition hover:text-white"
                 aria-label={window.innerWidth < 768 ? 'Close sidebar' : 'Collapse sidebar'}
                 title={window.innerWidth < 768 ? 'Close sidebar' : 'Collapse sidebar'}
               >
@@ -236,7 +245,7 @@ export default function DashboardShell({
             <button
               type="button"
               onClick={() => setIsSidebarCollapsed(false)}
-              className="mt-3 flex w-full items-center justify-center rounded-lg border border-slate-800 bg-slate-800/60 py-2 text-slate-400 transition hover:text-white"
+              className="mt-3 flex w-full items-center justify-center rounded-lg border border-teal-900/60 bg-teal-950/40 py-2 text-slate-400 transition hover:text-white"
               aria-label="Expand sidebar"
               title="Expand sidebar"
             >
@@ -248,7 +257,7 @@ export default function DashboardShell({
         <div className={`custom-scrollbar flex-1 space-y-6 overflow-y-auto py-6 ${isSidebarCollapsed ? 'px-2' : 'px-3'}`}>
           <nav className="space-y-1">
             {!isSidebarCollapsed ? (
-              <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-500">Menu</p>
+              <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-teal-400/70">Menu</p>
             ) : null}
 
             <SidebarItem icon={LayoutDashboard} label="Dashboard" active={activeTab === 'dashboard'} collapsed={isSidebarCollapsed} onClick={() => handleNavigate('/dashboard')} />
@@ -261,46 +270,23 @@ export default function DashboardShell({
             <SidebarItem icon={DollarSignIcon} label="Usage & Billing" active={activeTab === 'usage-billing'} collapsed={isSidebarCollapsed} onClick={() => handleNavigate('/usage-billing')} />
           </nav>
 
-          {isSidebarCollapsed ? (
-            <button
-              onClick={() => handleNavigate('/subscription')}
-              className="mx-1 flex items-center justify-center rounded-xl border border-slate-700 bg-gradient-to-br from-slate-800 to-slate-900 p-3 text-yellow-400 transition hover:border-teal-500/30"
-              title="Upgrade plan"
-            >
-              <Zap className="h-4 w-4" />
-            </button>
-          ) : (
-            <div className="group relative mx-2 overflow-hidden rounded-xl border border-slate-700 bg-gradient-to-br from-slate-800 to-slate-900 p-3">
-              <div className="absolute right-0 top-0 h-16 w-16 rounded-full bg-teal-500/10 blur-xl transition-all group-hover:bg-teal-500/20" />
-              <div className="relative z-10">
-                <div className="mb-1 flex items-center gap-2 text-sm font-bold text-white">
-                  <Zap className="h-3 w-3 text-yellow-400" />
-                  Pro Plan
-                </div>
-                <p className="mb-2 text-[10px] text-slate-400">Unlock unlimited AI tests.</p>
-                <button onClick={() => handleNavigate('/subscription')} className="w-full rounded py-1.5 text-[10px] font-bold text-white bg-teal-600 shadow-lg transition-colors hover:bg-teal-500">
-                  Upgrade
-                </button>
-              </div>
-            </div>
-          )}
         </div>
 
-        <div className="border-t border-slate-800 bg-slate-900/50 p-3">
-          <div className={`group flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-slate-800 ${isSidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
-            <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-slate-700 bg-slate-800">
-              {user.avatar ? <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" /> : <User className="h-4 w-4 text-slate-400" />}
+        <div className="border-t border-[#0e483c] bg-[#031913]/90 p-3">
+          <div className={`group flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-teal-900/40 ${isSidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
+            <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-teal-700 bg-teal-950">
+              {user.avatar ? <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" /> : <User className="h-4 w-4 text-teal-300" />}
             </div>
             {!isSidebarCollapsed ? (
               <>
                 <div className="flex-1 overflow-hidden">
-                  <p className="truncate text-xs font-bold capitalize text-white transition-colors group-hover:text-teal-400">{user.name}</p>
-                  <p className="truncate text-[10px] text-slate-500">{userMeta}</p>
+                  <p className="truncate text-xs font-bold capitalize text-white transition-colors group-hover:text-teal-300">{user.name}</p>
+                  <p className="truncate text-[10px] text-slate-400">{userMeta}</p>
                 </div>
-                <LogOut onClick={handleLogout} className="h-3 w-3 text-slate-500 transition-colors hover:text-red-400" />
+                <LogOut onClick={handleLogout} className="h-3.5 w-3.5 text-slate-400 transition-colors hover:text-red-400" />
               </>
             ) : (
-              <LogOut onClick={handleLogout} className="ml-2 h-3 w-3 text-slate-500 transition-colors hover:text-red-400" />
+              <LogOut onClick={handleLogout} className="ml-2 h-3.5 w-3.5 text-slate-400 transition-colors hover:text-red-400" />
             )}
           </div>
         </div>
