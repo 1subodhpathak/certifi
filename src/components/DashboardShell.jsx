@@ -20,6 +20,7 @@ import {
   PanelLeftOpen,
   X,
   Medal,
+  Users,
 } from 'lucide-react';
 
 function SidebarItem({ icon: Icon, label, active = false, badge, collapsed = false, onClick }) {

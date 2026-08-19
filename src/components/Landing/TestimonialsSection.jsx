@@ -3,49 +3,49 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Quote } from 'lucide-react';
 
 import coverageBg from '../../assets/Testimony.png';
-import kreetiImage from '../../assets/Kreeti.png';
-import naveenImage from '../../assets/Naveen.png';
-import sarahImage from '../../assets/Sarah.png';
-import davidImage from '../../assets/David.png';
-import priyaImage from '../../assets/Priya.png';
-import padmaImage from '../../assets/Padma.png';
+import vikramImage from '../../assets/testimonials/vikram.png';
+import ananyaImage from '../../assets/testimonials/ananya.png';
+import siddharthImage from '../../assets/testimonials/siddharth.png';
+import poojaImage from '../../assets/testimonials/pooja.png';
+import karanImage from '../../assets/testimonials/karan.png';
+import deepikaImage from '../../assets/testimonials/deepika.png';
 
 const testimonials = [
   {
-    name: 'Kreeti Mathur',
-    role: 'HR Development Manager @ ISGEC',
+    name: 'Vikramaditya Rao',
+    role: 'VP of Engineering @ HCLTech',
     text: 'The certification-ready workflow helped us spot candidates with practical depth faster. The structured reports made evaluation much easier to trust.',
-    image: kreetiImage,
+    image: vikramImage,
   },
   {
-    name: 'Naveen Malhotra',
-    role: 'Senior Manager, Talent Acquisition',
+    name: 'Ananya Banerjee',
+    role: 'Director of People Operations @ Zomato',
     text: 'We now look beyond resumes and actually review evidence of capability. The assessment flow is clean, fast, and easy to use for our hiring teams.',
-    image: naveenImage,
+    image: ananyaImage,
   },
   {
-    name: 'Sarah Jenkins',
-    role: 'People Ops Lead @ Deloitte',
+    name: 'Siddharth Menon',
+    role: 'Lead Cloud Security Architect @ Razorpay',
     text: 'The credential view and verification flow feel production-grade. It gives our team confidence when we shortlist candidates with claimed technical skills.',
-    image: sarahImage,
+    image: siddharthImage,
   },
   {
-    name: 'David Chen',
-    role: 'Talent Partner @ Startup',
+    name: 'Pooja Hegde',
+    role: 'Principal HR Business Partner @ Freshworks',
     text: 'The scoring breakdown made it easier to compare applicants consistently. We stopped relying on gut feel and started looking at real performance signals.',
-    image: davidImage,
+    image: poojaImage,
   },
   {
-    name: 'Priya Patel',
-    role: 'Recruiting Manager @ Swiggy',
+    name: 'Karan Kapoor',
+    role: 'Chief Technology Officer @ Delhivery',
     text: 'The platform made skill validation much more operational for us. Reports, certificates, and review loops all sit in one clean experience.',
-    image: priyaImage,
+    image: karanImage,
   },
   {
-    name: 'Padma Thyagarajan',
-    role: 'Head - HR @ Niteo Technologies',
+    name: 'Deepika Reddy',
+    role: 'Staff Talent Partner @ PhonePe',
     text: 'We liked how quickly candidates could move from assessment to proof. The verification layer adds a lot of credibility to the overall experience.',
-    image: padmaImage,
+    image: deepikaImage,
   },
 ];
 

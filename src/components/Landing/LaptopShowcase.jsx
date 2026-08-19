@@ -583,7 +583,7 @@ const LearningPathsScene = () => (
               <span className="flex items-center gap-1 text-[0.6rem] text-slate-500 border border-slate-200 bg-white px-2 py-0.5 rounded"><Clock size={10}/> Est. 45m</span>
             </div>
             <p className="text-[0.7rem] text-slate-600 mb-4 leading-relaxed max-w-2xl">Review of Python basics, data structures, file operations, and object-oriented programming</p>
-            <button className="bg-[#10b981] text-white px-4 py-2 rounded-lg text-[0.7rem] font-bold flex items-center gap-1.5 hover:bg-[#059669]">Begin Module <ChevronRight size={14}/></button>
+            <button className="bg-[#10b981] text-white px-4 py-2 rounded-lg text-[0.7rem] font-bold flex items-center gap-1.5 hover:bg-[#059669]">Create Assessment <ChevronRight size={14}/></button>
           </div>
         </div>
 

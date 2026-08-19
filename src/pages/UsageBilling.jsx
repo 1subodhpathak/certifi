@@ -77,26 +77,7 @@ export default function UsageBilling() {
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
-            {/* Points Card */}
-            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-teal-200 hover:shadow-md">
-              <div className="absolute -right-4 -top-4 rounded-full bg-teal-50/50 p-8 transition-transform group-hover:scale-110">
-                <Gauge className="h-8 w-8 text-teal-100" />
-              </div>
-              <div className="relative">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-teal-50 text-teal-600 ring-1 ring-teal-200/50">
-                    <Gauge className="h-3.5 w-3.5" />
-                  </div>
-                  Career Points Used
-                </div>
-                <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
-                  {summary.totalCareerPoints.toLocaleString()}
-                </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">Total Groq-backed compute consumed</p>
-              </div>
-            </div>
-
-            {/* Cost Card */}
+            {/* Current Balance Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-md">
                <div className="absolute -right-4 -top-4 rounded-full bg-blue-50/50 p-8 transition-transform group-hover:scale-110">
                 <CircleDollarSign className="h-8 w-8 text-blue-100" />
@@ -106,16 +87,35 @@ export default function UsageBilling() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600 ring-1 ring-blue-200/50">
                     <CircleDollarSign className="h-3.5 w-3.5" />
                   </div>
-                  Estimated Cost
+                  Current Balance
                 </div>
                 <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
                   {formatUsd(summary.totalCostUsd)}
                 </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">Aggregate bill across all transactions</p>
+                <p className="mt-2 text-sm font-medium text-slate-500">Settled</p>
               </div>
             </div>
 
-            {/* Actions Card */}
+            {/* Skills Points Earned Card */}
+            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-teal-200 hover:shadow-md">
+              <div className="absolute -right-4 -top-4 rounded-full bg-teal-50/50 p-8 transition-transform group-hover:scale-110">
+                <Gauge className="h-8 w-8 text-teal-100" />
+              </div>
+              <div className="relative">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-teal-50 text-teal-600 ring-1 ring-teal-200/50">
+                    <Gauge className="h-3.5 w-3.5" />
+                  </div>
+                  Skills Points Earned
+                </div>
+                <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
+                  {summary.totalCareerPoints.toLocaleString()}
+                </div>
+                <p className="mt-2 text-sm font-medium text-slate-500">Earned from Certifi assessments</p>
+              </div>
+            </div>
+
+            {/* Active Operational Tier Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-md">
                <div className="absolute -right-4 -top-4 rounded-full bg-amber-50/50 p-8 transition-transform group-hover:scale-110">
                 <Activity className="h-8 w-8 text-amber-100" />
@@ -125,13 +125,12 @@ export default function UsageBilling() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-amber-50 text-amber-600 ring-1 ring-amber-200/50">
                     <FileText className="h-3.5 w-3.5" />
                   </div>
-                  Logged Actions
+                  Active Operational Tier
                 </div>
                 <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-4xl font-black tracking-tight text-slate-900">{logs.length}</span>
-                  <span className="text-sm font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md">{successfulActions} Success</span>
+                  <span className="text-4xl font-black tracking-tight text-slate-900">Free Pool</span>
                 </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">Total operations tracked in ledger</p>
+                <p className="mt-2 text-sm font-medium text-slate-500">Quota Limited</p>
               </div>
             </div>
           </div>

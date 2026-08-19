@@ -45,7 +45,7 @@ export default function VerifyCertificate() {
 
     try {
       let found: any = null;
-      
+
       // 1. Try to fetch from backend (unauthenticated public route)
       try {
         const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:4000';
@@ -133,16 +133,16 @@ export default function VerifyCertificate() {
               <img src="/Logo.png" alt="CareerSense Academy crest" className="h-12 w-12 object-contain" />
             </div>
             <div className="leading-none">
-                <div className="text-xl font-black tracking-tight text-slate-100 sm:text-2xl">
-                  Career<span className="text-teal-600">Sense</span>
-                </div>
-                <div className="mt-1 text-[7px] font-black uppercase tracking-[0.26em] text-slate-100 sm:text-[8px] sm:tracking-[0.3em]">
-                  Centre for Professional Certification
-                </div>
+              <div className="text-xl font-black tracking-tight text-slate-100 sm:text-2xl">
+                Career<span className="text-teal-600">Sense</span>
               </div>
+              <div className="mt-1 text-[7px] font-black uppercase tracking-[0.26em] text-slate-100 sm:text-[8px] sm:tracking-[0.3em]">
+                Centre for Professional Certification
+              </div>
+            </div>
           </button>
 
-          <div className="flex items-center gap-4">
+          {/* <div className="flex items-center gap-4">
             <button
               type="button"
               onClick={() => navigate('/dashboard')}
@@ -151,7 +151,7 @@ export default function VerifyCertificate() {
               <ArrowLeft className="h-4 w-4" />
               Back to Dashboard
             </button>
-          </div>
+          </div> */}
         </div>
       </nav>
 
@@ -397,110 +397,110 @@ function CertificatePreview({ result }: { result: any }) {
         <div className="relative aspect-[1.414/1] w-[338px] sm:w-[520px] lg:w-[640px] xl:w-[770px]">
           <div className="absolute left-1/2 top-0 w-[1180px] max-w-none origin-top -translate-x-1/2 scale-[0.286] sm:scale-[0.441] lg:scale-[0.542] xl:scale-[0.653]">
             <div className="relative aspect-[1.414/1] overflow-hidden bg-[#FCFAF6] p-8 text-slate-900 select-none">
-            <div className="relative flex h-full flex-col justify-between border-2 border-[#C5A880] bg-[#FCFAF6] p-3 shadow-inner sm:border-4 sm:p-5 lg:p-8">
-              <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
-                <img
-                  src={csWatermark}
-                  alt=""
-                  aria-hidden="true"
-                  className="h-auto w-[84%] max-w-none select-none opacity-[0.06] mix-blend-multiply [filter:invert(1)_grayscale(1)_contrast(1.15)] sm:w-[66%] sm:opacity-[0.08]"
-                />
-              </div>
+              <div className="relative flex h-full flex-col justify-between border-2 border-[#C5A880] bg-[#FCFAF6] p-3 shadow-inner sm:border-4 sm:p-5 lg:p-8">
+                <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+                  <img
+                    src={csWatermark}
+                    alt=""
+                    aria-hidden="true"
+                    className="h-auto w-[84%] max-w-none select-none opacity-[0.06] mix-blend-multiply [filter:invert(1)_grayscale(1)_contrast(1.15)] sm:w-[66%] sm:opacity-[0.08]"
+                  />
+                </div>
 
-              <div className="pointer-events-none absolute inset-1.5 border border-[#C5A880]/40" />
-              <div className="absolute left-2.5 top-2.5 h-6 w-6 border-l-2 border-t-2 border-[#0A1D37]/80" />
-              <div className="absolute right-2.5 top-2.5 h-6 w-6 border-r-2 border-t-2 border-[#0A1D37]/80" />
-              <div className="absolute bottom-2.5 left-2.5 h-6 w-6 border-b-2 border-l-2 border-[#0A1D37]/80" />
-              <div className="absolute bottom-2.5 right-2.5 h-6 w-6 border-b-2 border-r-2 border-[#0A1D37]/80" />
+                <div className="pointer-events-none absolute inset-1.5 border border-[#C5A880]/40" />
+                <div className="absolute left-2.5 top-2.5 h-6 w-6 border-l-2 border-t-2 border-[#0A1D37]/80" />
+                <div className="absolute right-2.5 top-2.5 h-6 w-6 border-r-2 border-t-2 border-[#0A1D37]/80" />
+                <div className="absolute bottom-2.5 left-2.5 h-6 w-6 border-b-2 border-l-2 border-[#0A1D37]/80" />
+                <div className="absolute bottom-2.5 right-2.5 h-6 w-6 border-b-2 border-r-2 border-[#0A1D37]/80" />
 
-              <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-4">
-                <div className="flex min-w-0 items-center gap-2.5 sm:gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center sm:h-20 sm:w-20 sm:p-1">
-                    <img
-                      src="/Logo.png"
-                      alt="CareerSense official mark"
-                      className="h-full w-full object-contain"
-                    />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-[0.52rem] font-bold uppercase leading-tight tracking-[0.05em] text-[#0A1D37] sm:text-2xl sm:tracking-[0.1em]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
-                      CareerSense Academy
+                <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-4">
+                  <div className="flex min-w-0 items-center gap-2.5 sm:gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center sm:h-20 sm:w-20 sm:p-1">
+                      <img
+                        src="/Logo.png"
+                        alt="CareerSense official mark"
+                        className="h-full w-full object-contain"
+                      />
                     </div>
-                    <div className="mt-0.5 text-[4.5px] font-bold uppercase tracking-[0.16em] text-slate-500 sm:text-[9.5px] sm:tracking-[0.25em]">
-                      Board of Verified Skills & Credentials
+                    <div className="min-w-0">
+                      <div className="text-[0.52rem] font-bold uppercase leading-tight tracking-[0.05em] text-[#0A1D37] sm:text-2xl sm:tracking-[0.1em]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                        CareerSense Academy
+                      </div>
+                      <div className="mt-0.5 text-[4.5px] font-bold uppercase tracking-[0.16em] text-slate-500 sm:text-[9.5px] sm:tracking-[0.25em]">
+                        Board of Verified Skills & Credentials
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="max-w-[42%] rounded-sm border border-[#C5A880]/20 bg-white/70 p-1.5 text-right sm:max-w-[34%] sm:p-2">
+                    <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[9px] sm:tracking-[0.2em]">Document Control</div>
+                    <div className="mt-1 break-words text-[7px] font-bold leading-tight text-slate-800 sm:text-xs">ID: {result.verifiedId}</div>
+                    <div className="mt-0.5 text-[5px] font-semibold tracking-[0.08em] text-[#C5A880] sm:text-[9px] sm:tracking-wider">Secure Transcript Verified</div>
+                  </div>
+                </div>
+
+                <div className="relative z-10 my-auto flex flex-col items-center px-1 text-center sm:px-4 lg:px-10">
+                  <div className="mb-2 text-[4.5px] font-bold uppercase tracking-[0.16em] text-[#C5A880] sm:mb-5 sm:text-[11px] sm:tracking-[0.4em]">
+                    Upon recommendation of the executive evaluation engine
+                  </div>
+
+                  <h1 className="text-[0.74rem] font-normal leading-tight tracking-wide text-[#0A1D37] sm:text-2xl lg:text-3xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                    This Certificate of Proficiency is awarded to
+                  </h1>
+
+                  <div className="my-2 w-full max-w-2xl sm:my-5">
+                    <h2 className="border-y-2 border-[#C5A880]/30 bg-[#C5A880]/5 py-1.5 text-[1rem] font-bold italic leading-none tracking-tight text-[#0A1D37] sm:py-3 sm:text-4xl lg:text-5xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                      {result.student || result.studentName}
+                    </h2>
+                  </div>
+
+                  <p className="mt-1 max-w-2xl text-[6.3px] font-medium leading-relaxed text-slate-700 sm:mt-2 sm:text-[14px]">
+                    who has successfully demonstrated objective industry capability and completed all technical evaluation parameters benchmarked for verified competence in
+                  </p>
+
+                  <h3 className="mt-2 text-[0.66rem] font-bold uppercase leading-tight tracking-[0.04em] text-[#0A1D37] sm:mt-4 sm:text-2xl lg:text-3xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                    {result.skill || result.course}
+                  </h3>
+
+                  <div className="mt-3 grid w-full max-w-3xl grid-cols-3 divide-x divide-slate-200/80 border border-[#C5A880]/30 bg-white shadow-sm sm:mt-8">
+                    <MetricCell label="Performance Status" value={result.score} />
+                    <MetricCell label="Confidence" value={result.reportCard?.confidenceScore ? `${result.reportCard.confidenceScore}%` : 'N/A'} />
+                    <MetricCell label="Trust Score" value={result.proctoringSummary?.trustScore ? `${result.proctoringSummary.trustScore}%` : 'N/A'} />
+                  </div>
+                </div>
+
+                <div className="relative z-10 grid grid-cols-2 items-end gap-x-3 gap-y-3 border-t border-[#C5A880]/40 pt-3 sm:gap-4 sm:pt-6 lg:grid-cols-[1fr,auto,auto,1fr] lg:gap-5 lg:pt-8">
+                  <div>
+                    <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[10px] sm:tracking-wider">Date of Validation</div>
+                    <div className="mt-1 text-[7px] font-bold text-slate-900 sm:text-base">{result.issueDate}</div>
+                    <div className="mt-0.5 text-[5px] text-slate-500 sm:text-[11px]">Academic Registry Ledger</div>
+                  </div>
+
+                  <div className="flex flex-col items-center justify-center">
+                    <div className="relative flex h-12 w-12 items-center justify-center sm:h-28 sm:w-28">
+                      <img
+                        src={csSeal}
+                        alt="CareerSense official seal"
+                        className="h-18 w-18 object-contain sm:h-30 sm:w-30"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex flex-col items-center rounded-xl px-2 py-2 text-center shadow-sm">
+                    <img src={qrCodeUrl} alt="Verification QR code" className="h-10 w-10 rounded-md sm:h-24 sm:w-24" />
+                  </div>
+
+                  <div className="text-center">
+                    <div className="flex h-7 items-end justify-center sm:h-12">
+                      <img src={shagunSignature} alt="Authorized Signature" className="h-8 w-auto object-contain pb-1 mix-blend-multiply sm:h-20" />
+                    </div>
+                    <div className="border-t border-slate-400/60 pt-1.5">
+                      <div className="text-[6.5px] font-bold text-[#0A1D37] sm:text-sm">Shagun Nagpal</div>
+                      <div className="mt-0.5 text-[4.8px] font-bold uppercase tracking-[0.09em] text-slate-500 sm:text-[9px] sm:tracking-wider">CEO / Director of Assessments</div>
                     </div>
                   </div>
                 </div>
-
-                <div className="max-w-[42%] rounded-sm border border-[#C5A880]/20 bg-white/70 p-1.5 text-right sm:max-w-[34%] sm:p-2">
-                  <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[9px] sm:tracking-[0.2em]">Document Control</div>
-                  <div className="mt-1 break-words text-[7px] font-bold leading-tight text-slate-800 sm:text-xs">ID: {result.verifiedId}</div>
-                  <div className="mt-0.5 text-[5px] font-semibold tracking-[0.08em] text-[#C5A880] sm:text-[9px] sm:tracking-wider">Secure Transcript Verified</div>
-                </div>
               </div>
-
-              <div className="relative z-10 my-auto flex flex-col items-center px-1 text-center sm:px-4 lg:px-10">
-                <div className="mb-2 text-[4.5px] font-bold uppercase tracking-[0.16em] text-[#C5A880] sm:mb-5 sm:text-[11px] sm:tracking-[0.4em]">
-                  Upon recommendation of the executive evaluation engine
-                </div>
-
-                <h1 className="text-[0.74rem] font-normal leading-tight tracking-wide text-[#0A1D37] sm:text-2xl lg:text-3xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
-                  This Certificate of Proficiency is awarded to
-                </h1>
-
-                <div className="my-2 w-full max-w-2xl sm:my-5">
-                  <h2 className="border-y-2 border-[#C5A880]/30 bg-[#C5A880]/5 py-1.5 text-[1rem] font-bold italic leading-none tracking-tight text-[#0A1D37] sm:py-3 sm:text-4xl lg:text-5xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
-                    {result.student || result.studentName}
-                  </h2>
-                </div>
-
-                <p className="mt-1 max-w-2xl text-[6.3px] font-medium leading-relaxed text-slate-700 sm:mt-2 sm:text-[14px]">
-                  who has successfully demonstrated objective industry capability and completed all technical evaluation parameters benchmarked for verified competence in
-                </p>
-
-                <h3 className="mt-2 text-[0.66rem] font-bold uppercase leading-tight tracking-[0.04em] text-[#0A1D37] sm:mt-4 sm:text-2xl lg:text-3xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
-                  {result.skill || result.course}
-                </h3>
-
-                <div className="mt-3 grid w-full max-w-3xl grid-cols-3 divide-x divide-slate-200/80 border border-[#C5A880]/30 bg-white shadow-sm sm:mt-8">
-                  <MetricCell label="Performance Status" value={result.score} />
-                  <MetricCell label="Confidence" value={result.reportCard?.confidenceScore ? `${result.reportCard.confidenceScore}%` : 'N/A'} />
-                  <MetricCell label="Trust Score" value={result.proctoringSummary?.trustScore ? `${result.proctoringSummary.trustScore}%` : 'N/A'} />
-                </div>
-              </div>
-
-              <div className="relative z-10 grid grid-cols-2 items-end gap-x-3 gap-y-3 border-t border-[#C5A880]/40 pt-3 sm:gap-4 sm:pt-6 lg:grid-cols-[1fr,auto,auto,1fr] lg:gap-5 lg:pt-8">
-                <div>
-                  <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[10px] sm:tracking-wider">Date of Validation</div>
-                  <div className="mt-1 text-[7px] font-bold text-slate-900 sm:text-base">{result.issueDate}</div>
-                  <div className="mt-0.5 text-[5px] text-slate-500 sm:text-[11px]">Academic Registry Ledger</div>
-                </div>
-
-                <div className="flex flex-col items-center justify-center">
-                  <div className="relative flex h-12 w-12 items-center justify-center sm:h-28 sm:w-28">
-                    <img
-                      src={csSeal}
-                      alt="CareerSense official seal"
-                      className="h-18 w-18 object-contain sm:h-30 sm:w-30"
-                    />
-                  </div>
-                </div>
-
-                <div className="flex flex-col items-center rounded-xl px-2 py-2 text-center shadow-sm">
-                  <img src={qrCodeUrl} alt="Verification QR code" className="h-10 w-10 rounded-md sm:h-24 sm:w-24" />
-                </div>
-
-                <div className="text-center">
-                  <div className="flex h-7 items-end justify-center sm:h-12">
-                    <img src={shagunSignature} alt="Authorized Signature" className="h-8 w-auto object-contain pb-1 mix-blend-multiply sm:h-20" />
-                  </div>
-                  <div className="border-t border-slate-400/60 pt-1.5">
-                    <div className="text-[6.5px] font-bold text-[#0A1D37] sm:text-sm">Shagun Nagpal</div>
-                    <div className="mt-0.5 text-[4.8px] font-bold uppercase tracking-[0.09em] text-slate-500 sm:text-[9px] sm:tracking-wider">CEO / Director of Assessments</div>
-                  </div>
-                </div>
-              </div>
-            </div>
             </div>
           </div>
         </div>
@@ -522,9 +522,8 @@ function TrustItem({
 }) {
   return (
     <div
-      className={`flex items-start justify-center gap-4 text-left ${
-        bordered ? 'md:border-l md:border-[#d4c6a9] md:pl-10' : ''
-      }`}
+      className={`flex items-start justify-center gap-4 text-left ${bordered ? 'md:border-l md:border-[#d4c6a9] md:pl-10' : ''
+        }`}
     >
       <div className="mt-1 flex h-10 w-10 shrink-0 items-center justify-center text-[#604638]">
         <Icon className="h-6 w-6 stroke-[1.5]" />

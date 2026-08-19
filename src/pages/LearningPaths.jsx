@@ -28,6 +28,7 @@ import {
   Trash2,
   Trophy,
   X,
+  Users,
 } from 'lucide-react';
 
 const DEFAULT_SKILL_SUGGESTIONS = skillLibrary.slice(0, 100);
@@ -680,20 +681,32 @@ export default function LearningPaths() {
       ) : null}
 
       <div className="mx-auto max-w-7xl pt-4">
+        <div className="mb-3 flex items-center justify-between px-1">
+          <div className="flex items-center gap-3">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
+              Active Tracks ({allPaths.length})
+            </h3>
+            <button
+              onClick={handleOpenNewPathModal}
+              className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-bold text-teal-600 transition-colors hover:bg-teal-50 hover:text-teal-700"
+            >
+              <Plus className="h-3.5 w-3.5" />
+              New Path
+            </button>
+          </div>
+          <a
+            href="https://www.skool.com/the-agent-lab-3899"
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-2 rounded-xl bg-[#f57a1f] px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-[#e06912] transition-all"
+          >
+            <Users className="h-4 w-4" />
+            Join Skool
+          </a>
+        </div>
+
         <div className="grid items-start gap-6 grid-cols-1 lg:grid-cols-[340px_minmax(0,1fr)]">
           <aside className="flex flex-col gap-4 min-w-0">
-            <div className="flex items-center justify-between px-1">
-              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-                Active Tracks ({allPaths.length})
-              </h3>
-              <button
-                onClick={handleOpenNewPathModal}
-                className="inline-flex items-center gap-1 rounded-md px-2 py-1 text-xs font-bold text-teal-600 transition-colors hover:bg-teal-50 hover:text-teal-700"
-              >
-                <Plus className="h-3.5 w-3.5" />
-                New Path
-              </button>
-            </div>
 
             <div className="hide-scrollbar flex max-h-[calc(100vh-180px)] flex-col gap-3 overflow-y-auto pb-10">
               {allPaths.map((path) => (
@@ -868,7 +881,7 @@ export default function LearningPaths() {
                                   : 'bg-teal-600 text-white shadow-sm hover:bg-teal-700'
                               }`}
                             >
-                              {isCompleted ? 'Review Material' : 'Begin Module'}
+                              {isCompleted ? 'Review Material' : 'Create Assessment'}
                               {!isCompleted ? <ArrowRight className="h-4 w-4" /> : null}
                             </button>
                           ) : null}

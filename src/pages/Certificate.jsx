@@ -22,7 +22,8 @@ import {
   X,
   Zap,
   Link as LinkIcon,
-  Award
+  Award,
+  Users
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BadgePreviewModal from '../components/BadgePreviewModal';
@@ -548,7 +549,7 @@ export default function Certificate() {
         ) : null}
 
         <aside
-          className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#0e483c] bg-[#04201b] text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
+          className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#12584a] bg-[#08332a] text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
             isMobileNavOpen ? 'translate-x-0' : '-translate-x-full'
           } ${isSidebarCollapsed ? 'md:w-20' : 'md:w-64'}`}
         >
@@ -614,7 +615,7 @@ export default function Certificate() {
             </nav>
           </div>
 
-          <div className="border-t border-[#0e483c] bg-[#031913]/90 p-3">
+          <div className="border-t border-[#12584a] bg-[#08332a] p-3">
             <div className={`group flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-teal-900/40 ${isSidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
               <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-teal-700 bg-teal-950">
                 {user?.avatar ? <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" /> : <User className="h-4 w-4 text-teal-300" />}

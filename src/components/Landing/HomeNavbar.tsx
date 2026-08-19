@@ -45,9 +45,8 @@ export default function HomeNavbar() {
   };
 
   return (
-    <nav className="fixed inset-x-0 top-0 z-50 bg-transparent border-none shadow-none px-3 pt-3 sm:px-6 sm:pt-4">
-      <div className="mx-auto w-full max-w-[1536px] border border-white/60 bg-white/60 px-3 py-1 sm:px-6 shadow-[0_18px_60px_rgba(47,65,86,0.12)] backdrop-blur-2xl rounded-xl sm:rounded-2xl">
-        <div className="flex min-h-16 items-center justify-between gap-3 py-1.5">
+    <nav className="relative z-50 w-full border-b border-slate-200 bg-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
+      <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3 px-4 py-2 sm:px-8 sm:py-3">
           <button type="button" className="flex items-center gap-3 text-left sm:gap-4" onClick={handleLogoClick}>
             <img
               src="/Logo.png"
@@ -203,7 +202,6 @@ export default function HomeNavbar() {
             </div>
           </div>
         ) : null}
-      </div>
     </nav>
   );
 }
