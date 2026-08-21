@@ -2,8 +2,9 @@ import { useMemo } from 'react';
 import DashboardShell from '../components/DashboardShell';
 import { getUsageLogs, getUsageSummary } from '../services/usageLedger';
 import { useCertifiStore } from '../store/useCertifiStore';
-import { useAuth as useClerkAuth } from '@clerk/clerk-react';
-import { Loader2 } from 'lucide-react';
+import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
+import { Loader2, ShieldCheck, Zap } from 'lucide-react';
+import { getCsPointsQuotaStatus } from '../services/pointsQuota';
 import { 
   CircleDollarSign, 
   FileText, 
@@ -32,7 +33,9 @@ function formatDateTime(value) {
 
 export default function UsageBilling() {
   const { isSignedIn } = useClerkAuth();
-  const isSynced = useCertifiStore((state) => state.isSynced);
+  const { user } = useUser();
+  const userEmail = user?.primaryEmailAddress?.emailAddress || '';
+  const quotaStatus = getCsPointsQuotaStatus(userEmail);
 
   const logs = getUsageLogs();
   const summary = getUsageSummary();
@@ -115,24 +118,75 @@ export default function UsageBilling() {
               </div>
             </div>
 
-            {/* Active Operational Tier Card */}
+            {/* CS Points Quota Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-md">
                <div className="absolute -right-4 -top-4 rounded-full bg-amber-50/50 p-8 transition-transform group-hover:scale-110">
-                <Activity className="h-8 w-8 text-amber-100" />
+                <Zap className="h-8 w-8 text-amber-100" />
               </div>
               <div className="relative">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-amber-50 text-amber-600 ring-1 ring-amber-200/50">
-                    <FileText className="h-3.5 w-3.5" />
+                    <Zap className="h-3.5 w-3.5" />
                   </div>
-                  Active Operational Tier
+                  CS Points Quota
                 </div>
                 <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-4xl font-black tracking-tight text-slate-900">Free Pool</span>
+                  <span className="text-3xl font-black tracking-tight text-slate-900">
+                    {quotaStatus.isExempt
+                      ? 'Unlimited'
+                      : `${quotaStatus.used.toLocaleString()} / ${quotaStatus.limit.toLocaleString()}`}
+                  </span>
                 </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">Quota Limited</p>
+                <p className="mt-2 text-xs font-semibold text-slate-500">
+                  {quotaStatus.isExempt ? 'Test Account Exemption' : `${quotaStatus.remaining.toLocaleString()} CS Points Remaining`}
+                </p>
               </div>
             </div>
+          </div>
+
+          {/* Quota Progress Banner */}
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-bold text-slate-900">CS Points Usage Limit</span>
+                  {quotaStatus.isExempt ? (
+                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
+                      <ShieldCheck className="h-3.5 w-3.5" />
+                      Test Account Exempt
+                    </span>
+                  ) : (
+                    <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600">
+                      15,000 CS Points Allowance
+                    </span>
+                  )}
+                </div>
+                <p className="mt-1 text-xs text-slate-500">
+                  {quotaStatus.message}
+                </p>
+              </div>
+
+              {!quotaStatus.isExempt && (
+                <div className="min-w-[200px] text-right">
+                  <span className="text-xs font-bold text-slate-700">{quotaStatus.percentUsed}% Used</span>
+                </div>
+              )}
+            </div>
+
+            {!quotaStatus.isExempt && (
+              <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-slate-100">
+                <div
+                  className={`h-full transition-all duration-500 ${
+                    quotaStatus.percentUsed >= 90
+                      ? 'bg-rose-500'
+                      : quotaStatus.percentUsed >= 70
+                      ? 'bg-amber-500'
+                      : 'bg-teal-500'
+                  }`}
+                  style={{ width: `${quotaStatus.percentUsed}%` }}
+                />
+              </div>
+            )}
           </div>
         </section>
 

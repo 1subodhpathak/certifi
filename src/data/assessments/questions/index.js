@@ -141,3 +141,5 @@ export { vyaparData } from './vyaparData';
 export { web3Data } from './web3Data';
 export { zohoBooksData } from './zohoBooksData';
 export { dynamics365FinanceData } from './dynamics365FinanceData';
+export { agentBuilderData } from './agentBuilderData';
+

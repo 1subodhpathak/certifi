@@ -75,6 +75,7 @@ const coverOverrides = {
   [ASSESSMENT_TYPES.llm_fundamentals]: 'llm fundamentals',
   [ASSESSMENT_TYPES.rag_ai]: 'rag',
   [ASSESSMENT_TYPES.ai_agents]: 'ai agents',
+  [ASSESSMENT_TYPES.agentBuilder]: 'agent builder',
   [ASSESSMENT_TYPES.vector_database_ops]: 'vector database',
   [ASSESSMENT_TYPES.llm_deployment]: 'llm deployement',
 };
@@ -151,6 +152,7 @@ const TRACK_BY_ID = new Map([
   [ASSESSMENT_TYPES.tax_uae, TRACKS.ACCOUNTING],
 
   [ASSESSMENT_TYPES.aiml, TRACKS.AI_ML],
+  [ASSESSMENT_TYPES.agentBuilder, TRACKS.AI_ML],
   [ASSESSMENT_TYPES.r_prog, TRACKS.AI_ML],
   [ASSESSMENT_TYPES.spark, TRACKS.AI_ML],
 

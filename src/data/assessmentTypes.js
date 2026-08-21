@@ -56,6 +56,8 @@ export const ASSESSMENT_TYPES = {
   llm_fundamentals: 'skill-llm-fundamentals',
   rag_ai: 'skill-rag',
   ai_agents: 'skill-ai-agents',
+  agentBuilder: 'agent-builder',
+  agent_builder: 'agent-builder',
   vector_database_ops: 'skill-vector-database-ops',
   llm_deployment: 'skill-llm-deployment',
   gcp: 'skill-gcp',

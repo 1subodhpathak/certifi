@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import MermaidDiagram from '../components/shared/MermaidDiagram';
 import {
   ArrowLeft,
   Award,
@@ -17,6 +18,7 @@ import {
 import DashboardShell from '../components/DashboardShell';
 import ReportDownloadModal from '../components/ReportDownloadModal';
 import { useAuth } from '../context/AuthContext';
+import { getPassingThreshold, getCertificateIneligibilityMessage } from '../services/assessmentThresholds';
 import { generateCertificateId, getStoredCertificates, saveCertificate } from '../services/certificateRegistry';
 import { buildProctoringSummary, buildQuestionBank, buildSkillReportCard } from '../services/assessmentInsights';
 import { savePublicProfileSnapshot } from '../services/publicProfiles';
@@ -92,8 +94,9 @@ export default function PracticeReport() {
 
   if (!result) return null;
 
-  const passed = result.score >= 70;
-  const canClaimCertificate = true;
+  const requiredPassingThreshold = getPassingThreshold(result.assessmentId || result.assessmentTitle, result.category);
+  const passed = (result.score || 0) >= requiredPassingThreshold;
+  const canClaimCertificate = passed;
   const weakAreas = useMemo(
     () => result.questionResults.filter((question) => !question.isCorrect).map((question) => question.title).slice(0, 6),
     [result.questionResults],
@@ -415,13 +418,15 @@ export default function PracticeReport() {
         </section>
 
         {/* Certification Action */}
-        <section className="mb-8 flex flex-col md:flex-row items-center justify-between rounded-md border border-blue-200 bg-blue-50 p-6 shadow-sm">
+        <section className={`mb-8 flex flex-col md:flex-row items-center justify-between rounded-md border p-6 shadow-sm ${
+          passed ? 'border-blue-200 bg-blue-50' : 'border-red-200 bg-red-50'
+        }`}>
           <div className="mb-4 md:mb-0">
-            <h3 className="text-lg font-bold text-blue-900">Certification Outcome</h3>
-            <p className="mt-1 text-sm text-blue-800">
+            <h3 className={`text-lg font-bold ${passed ? 'text-blue-900' : 'text-red-900'}`}>Certification Outcome</h3>
+            <p className={`mt-1 text-sm font-medium ${passed ? 'text-blue-800' : 'text-red-800'}`}>
               {passed
-                ? "Congratulations! You have passed the assessment and are eligible to claim your official certificate."
-                : "You can still claim a certificate for this completed practice attempt, even with a low score."}
+                ? `Congratulations! You scored ${result.score}% and are eligible to claim your official certificate.`
+                : getCertificateIneligibilityMessage(requiredPassingThreshold)}
             </p>
           </div>
           <div className="flex shrink-0 gap-3">
@@ -448,7 +453,11 @@ export default function PracticeReport() {
               className="inline-flex items-center gap-2 rounded-md bg-blue-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue-800 shadow-sm disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500"
             >
               <Award className="h-4 w-4" />
-              {certificateClaimed ? 'Certificate Claimed' : 'Claim Certificate'}
+              {certificateClaimed
+                ? 'Certificate Claimed'
+                : passed
+                ? 'Claim Certificate'
+                : `Locked (Min ${requiredPassingThreshold}%)`}
             </button>
           </div>
         </section>
@@ -573,8 +582,25 @@ export default function PracticeReport() {
                   </div>
                 </div>
                 
-                <h4 className="text-base font-semibold text-slate-900">{question.title}</h4>
-                <p className="mt-2 text-sm leading-relaxed text-slate-600">{question.prompt}</p>
+                {question.prompt?.includes('{{diagram}}') && question.diagram ? (
+                  <div className="mt-2 text-sm leading-relaxed text-slate-600">
+                    {question.prompt.split('{{diagram}}').map((part, idx, arr) => (
+                      <Fragment key={idx}>
+                        <span className="whitespace-pre-wrap">{part}</span>
+                        {idx < arr.length - 1 && (
+                          <MermaidDiagram chart={question.diagram} />
+                        )}
+                      </Fragment>
+                    ))}
+                  </div>
+                ) : (
+                  <div>
+                    <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-slate-600">{question.prompt}</p>
+                    {question.diagram && (
+                      <MermaidDiagram chart={question.diagram} />
+                    )}
+                  </div>
+                )}
 
                 <div className="mt-4 grid gap-3 md:grid-cols-2">
                   <div className="rounded-md border border-slate-200 bg-slate-50 p-4">

@@ -155,7 +155,7 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const storeProfile = useCertifiStore((state) => state.profile);
   const isSynced = useCertifiStore((state) => state.isSynced);
-  const { user: clerkUser } = useUser();
+  const { user: clerkUser, isLoaded: isClerkUserLoaded } = useUser();
 
   useEffect(() => {
     // Check local storage on load
@@ -243,7 +243,9 @@ export function AuthProvider({ children }) {
       }
     : user;
 
-  const { isLoaded: isClerkUserLoaded } = useUser();
+  if (typeof window !== 'undefined' && activeUser?.email) {
+    window.clerkUserEmail = activeUser.email;
+  }
 
   if (!isClerkUserLoaded) {
     return null;

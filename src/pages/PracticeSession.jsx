@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -17,6 +17,7 @@ import {
 import { assessmentsMap } from '../data/assessments';
 import { buildProctoringSummary, buildQuestionBank, buildSkillReportCard } from '../services/assessmentInsights';
 import { saveAssessmentAttempt } from '../services/attemptRegistry';
+import MermaidDiagram from '../components/shared/MermaidDiagram';
 
 const PRACTICE_ATTEMPTS_KEY = 'careerSensePracticeAttempts';
 const timestamp = () => new Date().toISOString();
@@ -26,7 +27,7 @@ const formatTime = (seconds) => {
   const hours = Math.floor(safe / 3600);
   const minutes = Math.floor((safe % 3600) / 60);
   const remainder = safe % 60;
-  
+
   if (hours > 0) {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
   }
@@ -85,7 +86,7 @@ export default function PracticeSession() {
   // even if getUserMedia already resolved (fixes black screen on production builds)
   const setVideoRef = (el) => {
     videoRef.current = el;
-    if (el && streamRef.current) {
+    if (el && streamRef.current && el.srcObject !== streamRef.current) {
       el.srcObject = streamRef.current;
     }
   };
@@ -104,7 +105,7 @@ export default function PracticeSession() {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         streamRef.current = stream;
         // Attach to video element if it's already mounted; if not, setVideoRef handles it
-        if (videoRef.current) {
+        if (videoRef.current && videoRef.current.srcObject !== stream) {
           videoRef.current.srcObject = stream;
         }
         setHasCameraPermission(true);
@@ -115,7 +116,7 @@ export default function PracticeSession() {
     };
 
     startProctoring();
-    document.documentElement.requestFullscreen?.().catch(() => {});
+    document.documentElement.requestFullscreen?.().catch(() => { });
 
     return () => {
       streamRef.current?.getTracks().forEach((track) => track.stop());
@@ -158,7 +159,7 @@ export default function PracticeSession() {
         else setShowViolationModal(true);
         return next;
       });
-      document.documentElement.requestFullscreen?.().catch(() => {});
+      document.documentElement.requestFullscreen?.().catch(() => { });
     };
 
     const handleTrackEnded = () => {
@@ -178,7 +179,7 @@ export default function PracticeSession() {
 
   const questions = assessment?.questions || [];
   const currentQuestion = questions[currentIndex];
-  
+
   const answeredCount = questions.filter((question) => {
     const answer = answers[question.id];
     return answer !== undefined && String(answer).trim() !== '';
@@ -333,8 +334,8 @@ export default function PracticeSession() {
         <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
           <div className="flex min-w-0 flex-col gap-3 lg:flex-row lg:items-center">
             <div className="flex w-fit items-center gap-2 border-b border-blue-700 pb-3 lg:border-b-0 lg:border-r lg:pb-0 lg:pr-4">
-            <ShieldCheck className="h-5 w-5 text-green-400" />
-            <span className="text-xs font-bold uppercase tracking-widest text-blue-200">Secure Practice</span>
+              <ShieldCheck className="h-5 w-5 text-green-400" />
+              <span className="text-xs font-bold uppercase tracking-widest text-blue-200">Secure Practice</span>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <button
@@ -356,8 +357,8 @@ export default function PracticeSession() {
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 xl:justify-end">
             {violations > 0 ? (
               <div className="flex items-center gap-2 rounded border border-red-500 bg-red-600 px-3 py-1 text-white">
-              <AlertTriangle className="h-4 w-4" />
-              <span className="text-xs font-bold uppercase tracking-wide">Integrity Flag: {violations}/3</span>
+                <AlertTriangle className="h-4 w-4" />
+                <span className="text-xs font-bold uppercase tracking-wide">Integrity Flag: {violations}/3</span>
               </div>
             ) : null}
 
@@ -382,7 +383,7 @@ export default function PracticeSession() {
                 Question No. {currentIndex + 1}
               </span>
               <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 sm:text-sm">
-                <span className="flex items-center gap-1"><Info className="h-4 w-4 text-blue-600"/> {isFreeText ? 'Subjective' : 'Objective'}</span>
+                <span className="flex items-center gap-1"><Info className="h-4 w-4 text-blue-600" /> {isFreeText ? 'Subjective' : 'Objective'}</span>
                 <span className="font-semibold text-green-700">+{assessment.pointsPerQuestion || 5} Marks</span>
               </div>
             </div>
@@ -390,9 +391,27 @@ export default function PracticeSession() {
             {/* Question Content */}
             <div className="p-4 sm:p-6 lg:p-8">
               <h2 className="text-base font-semibold text-slate-900 sm:text-lg">{currentQuestion.title}</h2>
-              <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 sm:text-base">
-                {currentQuestion.prompt}
-              </p>
+              {currentQuestion.prompt?.includes('{{diagram}}') && currentQuestion.diagram ? (
+                <div className="mt-4 text-sm leading-relaxed text-slate-700 sm:text-base">
+                  {currentQuestion.prompt.split('{{diagram}}').map((part, idx, arr) => (
+                    <React.Fragment key={idx}>
+                      <span className="whitespace-pre-wrap">{part}</span>
+                      {idx < arr.length - 1 && (
+                        <MermaidDiagram chart={currentQuestion.diagram} />
+                      )}
+                    </React.Fragment>
+                  ))}
+                </div>
+              ) : (
+                <div>
+                  <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 sm:text-base">
+                    {currentQuestion.prompt}
+                  </p>
+                  {currentQuestion.diagram && (
+                    <MermaidDiagram chart={currentQuestion.diagram} />
+                  )}
+                </div>
+              )}
 
               {currentQuestion.expectedOutput ? (
                 <div className="mt-6 border-l-4 border-slate-400 bg-slate-50 p-4 text-sm text-slate-700">
@@ -420,15 +439,13 @@ export default function PracticeSession() {
                           key={index}
                           type="button"
                           onClick={() => handleAnswerChange(index)}
-                          className={`flex w-full cursor-pointer items-start gap-3 rounded-md border p-3 text-left transition-colors sm:items-center sm:gap-4 sm:p-4 ${
-                            isSelected
+                          className={`flex w-full cursor-pointer items-start gap-3 rounded-md border p-3 text-left transition-colors sm:items-center sm:gap-4 sm:p-4 ${isSelected
                               ? 'border-blue-500 bg-blue-50'
                               : 'border-slate-300 bg-white hover:bg-slate-50'
-                          }`}
+                            }`}
                         >
-                          <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
-                            isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-400 bg-white'
-                          }`}>
+                          <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-400 bg-white'
+                            }`}>
                             {isSelected && <div className="h-2 w-2 rounded-full bg-white" />}
                           </div>
                           <span className="text-sm text-slate-800 sm:text-base">{option}</span>
@@ -532,19 +549,17 @@ export default function PracticeSession() {
               {questions.map((question, index) => {
                 const isAnswered = answers[question.id] !== undefined && String(answers[question.id]).trim() !== '';
                 const isActive = index === currentIndex;
-                
+
                 return (
                   <button
                     key={question.id}
                     type="button"
                     onClick={() => setCurrentIndex(index)}
-                    className={`relative flex h-9 w-full items-center justify-center rounded text-xs font-semibold transition-all sm:h-10 sm:text-sm ${
-                      isActive ? 'ring-2 ring-blue-600 ring-offset-1' : ''
-                    } ${
-                      isAnswered
+                    className={`relative flex h-9 w-full items-center justify-center rounded text-xs font-semibold transition-all sm:h-10 sm:text-sm ${isActive ? 'ring-2 ring-blue-600 ring-offset-1' : ''
+                      } ${isAnswered
                         ? 'bg-green-600 text-white'
                         : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
-                    }`}
+                      }`}
                   >
                     {index + 1}
                   </button>

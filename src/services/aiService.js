@@ -1,4 +1,5 @@
 import { estimateTokensFromText, recordUsage } from './usageLedger';
+import { validateCsPointsQuota } from './pointsQuota';
 import { assessmentsMap } from '../data/assessments';
 import { skillLibrary } from '../data/skillData';
 import { authenticatedFetch } from './api';
@@ -12,7 +13,23 @@ if (!API_KEY) {
   console.error("CRITICAL ERROR: VITE_GROQ_API_KEY is missing. Please check your .env file.");
 }
 
+const GROQ_MODEL = 'openai/gpt-oss-120b';
+
 let groqClient = null;
+
+const getGroqDirectClient = async () => {
+  if (!groqClient) {
+    if (!API_KEY) {
+      throw new Error('VITE_GROQ_API_KEY is missing. Please add it to your environment configuration.');
+    }
+    const { default: Groq } = await import('groq-sdk');
+    groqClient = new Groq({
+      apiKey: API_KEY,
+      dangerouslyAllowBrowser: true,
+    });
+  }
+  return groqClient;
+};
 
 const getGroqClient = async () => {
   if (typeof window !== 'undefined' && window.clerkUserId) {
@@ -20,33 +37,40 @@ const getGroqClient = async () => {
       chat: {
         completions: {
           create: async (params) => {
-            const response = await authenticatedFetch('/careersense/certifi/ai/chat-completion', {
-              method: 'POST',
-              body: JSON.stringify(params),
-            });
-            if (response && response.ok) {
-              return await response.json();
+            try {
+              const response = await authenticatedFetch('/careersense/certifi/ai/chat-completion', {
+                method: 'POST',
+                body: JSON.stringify(params),
+              });
+              if (response && response.ok) {
+                return await response.json();
+              }
+              console.warn(`[aiService] Backend proxy returned status ${response?.status}. Falling back to client-side API key.`);
+            } catch (err) {
+              console.warn('[aiService] Backend proxy request failed. Falling back to client-side API key.', err);
             }
-            throw new Error(`AI proxy returned status ${response?.status}`);
+
+            // Fallback to direct client API key if proxy returns 500 or fails
+            const directClient = await getGroqDirectClient();
+            return directClient.chat.completions.create(params);
           }
         }
       }
     };
   }
 
-  if (!API_KEY) {
-    throw new Error('VITE_GROQ_API_KEY is missing. Please add it to your environment configuration.');
-  }
+  return getGroqDirectClient();
+};
 
-  if (!groqClient) {
-    const { default: Groq } = await import('groq-sdk');
-    groqClient = new Groq({
-      apiKey: API_KEY,
-      dangerouslyAllowBrowser: true,
-    });
-  }
-
-  return groqClient;
+export const getGroqCompletion = async (messages, model = GROQ_MODEL, responseFormat = 'json_object') => {
+  const groq = await getGroqClient();
+  const completion = await groq.chat.completions.create({
+    messages,
+    model: GROQ_MODEL,
+    temperature: 0.5,
+    ...(responseFormat ? { response_format: { type: responseFormat } } : {}),
+  });
+  return completion.choices[0]?.message?.content || '';
 };
 
 /**
@@ -128,16 +152,60 @@ const buildFallbackOptions = (questionText, answerText = '') => {
   return options;
 };
 
+const findExactOptionMatch = (options = [], answerText = '') => {
+  const normalizedAnswer = String(answerText || '').trim().toLowerCase();
+  if (!normalizedAnswer) return null;
+  return options.find((option) => String(option).trim().toLowerCase() === normalizedAnswer) || null;
+};
+
+const ensureExactQuestionCount = (questions = [], targetCount = 15, topic = 'Topic', difficulty = 'Intermediate') => {
+  if (!Array.isArray(questions) || questions.length === 0) {
+    return questions;
+  }
+
+  if (questions.length === targetCount) {
+    return questions;
+  }
+
+  if (questions.length > targetCount) {
+    return questions.slice(0, targetCount);
+  }
+
+  const result = [...questions];
+  let index = 0;
+
+  while (result.length < targetCount) {
+    const base = questions[index % questions.length];
+    const isCase = (result.length % 3 === 0);
+
+    result.push({
+      id: `ai-${result.length + 1}`,
+      type: isCase ? 'case-study' : 'mcq',
+      question: `[Applied Scenario ${Math.floor(result.length / questions.length) + 1}] ${base.question || base.prompt}`,
+      ...(isCase || base.scenario ? { scenario: base.scenario || `Review this operational decision context involving ${topic}.` } : {}),
+      options: [...(base.options || [])],
+      answer: base.answer,
+      ...(base.explanation ? { explanation: base.explanation } : {}),
+    });
+
+    index++;
+  }
+
+  return result;
+};
+
 const normalizeGeneratedQuestions = (questions = []) => {
   const slotPlan = buildAnswerSlotPlan(questions.length);
+  let mismatchCount = 0;
 
-  return questions.map((question, index) => {
+  const normalized = questions.map((question, index) => {
     const rawType = String(question.type || '').toLowerCase();
     const normalizedType = rawType.includes('scenario') || rawType.includes('case') ? 'case-study' : 'mcq';
     const prompt = question.question || question.prompt || `Question ${index + 1}`;
     const scenario = normalizedType === 'case-study'
       ? (question.scenario || question.code || question.context || 'Review the business situation and choose the strongest response.')
       : undefined;
+    const explanation = String(question.explanation || '').trim();
 
     let options = Array.isArray(question.options)
       ? question.options.map((option) => String(option).trim()).filter(Boolean)
@@ -147,7 +215,18 @@ const normalizeGeneratedQuestions = (questions = []) => {
       options = buildFallbackOptions(prompt, question.answer);
     }
 
-    const answerText = String(question.answer || options[0] || '').trim();
+    const rawAnswerText = String(question.answer || options[0] || '').trim();
+    const exactMatch = findExactOptionMatch(options, rawAnswerText);
+
+    if (!exactMatch) {
+      mismatchCount += 1;
+      console.warn(
+        `[assessment-gen] answer/options mismatch on question ${index + 1}: `
+        + `answer="${rawAnswerText}" did not exactly match any of the provided options.`
+      );
+    }
+
+    const answerText = exactMatch || rawAnswerText;
     const desiredSlot = (slotPlan[index] + hashString(`${prompt}-${index}`)) % 4;
     const arrangedQuestion = placeCorrectAnswer(options, answerText, desiredSlot);
 
@@ -158,8 +237,15 @@ const normalizeGeneratedQuestions = (questions = []) => {
       ...(scenario ? { scenario } : {}),
       options: arrangedQuestion.options,
       answer: arrangedQuestion.answer,
+      ...(explanation ? { explanation } : {}),
     };
   });
+
+  if (mismatchCount > 0) {
+    console.warn(`[assessment-gen] ${mismatchCount}/${questions.length} questions had non-exact answer matches.`);
+  }
+
+  return normalized;
 };
 
 const getAssessmentCatalog = () => (
@@ -553,7 +639,7 @@ If invalid, explain briefly and suggest up to 3 nearby real alternatives only if
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
       ],
-      model: 'llama-3.3-70b-versatile',
+      model: GROQ_MODEL,
       temperature: 0.1,
       response_format: { type: 'json_object' },
     });
@@ -645,7 +731,7 @@ Requirements:
         { role: 'system', content: systemPrompt },
         { role: 'user', content: userPrompt },
       ],
-      model: 'llama-3.3-70b-versatile',
+      model: GROQ_MODEL,
       temperature: 0.25,
       response_format: { type: 'json_object' },
     });
@@ -685,7 +771,23 @@ Requirements:
  * GENERATE ASSESSMENT
  * Creates technical questions using only option-based MCQ/case-study items
  */
+const getPersonaForDifficulty = (difficulty = 'Intermediate') => {
+  const key = String(difficulty || '').trim().toLowerCase();
+  const personas = {
+    beginner: 'an entry-level learner who is validating foundational, correct understanding of core concepts',
+    intermediate: 'a working professional validating applied, on-the-job competence',
+    advanced: 'a senior practitioner validating expert-level judgment on ambiguous, high-stakes decisions',
+    expert: 'a principal-level expert validating mastery, including edge cases and rare failure modes',
+  };
+  return personas[key] || personas.intermediate;
+};
+
 export const generateAssessment = async (input) => {
+  const quotaCheck = validateCsPointsQuota(typeof window !== 'undefined' ? window.clerkUserEmail : '', 400);
+  if (!quotaCheck.allowed) {
+    throw new Error(quotaCheck.error);
+  }
+
   const validation = await validateAssessmentTopic(input?.topic || input?.title || input);
   if (!validation.isValid) {
     throw new Error(validation.message || 'The skill does not exist.');
@@ -698,14 +800,19 @@ export const generateAssessment = async (input) => {
       ? (input.title || validation.topic || input.topic)
       : (validation.topic || String(input || '').trim()),
   });
-  const systemContent = `You are a Senior Technical Architect & Certification Lead.
-          
-          TASK: Create a rigorous skills assessment for a Senior-level candidate.
 
-          IMPORTANT: EVERY question must be answerable by choosing ONE option from four options.
-          DO NOT create coding questions.
-          DO NOT ask the candidate to write SQL, code, essays, or free-form responses.
-          DO NOT include "code", "starter code", or "reference snippet" fields.
+  const persona = getPersonaForDifficulty(config.difficulty);
+
+  const systemContent = `You are a Certification Lead designing a rigorous, professionally authored skills assessment.
+
+  CANDIDATE PROFILE: You are writing for ${persona}. Calibrate every question's depth, vocabulary, and complexity to this profile and to the requested difficulty level — do not write senior-level questions for a beginner-level request, or vice versa.
+
+          IMPORTANT:
+          - You MUST generate EXACTLY ${config.questionCount} items in the "questions" array (no more, no less).
+          - EVERY question must be answerable by choosing ONE option from four options.
+          - DO NOT create coding questions.
+          - DO NOT ask the candidate to write SQL, code, essays, or free-form responses.
+          - DO NOT include "code", "starter code", or "reference snippet" fields.
           
           OUTPUT RULES:
           1. Return ONLY valid JSON.
@@ -777,8 +884,9 @@ export const generateAssessment = async (input) => {
           content: userContent
         }
       ],
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_MODEL,
       temperature: 0.5,
+      max_tokens: Math.max(4096, config.questionCount * 380),
       response_format: { type: "json_object" },
     });
 
@@ -792,7 +900,8 @@ export const generateAssessment = async (input) => {
         throw new Error("Invalid JSON structure returned from AI");
     }
 
-    const normalizedQuestions = normalizeGeneratedQuestions(result.questions);
+    const rawNormalized = normalizeGeneratedQuestions(result.questions);
+    const normalizedQuestions = ensureExactQuestionCount(rawNormalized, config.questionCount, config.topic, config.difficulty);
 
     recordUsage({
       action: 'Assessment Generation',
@@ -840,7 +949,11 @@ export const generateAssessment = async (input) => {
 /**
  * GENERATE LEARNING PATH
  */
-export const generateLearningPath = async (skill, score, weakAreas = []) => {
+export const generateLearningPath = async (skill, score = 0, weakAreas = []) => {
+  const quotaCheck = validateCsPointsQuota(typeof window !== 'undefined' ? window.clerkUserEmail : '', 600);
+  if (!quotaCheck.allowed) {
+    throw new Error(quotaCheck.error);
+  }
   const systemPrompt = `
     You are an Expert Technical Career Coach.
     Output strictly raw JSON without Markdown.
@@ -885,7 +998,7 @@ export const generateLearningPath = async (skill, score, weakAreas = []) => {
         { role: "system", content: systemPrompt },
         { role: "user", content: userPrompt }
       ],
-      model: "llama-3.3-70b-versatile",
+      model: GROQ_MODEL,
       response_format: { type: "json_object" },
       temperature: 0.5,
     });
@@ -902,7 +1015,7 @@ export const generateLearningPath = async (skill, score, weakAreas = []) => {
       area: skill,
       careerPoints: usageTokens,
       metadata: {
-        model: completion.model || 'llama-3.3-70b-versatile',
+        model: completion.model || GROQ_MODEL,
         score,
         weakAreas,
         moduleCount: normalizedPath.modules?.length || 0,

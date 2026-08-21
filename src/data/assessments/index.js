@@ -140,7 +140,8 @@ import {
   web3Data
   ,
   zohoBooksData,
-  dynamics365FinanceData
+  dynamics365FinanceData,
+  agentBuilderData
 } from './questions';
 
 export const ALL_ASSESSMENTS = {
@@ -284,8 +285,15 @@ const normalizeAssessment = (assessment) => {
       return difficultyDelta || 0;
     });
 
+  const isAi =
+    /ai|ml|agent|llm|rag|prompt|engineering/i.test(assessment?.id || '') ||
+    /ai|ml|machine learning|agent|engineering/i.test(assessment?.category || '');
+
+  const passingPercentage = isAi ? 90 : 80;
+
   return {
     ...assessment,
+    passingPercentage,
     instructions: questions.some((question) => question?.type === 'free_text')
       ? 'Choose the strongest response for each scenario. Each option reflects a different business approach; select the most complete and evidence-driven one.'
       : assessment.instructions,
@@ -361,6 +369,7 @@ const rawAssessmentsMap = {
   [llmFundamentalsData.id]: llmFundamentalsData,
   [ragAiData.id]: ragAiData,
   [aiAgentsData.id]: aiAgentsData,
+  [agentBuilderData.id]: agentBuilderData,
   [vectorDatabaseOpsData.id]: vectorDatabaseOpsData,
   [llmDeploymentData.id]: llmDeploymentData,
   [uiuxData.id]: uiuxData,

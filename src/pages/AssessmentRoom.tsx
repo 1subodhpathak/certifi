@@ -26,6 +26,8 @@ type AssessmentQuestion = {
   scenario?: string;
   code?: string;
   options?: string[];
+  answer?: string;
+  explanation?: string;
 };
 
 type AssessmentState = {
@@ -47,7 +49,7 @@ const formatTime = (seconds: number) => {
   const hours = Math.floor(safe / 3600);
   const minutes = Math.floor((safe % 3600) / 60);
   const remainder = safe % 60;
-  
+
   if (hours > 0) {
     return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(remainder).padStart(2, '0')}`;
   }
@@ -77,7 +79,7 @@ export default function AssessmentRoom() {
   // even if getUserMedia already resolved (fixes black screen on production builds)
   const setVideoRef = (el: HTMLVideoElement | null) => {
     videoRef.current = el;
-    if (el && streamRef.current) {
+    if (el && streamRef.current && el.srcObject !== streamRef.current) {
       el.srcObject = streamRef.current;
     }
   };
@@ -93,7 +95,7 @@ export default function AssessmentRoom() {
         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
         streamRef.current = stream;
         // Attach to video element if it's already mounted; if not, setVideoRef handles it
-        if (videoRef.current) {
+        if (videoRef.current && videoRef.current.srcObject !== stream) {
           videoRef.current.srcObject = stream;
         }
         setHasCameraPermission(true);
@@ -104,7 +106,7 @@ export default function AssessmentRoom() {
     };
 
     startProctoring();
-    document.documentElement.requestFullscreen?.().catch(() => {});
+    document.documentElement.requestFullscreen?.().catch(() => { });
 
     return () => {
       streamRef.current?.getTracks().forEach((track) => track.stop());
@@ -139,7 +141,7 @@ export default function AssessmentRoom() {
     const handleFullscreenChange = () => {
       if (document.fullscreenElement || isFailed) return;
       setFullscreenExitLog((current) => [...current, { at: timestamp(), note: 'Fullscreen mode exited.' }]);
-      document.documentElement.requestFullscreen?.().catch(() => {});
+      document.documentElement.requestFullscreen?.().catch(() => { });
     };
 
     const handleTrackEnded = () => {
@@ -230,8 +232,8 @@ export default function AssessmentRoom() {
         <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
           <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:items-center">
             <div className="flex w-fit items-center gap-2 border-b border-blue-700 pb-3 sm:border-b-0 sm:border-r sm:pb-0 sm:pr-4">
-            <ShieldCheck className="h-5 w-5 text-green-400" />
-            <span className="text-xs font-bold uppercase tracking-widest text-blue-200">Secure Session</span>
+              <ShieldCheck className="h-5 w-5 text-green-400" />
+              <span className="text-xs font-bold uppercase tracking-widest text-blue-200">Secure Session</span>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
               <button
@@ -251,8 +253,8 @@ export default function AssessmentRoom() {
           <div className="flex flex-wrap items-center gap-3 sm:gap-4 lg:justify-end">
             {violations > 0 ? (
               <div className="flex items-center gap-2 rounded border border-red-500 bg-red-600 px-3 py-1 text-white">
-              <AlertTriangle className="h-4 w-4" />
-              <span className="text-xs font-bold uppercase tracking-wide">Integrity Flag: {violations}/3</span>
+                <AlertTriangle className="h-4 w-4" />
+                <span className="text-xs font-bold uppercase tracking-wide">Integrity Flag: {violations}/3</span>
               </div>
             ) : null}
 
@@ -275,7 +277,7 @@ export default function AssessmentRoom() {
             </span>
             <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 sm:text-sm">
               <span className="flex items-center gap-1.5">
-                <Info className="h-4 w-4 text-blue-600"/> 
+                <Info className="h-4 w-4 text-blue-600" />
                 {question.type === 'case-study' ? 'Case Study' : 'Multiple Choice'}
               </span>
             </div>
@@ -283,7 +285,7 @@ export default function AssessmentRoom() {
 
           <div className="custom-scrollbar flex flex-1 flex-col overflow-y-auto p-4 sm:p-6 lg:p-8">
             <div className="mx-auto w-full max-w-4xl">
-              
+
               {/* Question Text & Context */}
               <div className="mb-6 sm:mb-8">
                 {question.scenario ? (
@@ -324,15 +326,13 @@ export default function AssessmentRoom() {
                         ...answers,
                         [questionKey]: answers[questionKey] === option ? undefined : option,
                       })}
-                      className={`flex w-full cursor-pointer items-start gap-3 rounded-md border p-3 text-left transition-colors sm:items-center sm:gap-4 sm:p-4 ${
-                        isSelected
+                      className={`flex w-full cursor-pointer items-start gap-3 rounded-md border p-3 text-left transition-colors sm:items-center sm:gap-4 sm:p-4 ${isSelected
                           ? 'border-blue-500 bg-blue-50'
                           : 'border-slate-300 bg-white hover:bg-slate-50'
-                      }`}
+                        }`}
                     >
-                      <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
-                        isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-400 bg-white'
-                      }`}>
+                      <div className={`flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${isSelected ? 'border-blue-600 bg-blue-600' : 'border-slate-400 bg-white'
+                        }`}>
                         {isSelected && <div className="h-2 w-2 rounded-full bg-white" />}
                       </div>
                       <span className="text-sm text-slate-800 sm:text-base">{option}</span>
@@ -391,7 +391,7 @@ export default function AssessmentRoom() {
               <Monitor className="h-4 w-4 text-slate-600" /> Proctoring Telemetry
             </h3>
           </div>
-          
+
           <div className="border-b border-slate-200 p-4 sm:p-5">
             <div className="relative mx-auto aspect-video w-full max-w-sm overflow-hidden rounded border border-slate-300 bg-black shadow-inner lg:max-w-none">
               <video ref={setVideoRef} autoPlay muted playsInline className="h-full w-full scale-x-[-1] object-cover" />
@@ -400,7 +400,7 @@ export default function AssessmentRoom() {
                 REC
               </div>
             </div>
-            
+
             <div className="mt-4 space-y-3 text-xs font-medium text-slate-600">
               <div className="flex justify-between items-center">
                 <span>Identity Verification</span>
@@ -447,13 +447,11 @@ export default function AssessmentRoom() {
                     key={String(key)}
                     type="button"
                     onClick={() => setCurrentQIndex(index)}
-                    className={`relative flex h-9 w-full items-center justify-center rounded text-xs font-semibold transition-all sm:h-10 sm:text-sm ${
-                      isActive ? 'ring-2 ring-blue-600 ring-offset-1' : ''
-                    } ${
-                      isAnswered
+                    className={`relative flex h-9 w-full items-center justify-center rounded text-xs font-semibold transition-all sm:h-10 sm:text-sm ${isActive ? 'ring-2 ring-blue-600 ring-offset-1' : ''
+                      } ${isAnswered
                         ? 'bg-green-600 text-white'
                         : 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-100'
-                    }`}
+                      }`}
                   >
                     {index + 1}
                   </button>
@@ -463,23 +461,23 @@ export default function AssessmentRoom() {
           </div>
 
           <div className="flex-1 bg-slate-50/50 p-4 sm:p-5">
-             <div className="rounded border border-slate-200 bg-white p-4 shadow-sm">
-               <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Session Protocol</h4>
-               <ul className="text-xs text-slate-600 space-y-2 leading-relaxed">
-                 <li className="flex items-start gap-2">
-                   <div className="mt-1 h-1 w-1 rounded-full bg-slate-400 shrink-0" />
-                   Do not exit fullscreen mode.
-                 </li>
-                 <li className="flex items-start gap-2">
-                   <div className="mt-1 h-1 w-1 rounded-full bg-slate-400 shrink-0" />
-                   Do not switch browser tabs or windows.
-                 </li>
-                 <li className="flex items-start gap-2">
-                   <div className="mt-1 h-1 w-1 rounded-full bg-slate-400 shrink-0" />
-                   Maintain face visibility within the camera frame at all times.
-                 </li>
-               </ul>
-             </div>
+            <div className="rounded border border-slate-200 bg-white p-4 shadow-sm">
+              <h4 className="text-[11px] font-bold uppercase tracking-wider text-slate-500 mb-2">Session Protocol</h4>
+              <ul className="text-xs text-slate-600 space-y-2 leading-relaxed">
+                <li className="flex items-start gap-2">
+                  <div className="mt-1 h-1 w-1 rounded-full bg-slate-400 shrink-0" />
+                  Do not exit fullscreen mode.
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-1 h-1 w-1 rounded-full bg-slate-400 shrink-0" />
+                  Do not switch browser tabs or windows.
+                </li>
+                <li className="flex items-start gap-2">
+                  <div className="mt-1 h-1 w-1 rounded-full bg-slate-400 shrink-0" />
+                  Maintain face visibility within the camera frame at all times.
+                </li>
+              </ul>
+            </div>
           </div>
         </aside>
       </div>
@@ -489,15 +487,15 @@ export default function AssessmentRoom() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 p-4 backdrop-blur-sm">
           <div className="w-full max-w-md rounded-md bg-white shadow-2xl border border-red-200 overflow-hidden">
             <div className="bg-red-600 p-4 text-center">
-               <ShieldAlert className="mx-auto h-8 w-8 text-white mb-2" />
-               <h3 className="text-lg font-bold uppercase tracking-wide text-white">Integrity Warning ({violations}/3)</h3>
+              <ShieldAlert className="mx-auto h-8 w-8 text-white mb-2" />
+              <h3 className="text-lg font-bold uppercase tracking-wide text-white">Integrity Warning ({violations}/3)</h3>
             </div>
             <div className="p-6 text-center">
               <p className="mb-6 text-sm leading-relaxed text-slate-700 font-medium">
                 Our proctoring system detected that you exited fullscreen or switched tabs. Continued violations will result in immediate termination of the exam.
               </p>
-              <button 
-                onClick={() => setShowViolationModal(false)} 
+              <button
+                onClick={() => setShowViolationModal(false)}
                 className="w-full rounded-md bg-red-600 py-2.5 text-sm font-bold text-white hover:bg-red-700 transition-colors shadow-sm"
               >
                 Acknowledge & Resume
@@ -522,8 +520,8 @@ export default function AssessmentRoom() {
               <p className="mb-8 text-sm leading-relaxed text-slate-600">
                 Multiple integrity violations (such as exiting fullscreen or losing window focus) were recorded. To protect the validity of the certification process, this session has been permanently invalidated.
               </p>
-              <button 
-                onClick={() => navigate('/dashboard')} 
+              <button
+                onClick={() => navigate('/dashboard')}
                 className="w-full rounded-md border border-slate-300 bg-white py-3 text-sm font-bold text-slate-800 shadow-sm hover:bg-slate-100 transition-colors"
               >
                 Return to Dashboard

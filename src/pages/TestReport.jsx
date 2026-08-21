@@ -9,13 +9,16 @@ import {
   Copy,
   Download,
   Home,
+  Info,
   Loader2,
   PlusCircle,
   RotateCcw,
   ShieldCheck,
   Sparkles,
   TrendingUp,
+  XCircle,
 } from 'lucide-react';
+import MermaidDiagram from '../components/shared/MermaidDiagram';
 import { estimateLearningPathCareerPoints, generateLearningPath } from '../services/aiService';
 import { useAuth } from '../context/AuthContext';
 import ReportDownloadModal from '../components/ReportDownloadModal';
@@ -40,8 +43,7 @@ import { buildAssessmentReportDownloadMeta } from '../services/reportTemplates';
 import { downloadAssessmentReportPdf, previewAssessmentReportPdf } from '../services/reportPdf';
 import { saveLearningPath, getStoredLearningPaths, saveLearningPathsList } from '../services/learningPathRegistry';
 import { convertPointsToUsd } from '../services/usageLedger';
-
-const PASSING_SCORE = 60;
+import { getPassingThreshold, getCertificateIneligibilityMessage } from '../services/assessmentThresholds';
 
 export default function TestReport() {
   const { state } = useLocation();
@@ -115,7 +117,7 @@ export default function TestReport() {
             pathsChanged = true;
             return {
               ...module,
-              status: 'completed',
+              status: score >= 90 ? 'completed' : (module.status === 'completed' ? 'completed' : 'open'),
               score: score
             };
           }
@@ -156,8 +158,9 @@ export default function TestReport() {
       deltaFromBest: previousAttempts.length ? attemptRecord.score - bestPreviousScore : null,
     };
   }, [attemptRecord, skill]);
-  const passed = attemptRecord ? attemptRecord.score >= PASSING_SCORE : false;
-  const certificateEligible = Boolean(state?.certificateEligible);
+  const requiredPassingThreshold = getPassingThreshold(skill || state?.title, state?.category || state?.skill, state?.sourceLearningPathId ? 'learning-path' : '');
+  const passed = attemptRecord ? attemptRecord.score >= requiredPassingThreshold : false;
+  const certificateEligible = Boolean(state?.certificateEligible) && passed;
   const reportDownloadMeta = useMemo(
     () => (attemptRecord ? buildAssessmentReportDownloadMeta(attemptRecord, user, skill) : null),
     [attemptRecord, skill, user],
@@ -438,12 +441,10 @@ export default function TestReport() {
                   ? (passed ? 'Certification Ready' : 'Assessment Completed')
                   : 'Assessment Completed'}
               </h2>
-              <p className="mt-3 text-center text-sm leading-7 text-slate-500">
-                {!certificateEligible
-                  ? 'This assessment does not qualify for certificate issuance because it contains 20 questions or fewer.'
-                  : passed
-                    ? `You cleared the ${PASSING_SCORE}% threshold and can issue your verified credential now.`
-                    : 'You can still claim a completion certificate for this final assessment attempt and keep it in your credential history.'}
+              <p className={`mt-3 text-center text-sm leading-7 ${passed ? 'text-slate-500' : 'text-red-700 font-semibold'}`}>
+                {passed
+                  ? `You cleared the ${requiredPassingThreshold}% threshold and can issue your verified credential now.`
+                  : getCertificateIneligibilityMessage(requiredPassingThreshold)}
               </p>
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
@@ -456,10 +457,12 @@ export default function TestReport() {
               <div className={`mt-6 rounded-2xl border px-4 py-3 text-sm ${
                 certificateEligible
                   ? 'border-emerald-200 bg-emerald-50 text-emerald-800'
-                  : 'border-amber-200 bg-amber-50 text-amber-800'
+                  : 'border-red-200 bg-red-50 text-red-800 font-medium'
               }`}>
                 {certificateEligible
-                  ? 'Certificate unlocked: this assessment has 20 or more questions.'
+                  ? 'Certificate unlocked: You passed the minimum score criteria!'
+                  : !passed
+                  ? getCertificateIneligibilityMessage(requiredPassingThreshold)
                   : 'Certificate locked: increase question count to 20 or more in Create Assessment to enable certificate issuance.'}
               </div>
 
@@ -488,12 +491,12 @@ export default function TestReport() {
                 <button
                   onClick={handleClaimCertificate}
                   disabled={!certificateEligible}
-                  className="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-teal-200 hover:bg-teal-700 disabled:opacity-60"
+                  className="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-3 text-sm font-bold text-white shadow-lg shadow-teal-200 hover:bg-teal-700 disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-slate-300 disabled:text-slate-500 shadow-none"
                 >
                   <Award className="h-4 w-4" />
                   {certificateEligible
                     ? (certificateClaimed ? 'View Certificate' : 'Claim Certificate')
-                    : 'Certificate Locked'}
+                    : `Locked (Min ${requiredPassingThreshold}%)`}
                 </button>
               </div>
             </div>
@@ -653,6 +656,98 @@ export default function TestReport() {
             </div>
           </section>
         </div>
+
+        {attemptRecord?.questionResults?.length ? (
+          <section className="mt-8" aria-labelledby="question-review-heading">
+            <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.18em] text-blue-700">Detailed learning review</p>
+                <h2 id="question-review-heading" className="mt-1 text-2xl font-bold text-slate-900">Question-by-question explanations</h2>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-slate-600">
+                  Review your response, the correct answer, and why that answer is the strongest choice.
+                </p>
+              </div>
+              <p className="text-sm font-semibold text-slate-500">
+                {attemptRecord.questionResults.length} questions reviewed
+              </p>
+            </div>
+
+            <div className="space-y-4">
+              {attemptRecord.questionResults.map((question, index) => {
+                const promptText = question.prompt || question.question || `Question ${index + 1}`;
+                const isMermaid = /^\s*(flowchart|sequenceDiagram|gantt|classDiagram|erDiagram|graph)\b/i.test(promptText.trim());
+
+                return (
+                  <article
+                    key={question.id ?? `review-${index}`}
+                    className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm"
+                  >
+                    <div className="flex flex-col gap-4 border-b border-slate-200 bg-slate-50/70 px-5 py-4 sm:flex-row sm:items-start sm:justify-between sm:px-6">
+                      <div className="flex min-w-0 items-start gap-3">
+                        <div className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
+                          question.isCorrect ? 'bg-emerald-100 text-emerald-700' : 'bg-rose-100 text-rose-700'
+                        }`}>
+                          {question.isCorrect ? <CheckCircle2 className="h-4 w-4" /> : <XCircle className="h-4 w-4" />}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Question {index + 1}</p>
+                          {isMermaid ? (
+                            <div className="mt-2">
+                              <MermaidDiagram chart={promptText} />
+                            </div>
+                          ) : (
+                            <h3 className="mt-1 max-w-4xl text-base font-bold leading-6 text-slate-900">
+                              {promptText}
+                            </h3>
+                          )}
+                        </div>
+                      </div>
+                      <span className={`w-fit shrink-0 rounded-full px-3 py-1 text-xs font-bold ${
+                        question.isCorrect ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800'
+                      }`}>
+                        {question.isCorrect ? 'Correct' : 'Needs review'}
+                      </span>
+                    </div>
+
+                    <div className="space-y-5 px-5 py-5 sm:px-6">
+                      {question.scenario ? (
+                        <div>
+                          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Scenario / Context</p>
+                          <p className="mt-2 max-w-4xl text-sm leading-6 text-slate-700">{question.scenario}</p>
+                        </div>
+                      ) : null}
+
+                      <div className="grid gap-3 md:grid-cols-2">
+                        <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                          <p className="text-xs font-bold uppercase tracking-[0.16em] text-slate-500">Your answer</p>
+                          <p className="mt-2 text-sm font-semibold leading-6 text-slate-800">
+                            {question.candidateAnswer || 'Not answered'}
+                          </p>
+                        </div>
+                        <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-4">
+                          <p className="text-xs font-bold uppercase tracking-[0.16em] text-emerald-700">Correct answer</p>
+                          <p className="mt-2 text-sm font-semibold leading-6 text-emerald-950">
+                            {question.correctAnswer || question.answer || 'Answer unavailable'}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="flex items-start gap-3 rounded-xl border border-blue-200 bg-blue-50 p-4">
+                        <Info className="mt-0.5 h-5 w-5 shrink-0 text-blue-700" />
+                        <div>
+                          <p className="text-xs font-bold uppercase tracking-[0.16em] text-blue-700">Explanation</p>
+                          <p className="mt-2 max-w-4xl text-sm leading-6 text-blue-950">
+                            {question.explanation || 'This choice best satisfies the evaluation criteria for the question.'}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        ) : null}
       </div>
     </div>
   );

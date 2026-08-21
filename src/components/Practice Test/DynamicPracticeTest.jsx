@@ -6,7 +6,7 @@ import {
   Database, Layout, Search, BarChart3, RotateCcw, ListChecks
 } from 'lucide-react';
 import Editor from '@monaco-editor/react';
-import { getGroqCompletion } from '../../core/services/groqService';
+import { getGroqCompletion } from '../../services/aiService';
 
 const difficultyOrder = { easy: 0, medium: 1, hard: 2 };
 

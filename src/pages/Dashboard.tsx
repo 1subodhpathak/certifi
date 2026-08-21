@@ -27,8 +27,7 @@ import { getStoredCertificates } from '../services/certificateRegistry';
 import { getUsageLogs, getUsageSummary } from '../services/usageLedger';
 import { getStoredLearningPaths } from '../services/learningPathRegistry';
 import { PRACTICE_ASSESSMENTS } from '../data/practiceAssessmentsData';
-
-const PASSING_SCORE = 60;
+import { getPassingThreshold } from '../services/assessmentThresholds';
 
 const formatDateLabel = (value) =>
   value.toLocaleDateString(undefined, {
@@ -187,7 +186,7 @@ export default function Dashboard() {
     const usageLogs = getUsageLogs();
     const availableTests = Object.keys(PRACTICE_ASSESSMENTS || {}).length;
     const highestScore = attempts.reduce((best, attempt) => Math.max(best, Number(attempt.score || 0)), 0);
-    const passedAttempts = attempts.filter((attempt) => Number(attempt.score || 0) >= PASSING_SCORE).length;
+    const passedAttempts = attempts.filter((attempt) => Number(attempt.score || 0) >= getPassingThreshold(attempt.skill || attempt.title, attempt.category)).length;
     const averageScore = attempts.length
       ? Math.round(attempts.reduce((sum, attempt) => sum + Number(attempt.score || 0), 0) / attempts.length)
       : 0;
@@ -385,7 +384,7 @@ export default function Dashboard() {
                     <p className="text-xs text-slate-500 mt-0.5">{formatShortDate(dashboardData.latestAttempt.createdAt)}</p>
                   </div>
                   <div className="text-right">
-                    <p className={`text-sm font-bold ${Number(dashboardData.latestAttempt.score) >= PASSING_SCORE ? 'text-emerald-600' : 'text-slate-700'}`}>
+                    <p className={`text-sm font-bold ${Number(dashboardData.latestAttempt.score) >= getPassingThreshold(dashboardData.latestAttempt.skill || dashboardData.latestAttempt.title, dashboardData.latestAttempt.category) ? 'text-emerald-600' : 'text-slate-700'}`}>
                       {dashboardData.latestAttempt.score}%
                     </p>
                     <p className="text-xs text-slate-400">Score</p>

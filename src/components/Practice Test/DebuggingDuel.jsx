@@ -5,7 +5,7 @@ import {
   ShieldAlert, Activity, Bug, Code, Send, Sparkles
 } from 'lucide-react';
 import Editor from '@monaco-editor/react';
-import { getGroqCompletion } from '../../core/services/groqService';
+import { getGroqCompletion } from '../../services/aiService';
 import { usePracticeTestStore } from '../../core/stores/practiceTestStore';
 
 const DebuggingDuel = ({ onBack }) => {

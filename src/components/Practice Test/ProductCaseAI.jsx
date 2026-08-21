@@ -4,7 +4,7 @@ import {
   Terminal, Play, ArrowLeft, RotateCcw,
   Sparkles, Lightbulb, Target, Send, Briefcase, Info, ListChecks
 } from 'lucide-react';
-import { getGroqCompletion } from '../../core/services/groqService';
+import { getGroqCompletion } from '../../services/aiService';
 import { usePracticeTestStore } from '../../core/stores/practiceTestStore';
 
 const ProductCaseAI = ({ onBack }) => {
