@@ -76,10 +76,6 @@ const createChatCompletionWithFallback = async (params) => {
         ...params,
         model: targetModel,
       };
-      
-      if (callParams.max_tokens && callParams.max_tokens > 2500) {
-        callParams.max_tokens = 2500;
-      }
 
       const completion = await groq.chat.completions.create(callParams);
       if (completion && completion.choices && completion.choices.length > 0) {
@@ -95,9 +91,6 @@ const createChatCompletionWithFallback = async (params) => {
           console.warn(`[aiService] Retrying '${targetModel}' without strict response_format mode...`);
           const noFormatParams = { ...params, model: targetModel };
           delete noFormatParams.response_format;
-          if (noFormatParams.max_tokens && noFormatParams.max_tokens > 2500) {
-            noFormatParams.max_tokens = 2500;
-          }
           const completion = await groq.chat.completions.create(noFormatParams);
           if (completion && completion.choices && completion.choices.length > 0) {
             return completion;
@@ -141,6 +134,41 @@ const cleanJSON = (text) => {
     cleaned = cleaned.substring(firstBrace, lastBrace + 1);
   }
   return cleaned.trim();
+};
+
+const repairTruncatedJSON = (text) => {
+  if (!text) return '{}';
+  let cleaned = cleanJSON(text);
+
+  try {
+    JSON.parse(cleaned);
+    return cleaned;
+  } catch (e) {
+    const lastCompleteObj = cleaned.lastIndexOf('}');
+    if (lastCompleteObj !== -1) {
+      let repaired = cleaned.substring(0, lastCompleteObj + 1);
+
+      const openSquare = (repaired.match(/\[/g) || []).length;
+      const closeSquare = (repaired.match(/\]/g) || []).length;
+      for (let i = 0; i < (openSquare - closeSquare); i++) {
+        repaired += '\n]';
+      }
+
+      const openCurly = (repaired.match(/\{/g) || []).length;
+      const closeCurly = (repaired.match(/\}/g) || []).length;
+      for (let i = 0; i < (openCurly - closeCurly); i++) {
+        repaired += '\n}';
+      }
+
+      try {
+        JSON.parse(repaired);
+        return repaired;
+      } catch (err2) {
+        console.warn('[aiService] Secondary JSON repair attempt failed:', err2.message);
+      }
+    }
+  }
+  return cleaned;
 };
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
@@ -946,14 +974,14 @@ export const generateAssessment = async (input) => {
       ],
       model: GROQ_MODEL,
       temperature: 0.5,
-      max_tokens: Math.max(4096, config.questionCount * 280),
+      max_tokens: Math.max(8192, config.questionCount * 300),
       response_format: { type: "json_object" },
     });
 
     const rawContent = completion.choices[0]?.message?.content || "{}";
     let result = {};
     try {
-      result = JSON.parse(cleanJSON(rawContent));
+      result = JSON.parse(repairTruncatedJSON(rawContent));
     } catch (e) {
       console.warn("[aiService] Parsing raw content failed:", e);
     }
