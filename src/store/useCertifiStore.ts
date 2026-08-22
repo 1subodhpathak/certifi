@@ -117,7 +117,7 @@ export const useCertifiStore = create<CertifiState>((set, get) => ({
 
   addBadge: async (badge: any) => {
     set((state) => {
-      const existingIndex = state.badges.findIndex((b) => b.id === badge.id);
+      const existingIndex = state.badges.findIndex((b) => (b.certificateId && badge.certificateId && b.certificateId === badge.certificateId) || b.id === badge.id);
       const updated = [...state.badges];
       if (existingIndex > -1) {
         updated[existingIndex] = badge;

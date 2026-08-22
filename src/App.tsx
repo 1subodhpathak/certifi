@@ -40,7 +40,7 @@
 // export default App;
 
 import { useEffect, lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAuth } from '@clerk/clerk-react';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
@@ -110,7 +110,7 @@ function App() {
             <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
             <Route path="/create-assessment" element={<ProtectedRoute><CreateAssessment /></ProtectedRoute>} />
             <Route path="/learning-paths" element={<ProtectedRoute><LearningPaths /></ProtectedRoute>} />
-            <Route path="/subscription" element={<ProtectedRoute><Subscription /></ProtectedRoute>} />
+            <Route path="/subscription" element={<ProtectedRoute><Navigate to="/usage-billing" replace /></ProtectedRoute>} />
             <Route path="/my-profile" element={<ProtectedRoute><MyProfile /></ProtectedRoute>} />
             <Route path="/usage-billing" element={<ProtectedRoute><UsageBilling /></ProtectedRoute>} />
             <Route path="/practice-hub" element={<ProtectedRoute><PracticeHub /></ProtectedRoute>} />

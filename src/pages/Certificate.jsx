@@ -330,13 +330,11 @@ export default function Certificate() {
   };
 
   const handleOpenBadgePreview = () => {
-    const allDesigns = getBadgeDesigns();
-    const allPalettes = getBadgePalettes();
-    const randomDesign = getRandomItem(allDesigns, { id: getDefaultBadgeDesignId(certificate) });
-    const randomPalette = getRandomItem(allPalettes, { id: getDefaultBadgePaletteId(certificate) });
+    const designId = storedBadge?.designId || getDefaultBadgeDesignId(certificate);
+    const paletteId = storedBadge?.paletteId || getDefaultBadgePaletteId(certificate);
 
-    setSelectedBadgeDesignId(randomDesign?.id || getDefaultBadgeDesignId(certificate));
-    setSelectedBadgePaletteId(randomPalette?.id || getDefaultBadgePaletteId(certificate));
+    setSelectedBadgeDesignId(designId);
+    setSelectedBadgePaletteId(paletteId);
     setBadgeStoredNotice(false);
     setBadgePreviewOpen(true);
   };
@@ -509,6 +507,7 @@ export default function Certificate() {
         description="This PDF uses the same reusable CareerSense report template as the test-completion flow, with the latest certificate evidence and the full answer sheet."
         sections={reportDownloadMeta.sections}
         careerPoints={reportDownloadMeta.careerPoints}
+        isPremium={true}
         onClose={() => setScoreReportModalOpen(false)}
         onPreview={handlePreviewReport}
         onConfirm={handleConfirmDownloadReport}
@@ -562,8 +561,8 @@ export default function Certificate() {
                     <span className="text-lg font-black tracking-tight text-white whitespace-nowrap">
                       Career<span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">Sense</span>
                     </span>
-                    <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-teal-400/90 whitespace-nowrap">
-                      AI Certification Platform
+                    <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-slate-400 whitespace-nowrap">
+                      Skills Validation & Certification
                     </span>
                   </div>
                 ) : null}
@@ -699,8 +698,8 @@ export default function Certificate() {
             </div>
 
             <div className="scroll-smooth">
-          <div className="w-full max-w-[1180px] mx-auto overflow-hidden rounded-xl bg-white shadow-sm ring-1 ring-slate-200">
-            <div ref={certificateRef} className="print-container certificate-print-container min-h-[36rem] w-full bg-[#FCFAF6] p-2 text-slate-900 select-none sm:aspect-[1.22/1] sm:min-h-0 sm:p-4 lg:aspect-[1.414/1] lg:p-8">
+          <div className="w-full max-w-[1180px] mx-auto rounded-xl bg-white shadow-sm ring-1 ring-slate-200 overflow-hidden">
+            <div ref={certificateRef} className="print-container certificate-print-container w-full bg-[#FCFAF6] p-2 text-slate-900 select-none sm:p-4 lg:p-8">
               {/* Certificate Inner Border */}
               <div className="certificate-inner-border relative flex h-full flex-col justify-between border-2 border-[#C5A880] bg-[#FCFAF6] p-3 shadow-inner sm:border-4 sm:p-5 lg:p-10">
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
@@ -777,34 +776,34 @@ export default function Certificate() {
                 </div>
 
                 {/* Footer Signatures & QR */}
-                <div className="certificate-print-footer relative z-10 grid grid-cols-2 items-end gap-x-3 gap-y-3 border-t border-[#C5A880]/40 pt-3 sm:gap-4 sm:pt-6 lg:grid-cols-[1fr,auto,auto,1fr] lg:gap-5 lg:pt-8">
-                  <div>
-                    <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[10px] sm:tracking-wider">Date of Validation</div>
-                    <div className="mt-1 text-[7px] font-bold text-slate-900 sm:text-base">{certificate.date}</div>
-                    <div className="mt-0.5 text-[5px] text-slate-500 sm:text-[11px]">Academic Registry Ledger</div>
+                <div className="certificate-print-footer relative z-10 grid grid-cols-4 items-end gap-x-1 sm:gap-4 border-t border-[#C5A880]/40 pt-3 lg:gap-5 lg:pt-8">
+                  <div className="min-w-0 text-left">
+                    <div className="text-[5px] sm:text-[10px] font-bold uppercase tracking-[0.08em] text-slate-500 truncate">Date of Validation</div>
+                    <div className="mt-0.5 sm:mt-1 text-[7px] sm:text-base font-bold text-slate-900 truncate">{certificate.date}</div>
+                    <div className="mt-0.5 text-[4.5px] sm:text-[11px] text-slate-500 truncate">Academic Registry Ledger</div>
                   </div>
 
                   <div className="flex flex-col items-center justify-center">
-                    <div className="certificate-print-seal-wrapper relative flex h-12 w-12 items-center justify-center sm:h-28 sm:w-28">
+                    <div className="certificate-print-seal-wrapper relative flex h-8 w-8 sm:h-28 sm:w-28 items-center justify-center">
                       <img
                         src={csSeal}
                         alt="CareerSense official seal"
-                        className="certificate-print-seal-img h-18 w-18 object-contain sm:h-30 sm:w-30"
+                        className="certificate-print-seal-img h-10 w-10 sm:h-28 sm:w-28 object-contain"
                       />
                     </div>
                   </div>
 
-                  <div className="certificate-print-qr-wrapper flex flex-col items-center rounded-xl px-2 py-2 text-center shadow-sm">
-                    <img src={qrCodeUrl} alt="Verification QR code" className="certificate-print-qr-img h-10 w-10 rounded-md sm:h-24 sm:w-24" />
+                  <div className="certificate-print-qr-wrapper flex flex-col items-center justify-center text-center">
+                    <img src={qrCodeUrl} alt="Verification QR code" className="certificate-print-qr-img h-7 w-7 sm:h-24 sm:w-24 rounded-md" />
                   </div>
 
-                  <div className="text-center">
-                    <div className="certificate-print-sig-wrapper flex h-7 items-end justify-center sm:h-12">
-                      <img src={shagunSignature} alt="Authorized Signature" className="certificate-print-sig-img h-8 w-auto object-contain pb-1 mix-blend-multiply sm:h-20" />
+                  <div className="min-w-0 text-center">
+                    <div className="certificate-print-sig-wrapper flex h-5 sm:h-12 items-end justify-center">
+                      <img src={shagunSignature} alt="Authorized Signature" className="certificate-print-sig-img h-6 sm:h-20 w-auto object-contain pb-0.5 mix-blend-multiply" />
                     </div>
-                    <div className="border-t border-slate-400/60 pt-1.5">
-                      <div className="text-[6.5px] font-bold text-[#0A1D37] sm:text-sm">Shagun Nagpal</div>
-                      <div className="mt-0.5 text-[4.8px] font-bold uppercase tracking-[0.09em] text-slate-500 sm:text-[9px] sm:tracking-wider">CEO / Director of Assessments</div>
+                    <div className="border-t border-slate-400/60 pt-1">
+                      <div className="text-[6px] sm:text-sm font-bold text-[#0A1D37] truncate">Shagun Nagpal</div>
+                      <div className="mt-0.5 text-[4px] sm:text-[9px] font-bold uppercase tracking-tighter text-slate-500 truncate">CEO / Director</div>
                     </div>
                   </div>
                 </div>
@@ -961,6 +960,28 @@ export default function Certificate() {
           </div>
         </main>
       </div>
+
+      <BadgePreviewModal
+        open={badgePreviewOpen}
+        skill={certificate.skill}
+        badgeTitle={badgeTitle}
+        previewUrl={badgePreviewUrl}
+        designOptions={badgeDesignOptions}
+        paletteOptions={badgePaletteOptions}
+        selectedDesignId={selectedBadgeDesignId}
+        selectedPaletteId={selectedBadgePaletteId}
+        isPreparing={isBadgeActionRunning}
+        isPreviewLoading={isBadgePreviewLoading}
+        storedNotice={badgeStoredNotice}
+        isAlreadySaved={Boolean(storedBadge) && storedBadge.designId === selectedBadgeDesignId && storedBadge.paletteId === selectedBadgePaletteId}
+        editCareerPoints={BADGE_EDIT_CAREER_POINTS}
+        onSelectDesign={(designId) => setSelectedBadgeDesignId(designId)}
+        onSelectPalette={(paletteId) => setSelectedBadgePaletteId(paletteId)}
+        onConfirmEditCharge={handleConfirmBadgeEditorUnlock}
+        onClose={() => setBadgePreviewOpen(false)}
+        onStore={handleStoreBadge}
+        onDownload={handleDownloadBadge}
+      />
     </>
   );
 }

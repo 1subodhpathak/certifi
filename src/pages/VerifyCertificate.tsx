@@ -392,113 +392,226 @@ function CertificatePreview({ result }: { result: any }) {
   const qrCodeUrl = buildQrCodeImageUrl(result.verifyUrl);
 
   return (
-    <div className="min-w-0 rounded-[6px] border border-[#ddcfb2] bg-[#fffaf0] p-2 shadow-[0_12px_30px_rgba(98,74,30,0.06)]">
-      <div className="flex min-h-[20rem] items-start justify-center overflow-hidden rounded-[3px] border border-[#e2d3b1] bg-[#fff8ed] px-2 py-2 sm:min-h-[26rem] sm:px-3 sm:py-3 lg:min-h-[30rem] lg:px-4 lg:py-4">
-        <div className="relative aspect-[1.414/1] w-[338px] sm:w-[520px] lg:w-[640px] xl:w-[770px]">
-          <div className="absolute left-1/2 top-0 w-[1180px] max-w-none origin-top -translate-x-1/2 scale-[0.286] sm:scale-[0.441] lg:scale-[0.542] xl:scale-[0.653]">
+    <div className="w-full rounded-[6px] border border-[#ddcfb2] bg-[#fffaf0] p-2 shadow-[0_12px_30px_rgba(98,74,30,0.06)]">
+      {/* Desktop / Laptop Aspect-Scaled Certificate (sm and larger) */}
+      <div className="hidden sm:flex items-start justify-center overflow-hidden rounded-[3px] border border-[#e2d3b1] bg-[#fff8ed] px-2 py-2 sm:px-3 sm:py-3 lg:px-4 lg:py-4">
+        <div className="relative aspect-[1.414/1] w-full sm:w-[520px] lg:w-[640px] xl:w-[770px]">
+          <div className="absolute left-1/2 top-0 w-[1180px] max-w-none origin-top -translate-x-1/2 scale-[0.441] lg:scale-[0.542] xl:scale-[0.653]">
             <div className="relative aspect-[1.414/1] overflow-hidden bg-[#FCFAF6] p-8 text-slate-900 select-none">
-              <div className="relative flex h-full flex-col justify-between border-2 border-[#C5A880] bg-[#FCFAF6] p-3 shadow-inner sm:border-4 sm:p-5 lg:p-8">
+              <div className="relative flex h-full flex-col justify-between border-4 border-[#C5A880] bg-[#FCFAF6] p-8 shadow-inner">
+                {/* Background Watermark */}
                 <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
                   <img
                     src={csWatermark}
                     alt=""
                     aria-hidden="true"
-                    className="h-auto w-[84%] max-w-none select-none opacity-[0.06] mix-blend-multiply [filter:invert(1)_grayscale(1)_contrast(1.15)] sm:w-[66%] sm:opacity-[0.08]"
+                    className="h-auto w-[66%] max-w-none select-none opacity-[0.08] mix-blend-multiply [filter:invert(1)_grayscale(1)_contrast(1.15)]"
                   />
                 </div>
 
+                {/* Corner Ornaments */}
                 <div className="pointer-events-none absolute inset-1.5 border border-[#C5A880]/40" />
                 <div className="absolute left-2.5 top-2.5 h-6 w-6 border-l-2 border-t-2 border-[#0A1D37]/80" />
                 <div className="absolute right-2.5 top-2.5 h-6 w-6 border-r-2 border-t-2 border-[#0A1D37]/80" />
                 <div className="absolute bottom-2.5 left-2.5 h-6 w-6 border-b-2 border-l-2 border-[#0A1D37]/80" />
                 <div className="absolute bottom-2.5 right-2.5 h-6 w-6 border-b-2 border-r-2 border-[#0A1D37]/80" />
 
-                <div className="relative z-10 flex items-start justify-between gap-2 sm:gap-4">
-                  <div className="flex min-w-0 items-center gap-2.5 sm:gap-4">
-                    <div className="flex h-10 w-10 shrink-0 items-center justify-center sm:h-20 sm:w-20 sm:p-1">
-                      <img
-                        src="/Logo.png"
-                        alt="CareerSense official mark"
-                        className="h-full w-full object-contain"
-                      />
+                {/* Header */}
+                <div className="relative z-10 flex items-start justify-between gap-4">
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center p-1">
+                      <img src="/Logo.png" alt="CareerSense official mark" className="h-full w-full object-contain" />
                     </div>
-                    <div className="min-w-0">
-                      <div className="text-[0.52rem] font-bold uppercase leading-tight tracking-[0.05em] text-[#0A1D37] sm:text-2xl sm:tracking-[0.1em]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                    <div>
+                      <div className="text-2xl font-bold uppercase leading-tight tracking-[0.1em] text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
                         CareerSense Academy
                       </div>
-                      <div className="mt-0.5 text-[4.5px] font-bold uppercase tracking-[0.16em] text-slate-500 sm:text-[9.5px] sm:tracking-[0.25em]">
+                      <div className="mt-0.5 text-[9.5px] font-bold uppercase tracking-[0.25em] text-slate-500">
                         Board of Verified Skills & Credentials
                       </div>
                     </div>
                   </div>
 
-                  <div className="max-w-[42%] rounded-sm border border-[#C5A880]/20 bg-white/70 p-1.5 text-right sm:max-w-[34%] sm:p-2">
-                    <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[9px] sm:tracking-[0.2em]">Document Control</div>
-                    <div className="mt-1 break-words text-[7px] font-bold leading-tight text-slate-800 sm:text-xs">ID: {result.verifiedId}</div>
-                    <div className="mt-0.5 text-[5px] font-semibold tracking-[0.08em] text-[#C5A880] sm:text-[9px] sm:tracking-wider">Secure Transcript Verified</div>
+                  <div className="max-w-[34%] rounded-sm border border-[#C5A880]/20 bg-white/70 p-2 text-right">
+                    <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-500">Document Control</div>
+                    <div className="mt-1 break-words text-xs font-bold leading-tight text-slate-800">ID: {result.verifiedId}</div>
+                    <div className="mt-0.5 text-[9px] font-semibold tracking-wider text-[#C5A880]">Secure Transcript Verified</div>
                   </div>
                 </div>
 
-                <div className="relative z-10 my-auto flex flex-col items-center px-1 text-center sm:px-4 lg:px-10">
-                  <div className="mb-2 text-[4.5px] font-bold uppercase tracking-[0.16em] text-[#C5A880] sm:mb-5 sm:text-[11px] sm:tracking-[0.4em]">
+                {/* Body */}
+                <div className="relative z-10 my-auto flex flex-col items-center px-10 text-center">
+                  <div className="mb-5 text-[11px] font-bold uppercase tracking-[0.4em] text-[#C5A880]">
                     Upon recommendation of the executive evaluation engine
                   </div>
 
-                  <h1 className="text-[0.74rem] font-normal leading-tight tracking-wide text-[#0A1D37] sm:text-2xl lg:text-3xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                  <h1 className="text-2xl lg:text-3xl font-normal leading-tight tracking-wide text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
                     This Certificate of Proficiency is awarded to
                   </h1>
 
-                  <div className="my-2 w-full max-w-2xl sm:my-5">
-                    <h2 className="border-y-2 border-[#C5A880]/30 bg-[#C5A880]/5 py-1.5 text-[1rem] font-bold italic leading-none tracking-tight text-[#0A1D37] sm:py-3 sm:text-4xl lg:text-5xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                  <div className="my-5 w-full max-w-2xl">
+                    <h2 className="border-y-2 border-[#C5A880]/30 bg-[#C5A880]/5 py-3 text-4xl lg:text-5xl font-bold italic leading-none tracking-tight text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
                       {result.student || result.studentName}
                     </h2>
                   </div>
 
-                  <p className="mt-1 max-w-2xl text-[6.3px] font-medium leading-relaxed text-slate-700 sm:mt-2 sm:text-[14px]">
+                  <p className="mt-2 text-[14px] font-medium leading-relaxed text-slate-700 max-w-2xl">
                     who has successfully demonstrated objective industry capability and completed all technical evaluation parameters benchmarked for verified competence in
                   </p>
 
-                  <h3 className="mt-2 text-[0.66rem] font-bold uppercase leading-tight tracking-[0.04em] text-[#0A1D37] sm:mt-4 sm:text-2xl lg:text-3xl" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                  <h3 className="mt-4 text-2xl lg:text-3xl font-bold uppercase leading-tight tracking-[0.04em] text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
                     {result.skill || result.course}
                   </h3>
 
-                  <div className="mt-3 grid w-full max-w-3xl grid-cols-3 divide-x divide-slate-200/80 border border-[#C5A880]/30 bg-white shadow-sm sm:mt-8">
+                  <div className="mt-8 grid w-full max-w-3xl grid-cols-3 divide-x divide-slate-200/80 border border-[#C5A880]/30 bg-white shadow-sm">
                     <MetricCell label="Performance Status" value={result.score} />
                     <MetricCell label="Confidence" value={result.reportCard?.confidenceScore ? `${result.reportCard.confidenceScore}%` : 'N/A'} />
                     <MetricCell label="Trust Score" value={result.proctoringSummary?.trustScore ? `${result.proctoringSummary.trustScore}%` : 'N/A'} />
                   </div>
                 </div>
 
-                <div className="relative z-10 grid grid-cols-2 items-end gap-x-3 gap-y-3 border-t border-[#C5A880]/40 pt-3 sm:gap-4 sm:pt-6 lg:grid-cols-[1fr,auto,auto,1fr] lg:gap-5 lg:pt-8">
+                {/* Footer - 4 Column Layout */}
+                <div className="relative z-10 grid grid-cols-4 items-end gap-5 border-t border-[#C5A880]/40 pt-8">
                   <div>
-                    <div className="text-[5px] font-bold uppercase tracking-[0.12em] text-slate-500 sm:text-[10px] sm:tracking-wider">Date of Validation</div>
-                    <div className="mt-1 text-[7px] font-bold text-slate-900 sm:text-base">{result.issueDate}</div>
-                    <div className="mt-0.5 text-[5px] text-slate-500 sm:text-[11px]">Academic Registry Ledger</div>
+                    <div className="text-[10px] font-bold uppercase tracking-wider text-slate-500">Date of Validation</div>
+                    <div className="mt-1 text-base font-bold text-slate-900">{result.issueDate}</div>
+                    <div className="mt-0.5 text-[11px] text-slate-500">Academic Registry Ledger</div>
                   </div>
 
                   <div className="flex flex-col items-center justify-center">
-                    <div className="relative flex h-12 w-12 items-center justify-center sm:h-28 sm:w-28">
-                      <img
-                        src={csSeal}
-                        alt="CareerSense official seal"
-                        className="h-18 w-18 object-contain sm:h-30 sm:w-30"
-                      />
+                    <div className="relative flex h-28 w-28 items-center justify-center">
+                      <img src={csSeal} alt="CareerSense official seal" className="h-30 w-30 object-contain" />
                     </div>
                   </div>
 
-                  <div className="flex flex-col items-center rounded-xl px-2 py-2 text-center shadow-sm">
-                    <img src={qrCodeUrl} alt="Verification QR code" className="h-10 w-10 rounded-md sm:h-24 sm:w-24" />
+                  <div className="flex flex-col items-center justify-center text-center">
+                    <img src={qrCodeUrl} alt="Verification QR code" className="h-24 w-24 rounded-md" />
                   </div>
 
                   <div className="text-center">
-                    <div className="flex h-7 items-end justify-center sm:h-12">
-                      <img src={shagunSignature} alt="Authorized Signature" className="h-8 w-auto object-contain pb-1 mix-blend-multiply sm:h-20" />
+                    <div className="flex h-12 items-end justify-center">
+                      <img src={shagunSignature} alt="Authorized Signature" className="h-20 w-auto object-contain pb-1 mix-blend-multiply" />
                     </div>
                     <div className="border-t border-slate-400/60 pt-1.5">
-                      <div className="text-[6.5px] font-bold text-[#0A1D37] sm:text-sm">Shagun Nagpal</div>
-                      <div className="mt-0.5 text-[4.8px] font-bold uppercase tracking-[0.09em] text-slate-500 sm:text-[9px] sm:tracking-wider">CEO / Director of Assessments</div>
+                      <div className="text-sm font-bold text-[#0A1D37]">Shagun Nagpal</div>
+                      <div className="mt-0.5 text-[9px] font-bold uppercase tracking-wider text-slate-500">CEO / Director of Assessments</div>
                     </div>
                   </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Responsive View (under sm breakpoint) */}
+      <div className="block sm:hidden w-full rounded-[3px] border border-[#e2d3b1] bg-[#fff8ed] p-1.5">
+        <div className="relative w-full bg-[#FCFAF6] p-2 text-slate-900 select-none rounded-lg shadow-sm border border-[#C5A880]/30">
+          <div className="relative flex flex-col justify-between border-2 border-[#C5A880] bg-[#FCFAF6] p-2 shadow-inner">
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center overflow-hidden">
+              <img
+                src={csWatermark}
+                alt=""
+                aria-hidden="true"
+                className="h-auto w-[84%] max-w-none select-none opacity-[0.06] mix-blend-multiply [filter:invert(1)_grayscale(1)_contrast(1.15)]"
+              />
+            </div>
+
+            <div className="pointer-events-none absolute inset-1 border border-[#C5A880]/40" />
+            <div className="absolute left-1.5 top-1.5 h-3 w-3 border-l-2 border-t-2 border-[#0A1D37]/80" />
+            <div className="absolute right-1.5 top-1.5 h-3 w-3 border-r-2 border-t-2 border-[#0A1D37]/80" />
+            <div className="absolute bottom-1.5 left-1.5 h-3 w-3 border-b-2 border-l-2 border-[#0A1D37]/80" />
+            <div className="absolute bottom-1.5 right-1.5 h-3 w-3 border-b-2 border-r-2 border-[#0A1D37]/80" />
+
+            {/* Header */}
+            <div className="relative z-10 flex items-start justify-between gap-1.5">
+              <div className="flex min-w-0 items-center gap-1.5">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center">
+                  <img src="/Logo.png" alt="CareerSense official mark" className="h-full w-full object-contain" />
+                </div>
+                <div className="min-w-0">
+                  <div className="text-[10px] font-bold uppercase leading-tight tracking-[0.04em] text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                    CareerSense Academy
+                  </div>
+                  <div className="mt-0.5 text-[5px] font-bold uppercase tracking-[0.14em] text-slate-500">
+                    Board of Verified Skills & Credentials
+                  </div>
+                </div>
+              </div>
+
+              <div className="max-w-[45%] rounded-sm border border-[#C5A880]/20 bg-white/70 p-1 text-right">
+                <div className="text-[5px] font-bold uppercase tracking-[0.1em] text-slate-500">Document Control</div>
+                <div className="mt-0.5 break-words text-[6.5px] font-bold leading-tight text-slate-800">ID: {result.verifiedId}</div>
+                <div className="mt-0.5 text-[4.5px] font-semibold tracking-[0.06em] text-[#C5A880]">Secure Transcript Verified</div>
+              </div>
+            </div>
+
+            {/* Body */}
+            <div className="relative z-10 my-2 flex flex-col items-center px-1 text-center">
+              <div className="mb-1 text-[6px] font-bold uppercase tracking-[0.14em] text-[#C5A880]">
+                Upon recommendation of the executive evaluation engine
+              </div>
+
+              <h1 className="text-[10px] font-normal leading-tight tracking-wide text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                This Certificate of Proficiency is awarded to
+              </h1>
+
+              <div className="my-1.5 w-full max-w-2xl">
+                <h2 className="border-y border-[#C5A880]/30 bg-[#C5A880]/5 py-1 text-xs font-bold italic leading-none tracking-tight text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                  {result.student || result.studentName}
+                </h2>
+              </div>
+
+              <p className="mt-0.5 text-[7px] font-medium leading-relaxed text-slate-700">
+                who has successfully demonstrated objective industry capability and completed all technical evaluation parameters benchmarked for verified competence in
+              </p>
+
+              <h3 className="mt-1 text-[10px] font-bold uppercase leading-tight tracking-[0.04em] text-[#0A1D37]" style={{ fontFamily: 'Libre Baskerville, serif' }}>
+                {result.skill || result.course}
+              </h3>
+
+              <div className="mt-2 grid w-full grid-cols-3 divide-x divide-slate-200/80 border border-[#C5A880]/30 bg-white shadow-sm">
+                <div className="px-1 py-1 text-center">
+                  <div className="text-[5.5px] font-bold uppercase tracking-wider text-[#C5A880]">Performance Status</div>
+                  <div className="mt-0.5 text-[9px] font-bold text-[#0A1D37]">{result.score}</div>
+                </div>
+                <div className="px-1 py-1 text-center">
+                  <div className="text-[5.5px] font-bold uppercase tracking-wider text-[#C5A880]">Confidence</div>
+                  <div className="mt-0.5 text-[9px] font-bold text-[#0A1D37]">{result.reportCard?.confidenceScore ? `${result.reportCard.confidenceScore}%` : 'N/A'}</div>
+                </div>
+                <div className="px-1 py-1 text-center">
+                  <div className="text-[5.5px] font-bold uppercase tracking-wider text-[#C5A880]">Trust Score</div>
+                  <div className="mt-0.5 text-[9px] font-bold text-[#0A1D37]">{result.proctoringSummary?.trustScore ? `${result.proctoringSummary.trustScore}%` : 'N/A'}</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="relative z-10 grid grid-cols-4 items-end gap-x-1 border-t border-[#C5A880]/40 pt-2">
+              <div className="min-w-0 text-left">
+                <div className="text-[4.5px] font-bold uppercase tracking-[0.08em] text-slate-500 truncate">Date of Validation</div>
+                <div className="mt-0.5 text-[6.5px] font-bold text-slate-900 truncate">{result.issueDate}</div>
+                <div className="mt-0.5 text-[4px] text-slate-500 truncate">Academic Registry</div>
+              </div>
+
+              <div className="flex flex-col items-center justify-center">
+                <div className="relative flex h-7 w-7 items-center justify-center">
+                  <img src={csSeal} alt="CareerSense official seal" className="h-8 w-8 object-contain" />
+                </div>
+              </div>
+
+              <div className="flex flex-col items-center justify-center text-center">
+                <img src={qrCodeUrl} alt="Verification QR code" className="h-6 w-6 rounded-md" />
+              </div>
+
+              <div className="min-w-0 text-center">
+                <div className="flex h-4 items-end justify-center">
+                  <img src={shagunSignature} alt="Authorized Signature" className="h-5 w-auto object-contain pb-0.5 mix-blend-multiply" />
+                </div>
+                <div className="border-t border-slate-400/60 pt-0.5">
+                  <div className="text-[5.5px] font-bold text-[#0A1D37] truncate">Shagun Nagpal</div>
+                  <div className="mt-0.5 text-[3.8px] font-bold uppercase tracking-tighter text-slate-500 truncate">CEO / Director</div>
                 </div>
               </div>
             </div>

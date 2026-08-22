@@ -315,7 +315,7 @@ export default function Dashboard() {
           <MetricCard icon={BookOpen} label="Learning Paths" value={dashboardData.learningPaths.length} hint="AI-generated roadmaps currently active." tone="blue" />
           <MetricCard icon={Target} label="Pass Rate" value={`${dashboardData.attempts.length ? Math.round((dashboardData.passedAttempts / dashboardData.attempts.length) * 100) : 0}%`} hint="Percentage of assessments meeting the threshold." tone="violet" />
           
-          <MetricCard icon={Gauge} label="Compute Tokens" value={dashboardData.usageSummary.totalCareerPoints.toLocaleString()} hint="Total API points consumed for generations." tone="amber" />
+          <MetricCard icon={Gauge} label="CareerPoints" value={dashboardData.usageSummary.totalCareerPoints.toLocaleString()} hint="Total API points consumed for generations." tone="amber" />
           <MetricCard icon={Wallet} label="Usage Billing" value={`$${dashboardData.usageSummary.totalCostUsd.toFixed(4)}`} hint="Estimated infrastructural cost incurred." tone="teal" />
           <MetricCard icon={Flame} label="Activity Streak" value={`${dashboardData.streak} Day${dashboardData.streak === 1 ? '' : 's'}`} hint="Consecutive days of active platform usage." tone="amber" />
           <MetricCard icon={Trophy} label="Peak Performance" value={`${dashboardData.highestScore}%`} hint="Highest recorded score across all attempts." tone="teal" />

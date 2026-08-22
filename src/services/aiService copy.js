@@ -13,8 +13,8 @@ if (!API_KEY) {
   console.error("CRITICAL ERROR: VITE_GROQ_API_KEY is missing. Please check your .env file.");
 }
 
-const GROQ_MODEL = 'claude-haiku-4-5-20251001';
-const FALLBACK_MODELS = ['claude-haiku-4-5-20251001', 'openai/gpt-oss-120b', 'llama-3.3-70b-versatile'];
+const GROQ_MODEL = 'openai/gpt-oss-120b';
+const FALLBACK_MODELS = ['openai/gpt-oss-120b', 'llama-3.3-70b-versatile', 'llama3-70b-8192', 'llama3-8b-8192'];
 
 let groqClient = null;
 
@@ -946,7 +946,7 @@ export const generateAssessment = async (input) => {
       ],
       model: GROQ_MODEL,
       temperature: 0.5,
-      max_tokens: Math.max(4096, config.questionCount * 280),
+      max_tokens: Math.min(2500, Math.max(1200, config.questionCount * 120)),
       response_format: { type: "json_object" },
     });
 

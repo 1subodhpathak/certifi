@@ -11,6 +11,7 @@ import {
   Home,
   Info,
   Loader2,
+  Lock,
   PlusCircle,
   RotateCcw,
   ShieldCheck,
@@ -406,6 +407,7 @@ export default function TestReport() {
           description="This PDF uses a reusable CareerSense report template with the latest assessment data. No AI generation is needed before you confirm."
           sections={reportDownloadMeta.sections}
           careerPoints={reportDownloadMeta.careerPoints}
+          isPremium={true}
           onClose={() => setIsDownloadReportModalOpen(false)}
           onPreview={handlePreviewReport}
           onConfirm={handleDownloadReport}
@@ -483,10 +485,14 @@ export default function TestReport() {
                 </button>
                 <button
                   onClick={() => setIsDownloadReportModalOpen(true)}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-bold text-slate-700 hover:bg-slate-50"
+                  className="inline-flex items-center gap-2 rounded-xl border border-amber-200 bg-amber-50/50 px-4 py-3 text-sm font-bold text-amber-900 transition hover:bg-amber-100/60 shadow-xs"
+                  title="Download Report (Premium Feature — Coming Soon)"
                 >
-                  <Download className="h-4 w-4" />
+                  <Lock className="h-4 w-4 text-amber-600" />
                   Download Report
+                  <span className="rounded bg-amber-200/80 px-1.5 py-0.5 text-[9px] font-extrabold uppercase text-amber-800">
+                    Premium
+                  </span>
                 </button>
                 <button
                   onClick={handleClaimCertificate}
@@ -586,7 +592,7 @@ export default function TestReport() {
                   <div>
                     <p className="text-sm font-semibold text-slate-900">No learning path generated yet</p>
                     <p className="mt-1 text-sm text-slate-500">
-                      Create a personalized learning path for {skill} only if you want one. This helps reduce token usage at the start.
+                      Create a personalized learning path for {skill} only if you want one. This helps optimize CareerPoints usage at the start.
                     </p>
                   </div>
                   <button

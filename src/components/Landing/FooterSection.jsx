@@ -23,7 +23,7 @@ const footerGroups = [
   {
     title: 'Academic Records',
     links: [
-      { label: 'Ledger Fees & Scale', href: '/subscription' },
+      { label: 'Ledger Fees & Scale', disabled: true },
       { label: 'Usage Auditing', href: '/usage-billing' },
       { label: 'Identity Settings', href: '/my-profile' },
       { label: 'Public Verification Portal', href: '/verify-certificate' },
@@ -31,7 +31,14 @@ const footerGroups = [
   },
 ];
 
-function FooterLink({ href, label }) {
+function FooterLink({ href, label, disabled }) {
+  if (disabled || !href) {
+    return (
+      <span className="text-xs text-slate-400 font-medium cursor-default">
+        {label}
+      </span>
+    );
+  }
   return (
     <a href={href} className="text-xs text-slate-300 transition-colors hover:text-white font-medium">
       {label}
@@ -71,8 +78,8 @@ export default function FooterSection() {
                 <div className="text-xl font-black tracking-tight text-white sm:text-2xl">
                   Career<span className="text-teal-500">Sense</span>
                 </div>
-                <div className="text-[9px] font-bold uppercase tracking-[0.25em] text-teal-500 mt-0.5">
-                  National Skills Validation
+                <div className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400 mt-0.5">
+                  Skills Validation & Certification
                 </div>
               </div>
             </div>
@@ -88,20 +95,14 @@ export default function FooterSection() {
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="/dashboard"
-                className="inline-flex items-center gap-2 rounded-lg bg-teal-600/90 border border-teal-500/50 px-4 py-2 text-xs font-bold text-white transition hover:bg-teal-500"
-              >
-                Initialize Examination
-                <ArrowRight className="h-3.5 w-3.5 text-teal-100" />
-              </a>
-              <a
-                href="/verify-certificate"
-                className="inline-flex items-center gap-2 rounded-lg border border-slate-600 bg-slate-900/60 px-4 py-2 text-xs font-bold text-slate-200 transition hover:bg-slate-800/80"
-              >
-                <ShieldCheck className="h-3.5 w-3.5 text-teal-400" />
-                Verification Desk
-              </a>
+              <span className="inline-flex items-center gap-2 rounded-full border border-slate-700/60 bg-slate-900/80 px-3.5 py-1.5 text-xs text-slate-300 backdrop-blur-sm">
+                <Landmark className="h-3.5 w-3.5 text-teal-400" />
+                Ledger Authority: CS-REG-2026
+              </span>
+              <span className="inline-flex items-center gap-2 rounded-full border border-slate-700/60 bg-slate-900/80 px-3.5 py-1.5 text-xs text-slate-300 backdrop-blur-sm">
+                <FileText className="h-3.5 w-3.5 text-emerald-400" />
+                Proctored Standards PDF/A Spec
+              </span>
             </div>
           </div>
 
@@ -192,11 +193,11 @@ export default function FooterSection() {
 
         {/* Legal & System Timestamp Sub-footer */}
         <div className="flex flex-col gap-4 border-t border-slate-700/50 pt-6 text-xs text-slate-400 md:flex-row md:items-center md:justify-between">
-          <p>© 2026 CareerSense National Registry System. All institutional data assets, examinations, and ledger logs remain strictly protected.</p>
+          <p>© 2026 CareerSense Skills Validation System. All institutional data assets, examinations, and ledger logs remain strictly protected.</p>
           <div className="flex flex-wrap items-center gap-5 font-medium">
-            <a href="/subscription" className="transition-colors hover:text-white">Fee Structure</a>
-            <a href="#" className="transition-colors hover:text-white">Privacy Protocol</a>
-            <a href="#" className="transition-colors hover:text-white">Terms of Governance</a>
+            <span className="text-slate-400 cursor-default">Fee Structure</span>
+            <span className="text-slate-400 cursor-default">Privacy Protocol</span>
+            <span className="text-slate-400 cursor-default">Terms of Governance</span>
             <a href="/verify-certificate" className="transition-colors hover:text-white">Verification Ledger</a>
           </div>
         </div>

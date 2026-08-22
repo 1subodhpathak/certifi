@@ -66,8 +66,12 @@ export default function InteractiveCertificateAnatomy() {
               {/* Header */}
               <div className="relative z-30 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                 <div className="group relative flex cursor-help items-start gap-2.5 sm:items-center sm:gap-3">
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center bg-[#0F203C] sm:h-11 sm:w-11">
-                    <ShieldCheck className="h-4 w-4 text-[#d8c8b0] stroke-[1.5] sm:h-5 sm:w-5" />
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center sm:h-12 sm:w-12">
+                    <img
+                      src="/Logo.png"
+                      alt="CareerSense official mark"
+                      className="h-full w-full object-contain"
+                    />
                   </div>
                   <div className="min-w-0">
                     <div className="text-[0.72rem] font-medium tracking-[0.03em] text-[#0F203C] sm:text-[1.15rem] sm:tracking-[0.08em]" style={{ fontFamily: 'Libre Baskerville, serif' }}>

@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { Menu, Star, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getUsageSummary } from '../../services/usageLedger';
-import { SignedIn, SignedOut, UserButton, SignInButton } from '@clerk/clerk-react';
+import { isExemptUser } from '../../services/pointsQuota';
+import { SignedIn, SignedOut, UserButton, SignInButton, useUser } from '@clerk/clerk-react';
 import { useCertifiStore } from '../../store/useCertifiStore';
 
 export default function HomeNavbar() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
+  const { user } = useUser();
   const [usageSummary, setUsageSummary] = useState({ totalCareerPoints: 0, totalCostUsd: 0 });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -57,40 +59,44 @@ export default function HomeNavbar() {
               <span className="block text-xl font-black tracking-tight text-slate-950 sm:text-2xl">
                 Career<span className="text-teal-600">Sense</span>
               </span>
-              <span className="mt-1 block text-[7px] font-black uppercase tracking-[0.26em] text-slate-500 sm:text-[8px] sm:tracking-[0.3em]">
-                Certifi.AI Platform
+              <span className="mt-1 block text-[7px] font-black uppercase tracking-[0.2em] text-slate-500 sm:text-[8px] sm:tracking-[0.25em]">
+                Skills Validation & Certification
               </span>
             </span>
           </button>
 
           <div className="hidden items-center gap-8 text-sm font-bold text-slate-600 md:flex">
-            <a href={homeSectionHref('process')} className="rounded-md transition-colors hover:text-teal-600">How it Works</a>
+            <a href={homeSectionHref('process')} className="rounded-md transition-colors hover:text-teal-600">How It Works</a>
             <a href={homeSectionHref('why-us')} className="rounded-md transition-colors hover:text-teal-600">Why Us</a>
-            <a href={homeSectionHref('roles')} className="rounded-md transition-colors hover:text-teal-600">Top Skills</a>
-            <a href={homeSectionHref('testimonials')} className="rounded-md transition-colors hover:text-teal-600">Testimony</a>
-            <button
-              type="button"
-              onClick={() => navigate('/subscription')}
-              className={`rounded-md transition-colors hover:text-teal-600 ${pathname === '/subscription' ? 'text-teal-600' : ''}`}
-            >
-              Pricing
-            </button>
+            <a href={homeSectionHref('roles')} className="rounded-md transition-colors hover:text-teal-600">Explore Skills</a>
+            <a href={homeSectionHref('certificate-verify')} className="rounded-md transition-colors hover:text-teal-600">The Certificate</a>
+            <a href={homeSectionHref('faq')} className="rounded-md transition-colors hover:text-teal-600">FAQs</a>
           </div>
 
           <div className="hidden items-center gap-3 md:flex">
             <SignedIn>
               {isSynced ? (
                 <>
-                  <div className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm lg:flex">
+                  <div
+                    title={
+                      isExemptUser(user?.primaryEmailAddress?.emailAddress)
+                        ? 'Free Account Limit : Unlimited Career Points (Test Account)'
+                        : 'Free Account Limit : 15000 Career Points'
+                    }
+                    className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-amber-300 hover:shadow-md lg:flex"
+                  >
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
                       <Star className="h-4 w-4" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points Used</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CareerPoints Used</p>
                       <p className="text-sm font-black text-slate-900">{totalCareerPoints}</p>
                     </div>
                   </div>
-                  <div className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm lg:flex">
+                  <div
+                    title="Free Account : Bill getting paid by Instructor"
+                    className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-emerald-300 hover:shadow-md lg:flex"
+                  >
                     <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                       <span className="text-sm font-black">$</span>
                     </div>
@@ -139,20 +145,11 @@ export default function HomeNavbar() {
           <div className="border-t border-slate-200/80 pb-4 pt-4 md:hidden">
             <div className="grid gap-3">
               <div className="grid gap-2 text-sm font-bold text-slate-700">
-                <a href={homeSectionHref('process')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">How it Works</a>
+                <a href={homeSectionHref('process')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">How It Works</a>
                 <a href={homeSectionHref('why-us')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">Why Us</a>
-                <a href={homeSectionHref('roles')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">Top Skills</a>
-                <a href={homeSectionHref('testimonials')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">Testimony</a>
-                <button
-                  type="button"
-                  onClick={() => {
-                    closeMobileMenu();
-                    navigate('/subscription');
-                  }}
-                  className="rounded-2xl border border-slate-200 bg-white px-4 py-3 text-left shadow-sm transition hover:bg-slate-50"
-                >
-                  Pricing
-                </button>
+                <a href={homeSectionHref('roles')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">Explore Skills</a>
+                <a href={homeSectionHref('certificate-verify')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">The Certificate</a>
+                <a href={homeSectionHref('faq')} onClick={closeMobileMenu} className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50">FAQs</a>
               </div>
 
               <div className="grid gap-2 rounded-[1.5rem] border border-slate-200 bg-slate-50/90 p-3">

@@ -2,6 +2,7 @@ import { startTransition, useDeferredValue, useEffect, useMemo, useRef, useState
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { generateAssessment, generateSkillOverview, validateAssessmentTopic } from '../services/aiService';
+import { getCsPointsQuotaStatus } from '../services/pointsQuota';
 import { skillLibrary } from '../data/skillData';
 import DashboardShell from '../components/DashboardShell';
 import {
@@ -109,6 +110,7 @@ export default function CreateAssessment() {
   const [isSkillOverviewOpen, setIsSkillOverviewOpen] = useState(false);
   const [skillOverview, setSkillOverview] = useState(null);
   const deferredAssessmentTitle = useDeferredValue(assessmentTitle);
+  const quotaStatus = getCsPointsQuotaStatus(user?.email);
 
   useEffect(() => {
     if (location.state?.prefill && !hasAutoStarted.current) {
@@ -361,6 +363,18 @@ export default function CreateAssessment() {
       <section className="w-full grid gap-6 lg:grid-cols-[3fr_1fr]">
         {/* Main Configuration Card */}
         <div className="rounded-2xl border border-slate-200 bg-white shadow-sm p-6">
+          {quotaStatus.isExceeded && (
+            <div className="mb-6 flex items-start gap-3 rounded-xl border border-rose-200 bg-rose-50 p-4 text-rose-800">
+              <AlertCircle className="h-5 w-5 shrink-0 text-rose-600 mt-0.5" />
+              <div>
+                <p className="font-bold text-sm">CareerPoints Quota Exceeded ({quotaStatus.used.toLocaleString()} / {quotaStatus.limit.toLocaleString()})</p>
+                <p className="text-xs text-rose-700 mt-1">
+                  You have used all available CareerPoints. AI assessment generation is currently locked. Upgrade your plan or contact support to continue.
+                </p>
+              </div>
+            </div>
+          )}
+
           <div className="flex items-center justify-between mb-5">
             <div>
               <h2 className="text-2xl font-bold tracking-tight text-slate-900">Configure New AI Assessment</h2>
@@ -599,11 +613,11 @@ export default function CreateAssessment() {
               </div>
             ))}
 
-            {/* Simple Token Estimate Box */}
+            {/* Simple CareerPoints Estimate Box */}
             <div className="mt-4 rounded-lg border border-teal-200 bg-teal-50/50 p-3">
-              <p className="text-xs font-semibold text-teal-900 mb-1">CS Points Estimate</p>
+              <p className="text-xs font-semibold text-teal-900 mb-1">CareerPoints Estimate</p>
               <p className="text-sm font-medium text-teal-800">
-                Estimate : [{summary.tokenEstimate.min} - {summary.tokenEstimate.max}]
+                Estimate : [{summary.tokenEstimate.min} - {summary.tokenEstimate.max}] CareerPoints
               </p>
             </div>
             <p className="text-xs text-slate-500 leading-tight mt-2">
@@ -615,17 +629,17 @@ export default function CreateAssessment() {
 
           <div className="mt-6 pt-4 border-t border-slate-200">
             <p className="text-xs text-slate-500 mb-3 leading-tight">
-              Paid Service. CS Points [{summary.tokenEstimate.min}]-[{summary.tokenEstimate.max}] required.
+              Paid Service. CareerPoints [{summary.tokenEstimate.min}]-[{summary.tokenEstimate.max}] required.
               Confirmed: {config.title || 'Assessment'}, {summary.questionCount} Q, {difficulty}.
             </p>
             <button
               type="button"
               onClick={handleOpenConfirm}
-              disabled={isGenerating || isValidatingSkill}
+              disabled={isGenerating || isValidatingSkill || quotaStatus.isExceeded}
               className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-teal-600 px-4 py-3 text-sm font-bold text-white shadow-sm transition-all hover:bg-teal-700 disabled:cursor-not-allowed disabled:opacity-70"
             >
               {isGenerating || isValidatingSkill ? <Loader2 className="h-4.5 w-4.5 animate-spin" /> : <GraduationCap className="h-4.5 w-4.5" />}
-              {isValidatingSkill ? 'Checking Skill...' : 'Create Assessment'}
+              {isValidatingSkill ? 'Checking Skill...' : quotaStatus.isExceeded ? 'CareerPoints Limit Reached (Locked)' : 'Create Assessment'}
             </button>
           </div>
         </div>
@@ -637,12 +651,12 @@ export default function CreateAssessment() {
           <div className="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
             <div className="border-b border-slate-100 bg-slate-50 px-5 py-4">
               <h3 className="text-base font-bold text-slate-900">Confirm Generation</h3>
-              <p className="text-xs text-slate-500 mt-0.5">Please confirm token usage to proceed.</p>
+              <p className="text-xs text-slate-500 mt-0.5">Please confirm CareerPoints usage to proceed.</p>
             </div>
 
             <div className="p-5">
               <div className="rounded-lg border border-teal-100 bg-teal-50 p-3 text-sm text-teal-800">
-                This will consume approximately <span className="font-bold">{summary.tokenEstimate.min}-{summary.tokenEstimate.max}</span> tokens.
+                This will consume approximately <span className="font-bold">{summary.tokenEstimate.min}-{summary.tokenEstimate.max}</span> CareerPoints.
               </div>
 
               <div className="mt-5 space-y-2 text-sm">

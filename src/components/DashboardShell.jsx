@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getUsageSummary } from '../services/usageLedger';
+import { isExemptUser } from '../services/pointsQuota';
 import { useCertifiStore } from '../store/useCertifiStore';
 import {
   Award,
@@ -129,18 +130,29 @@ export default function DashboardShell({
     ? `${user.currentRole} at ${user.currentCompany}`
     : user.currentRole || user.currentCompany || user.plan || 'Free Account';
 
+  const pointsTooltip = isExemptUser(user?.email)
+    ? 'Free Account Limit : Unlimited Career Points (Test Account)'
+    : 'Free Account Limit : 15000 Career Points';
+  const billTooltip = 'Free Account : Bill getting paid by Instructor';
+
   const usageBadges = (
     <>
-      <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+      <div
+        title={pointsTooltip}
+        className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-amber-300 hover:shadow-md"
+      >
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
           <Zap className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points Used</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CareerPoints Used</p>
           <p className="text-sm font-black text-slate-900">{displayStats.totalCareerPoints}</p>
         </div>
       </div>
-      <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+      <div
+        title={billTooltip}
+        className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-emerald-300 hover:shadow-md"
+      >
         <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
           <span className="text-sm font-black">$</span>
         </div>
@@ -216,8 +228,8 @@ export default function DashboardShell({
                   <span className="text-lg font-black tracking-tight text-white whitespace-nowrap">
                     Career<span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">Sense</span>
                   </span>
-                  <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-teal-400/90 whitespace-nowrap">
-                    AI Certification Platform
+                  <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-slate-400 whitespace-nowrap">
+                    Skills Validation & Certification
                   </span>
                 </div>
               ) : null}

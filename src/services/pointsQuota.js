@@ -38,7 +38,7 @@ export function getCsPointsQuotaStatus(email = '') {
       percentUsed: 0,
       isExempt: true,
       isExceeded: false,
-      message: 'Test Account — Unlimited CS Points',
+      message: 'Test Account — Unlimited CareerPoints',
     };
   }
 
@@ -54,8 +54,8 @@ export function getCsPointsQuotaStatus(email = '') {
     isExempt: false,
     isExceeded,
     message: isExceeded
-      ? `You have reached your free account limit of ${limit.toLocaleString()} CS Points. Upgrade your plan or contact support to continue generating AI assessments.`
-      : `${remaining.toLocaleString()} CS Points remaining out of ${limit.toLocaleString()} free allowance.`,
+      ? `You have reached your free account limit of ${limit.toLocaleString()} CareerPoints. Upgrade your plan or contact support to continue generating AI assessments.`
+      : `${remaining.toLocaleString()} CareerPoints remaining out of ${limit.toLocaleString()} free allowance.`,
   };
 }
 
@@ -72,7 +72,7 @@ export function validateCsPointsQuota(email = '', requestedEstimate = 100) {
     return {
       allowed: false,
       status,
-      error: `CS Points limit reached (${status.used.toLocaleString()} / ${status.limit.toLocaleString()} points used). Upgrade your plan to generate more AI assessments.`,
+      error: `CareerPoints limit reached (${status.used.toLocaleString()} / ${status.limit.toLocaleString()} points used). Upgrade your plan to generate more AI assessments.`,
     };
   }
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { X, Download } from 'lucide-react';
+import { X, Download, Lock, Crown, Sparkles } from 'lucide-react';
 
 /**
  * @typedef {Object} ReportDownloadModalProps
@@ -9,8 +9,9 @@ import { X, Download } from 'lucide-react';
  * @property {string} description
  * @property {Array<string>} sections
  * @property {number} careerPoints
+ * @property {boolean} [isPremium]
  * @property {function(): void} onClose
- * @property {function(): void} onConfirm
+ * @property {function(): void} [onConfirm]
  * @property {string} [confirmLabel]
  * @property {React.ComponentType<{className?: string}>} [confirmIcon]
  * @property {function(): void} [onPreview]
@@ -24,6 +25,7 @@ export default function ReportDownloadModal({
   description,
   sections = [],
   careerPoints = 0,
+  isPremium = false,
   onClose,
   onConfirm,
   confirmLabel = "Download Score Report",
@@ -32,6 +34,10 @@ export default function ReportDownloadModal({
   zIndexClass = "z-[160]"
 }) {
   if (!open) return null;
+
+  const handlePremiumClick = () => {
+    alert("PDF Score Report Download is a Premium Feature. Subscription plans & full report downloads are coming soon!");
+  };
 
   return (
     <div
@@ -52,7 +58,7 @@ export default function ReportDownloadModal({
                 <span className="text-base font-black tracking-tight text-[#499587]">Sense</span>
               </div>
               <span className="text-[8px] font-bold uppercase tracking-[0.2em] text-slate-400">
-                CERTIFI.AI PLATFORM
+                Skills Validation & Certification
               </span>
             </div>
           </div>
@@ -71,17 +77,30 @@ export default function ReportDownloadModal({
         <div className="relative bg-white px-8 pt-8 pb-6 bg-[radial-gradient(circle_at_top_right,_rgba(56,189,248,0.12),_transparent_55%)]">
           
           {/* Eyebrow & Main Headings */}
-          <span className="text-xs font-bold uppercase tracking-widest text-[#38bdf8]">
-            {eyebrow}
-          </span>
+          <div className="flex items-center justify-between">
+            <span className={`text-xs font-bold uppercase tracking-widest ${isPremium ? 'text-amber-600 flex items-center gap-1.5' : 'text-[#38bdf8]'}`}>
+              {isPremium ? (
+                <>
+                  <Crown className="h-3.5 w-3.5 text-amber-500" />
+                  Premium Feature
+                </>
+              ) : eyebrow}
+            </span>
+            {isPremium && (
+              <span className="rounded-full bg-amber-100 border border-amber-200 px-2.5 py-0.5 text-[10px] font-extrabold uppercase text-amber-800">
+                Coming Soon
+              </span>
+            )}
+          </div>
+
           <h3 className="mt-1 text-2xl font-bold tracking-tight text-slate-900">
-            {title}
+            {isPremium ? "Detailed PDF Score Report" : title}
           </h3>
-          {description && (
-            <p className="mt-3 text-sm leading-relaxed text-slate-500">
-              {description}
-            </p>
-          )}
+          <p className="mt-3 text-sm leading-relaxed text-slate-600">
+            {isPremium
+              ? "Downloading complete PDF score reports with question breakdown and detailed answer keys is reserved for Premium subscribers. PDF Report Downloads will be unlocked soon with our upcoming Subscription Plans!"
+              : description}
+          </p>
 
           {/* Appended Document Modules Box */}
           {sections.length > 0 && (
@@ -103,25 +122,40 @@ export default function ReportDownloadModal({
             </div>
           )}
 
-          {/* Required Resource Allocation Box */}
-          <div className="mt-4 flex items-center justify-between rounded-xl border border-slate-100 bg-[#f8fafc] p-4">
+          {/* Required Resource Allocation / Premium Lock Box */}
+          <div className="mt-4 flex items-center justify-between rounded-xl border border-amber-100 bg-amber-50/40 p-4">
             <div className="min-w-0">
-              <h4 className="text-sm font-bold text-slate-900">
-                Required Resource Allocation
+              <h4 className="text-sm font-bold text-slate-900 flex items-center gap-2">
+                {isPremium ? (
+                  <>
+                    <Lock className="h-4 w-4 text-amber-600" />
+                    Access Tier: Premium Subscription
+                  </>
+                ) : (
+                  "Required Resource Allocation"
+                )}
               </h4>
-              <p className="mt-0.5 text-xs text-slate-400">
-                Estimated processing surcharge: {careerPoints > 0 ? `$${(careerPoints * 0.0001).toFixed(4)} USD` : '$0.0000 USD'}
+              <p className="mt-0.5 text-xs text-slate-500">
+                {isPremium
+                  ? "Full report PDF export with answer keys will be enabled for Pro & Enterprise tiers."
+                  : `Estimated processing surcharge: ${careerPoints > 0 ? `$${(careerPoints * 0.0001).toFixed(4)} USD` : '$0.0000 USD'}`}
               </p>
             </div>
 
-            <div className="flex items-center gap-1.5 rounded-lg border border-slate-200/80 bg-white px-3.5 py-2 shadow-sm">
-              <span className="text-xl font-black text-slate-900 leading-none">
-                {careerPoints}
+            {isPremium ? (
+              <span className="rounded-lg border border-amber-200 bg-white px-3 py-1.5 text-xs font-bold text-amber-800 shadow-sm whitespace-nowrap">
+                🔒 Locked (Coming Soon)
               </span>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">
-                Pts
-              </span>
-            </div>
+            ) : (
+              <div className="flex items-center gap-1.5 rounded-lg border border-slate-200/80 bg-white px-3.5 py-2 shadow-sm">
+                <span className="text-xl font-black text-slate-900 leading-none">
+                  {careerPoints}
+                </span>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400 mt-1">
+                  Pts
+                </span>
+              </div>
+            )}
           </div>
         </div>
 
@@ -132,10 +166,10 @@ export default function ReportDownloadModal({
             onClick={onClose}
             className="rounded-lg px-4 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 hover:text-slate-900"
           >
-            Cancel
+            Close
           </button>
 
-          {onPreview && (
+          {onPreview && !isPremium && (
             <button
               type="button"
               onClick={onPreview}
@@ -145,14 +179,25 @@ export default function ReportDownloadModal({
             </button>
           )}
 
-          <button
-            type="button"
-            onClick={onConfirm}
-            className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 shadow-md"
-          >
-            {ConfirmIcon && <ConfirmIcon className="h-4 w-4" />}
-            {confirmLabel}
-          </button>
+          {isPremium ? (
+            <button
+              type="button"
+              onClick={handlePremiumClick}
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-amber-700 shadow-md"
+            >
+              <Lock className="h-4 w-4 text-amber-100" />
+              Premium Feature — Coming Soon
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onConfirm}
+              className="inline-flex items-center justify-center gap-2 rounded-lg bg-[#0f172a] px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-800 shadow-md"
+            >
+              {ConfirmIcon && <ConfirmIcon className="h-4 w-4" />}
+              {confirmLabel}
+            </button>
+          )}
         </div>
 
       </div>

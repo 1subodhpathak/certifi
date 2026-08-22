@@ -634,8 +634,8 @@ const CertificatesScene = () => {
         {/* Ribbon Header */}
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-2">
-            <div className="bg-[#111827] text-[#fcd34d] h-8 w-8 rounded-lg flex items-center justify-center shadow-sm">
-              <Award size={18} />
+            <div className="h-8 w-8 rounded-lg flex items-center justify-center shrink-0">
+              <img src="/Logo.png" alt="CareerSense mark" className="h-full w-full object-contain" />
             </div>
             <div>
               <div className="text-[0.55rem] font-black text-slate-600 tracking-widest uppercase">CAREERSENSE ACADEMY</div>
@@ -933,9 +933,9 @@ const BillingScene = () => {
 
       <div className="space-y-6">
         {[
-          { name: 'Learning Path Generation', date: 'Jun 24, 2026, 11:54 PM', tag: 'Python for Machine Learning', model: 'Model: CareerSense-70b   Modules: 4', cp: '438', cost: '$0.0438', stat: 'COMPLETED' },
-          { name: 'Learning Path Generation', date: 'Jun 24, 2026, 11:54 PM', tag: 'Python for Machine Learning', model: 'Model: CareerSense-70b   Modules: 4', cp: '430', cost: '$0.0430', stat: 'COMPLETED' },
-          { name: 'Assessment Generation', date: 'Jun 24, 2026, 11:53 PM', tag: 'Python for Machine Learning', model: 'Model: CareerSense-70b   Questions: 27', cp: '3,767', cost: '$0.3767', stat: 'COMPLETED' },
+          { name: 'Learning Path Generation', date: 'Jun 24, 2026, 11:54 PM', tag: 'Python for Machine Learning', model: 'Modules: 4', cp: '438', cost: '$0.0438', stat: 'COMPLETED' },
+          { name: 'Learning Path Generation', date: 'Jun 24, 2026, 11:54 PM', tag: 'Python for Machine Learning', model: 'Modules: 4', cp: '430', cost: '$0.0430', stat: 'COMPLETED' },
+          { name: 'Assessment Generation', date: 'Jun 24, 2026, 11:53 PM', tag: 'Python for Machine Learning', model: 'Questions: 27', cp: '3,767', cost: '$0.3767', stat: 'COMPLETED' },
         ].map((row, idx) => (
           <div key={idx} className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] items-start text-[0.75rem]">
             <div>

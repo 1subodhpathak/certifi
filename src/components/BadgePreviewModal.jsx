@@ -36,6 +36,7 @@ export default function BadgePreviewModal({
   isPreparing = false,
   isPreviewLoading = false,
   storedNotice = false,
+  isAlreadySaved = false,
   editCareerPoints = 500,
   onSelectDesign,
   onSelectPalette,
@@ -180,10 +181,22 @@ export default function BadgePreviewModal({
                   <button
                     type="button"
                     onClick={onStore}
-                    disabled={isPreparing}
-                    className="rounded-lg border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-700 transition-all hover:bg-slate-100 hover:border-slate-400 disabled:cursor-not-allowed disabled:opacity-50"
+                    disabled={isPreparing || storedNotice || isAlreadySaved}
+                    title={isAlreadySaved || storedNotice ? 'This badge is already saved to your profile' : 'Save badge to your profile locker'}
+                    className={`inline-flex items-center justify-center gap-1.5 rounded-lg border px-5 py-3 text-sm font-semibold transition-all ${
+                      isAlreadySaved || storedNotice
+                        ? 'border-emerald-200 bg-emerald-50 text-emerald-800 font-bold opacity-90 cursor-not-allowed'
+                        : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-100 hover:border-slate-400 disabled:cursor-not-allowed disabled:opacity-50'
+                    }`}
                   >
-                    Save to Profile
+                    {isAlreadySaved || storedNotice ? (
+                      <>
+                        <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                        Saved to Profile
+                      </>
+                    ) : (
+                      'Save to Profile'
+                    )}
                   </button>
 
                   <button

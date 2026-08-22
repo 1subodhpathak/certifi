@@ -1,16 +1,12 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DashboardShell from '../components/DashboardShell';
-import { Search, Medal, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
+import { Search, Medal, ArrowRight, ShieldCheck, Download, ExternalLink, X } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { getStoredBadges } from '../services/badgeRegistry';
+import { downloadBadgeImageFile, getStoredBadges } from '../services/badgeRegistry';
 import { findCertificateById } from '../services/certificateRegistry';
 import { useCertifiStore } from '../store/useCertifiStore';
 import { useAuth as useClerkAuth } from '@clerk/clerk-react';
-
-// ============================================================================
-// MAIN PAGE COMPONENT
-// ============================================================================
 
 export default function MyBadges() {
   const navigate = useNavigate();
@@ -18,6 +14,7 @@ export default function MyBadges() {
   
   const [badges, setBadges] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedBadge, setSelectedBadge] = useState(null);
 
   const { isSignedIn } = useClerkAuth();
   const isSynced = useCertifiStore((state) => state.isSynced);
@@ -58,6 +55,14 @@ export default function MyBadges() {
       navigate(`/certificate/${relatedCertificate.id}`, { state: relatedCertificate });
     } else {
       navigate(`/certificate/${badge.certificateId}`);
+    }
+  };
+
+  const handleDownloadBadge = async (badge) => {
+    try {
+      await downloadBadgeImageFile(badge, `${badge.badgeTitle || badge.skill || 'badge'}.png`, 'png');
+    } catch (err) {
+      console.error('Failed to download badge:', err);
     }
   };
 
@@ -103,7 +108,7 @@ export default function MyBadges() {
               <BadgeCard 
                 key={badge.id}
                 badge={badge}
-                onView={() => handleOpenCertificate(badge)}
+                onView={() => setSelectedBadge(badge)}
               />
             ))}
           </div>
@@ -136,6 +141,64 @@ export default function MyBadges() {
           </div>
         )}
       </div>
+
+      {/* Badge Zoom Lightbox Modal */}
+      {selectedBadge && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 p-4 backdrop-blur-md"
+          onClick={() => setSelectedBadge(null)}
+        >
+          <div
+            className="relative flex max-h-[90vh] w-full max-w-2xl flex-col overflow-hidden rounded-3xl border border-slate-700 bg-[#0f172a] shadow-2xl transition-all"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-slate-800 px-6 py-4">
+              <div>
+                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-teal-400">Verified Badge</span>
+                <h3 className="text-lg font-bold text-white">{selectedBadge.badgeTitle || selectedBadge.skill}</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setSelectedBadge(null)}
+                className="rounded-full bg-slate-800 p-2 text-slate-400 transition hover:bg-slate-700 hover:text-white"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            {/* Zoomed Badge Image Container */}
+            <div className="flex flex-1 items-center justify-center overflow-y-auto p-8 bg-[radial-gradient(circle_at_center,_rgba(20,184,166,0.1),_transparent_70%)]">
+              <img
+                src={selectedBadge.imageUrl}
+                alt={selectedBadge.badgeTitle || selectedBadge.skill}
+                className="max-h-[60vh] max-w-full object-contain drop-shadow-[0_25px_50px_rgba(0,0,0,0.5)] transition-transform duration-300 hover:scale-105"
+              />
+            </div>
+
+            {/* Modal Actions */}
+            <div className="flex items-center justify-between border-t border-slate-800 bg-slate-900 px-6 py-4">
+              <button
+                type="button"
+                onClick={() => handleOpenCertificate(selectedBadge)}
+                className="inline-flex items-center gap-2 text-xs font-bold text-slate-400 transition hover:text-teal-400"
+              >
+                <ExternalLink className="h-4 w-4" />
+                View Full Certificate
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleDownloadBadge(selectedBadge)}
+                className="inline-flex items-center gap-2 rounded-xl bg-teal-600 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-teal-700"
+              >
+                <Download className="h-4 w-4" />
+                Download Badge
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </DashboardShell>
   );
 }

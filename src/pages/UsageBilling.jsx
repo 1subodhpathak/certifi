@@ -5,14 +5,14 @@ import { useCertifiStore } from '../store/useCertifiStore';
 import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
 import { Loader2, ShieldCheck, Zap } from 'lucide-react';
 import { getCsPointsQuotaStatus } from '../services/pointsQuota';
-import { 
-  CircleDollarSign, 
-  FileText, 
-  Gauge, 
-  ReceiptText, 
-  Activity, 
-  Database, 
-  CheckCircle2, 
+import {
+  CircleDollarSign,
+  FileText,
+  Gauge,
+  ReceiptText,
+  Activity,
+  Database,
+  CheckCircle2,
   XCircle,
   Cpu
 } from 'lucide-react';
@@ -34,11 +34,16 @@ function formatDateTime(value) {
 export default function UsageBilling() {
   const { isSignedIn } = useClerkAuth();
   const { user } = useUser();
+  const isSynced = useCertifiStore((state) => state.isSynced);
   const userEmail = user?.primaryEmailAddress?.emailAddress || '';
   const quotaStatus = getCsPointsQuotaStatus(userEmail);
 
   const logs = getUsageLogs();
   const summary = getUsageSummary();
+
+  const sortedLogs = useMemo(() => {
+    return [...logs].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+  }, [logs]);
 
   const successfulActions = useMemo(
     () => logs.filter((log) => log.status === 'completed').length,
@@ -69,20 +74,20 @@ export default function UsageBilling() {
       contentClassName="bg-[#f4fafa] px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8"
     >
       <div className="mx-auto max-w-7xl space-y-8 py-8">
-        
+
         {/* Top Level Summary Cards */}
         <section>
           <div className="mb-5">
             <h2 className="text-lg font-bold tracking-tight text-slate-900">Platform Metrics</h2>
             <p className="text-sm text-slate-500">
-              Career Points represent Groq compute usage. Billing is estimated from recorded activity.
+              CareerPoints represent platform compute usage. Billing is estimated from recorded activity.
             </p>
           </div>
 
           <div className="grid gap-5 md:grid-cols-3">
             {/* Current Balance Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-md">
-               <div className="absolute -right-4 -top-4 rounded-full bg-blue-50/50 p-8 transition-transform group-hover:scale-110">
+              <div className="absolute -right-4 -top-4 rounded-full bg-blue-50/50 p-8 transition-transform group-hover:scale-110">
                 <CircleDollarSign className="h-8 w-8 text-blue-100" />
               </div>
               <div className="relative">
@@ -90,7 +95,7 @@ export default function UsageBilling() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600 ring-1 ring-blue-200/50">
                     <CircleDollarSign className="h-3.5 w-3.5" />
                   </div>
-                  Current Balance
+                  Bill
                 </div>
                 <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
                   {formatUsd(summary.totalCostUsd)}
@@ -109,7 +114,7 @@ export default function UsageBilling() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-teal-50 text-teal-600 ring-1 ring-teal-200/50">
                     <Gauge className="h-3.5 w-3.5" />
                   </div>
-                  Skills Points Earned
+                  CareerPoints Used
                 </div>
                 <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
                   {summary.totalCareerPoints.toLocaleString()}
@@ -118,9 +123,9 @@ export default function UsageBilling() {
               </div>
             </div>
 
-            {/* CS Points Quota Card */}
+            {/* CareerPoints Quota Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-md">
-               <div className="absolute -right-4 -top-4 rounded-full bg-amber-50/50 p-8 transition-transform group-hover:scale-110">
+              <div className="absolute -right-4 -top-4 rounded-full bg-amber-50/50 p-8 transition-transform group-hover:scale-110">
                 <Zap className="h-8 w-8 text-amber-100" />
               </div>
               <div className="relative">
@@ -128,7 +133,7 @@ export default function UsageBilling() {
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-amber-50 text-amber-600 ring-1 ring-amber-200/50">
                     <Zap className="h-3.5 w-3.5" />
                   </div>
-                  CS Points Quota
+                  CareerPoints Quota
                 </div>
                 <div className="mt-4 flex items-baseline gap-2">
                   <span className="text-3xl font-black tracking-tight text-slate-900">
@@ -138,7 +143,7 @@ export default function UsageBilling() {
                   </span>
                 </div>
                 <p className="mt-2 text-xs font-semibold text-slate-500">
-                  {quotaStatus.isExempt ? 'Test Account Exemption' : `${quotaStatus.remaining.toLocaleString()} CS Points Remaining`}
+                  {quotaStatus.isExempt ? 'Test Account Exemption' : `${quotaStatus.remaining.toLocaleString()} CareerPoints Remaining`}
                 </p>
               </div>
             </div>
@@ -149,7 +154,7 @@ export default function UsageBilling() {
             <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
               <div>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-slate-900">CS Points Usage Limit</span>
+                  <span className="text-sm font-bold text-slate-900">CareerPoints Usage Limit</span>
                   {quotaStatus.isExempt ? (
                     <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
                       <ShieldCheck className="h-3.5 w-3.5" />
@@ -157,7 +162,7 @@ export default function UsageBilling() {
                     </span>
                   ) : (
                     <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600">
-                      15,000 CS Points Allowance
+                      15,000 CareerPoints Allowance
                     </span>
                   )}
                 </div>
@@ -176,13 +181,12 @@ export default function UsageBilling() {
             {!quotaStatus.isExempt && (
               <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-slate-100">
                 <div
-                  className={`h-full transition-all duration-500 ${
-                    quotaStatus.percentUsed >= 90
-                      ? 'bg-rose-500'
-                      : quotaStatus.percentUsed >= 70
+                  className={`h-full transition-all duration-500 ${quotaStatus.percentUsed >= 90
+                    ? 'bg-rose-500'
+                    : quotaStatus.percentUsed >= 70
                       ? 'bg-amber-500'
                       : 'bg-teal-500'
-                  }`}
+                    }`}
                   style={{ width: `${quotaStatus.percentUsed}%` }}
                 />
               </div>
@@ -228,21 +232,15 @@ export default function UsageBilling() {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 bg-white">
-                  {logs.map((log) => (
+                  {sortedLogs.map((log) => (
                     <tr key={log.id} className="transition-colors hover:bg-slate-50/50 group">
                       <td className="px-6 py-4 align-top">
                         <div className="font-semibold text-slate-900">{log.action}</div>
                         <div className="text-xs text-slate-500 mt-0.5">{formatDateTime(log.createdAt)}</div>
-                        
+
                         {/* Nested Metadata Row */}
-                        {log.metadata && (
+                        {log.metadata && (typeof log.metadata.questionCount === 'number' || typeof log.metadata.moduleCount === 'number' || typeof log.metadata.score === 'number' || log.metadata.error) && (
                           <div className="mt-3 flex flex-wrap gap-x-4 gap-y-2 rounded-lg bg-slate-50 px-3 py-2 text-xs text-slate-600 border border-slate-100 group-hover:bg-white group-hover:border-slate-200 transition-colors">
-                            {log.metadata.model && (
-                              <span className="flex items-center gap-1.5">
-                                <Cpu className="h-3 w-3 text-slate-400" />
-                                <span className="font-semibold text-slate-700">Model:</span> CareerSense-70b
-                              </span>
-                            )}
                             {typeof log.metadata.questionCount === 'number' && (
                               <span className="flex items-center gap-1.5">
                                 <span className="font-semibold text-slate-700">Questions:</span> {log.metadata.questionCount}

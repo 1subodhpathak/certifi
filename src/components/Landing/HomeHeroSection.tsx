@@ -46,7 +46,7 @@ export default function HomeHeroSection({
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 pb-6 pt-24 sm:px-6 sm:pt-24 md:pt-20">
+    <section className="relative overflow-hidden bg-white px-4 pb-6 pt-5 sm:px-6 sm:pt-6 md:pt-5">
       <div className="absolute inset-0 z-0 bg-[linear-gradient(180deg,#f8fffd_0%,#f5f8fc_46%,#ffffff_100%)] md:hidden" />
       <div
         className="absolute inset-0 z-0 opacity-70 md:hidden"

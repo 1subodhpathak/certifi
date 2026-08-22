@@ -10,6 +10,7 @@ import {
   Download,
   FileText,
   Loader2,
+  Lock,
   ShieldCheck,
   Sparkles,
   Target,
@@ -319,6 +320,7 @@ export default function PracticeReport() {
             description="This PDF uses a reusable CareerSense report template with the latest attempt data. No AI generation is needed before you confirm."
             sections={reportDownloadMeta.sections}
             careerPoints={reportDownloadMeta.careerPoints}
+            isPremium={true}
             onClose={() => setIsDownloadReportModalOpen(false)}
             onPreview={handlePreviewReport}
             onConfirm={handleDownloadReport}
@@ -441,10 +443,14 @@ export default function PracticeReport() {
             <button
               type="button"
               onClick={() => setIsDownloadReportModalOpen(true)}
-              className="inline-flex items-center gap-2 rounded-md border border-slate-300 bg-white px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100 shadow-sm"
+              className="inline-flex items-center gap-2 rounded-md border border-amber-200 bg-amber-50/50 px-5 py-2.5 text-sm font-semibold text-amber-900 transition hover:bg-amber-100/60 shadow-xs"
+              title="Download Report (Premium Feature — Coming Soon)"
             >
-              <FileText className="h-4 w-4" />
+              <Lock className="h-4 w-4 text-amber-600" />
               Download Report
+              <span className="rounded bg-amber-200/80 px-1.5 py-0.5 text-[9px] font-extrabold uppercase text-amber-800">
+                Premium
+              </span>
             </button>
             <button
               type="button"
