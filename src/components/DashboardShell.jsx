@@ -135,28 +135,47 @@ export default function DashboardShell({
 
   const usageBadges = (
     <>
-      <div
-        title={pointsTooltip}
-        className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-amber-300 hover:shadow-md"
-      >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
-          <Zap className="h-4 w-4" />
+      <div className="group relative cursor-pointer">
+        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition-all hover:border-amber-300 hover:shadow-md">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
+            <Zap className="h-4 w-4" />
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points Used</p>
+            <p className="text-sm font-black text-slate-900">{displayStats.totalCareerPoints}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points Used</p>
-          <p className="text-sm font-black text-slate-900">{displayStats.totalCareerPoints}</p>
+
+        <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
+          <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+            <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+              {pointsTooltip}
+            </span>
+          </div>
         </div>
       </div>
-      <div
-        title={billTooltip}
-        className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-emerald-300 hover:shadow-md"
-      >
-        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-          <span className="text-sm font-black">$</span>
+
+      <div className="group relative cursor-pointer">
+        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md">
+          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+            <span className="text-sm font-black">$</span>
+          </div>
+          <div>
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
+            <p className="text-sm font-black text-slate-900">${displayStats.totalCostUsd.toFixed(4)}</p>
+          </div>
         </div>
-        <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
-          <p className="text-sm font-black text-slate-900">${displayStats.totalCostUsd.toFixed(4)}</p>
+
+        <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
+          <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+            <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
+            <span className="flex items-center gap-1.5">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+              {billTooltip}
+            </span>
+          </div>
         </div>
       </div>
     </>
@@ -225,9 +244,9 @@ export default function DashboardShell({
                   <span className="text-lg font-black tracking-tight text-white whitespace-nowrap">
                     Career<span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">Sense</span>
                   </span>
-                  <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-slate-400 whitespace-nowrap">
+                  {/* <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-slate-400 whitespace-nowrap">
                     Skills Validation & Certification
-                  </span>
+                  </span> */}
                 </div>
               ) : null}
             </div>

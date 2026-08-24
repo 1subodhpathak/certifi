@@ -77,32 +77,49 @@ export default function HomeNavbar() {
             <SignedIn>
               {isSynced ? (
                 <>
-                  <div
-                    title={
-                      isExemptUser(user?.primaryEmailAddress?.emailAddress)
-                        ? 'Free Account Limit : Unlimited Career Points (Test Account)'
-                        : 'Free Account Limit : 15000 Career Points'
-                    }
-                    className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-amber-300 hover:shadow-md lg:flex"
-                  >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
-                      <Star className="h-4 w-4" />
+                  <div className="group relative hidden lg:flex cursor-pointer">
+                    <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm transition-all hover:border-amber-300 hover:shadow-md">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
+                        <Star className="h-4 w-4" />
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points Used</p>
+                        <p className="text-sm font-black text-slate-900">{totalCareerPoints}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CareerPoints Used</p>
-                      <p className="text-sm font-black text-slate-900">{totalCareerPoints}</p>
+
+                    <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
+                      <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+                        <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
+                        <span className="flex items-center gap-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                          {isExemptUser(user?.primaryEmailAddress?.emailAddress)
+                            ? 'Free Account Limit : Unlimited Career Points (Test Account)'
+                            : 'Free Account Limit : 15000 Career Points'}
+                        </span>
+                      </div>
                     </div>
                   </div>
-                  <div
-                    title="Free Account : Bill getting paid by Instructor"
-                    className="hidden items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm cursor-pointer transition-all hover:border-emerald-300 hover:shadow-md lg:flex"
-                  >
-                    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-                      <span className="text-sm font-black">$</span>
+
+                  <div className="group relative hidden lg:flex cursor-pointer">
+                    <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 py-2 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md">
+                      <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+                        <span className="text-sm font-black">$</span>
+                      </div>
+                      <div>
+                        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
+                        <p className="text-sm font-black text-slate-900">${totalCostUsd.toFixed(4)}</p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
-                      <p className="text-sm font-black text-slate-900">${totalCostUsd.toFixed(4)}</p>
+
+                    <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
+                      <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
+                        <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
+                        <span className="flex items-center gap-1.5">
+                          <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                          Free Account : Bill getting paid by Instructor
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </>
