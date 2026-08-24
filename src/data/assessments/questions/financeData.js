@@ -1,317 +1,473 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level assessment data.
-// Original uploaded questions are preserved and extended with advanced scenarios.
 export const financeData = {
   id: ASSESSMENT_TYPES.finance,
-  title: "Financial Modeling & Excel Analytics Certification",
-  shortTitle: "Finance",
-  category: "Business Analytics",
+  title: 'Financial Modeling & Excel Analytics Certification',
+  shortTitle: 'Financial Modeling 1',
+  category: 'Business Analytics',
   durationMinutes: 60,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Professional finance and Excel assessment covering advanced formulas, financial statements, working capital, margins, NPV, IRR, scenario analysis, forecasting, model controls, and business analytics judgment.",
-  instructions: "Choose the correct Excel formula or financial concept for each business scenario. Questions move from easy to hard.",
+  description:
+    'Tests practical financial modeling and Excel judgment across three-statement models, revenue drivers, working capital, debt, valuation, NPV, IRR, scenario and sensitivity analysis, model architecture, formula design, forecasting, and model controls.',
+  instructions:
+    '20 scenario-based questions, 60 minutes, 100 marks. Several questions include Mermaid diagrams, model schedules, sensitivity tables, or Excel scenarios. Read each scenario carefully. Options are intentionally close, so choose the answer that best reflects robust modeling logic, financial reasoning, and spreadsheet control. No negative marking.',
+
   questions: [
-{ id: 'fin-01', type: 'mcq', title: 'Lookup Logic', prompt: 'Which formula is best for looking up a price in a non-sorted table where the price is to the left of the ID?', options: ['VLOOKUP', 'INDEX/MATCH', 'HLOOKUP', 'LOOKUP'], correctIndex: 1, explanation: 'VLOOKUP cannot look left. INDEX/MATCH is more flexible and safer for non-sorted data.' },
-        { id: 'fin-02', type: 'mcq', title: 'Logical Check', prompt: 'What does =IF(AND(A1>10, B1<5), "Yes", "No") return if A1=12 and B1=6?', options: ['Yes', 'No', '#VALUE!', 'Error'], correctIndex: 1, explanation: 'B1<5 is false (6<5), so the AND condition fails.' },
-        { id: 'fin-03', type: 'mcq', title: 'EBITDA', prompt: 'Which of the following is NOT removed when calculating EBITDA from Net Income?', options: ['Interest', 'Taxes', 'COGS', 'Depreciation'], correctIndex: 2, explanation: 'EBITDA = Earnings Before Interest, Taxes, Depreciation, and Amortization. COGS is part of Earnings.' },
-        { id: 'fin-04', type: 'mcq', title: 'Fixed vs Variable', prompt: 'A company pays $5k rent plus $2 per unit shipped. If units grow, what happens to unit cost?', options: ['Increases', 'Decreases', 'Stays same', 'Goes to zero'], correctIndex: 1, explanation: 'Fixed cost ($5k) is spread over more units, reducing total cost per unit.' },
-        { id: 'fin-05', type: 'mcq', title: 'Working Capital', prompt: 'Which of these is a Current Liability?', options: ['Accounts Receivable', 'Inventory', 'Accounts Payable', 'Prepaid Expenses'], correctIndex: 2, explanation: 'Accounts Payable is money owed to suppliers, hence a liability.' },
-        { id: 'fin-06', type: 'mcq', title: 'SUMIFS', prompt: 'Which Excel formula sums Sales where Region="West" and Month="Jan"?', options: ['=SUMIF(A:A, "West", C:C)', '=SUMIFS(C:C, A:A, "West", B:B, "Jan")', '=SUM(C:C, "West", "Jan")', '=COUNTIFS(C:C, A:A, "West")'], correctIndex: 1, explanation: 'SUMIFS allows for multiple criteria.' },
-        { id: 'fin-07', type: 'mcq', title: 'NPV', prompt: 'If the Net Present Value (NPV) of a project is positive at a 10% discount rate, the project is:', options: ['Profitable', 'Unprofitable', 'Risky', 'Breaking even'], correctIndex: 0, explanation: 'Positive NPV means the present value of cash inflows exceeds outflows.' },
-        { id: 'fin-08', type: 'mcq', title: 'Gross Profit', prompt: 'Revenue $1,000, COGS $600, OpEx $200. What is Gross Profit?', options: ['$200', '$400', '$800', '$1,000'], correctIndex: 1, explanation: 'Gross Profit = Revenue - COGS. 1000 - 600 = 400.' },
-        { id: 'fin-09', type: 'mcq', title: 'Pivot Tables', prompt: 'You want to see total sales by category and month. Which tool is fastest?', options: ['Manual Filter', 'Pivot Table', 'VLOOKUP', 'IF statements'], correctIndex: 1, explanation: 'Pivot Tables are designed for multi-dimensional aggregation.' },
-        { id: 'fin-10', type: 'mcq', title: 'Absolute Reference', prompt: 'How do you lock cell A1 in an Excel formula so it doesn\'t change when copied?', options: ['A1', '$A1', 'A$1', '$A$1'], correctIndex: 3, explanation: '$ signs lock both column and row.' },
-        { id: 'fin-11', type: 'mcq', title: 'Cash Flow', prompt: 'If Accounts Receivable increases by $10k, what is the impact on Cash Flow?', options: ['Increase $10k', 'Decrease $10k', 'No impact', 'Double impact'], correctIndex: 1, explanation: 'Increase in assets (AR) means cash is tied up, hence a decrease in cash flow.' },
-        { id: 'fin-12', type: 'mcq', title: 'IRR', prompt: 'What is the Internal Rate of Return?', options: ['Fixed bank rate', 'Discount rate where NPV = 0', 'Total profit divided by years', 'Initial investment'], correctIndex: 1, explanation: 'IRR is the break-even discount rate.' },
-        { id: 'fin-13', type: 'mcq', title: 'Financial Ratios', prompt: 'Net Income / Equity is the formula for:', options: ['ROI', 'ROA', 'ROE', 'ROS'], correctIndex: 2, explanation: 'ROE = Return on Equity.' },
-        { id: 'fin-14', type: 'mcq', title: 'Excel Error', prompt: 'What does #REF! usually mean in Excel?', options: ['Divide by zero', 'Invalid cell reference (deleted)', 'Value too large', 'Formula is missing'], correctIndex: 1, explanation: '#REF! occurs when a cell reference is no longer valid.' },
-        { id: 'fin-15', type: 'mcq', title: 'Debt-to-Equity', prompt: 'Company has $2M debt and $1M equity. Debt-to-Equity ratio?', options: ['0.5', '1.0', '1.5', '2.0'], correctIndex: 3, explanation: '2M / 1M = 2.0.' },
-        { id: 'fin-16', type: 'mcq', title: 'WACC', prompt: 'What does WACC stand for?', options: ['Weighted Average Capital Cost', 'Weekly Account Cash Check', 'Western Area Capital Center', 'Weighted Asset Cash Cloud'], correctIndex: 0, explanation: 'Weighted Average Cost of Capital.' },
-        { id: 'fin-17', type: 'mcq', title: 'Sensitivity Analysis', prompt: 'Which Excel tool is best for seeing how changing two variables impacts a result?', options: ['Goal Seek', 'Data Table (2-input)', 'Scenario Manager', 'Solver'], correctIndex: 1, explanation: 'Data Tables are perfect for 2-variable sensitivity grids.' },
-        { id: 'fin-18', type: 'mcq', title: 'Balance Sheet', prompt: 'Assets = ?', options: ['Liabilities - Equity', 'Liabilities + Equity', 'Equity - Liabilities', 'Revenue - Expenses'], correctIndex: 1, explanation: 'The fundamental accounting equation is Assets = Liabilities + Equity.' },
-        { id: 'fin-19', type: 'mcq', title: 'Excel: Goal Seek', prompt: 'You know the target result but not the input. Which tool do you use?', options: ['Data Table', 'Goal Seek', 'VLOOKUP', 'Pivot'], correctIndex: 1, explanation: 'Goal Seek finds the input needed for a specific output.' },
-        { id: 'fin-20', type: 'mcq', title: 'Liquidity', prompt: 'Which asset is most liquid?', options: ['Real Estate', 'Inventory', 'Accounts Receivable', 'Cash'], correctIndex: 3, explanation: 'Cash is the definition of liquidity.' },
     {
-          "id": "fin-21",
-          "type": "mcq",
-          "title": "XLOOKUP",
-          "prompt": "Why is XLOOKUP often preferred over VLOOKUP?",
-          "options": [
-                "It can look left/right, has clearer defaults, and supports not-found handling",
-                "It only works on sorted data",
-                "It cannot return text",
-                "It replaces all formulas"
-          ],
-          "correctIndex": 0,
-          "explanation": "XLOOKUP is more flexible and safer than traditional VLOOKUP in many cases."
+      id: 'fin-01',
+      type: 'mcq',
+      title: 'Model Architecture',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `A new analyst builds a model with assumptions, formulas, and outputs mixed randomly across the same worksheet.
+
+What is the strongest redesign?`,
+      options: [
+        'Separate inputs, calculations, schedules, and outputs with clear labeling and consistent formula conventions.',
+        'Hide all formulas so reviewers focus only on outputs.',
+        'Hardcode forecast results directly into the income statement.',
+        'Use one worksheet only because fewer tabs always mean a better model.',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Strong financial models separate assumptions, calculations, and outputs to improve auditability and maintainability. Why not B: hidden logic weakens review. Why not C: hardcoding forecast results breaks model integrity. Why not D: simplicity matters, but one-sheet design is not inherently superior.'
     },
+
     {
-          "id": "fin-22",
-          "type": "mcq",
-          "title": "Scenario Analysis",
-          "prompt": "What is scenario analysis used for?",
-          "options": [
-                "Testing outcomes under different sets of assumptions",
-                "Formatting cells only",
-                "Deleting formulas",
-                "Replacing financial statements"
-          ],
-          "correctIndex": 0,
-          "explanation": "Scenario analysis compares cases such as base, upside, and downside."
+      id: 'fin-02',
+      type: 'mcq',
+      title: 'Revenue Driver Model',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `A SaaS company wants a forecast that responds realistically to operational performance.
+
+Which revenue build is strongest?`,
+      options: [
+        'Prior-year revenue multiplied by an arbitrary 20% every year.',
+        'Forecast revenue using customer count, new bookings, churn, expansion, and ARPU assumptions.',
+        'Use office rent growth as the main driver of revenue.',
+        'Set revenue equal to management’s target and solve backward for every operating driver.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Driver-based forecasting links revenue to measurable operational assumptions. Why not A: a flat growth rate may ignore business mechanics. Why not C: rent does not drive SaaS revenue. Why not D: forcing drivers to match a target can hide unrealistic assumptions.'
     },
+
     {
-          "id": "fin-23",
-          "type": "mcq",
-          "title": "Sensitivity Analysis",
-          "prompt": "What does sensitivity analysis show?",
-          "options": [
-                "How model output changes when one or two inputs change",
-                "Only historical totals",
-                "Only chart colors",
-                "Only audit comments"
-          ],
-          "correctIndex": 0,
-          "explanation": "Sensitivity analysis helps identify key value drivers."
+      id: 'fin-03',
+      type: 'mcq',
+      title: 'Gross Margin',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Revenue is $12.0m and COGS is $7.2m.
+
+What is gross margin?`,
+      options: [
+        '60%',
+        '24%',
+        '40%',
+        '66.7%',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Gross profit is $4.8m, so gross margin = $4.8m / $12.0m = 40%. Why not A: that is COGS as a percentage of revenue. Why not B or D: the arithmetic is incorrect.'
     },
+
     {
-          "id": "fin-24",
-          "type": "mcq",
-          "title": "Free Cash Flow",
-          "prompt": "Which item is typically subtracted when calculating unlevered free cash flow?",
-          "options": [
-                "Capital expenditures",
-                "Interest expense after debt schedule only",
-                "Dividends only",
-                "Share price"
-          ],
-          "correctIndex": 0,
-          "explanation": "Capex is a cash outflow required to maintain or grow operations."
+      id: 'fin-04',
+      type: 'mcq',
+      title: 'Working Capital',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Accounts Receivable increases by $2.5m during the year, with no offsetting change in revenue recognition.
+
+What is the general cash-flow effect?`,
+      options: [
+        'Operating cash flow increases by $2.5m.',
+        'Financing cash flow decreases by $2.5m.',
+        'There is no cash-flow impact.',
+        'Operating cash flow decreases by $2.5m.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. An increase in A/R means more revenue remains uncollected, reducing operating cash flow. Why not A: the direction is opposite. Why not B: A/R is an operating working-capital item. Why not C: working-capital changes affect cash.'
     },
+
     {
-          "id": "fin-25",
-          "type": "mcq",
-          "title": "Working Capital",
-          "prompt": "An increase in accounts receivable usually has what cash flow effect?",
-          "options": [
-                "Cash outflow",
-                "Cash inflow",
-                "No possible effect",
-                "Always increases debt"
-          ],
-          "correctIndex": 0,
-          "explanation": "Higher AR means revenue recognized but cash not yet collected."
+      id: 'fin-05',
+      type: 'mcq',
+      title: 'Three-Statement Linkage',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `A model increases depreciation expense by $1.0m.
+
+Ignoring tax for simplicity, what should happen across the three statements?`,
+      options: [
+        'Net income falls, depreciation is added back in operating cash flow, and PP&E carrying value declines.',
+        'Net income rises because depreciation is non-cash.',
+        'Cash flow falls by the full $1.0m because depreciation is an expense.',
+        'Debt automatically increases by $1.0m.',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Depreciation reduces accounting earnings, is added back as a non-cash item in cash flow, and reduces PP&E carrying value. Why not B: non-cash does not mean non-expense. Why not C: the expense itself is not a direct cash outflow. Why not D: debt does not automatically change.'
     },
+
     {
-          "id": "fin-26",
-          "type": "mcq",
-          "title": "Debt Schedule",
-          "prompt": "What does a debt schedule model?",
-          "options": [
-                "Borrowings, repayments, interest expense, and ending debt balance",
-                "Only revenue",
-                "Only headcount",
-                "Only inventory count"
-          ],
-          "correctIndex": 0,
-          "explanation": "Debt schedules link financing assumptions to interest and cash flow."
+      id: 'fin-06',
+      type: 'mcq',
+      title: 'Excel Lookup Design',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A model must retrieve a product price using a product ID.
+
+The return column may move during future model updates.
+
+Which formula design is strongest in modern Excel?`,
+      options: [
+        'Use a hardcoded cell reference to the current price row.',
+        'Use XLOOKUP with explicit lookup and return ranges plus not-found handling.',
+        'Use VLOOKUP with a fixed numeric column index and approximate match.',
+        'Use LOOKUP on an unsorted table.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. XLOOKUP is robust to left/right lookup needs and avoids hardcoded return-column index logic. Why not A: hardcoded cell references are fragile. Why not C: fixed column indices can break if columns move, and approximate match is unsafe here. Why not D: unsorted LOOKUP logic can return incorrect results.'
     },
+
     {
-          "id": "fin-27",
-          "type": "mcq",
-          "title": "Circularity",
-          "prompt": "What is a circular reference in financial modeling?",
-          "options": [
-                "A formula depends on its own result directly or indirectly",
-                "A chart is round",
-                "A formula references another workbook only",
-                "A pivot table refreshes"
-          ],
-          "correctIndex": 0,
-          "explanation": "Circularity can occur in interest/debt calculations and must be handled carefully."
+      id: 'fin-07',
+      type: 'mcq',
+      title: 'Debt Schedule',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Opening debt is $20m.
+Scheduled repayment is $4m.
+New borrowing is $2m.
+
+What is ending debt before any optional sweep?`,
+      options: [
+        '$26m',
+        '$18m',
+        '$14m',
+        '$22m',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Ending debt = $20m - $4m + $2m = $18m. Why not A/D: they add repayments incorrectly. Why not C: it ignores new borrowing.'
     },
+
     {
-          "id": "fin-28",
-          "type": "mcq",
-          "title": "Model Audit",
-          "prompt": "Which is a good model audit practice?",
-          "options": [
-                "Trace precedents/dependents, check signs, test outputs, and reconcile statements",
-                "Hide all formulas",
-                "Hardcode totals",
-                "Delete assumptions"
-          ],
-          "correctIndex": 0,
-          "explanation": "Model audits test formula logic, structure, and consistency."
+      id: 'fin-08',
+      type: 'mcq',
+      title: 'Circularity',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Interest expense depends on average debt.
+
+Debt repayment depends on free cash flow after interest.
+
+This creates a circular reference.
+
+What is the strongest modeling response?`,
+      options: [
+        'Delete interest expense from the model.',
+        'Hardcode ending debt every year.',
+        'Use a deliberate circularity solution such as iterative calculation, a circularity switch, or an algebraic approach with clear controls.',
+        'Ignore the Excel warning if the model still opens.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Circularity should be handled intentionally and transparently. Why not A: removing interest breaks economics. Why not B: hardcoding ending debt weakens dynamic behavior. Why not D: unresolved circularity can make outputs unstable.'
     },
+
     {
-          "id": "fin-29",
-          "type": "mcq",
-          "title": "Operating Margin",
-          "prompt": "How is operating margin calculated?",
-          "options": [
-                "Operating income divided by revenue",
-                "Revenue divided by assets",
-                "Cash divided by debt",
-                "Net income plus dividends"
-          ],
-          "correctIndex": 0,
-          "explanation": "Operating margin measures operating profitability as a percentage of revenue."
+      id: 'fin-09',
+      type: 'mcq',
+      title: 'Free Cash Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A simplified unlevered cash flow schedule shows:
+
+EBIT: $10m
+Cash taxes: $2m
+D&A: $1.5m
+Capex: $3m
+Increase in NWC: $1m
+
+What is approximate UFCF?`,
+      options: [
+        '$5.5m',
+        '$8.5m',
+        '$7.0m',
+        '$4.0m',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. UFCF ≈ EBIT - taxes + D&A - capex - increase in NWC = 10 - 2 + 1.5 - 3 - 1 = $5.5m. Why not B/C/D: they omit or mis-handle one or more cash-flow adjustments.'
     },
+
     {
-          "id": "fin-30",
-          "type": "mcq",
-          "title": "Gross Margin",
-          "prompt": "If revenue is 1,000 and COGS is 600, gross margin is:",
-          "options": [
-                "40%",
-                "60%",
-                "20%",
-                "100%"
-          ],
-          "correctIndex": 0,
-          "explanation": "Gross margin = (Revenue - COGS) / Revenue = 400 / 1000 = 40%."
+      id: 'fin-10',
+      type: 'mcq',
+      title: 'NPV Judgment',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A project has an NPV of +$4.2m using a discount rate that appropriately reflects its risk.
+
+What is the strongest interpretation?`,
+      options: [
+        'The project is guaranteed to earn $4.2m in cash.',
+        'The project is expected to create value above the required return, assuming the cash-flow and discount-rate assumptions are reasonable.',
+        'The project has no risk because NPV is positive.',
+        'The IRR must equal zero.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Positive NPV indicates expected value creation relative to the required return. Why not A: NPV is a present-value measure, not guaranteed cash profit. Why not C: positive NPV does not eliminate risk. Why not D: NPV equals zero at the IRR, not necessarily at the chosen discount rate.'
     },
+
     {
-          "id": "fin-31",
-          "type": "mcq",
-          "title": "Break-Even",
-          "prompt": "What is break-even volume?",
-          "options": [
-                "Fixed costs divided by contribution margin per unit",
-                "Revenue minus cash",
-                "Debt divided by assets",
-                "Inventory divided by sales"
-          ],
-          "correctIndex": 0,
-          "explanation": "Break-even volume shows units needed to cover fixed costs."
+      id: 'fin-11',
+      type: 'mcq',
+      title: 'IRR Limitation',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Two mutually exclusive projects have different scale and timing of cash flows.
+
+Project A has a higher IRR, but Project B has a much higher NPV at the company’s cost of capital.
+
+Which conclusion is strongest?`,
+      options: [
+        'Always choose the project with higher IRR.',
+        'IRR should be ignored in all capital budgeting.',
+        'NPV may provide the better value-creation signal for mutually exclusive projects when IRR rankings conflict.',
+        'Choose the project with lower initial investment regardless of NPV.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. IRR can produce misleading rankings for mutually exclusive projects with different scale/timing. Why not A: higher IRR does not always maximize value. Why not B: IRR remains useful when interpreted properly. Why not D: initial investment alone is insufficient.'
     },
+
     {
-          "id": "fin-32",
-          "type": "mcq",
-          "title": "Contribution Margin",
-          "prompt": "What is contribution margin?",
-          "options": [
-                "Revenue minus variable costs",
-                "Revenue minus all assets",
-                "Cash minus debt",
-                "COGS minus revenue"
-          ],
-          "correctIndex": 0,
-          "explanation": "Contribution margin helps evaluate profitability after variable costs."
+      id: 'fin-12',
+      type: 'mcq',
+      title: 'Sensitivity Analysis',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `An analyst wants to see how valuation changes across different WACC and terminal-growth assumptions.
+
+Which Excel tool is strongest?`,
+      options: [
+        'Goal Seek.',
+        'Pivot Table.',
+        'Conditional Formatting only.',
+        'A two-input Data Table.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. A two-input Data Table is designed to show one output across combinations of two changing assumptions. Why not A: Goal Seek solves for one input to reach a target output. Why not B: Pivot Tables summarize data rather than run model sensitivities. Why not C: formatting does not calculate scenarios.'
     },
+
     {
-          "id": "fin-33",
-          "type": "mcq",
-          "title": "Forecast Driver",
-          "prompt": "Which is a better revenue forecast driver for a SaaS model?",
-          "options": [
-                "Customers, ARPU, churn, expansion, and new bookings",
-                "Only office rent",
-                "Only logo color",
-                "Only tax rate"
-          ],
-          "correctIndex": 0,
-          "explanation": "SaaS revenue should be driven by customer and pricing dynamics."
+      id: 'fin-13',
+      type: 'mcq',
+      title: 'Scenario Analysis',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Management wants base, upside, and downside forecasts.
+
+Which structure is strongest?`,
+      options: [
+        'Create a controlled scenario selector that switches defined assumption sets while keeping calculation logic consistent.',
+        'Build three unrelated workbooks with different formulas.',
+        'Change outputs directly without changing assumptions.',
+        'Use different accounting definitions in each scenario.',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Good scenario analysis changes assumptions while preserving model logic. Why not B: separate uncontrolled files increase drift risk. Why not C: outputs should result from assumptions. Why not D: scenarios should remain comparable.'
     },
+
     {
-          "id": "fin-34",
-          "type": "mcq",
-          "title": "Churn",
-          "prompt": "Why does churn matter in financial modeling?",
-          "options": [
-                "It reduces recurring revenue and affects customer lifetime value",
-                "It only affects office supplies",
-                "It always increases revenue",
-                "It has no business impact"
-          ],
-          "correctIndex": 0,
-          "explanation": "Churn is a key driver of recurring revenue businesses."
+      id: 'fin-14',
+      type: 'mcq',
+      title: 'Break-Even Analysis',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Selling price per unit: $50
+Variable cost per unit: $30
+Annual fixed costs: $2.4m
+
+What is break-even volume?`,
+      options: [
+        '80,000 units',
+        '120,000 units',
+        '48,000 units',
+        '200,000 units',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Contribution margin per unit = $20. Break-even volume = $2.4m / $20 = 120,000 units. Why not A/C/D: the calculations are incorrect.'
     },
+
     {
-          "id": "fin-35",
-          "type": "mcq",
-          "title": "Discount Rate",
-          "prompt": "What does a discount rate reflect?",
-          "options": [
-                "Required return and risk of future cash flows",
-                "Only inflation forever",
-                "Only tax rate",
-                "Only historical revenue"
-          ],
-          "correctIndex": 0,
-          "explanation": "Discount rates convert future cash flows into present value."
+      id: 'fin-15',
+      type: 'mcq',
+      title: 'Forecast Consistency',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A five-year model forecasts revenue doubling, but:
+- Accounts Receivable remains flat
+- inventory remains flat
+- Capex remains near zero
+- headcount barely changes
+
+What is the strongest concern?`,
+      options: [
+        'The model is conservative because working capital is stable.',
+        'The model may be internally inconsistent because growth often requires supporting working capital, capacity, and operating investment.',
+        'Revenue growth never affects balance-sheet accounts.',
+        'Capex should always equal depreciation exactly.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Forecast assumptions should be operationally and financially coherent. Why not A: flat supporting investment can make the forecast unrealistic. Why not C: revenue often drives working capital. Why not D: capex and depreciation can differ materially.'
     },
+
     {
-          "id": "fin-36",
-          "type": "mcq",
-          "title": "NPV Rule",
-          "prompt": "What does a positive NPV generally indicate?",
-          "options": [
-                "Expected value creation above the required return",
-                "Guaranteed no risk",
-                "Project must be illegal",
-                "Cash flows are all negative"
-          ],
-          "correctIndex": 0,
-          "explanation": "Positive NPV means discounted inflows exceed outflows at the chosen discount rate."
+      id: 'fin-16',
+      type: 'mcq',
+      title: 'Balance Sheet Check',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The projected balance sheet is out of balance by $3.6m.
+
+{{diagram}}
+
+What is the strongest first diagnostic approach?`,
+      diagram: `flowchart TB
+  IS["Income Statement"] --> RE["Retained Earnings"]
+  IS --> CF["Cash Flow Statement"]
+  WC["Working Capital"] --> CF
+  DEBT["Debt Schedule"] --> CF
+  CAPEX["Capex / D&A"] --> PPE["PP&E"]
+  CF --> CASH["Ending Cash"]
+  CASH --> BS["Balance Sheet"]
+  RE --> BS
+  PPE --> BS
+  DEBT --> BS
+  classDef calc fill:#ecfeff,stroke:#0891b2,color:#164e63;
+  class IS,RE,CF,WC,DEBT,CAPEX,PPE,CASH,BS calc;`,
+      options: [
+        'Insert a plug into equity immediately.',
+        'Inspect statement linkages, signs, retained earnings, cash-flow bridges, debt, working capital, PP&E, and opening/closing balance roll-forwards.',
+        'Change total assets until Assets = Liabilities + Equity.',
+        'Delete the cash-flow statement.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Balance-sheet imbalances usually come from broken statement linkages or roll-forwards. Why not A/C: plugs hide errors rather than diagnose them. Why not D: the cash-flow statement is part of the linkage, not the problem by definition.'
     },
+
     {
-          "id": "fin-37",
-          "type": "mcq",
-          "title": "IRR Limitation",
-          "prompt": "What is a limitation of IRR?",
-          "options": [
-                "It can be misleading for non-conventional cash flows or mutually exclusive projects",
-                "It never uses cash flows",
-                "It cannot be calculated in Excel",
-                "It always equals WACC"
-          ],
-          "correctIndex": 0,
-          "explanation": "IRR can produce multiple or misleading results in some cases."
+      id: 'fin-17',
+      type: 'mcq',
+      title: 'Formula Audit',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A forecast row contains formulas across 12 months.
+
+One month has a hardcoded number while the surrounding cells use consistent formulas.
+
+What is the strongest review response?`,
+      options: [
+        'Assume the hardcode is intentional.',
+        'Replace every cell with the same value.',
+        'Investigate the hardcode, compare formula consistency, trace precedents, and confirm whether an explicit override is supported and documented.',
+        'Hide the row from reviewers.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Unexpected hardcodes in formula ranges are common model-risk indicators. Why not A: unexplained exceptions require review. Why not B: blanket replacement may destroy valid logic. Why not D: hiding reduces transparency.'
     },
+
     {
-          "id": "fin-38",
-          "type": "mcq",
-          "title": "Excel Control",
-          "prompt": "Why separate inputs, calculations, and outputs?",
-          "options": [
-                "To improve auditability, usability, and error detection",
-                "To make models harder to read",
-                "To hide assumptions",
-                "To avoid documentation"
-          ],
-          "correctIndex": 0,
-          "explanation": "Clear model structure improves maintainability and review."
+      id: 'fin-18',
+      type: 'mcq',
+      title: 'Model Control Design',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which control set is strongest for a production financial model?`,
+      options: [
+        'Hidden formulas and password protection only.',
+        'More formatting and chart colors.',
+        'Manual review of outputs only.',
+        'Balance checks, cash-flow checks, debt roll-forward checks, formula consistency checks, input validation, scenario controls, and clear error flags.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Strong models contain embedded checks that detect broken logic and inconsistent assumptions. Why not A: access controls alone do not validate calculations. Why not B: presentation is not control. Why not C: output review alone may miss hidden formula errors.'
     },
+
     {
-          "id": "fin-39",
-          "type": "mcq",
-          "title": "Error Check",
-          "prompt": "A balance sheet does not balance. What should you inspect first?",
-          "options": [
-                "Links among net income, cash flow, debt, working capital, equity, and retained earnings",
-                "Only chart colors",
-                "Only row height",
-                "Only company logo"
-          ],
-          "correctIndex": 0,
-          "explanation": "A balance sheet imbalance usually comes from statement linkage errors."
+      id: 'fin-19',
+      type: 'mcq',
+      title: 'Valuation Sensitivity',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A DCF valuation shows:
+
+{{diagram}}
+
+What is the strongest interpretation?`,
+      diagram: `flowchart TB
+  W["WACC<br/><b>8% → 10%</b>"] --> V["Enterprise Value"]
+  G["Terminal Growth<br/><b>4% → 2%</b>"] --> V
+  V --> D["Valuation falls materially"]
+  classDef warning fill:#fff7ed,stroke:#f97316,color:#9a3412;
+  class W,G,V,D warning;`,
+      options: [
+        'The model is wrong because valuation should not change with discount-rate assumptions.',
+        'The business has no intrinsic value.',
+        'The valuation is sensitive to long-duration assumptions, so WACC and terminal growth should be carefully supported and disclosed.',
+        'The terminal value should be hardcoded to remove volatility.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. DCF valuations can be highly sensitive to WACC and terminal-growth assumptions. Why not A: sensitivity is expected. Why not B: lower value does not imply zero value. Why not D: hardcoding masks rather than manages model sensitivity.'
     },
+
     {
-          "id": "fin-40",
-          "type": "mcq",
-          "title": "Advanced Finance Judgment",
-          "prompt": "A model shows aggressive growth but no increase in working capital or capex. What is the concern?",
-          "options": [
-                "Assumptions may be internally inconsistent with growth needs",
-                "The model is automatically correct",
-                "Growth never requires investment",
-                "Working capital is unrelated to revenue"
-          ],
-          "correctIndex": 0,
-          "explanation": "Growth forecasts should be supported by realistic investment and working capital assumptions."
-    }
-  ]
+      id: 'fin-20',
+      type: 'mcq',
+      title: 'Integrated Modeling Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A CFO receives a model with:
+
+{{diagram}}
+
+Which remediation is strongest?`,
+      diagram: `flowchart TB
+  H["Hardcoded forecast outputs"] --> J["Model redesign"]
+  C["Broken statement links"] --> J
+  W["No working-capital drivers"] --> J
+  D["Debt circularity unresolved"] --> J
+  S["No downside scenario"] --> J
+  K["No model checks"] --> J
+  classDef warning fill:#fff7ed,stroke:#f97316,color:#9a3412;
+  class H,C,W,D,S,K,J warning;`,
+      options: [
+        'Keep the model and improve only the dashboard design.',
+        'Rebuild the model around clear inputs, driver-based schedules, three-statement linkages, controlled circularity, scenarios, sensitivities, and embedded error checks.',
+        'Replace formulas with more hardcodes so outputs stop moving.',
+        'Use only the income statement and remove the balance sheet and cash flow.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. The issues are structural and require a controlled, linked, driver-based model architecture. Why not A: presentation does not fix model integrity. Why not C: more hardcodes worsen reliability. Why not D: removing statements destroys integrated financial logic.'
+    },
+  ],
 };

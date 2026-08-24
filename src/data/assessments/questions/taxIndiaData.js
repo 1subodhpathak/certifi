@@ -1,376 +1,459 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
+import gstItcReconciliationImage from '../../../assets/assessments/tax_india/gst_itc_reconciliation.png';
+import itrInformationReviewImage from '../../../assets/assessments/tax_india/itr_information_review.png';
+import tdsControlRegisterImage from '../../../assets/assessments/tax_india/tds_control_register.png';
 
-// Professional certification-level India Tax assessment. Current-rule questions were checked and rewritten for cleaner professional coverage.
+// Interactive professional-certification assessment for Indian taxation.
+// Focuses on practical compliance judgment, reconciliation, controls, and exception handling.
 export const taxIndiaData = {
   id: ASSESSMENT_TYPES.tax_india,
-  title: "India Taxation Professional Certification",
-  shortTitle: "India Tax",
-  category: "Accounting & Tax",
+  title: 'India Taxation Professional Certification',
+  shortTitle: 'India Tax',
+  category: 'Accounting & Tax',
   durationMinutes: 60,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Professional assessment covering Indian direct tax, GST, TDS/TCS, income tax return concepts, PAN/TAN, AIS/Form 26AS, ITC, GST returns, e-way bills, e-invoicing, capital gains, tax audit, and compliance controls.",
-  instructions: "Choose the best answer. Questions move from basic tax terminology to practical compliance scenarios and current professional tax judgment.",
+  description:
+    'Professional India taxation assessment covering GST, ITC reconciliation, GSTR-1/GSTR-3B controls, GSTR-2B review, e-way bills, reverse charge, TDS, tax-credit matching, advance tax, capital gains, exports, e-invoicing, and tax-close governance.',
+  instructions:
+    '20 scenario-based questions, 60 minutes, 100 marks. Use the charts, tables, diagrams, and exhibits provided. Select the strongest compliance response for the facts given. Questions test professional judgment rather than isolated rule memorization. No negative marking.',
   questions: [
     {
-      id: "ti-01",
-      type: "mcq",
-      title: "Assessment Year",
-      prompt: "What is the Assessment Year (AY) in Indian income tax? ",
-      options: ["The year in which income is earned", "The year in which income of the previous year is assessed and taxed", "A calendar year only", "The year a company is incorporated"],
+      id: 'ti-01',
+      type: 'mcq',
+      title: 'GST ITC Reconciliation',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the April ITC reconciliation.
+
+{{image}}
+
+Metro Components appears in the purchase register with ₹36,000 of GST but is missing from GSTR-2B. What is the strongest month-end response?`,
+      image: {
+        src: gstItcReconciliationImage,
+        alt: 'GST purchase register versus GSTR-2B reconciliation'
+      },
+      options: [
+        'Claim the ₹36,000 because the purchase register is sufficient evidence.',
+        'Investigate the supplier reporting status and ITC eligibility, follow up with the supplier, and claim only when permitted.',
+        'Delete the vendor invoice from the books.',
+        'Move the amount to income-tax expense automatically.'
+      ],
       correctIndex: 1,
-      explanation: "The previous financial year’s income is assessed in the following assessment year."
+      explanation:
+        'Correct: B. GSTR-2B is an auto-drafted ITC statement, but eligibility still requires self-assessment; a missing document should become a reconciliation exception, not an automatic claim. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-02",
-      type: "mcq",
-      title: "Financial Year",
-      prompt: "Income earned between 1 April 2025 and 31 March 2026 is generally assessed in which AY?",
-      options: ["AY 2025-26", "AY 2026-27", "AY 2027-28", "AY 2024-25"],
+      id: 'ti-02',
+      type: 'mcq',
+      title: 'Intra-state vs Inter-state GST',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A company registered in Maharashtra invoices goods to a customer in Karnataka, and the place of supply is Karnataka.
+
+Which tax treatment is generally appropriate?`,
+      options: [
+        'Charge only CGST.',
+        'Charge CGST and Maharashtra SGST.',
+        'Do not charge GST because the customer is in another state.',
+        'Charge IGST.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Supplier location and place of supply are in different states, so the supply is inter-state and generally attracts IGST. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-03',
+      type: 'mcq',
+      title: 'GSTR-1 to GSTR-3B Control',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `The outward taxable value in the sales ledger is ₹1.28 crore, GSTR-1 shows ₹1.21 crore, and draft GSTR-3B shows ₹1.21 crore.
+
+What should the tax team do before filing?`,
+      options: [
+        'Reconcile the ₹7 lakh difference to invoices, credit notes, amendments, and timing before filing.',
+        'File both returns because GSTR-1 and GSTR-3B agree.',
+        'Force the ledger to ₹1.21 crore without evidence.',
+        'Ignore the difference until the annual return.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Agreement between two returns does not prove the books are correct; the books-to-return reconciliation is the control that identifies omitted or mistimed transactions. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-04',
+      type: 'mcq',
+      title: 'E-Way Bill Judgment',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Goods worth ₹86,000 are being moved interstate by road. The transaction is not covered by a specific exemption.
+
+What is the strongest compliance action before movement?`,
+      options: [
+        'Move the goods first and create the document only if stopped.',
+        'Use a TDS challan instead.',
+        'Generate the required e-way bill and ensure transport details are correctly captured.',
+        'No document is needed because GST was charged on the invoice.'
+      ],
       correctIndex: 2,
-      explanation: "The financial year 2025-26 is assessed in AY 2026-27."
+      explanation:
+        'Correct: C. Inter-state movement of goods above the general ₹50,000 consignment threshold normally requires an e-way bill, subject to the rules and exemptions. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-03",
-      type: "mcq",
-      title: "GST Basics",
-      prompt: "What does GST stand for in India?",
-      options: ["Government Sales Tax", "Goods and Services Tax", "Global Standard Tax", "General Supply Transaction"],
-      correctIndex: 1,
-      explanation: "GST is India’s unified indirect tax on supply of goods and services."
+      id: 'ti-05',
+      type: 'mcq',
+      title: 'Reverse Charge Workflow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A taxable inward supply falls under a notified reverse-charge category.
+
+Which process is most appropriate?`,
+      options: [
+        'Identify the RCM liability, discharge the tax as required, and evaluate ITC separately subject to eligibility.',
+        'Ask the supplier to ignore the transaction completely.',
+        'Net the tax directly against revenue.',
+        'Treat RCM as a TDS deduction.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Under reverse charge the recipient bears the GST payment obligation for specified supplies; payment and ITC eligibility are separate steps. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-04",
-      type: "mcq",
-      title: "Intra-State GST",
-      prompt: "For an intra-state taxable supply in India, which GST components normally apply?",
-      options: ["IGST only", "CGST and SGST/UTGST", "Customs duty only", "TDS and TCS"],
-      correctIndex: 1,
-      explanation: "Intra-state supplies usually attract CGST plus SGST or UTGST."
-    },
-    {
-      id: "ti-05",
-      type: "mcq",
-      title: "Inter-State GST",
-      prompt: "Which GST is generally charged on inter-state supplies and imports?",
-      options: ["CGST", "SGST", "IGST", "Professional Tax"],
+      id: 'ti-06',
+      type: 'mcq',
+      title: 'GST Exception Trend',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `The chart shows unreconciled GST purchase invoices at month end.
+
+{{chart}}
+
+What should concern the tax controller most?`,
+      chart: {
+        type: 'line',
+        title: 'Unreconciled Purchase Invoices',
+        xAxis: ['Jan','Feb','Mar','Apr','May'],
+        series: [{ name: 'Exceptions', data: [8,11,9,24,31] }]
+      },
+      options: [
+        'The fact that January had any exceptions at all.',
+        'The exact same count in every month.',
+        'The sharp rise in unresolved exceptions in April and May.',
+        'A steady decline to zero.'
+      ],
       correctIndex: 2,
-      explanation: "IGST applies to inter-state supplies and imports."
+      explanation:
+        'Correct: C. The control population more than triples from January to May, indicating worsening supplier reporting, reconciliation, or close discipline. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-06",
-      type: "mcq",
-      title: "Input Tax Credit",
-      prompt: "What is Input Tax Credit (ITC) under GST?",
-      options: ["A bank loan for taxpayers", "Credit of GST paid on eligible purchases against GST payable on outward supplies", "A discount offered by suppliers", "A refund of income tax"],
+      id: 'ti-07',
+      type: 'mcq',
+      title: 'TDS Month-End Control',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the TDS register.
+
+{{image}}
+
+Which exception should be escalated first from a deposit-compliance perspective?`,
+      image: {
+        src: tdsControlRegisterImage,
+        alt: 'TDS month-end control register'
+      },
+      options: [
+        'The consultancy item that is paid and mapped.',
+        'The contractor item that is paid and mapped.',
+        'The professional-fee item solely because it has the largest description.',
+        'The rent item where TDS is booked but the challan status is still pending.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Tax has already been deducted on the rent payment but deposit remains pending, creating a direct remittance-compliance exception. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-08',
+      type: 'mcq',
+      title: 'TDS Return Mapping',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The Professional Fee line in the TDS control register shows tax paid but 'Return Mapping: Unmapped'.
+
+What is the best next action?`,
+      image: {
+        src: tdsControlRegisterImage,
+        alt: 'TDS control register with unmapped return item'
+      },
+      options: [
+        'Pay the same TDS again automatically.',
+        'Trace the challan and deductee data into the correct quarterly TDS statement before filing.',
+        'Remove the expense from the general ledger.',
+        'Convert the payment into GST ITC.'
+      ],
       correctIndex: 1,
-      explanation: "ITC prevents cascading by allowing eligible input tax to offset output tax liability."
+      explanation:
+        'Correct: B. Deposit alone is not the entire compliance cycle; the tax and deductee details must also be correctly reported in the relevant TDS statement. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-07",
-      type: "mcq",
-      title: "GSTR-2B",
-      prompt: "What is the practical role of GSTR-2B for GST taxpayers?",
-      options: ["It replaces all invoices", "It is an auto-drafted ITC statement used to review eligible input tax credit", "It is the annual income tax return", "It is a payroll report"],
-      correctIndex: 1,
-      explanation: "GSTR-2B helps taxpayers reconcile supplier-reported invoices and ITC eligibility."
-    },
-    {
-      id: "ti-08",
-      type: "mcq",
-      title: "GSTR-3B",
-      prompt: "What is GSTR-3B primarily used for?",
-      options: ["Monthly or quarterly summary return for GST liability and ITC claim", "Annual audit report only", "Income tax refund form", "TDS certificate"],
-      correctIndex: 0,
-      explanation: "GSTR-3B reports GST output tax, eligible ITC, and tax payment."
-    },
-    {
-      id: "ti-09",
-      type: "mcq",
-      title: "GSTR-1",
-      prompt: "What is GSTR-1 used for?",
-      options: ["Reporting outward supplies made by the taxpayer", "Reporting personal salary income", "Reporting bank interest only", "Claiming housing loan deduction"],
-      correctIndex: 0,
-      explanation: "GSTR-1 captures invoice-level outward supply details."
-    },
-    {
-      id: "ti-10",
-      type: "mcq",
-      title: "E-Way Bill",
-      prompt: "When is an e-way bill generally required for inter-state movement of goods?",
-      options: ["For every movement regardless of value", "For consignment value exceeding ₹50,000, subject to GST rules", "Only for services", "Only for exports by air"],
-      correctIndex: 1,
-      explanation: "E-way bills track movement of goods and are generally required above the threshold."
-    },
-    {
-      id: "ti-11",
-      type: "mcq",
-      title: "E-Invoicing",
-      prompt: "What is the key purpose of GST e-invoicing?",
-      options: ["To generate payroll slips", "To report specified B2B invoices to the Invoice Registration Portal and obtain an IRN", "To replace all income tax returns", "To avoid maintaining books"],
-      correctIndex: 1,
-      explanation: "E-invoicing standardizes and authenticates invoice data through the IRP."
-    },
-    {
-      id: "ti-12",
-      type: "mcq",
-      title: "Reverse Charge",
-      prompt: "What is Reverse Charge Mechanism (RCM) under GST?",
-      options: ["Supplier pays tax twice", "Recipient pays GST instead of the supplier for specified supplies", "GST is paid only after refund", "Tax is charged backward on old invoices"],
-      correctIndex: 1,
-      explanation: "Under RCM, the receiver is liable to pay tax for specified categories of supply."
-    },
-    {
-      id: "ti-13",
-      type: "mcq",
-      title: "Composition Scheme",
-      prompt: "What is the GST Composition Scheme designed for?",
-      options: ["Large multinational companies only", "Small taxpayers who pay tax at prescribed rates with simplified compliance", "Exporters only", "Tax-free businesses only"],
-      correctIndex: 1,
-      explanation: "The scheme reduces compliance burden for eligible small taxpayers."
-    },
-    {
-      id: "ti-14",
-      type: "mcq",
-      title: "Zero-Rated Supply",
-      prompt: "Which supply is commonly treated as zero-rated under GST?",
-      options: ["Local restaurant service", "Export of goods or services", "Sale to an unregistered local consumer", "Internal branch memo with no supply"],
-      correctIndex: 1,
-      explanation: "Exports and supplies to SEZs are commonly treated as zero-rated subject to conditions."
-    },
-    {
-      id: "ti-15",
-      type: "mcq",
-      title: "LUT",
-      prompt: "Why does an exporter furnish a Letter of Undertaking (LUT) under GST?",
-      options: ["To export without payment of IGST subject to conditions", "To register for PAN", "To file personal income tax", "To avoid issuing invoices"],
-      correctIndex: 0,
-      explanation: "An LUT allows eligible exporters to make zero-rated supplies without upfront IGST payment."
-    },
-    {
-      id: "ti-16",
-      type: "mcq",
-      title: "Place of Supply",
-      prompt: "Why is place of supply important under GST?",
-      options: ["It determines whether CGST/SGST or IGST applies", "It determines employee salary", "It sets corporate tax rate", "It replaces invoicing"],
-      correctIndex: 0,
-      explanation: "Place of supply helps classify a transaction as intra-state or inter-state."
-    },
-    {
-      id: "ti-17",
-      type: "mcq",
-      title: "TDS",
-      prompt: "What does TDS mean in Indian taxation?",
-      options: ["Tax Deducted at Source", "Total Debt Schedule", "Tax Deposit Slip", "Tax Data Service"],
-      correctIndex: 0,
-      explanation: "TDS requires the payer to deduct tax before making specified payments and deposit it with the government."
-    },
-    {
-      id: "ti-18",
-      type: "mcq",
-      title: "TAN",
-      prompt: "Who generally needs a TAN?",
-      options: ["Anyone who deducts or collects tax at source", "Every consumer buying groceries", "Only exporters", "Only GST composition dealers"],
-      correctIndex: 0,
-      explanation: "TAN is required for entities responsible for TDS/TCS compliance."
-    },
-    {
-      id: "ti-19",
-      type: "mcq",
-      title: "PAN",
-      prompt: "What is PAN used for?",
-      options: ["Permanent tax identification for income tax and financial transactions", "GST warehouse address only", "A transport permit", "A customs shipping code"],
-      correctIndex: 0,
-      explanation: "PAN is a key taxpayer identifier issued by the Income Tax Department."
-    },
-    {
-      id: "ti-20",
-      type: "mcq",
-      title: "Form 16",
-      prompt: "What is Form 16?",
-      options: ["Employer-issued certificate showing salary and TDS details", "GST invoice format", "A customs clearance form", "A company incorporation certificate"],
-      correctIndex: 0,
-      explanation: "Form 16 helps salaried individuals file income tax returns by summarizing salary and TDS."
-    },
-    {
-      id: "ti-21",
-      type: "mcq",
-      title: "AIS and TIS",
-      prompt: "What is the purpose of AIS/TIS in income tax compliance?",
-      options: ["To provide summarized taxpayer information such as TDS, interest, dividends, securities transactions, and other reported data", "To replace bank statements", "To calculate GST only", "To issue invoices"],
-      correctIndex: 0,
-      explanation: "AIS and TIS help taxpayers review information reported to the tax department before filing."
-    },
-    {
-      id: "ti-22",
-      type: "mcq",
-      title: "Form 26AS",
-      prompt: "What does Form 26AS mainly show?",
-      options: ["Tax credits such as TDS, TCS, advance tax, and self-assessment tax", "GST outward invoices only", "Inventory valuation", "Company payroll headcount"],
-      correctIndex: 0,
-      explanation: "Form 26AS is a tax credit statement useful for matching tax deducted and paid."
-    },
-    {
-      id: "ti-23",
-      type: "mcq",
-      title: "Standard Deduction",
-      prompt: "For salaried taxpayers under the current new tax regime, what is the standard deduction limit reflected in AY 2026-27 validation rules?",
-      options: ["₹25,000", "₹50,000", "₹75,000", "₹1,50,000"],
+      id: 'ti-09',
+      type: 'mcq',
+      title: 'AIS / 26AS Review',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the pre-filing information exhibit.
+
+{{image}}
+
+Which item should the return preparer investigate before finalizing the return?`,
+      image: {
+        src: itrInformationReviewImage,
+        alt: 'Tax return pre-filing information review'
+      },
+      options: [
+        'Salary, because there is no variance.',
+        'Dividend, because it matches exactly.',
+        'The ₹19,000 bank-interest variance.',
+        'Securities sale, because reported information must always be ignored.'
+      ],
       correctIndex: 2,
-      explanation: "AY 2026-27 validation rules reflect a ₹75,000 standard deduction for employees under the new regime."
+      explanation:
+        'Correct: C. The external reported interest exceeds the taxpayer record, so the preparer should identify omitted interest, duplication, or reporting error before filing. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-24",
-      type: "mcq",
-      title: "Section 80C",
-      prompt: "Which deduction section commonly covers eligible investments such as PPF, ELSS, LIC premium, and certain principal repayments under the old regime?",
-      options: ["Section 10", "Section 80C", "Section 44AB", "Section 115BAC"],
+      id: 'ti-10',
+      type: 'mcq',
+      title: 'Tax Credit Matching',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A company's books show TDS receivable of ₹4.80 lakh, while the available tax-credit information reflects ₹4.25 lakh.
+
+What is the strongest response?`,
+      options: [
+        'Reconcile deductor-wise differences, identify missing or incorrect reporting, and follow up before treating the full book amount as available credit.',
+        'Claim ₹4.80 lakh automatically because it is in the ledger.',
+        'Write off the entire ₹4.80 lakh.',
+        'Move the difference to GST output tax.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Tax credit should be supported by the tax-credit information and underlying certificates/challans; unmatched balances require deductor-level investigation. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-11',
+      type: 'mcq',
+      title: 'Advance Tax Forecast',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `At the end of Q2, a profitable company revises its annual taxable-income forecast sharply upward.
+
+Which control is most appropriate?`,
+      options: [
+        'Wait until the income-tax return is due regardless of the revised liability.',
+        'Recompute projected income-tax liability and advance-tax requirements using the revised forecast.',
+        'Stop recording tax expense until year end.',
+        'Use GSTR-3B to settle the income-tax shortfall.'
+      ],
       correctIndex: 1,
-      explanation: "Section 80C is a common deduction section under the old tax regime."
+      explanation:
+        'Correct: B. Advance-tax compliance depends on expected annual tax liability, so material forecast changes should trigger a fresh computation. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-25",
-      type: "mcq",
-      title: "Advance Tax",
-      prompt: "When is advance tax generally relevant?",
-      options: ["When estimated tax liability exceeds ₹10,000 during the financial year", "Only when there is no PAN", "Only for GST-registered businesses", "Only after a tax audit"],
-      correctIndex: 0,
-      explanation: "Advance tax is paid in installments during the year when liability crosses the threshold."
+      id: 'ti-12',
+      type: 'mcq',
+      title: 'Capital Gains Classification',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `An accountant is reviewing the sale of investments and notices that different asset classes were held for different periods.
+
+What should determine whether each gain is treated as short-term or long-term?`,
+      options: [
+        'The taxpayer\'s city.',
+        'Whether the buyer is GST registered.',
+        'The bank account used for settlement.',
+        'The applicable holding-period rule for that asset class and the transaction date history.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Capital-gain classification is driven by statutory holding-period rules that vary by asset class, not operational attributes of the payment. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-26",
-      type: "mcq",
-      title: "Self-Assessment Tax",
-      prompt: "What is self-assessment tax?",
-      options: ["Tax paid after computing final tax liability before filing the return", "Tax deducted by employer only", "GST collected by supplier", "A customs penalty"],
-      correctIndex: 0,
-      explanation: "Self-assessment tax covers unpaid final tax liability before return filing."
+      id: 'ti-13',
+      type: 'mcq',
+      title: 'GST Liability Bridge',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The chart presents a GST liability bridge.
+
+{{chart}}
+
+Which statement is most accurate?`,
+      chart: {
+        type: 'bar',
+        title: 'GST Liability Bridge (₹ lakh)',
+        categories: ['Output GST','Eligible ITC','RCM / Cash-only','Net Cash'],
+        series: [{ name: 'Amount', data: [18.4, -13.2, 1.6, 6.8] }]
+      },
+      options: [
+        'All GST liabilities can always be discharged using any available ITC.',
+        'Eligible ITC increases the output-tax liability.',
+        'A credit balance means GSTR-3B filing is unnecessary.',
+        'Net cash liability falls after eligible ITC, but RCM and other cash-only obligations must still be evaluated separately.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. The bridge shows ITC reducing the regular output liability, while cash-only or separately payable components still affect the final cash requirement. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-27",
-      type: "mcq",
-      title: "Capital Gains",
-      prompt: "What is a capital gain?",
-      options: ["Profit from sale or transfer of a capital asset", "Monthly salary", "GST output liability", "Bank overdraft"],
-      correctIndex: 0,
-      explanation: "Capital gains arise when a capital asset is sold or transferred for a gain."
-    },
-    {
-      id: "ti-28",
-      type: "mcq",
-      title: "STCG vs LTCG",
-      prompt: "What primarily determines whether a capital gain is short-term or long-term?",
-      options: ["The holding period and asset class", "The taxpayer’s city", "Whether GST was paid", "The bank used for payment"],
-      correctIndex: 0,
-      explanation: "Holding period thresholds vary by asset class and determine STCG or LTCG treatment."
-    },
-    {
-      id: "ti-29",
-      type: "mcq",
-      title: "MAT",
-      prompt: "What is Minimum Alternate Tax (MAT) intended to do?",
-      options: ["Ensure certain companies with book profits pay a minimum tax", "Replace GST for exporters", "Tax only salaried individuals", "Eliminate all deductions"],
-      correctIndex: 0,
-      explanation: "MAT prevents companies from paying very low tax despite reporting book profits."
-    },
-    {
-      id: "ti-30",
-      type: "mcq",
-      title: "Tax Audit",
-      prompt: "What is a tax audit under Section 44AB?",
-      options: ["Mandatory audit for eligible businesses/professionals crossing specified limits", "Voluntary bank reconciliation", "GST registration certificate", "A payroll return"],
-      correctIndex: 0,
-      explanation: "Section 44AB requires audit in specified cases depending on turnover, receipts, and other conditions."
-    },
-    {
-      id: "ti-31",
-      type: "mcq",
-      title: "Presumptive Taxation",
-      prompt: "What is the purpose of presumptive taxation under sections such as 44AD/44ADA?",
-      options: ["Simplified taxation for eligible small businesses and professionals", "Tax exemption for all income", "GST refund mechanism", "Audit of foreign companies only"],
-      correctIndex: 0,
-      explanation: "Presumptive schemes reduce compliance by allowing income to be computed at prescribed rates."
-    },
-    {
-      id: "ti-32",
-      type: "mcq",
-      title: "TCS",
-      prompt: "What does TCS mean?",
-      options: ["Tax Collected at Source", "Total Credit Summary", "Tax Computation Sheet", "Trade Compliance System"],
-      correctIndex: 0,
-      explanation: "TCS requires specified sellers/collectors to collect tax from buyers on specified transactions."
-    },
-    {
-      id: "ti-33",
-      type: "mcq",
-      title: "ITR-V",
-      prompt: "What is ITR-V used for?",
-      options: ["Verification acknowledgement for electronically filed income tax returns in specified cases", "GST annual return", "TDS challan", "Tax audit form"],
-      correctIndex: 0,
-      explanation: "ITR-V is used to verify certain returns when e-verification is not completed otherwise."
-    },
-    {
-      id: "ti-34",
-      type: "mcq",
-      title: "Belated Return",
-      prompt: "What is a belated return?",
-      options: ["A return filed after the original due date but within the permitted statutory timeline", "A return filed before the year starts", "A GST invoice revision", "A customs declaration"],
-      correctIndex: 0,
-      explanation: "Belated returns allow filing after the due date, subject to restrictions and late fee/interest."
-    },
-    {
-      id: "ti-35",
-      type: "mcq",
-      title: "Revised Return",
-      prompt: "When is a revised return used?",
-      options: ["To correct omissions or wrong statements in an already filed return within the permitted time", "To cancel PAN", "To change GST rate", "To file payroll tax only"],
-      correctIndex: 0,
-      explanation: "A revised return corrects errors in the original or belated return."
-    },
-    {
-      id: "ti-36",
-      type: "mcq",
-      title: "GST Registration",
-      prompt: "When must a business consider GST registration?",
-      options: ["When aggregate turnover or transaction type crosses applicable GST thresholds or requires compulsory registration", "Only if it has employees", "Only if it sells shares", "Only after income tax audit"],
-      correctIndex: 0,
-      explanation: "GST registration depends on turnover, nature of supply, state, and compulsory registration rules."
-    },
-    {
-      id: "ti-37",
-      type: "mcq",
-      title: "Credit Note",
-      prompt: "What is a GST credit note used for?",
-      options: ["Reducing taxable value or tax due for reasons such as returns, discounts, or overbilling", "Increasing employee salary", "Creating PAN", "Paying advance tax"],
-      correctIndex: 0,
-      explanation: "Credit notes adjust outward supply value/tax when originally invoiced amount needs reduction."
-    },
-    {
-      id: "ti-38",
-      type: "mcq",
-      title: "Debit Note",
-      prompt: "What is a GST debit note used for?",
-      options: ["Increasing taxable value or tax when the original invoice understated value or tax", "Cancelling a bank account", "Claiming 80C deduction", "Filing TDS return"],
-      correctIndex: 0,
-      explanation: "Debit notes adjust tax/value upward for deficiencies in original invoices."
-    },
-    {
-      id: "ti-39",
-      type: "mcq",
-      title: "Professional Judgment",
-      prompt: "A taxpayer claims ITC, but the supplier invoice is missing from GSTR-2B. What is the strongest compliance response?",
-      options: ["Claim it blindly", "Reconcile purchase register with GSTR-2B, follow up with supplier, and claim only as permitted by GST rules", "Delete all purchase invoices", "Move it to income tax return"],
+      id: 'ti-14',
+      type: 'mcq',
+      title: 'Credit Note Control',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A customer returns goods after the original taxable invoice was issued.
+
+What is the best tax-control response?`,
+      options: [
+        'Delete the original invoice from the ERP.',
+        'Issue and account for an appropriate credit note, link it to the original supply, and ensure the return impact is reflected in GST reporting within the applicable rules.',
+        'Issue a debit note to increase tax.',
+        'Ignore the return because tax was already reported.'
+      ],
       correctIndex: 1,
-      explanation: "ITC should be reconciled and claimed based on legal eligibility and reporting status."
+      explanation:
+        'Correct: B. A credit note preserves the audit trail while adjusting taxable value/tax for qualifying reductions such as returns. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
     {
-      id: "ti-40",
-      type: "mcq",
-      title: "Tax Compliance Control",
-      prompt: "Which control best reduces tax filing risk for a growing Indian business?",
-      options: ["Year-end rush only", "Monthly reconciliation of GST returns, TDS, AIS/26AS, ledgers, and challans with documented review", "Relying only on memory", "Avoiding all tax registrations"],
-      correctIndex: 1,
-      explanation: "Regular reconciliations and documented reviews prevent mismatches, interest, penalties, and audit issues."
+      id: 'ti-15',
+      type: 'mcq',
+      title: 'Tax Filing Dependency',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the filing workflow.
+
+{{diagram}}
+
+Which control is missing if the team files GSTR-3B immediately after preparing the sales and purchase registers?`,
+      diagram: `flowchart LR
+  A["Close sales & purchase ledgers"] --> B["Prepare GSTR-1 / ITC data"]
+  B --> C["???"]
+  C --> D["File GSTR-3B & pay tax"]
+  D --> E["Archive challans & working papers"]`,
+      options: [
+        'A payroll appraisal meeting.',
+        'A new PAN application every month.',
+        'A documented books-to-GSTR-1/GSTR-2B/GSTR-3B reconciliation and reviewer sign-off.',
+        'A customs declaration for all local services.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. The critical missing step is reconciliation plus review before filing and payment. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
     },
-  ]
+    {
+      id: 'ti-16',
+      type: 'mcq',
+      title: 'E-Invoicing Process',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A business is covered by the applicable e-invoicing rules for a B2B invoice.
+
+Which workflow is conceptually correct?`,
+      diagram: `flowchart LR
+  A["ERP invoice data"] --> B["Invoice Registration process"]
+  B --> C["IRN / QR authentication"]
+  C --> D["Issue compliant invoice"]
+  D --> E["Use data in GST reporting / reconciliation"]`,
+      options: [
+        'Prepare invoice data, report it through the prescribed e-invoicing process, obtain the IRN/QR information, and issue the compliant invoice.',
+        'Issue any invoice first and generate an unrelated IRN months later.',
+        'Use the income-tax portal instead of the invoice-registration process.',
+        'Treat e-invoicing as a replacement for maintaining sales records.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. E-invoicing authenticates prescribed invoice data through the registration process; it does not eliminate accounting or GST reconciliation. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-17',
+      type: 'mcq',
+      title: 'Export / Zero-Rated Control',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A GST-registered exporter plans to make eligible zero-rated supplies without upfront payment of IGST.
+
+Which document/process is commonly relevant, subject to conditions?`,
+      options: [
+        'Applying for a new PAN for every shipment.',
+        'Furnishing a Letter of Undertaking (LUT) before making such supplies.',
+        'Issuing only a TDS certificate.',
+        'Using a composition-tax challan.'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. An LUT is commonly used by eligible exporters to make zero-rated supplies without payment of IGST, subject to the prescribed conditions. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-18',
+      type: 'mcq',
+      title: 'Return Filing Governance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A growing business has GST, TDS, and income-tax obligations handled by three different employees.
+
+Which governance design most reduces filing risk?`,
+      options: [
+        'Each employee keeps private notes with no common review.',
+        'All reconciliations are postponed to year end.',
+        'Only payment receipts are stored; workings are discarded.',
+        'A monthly tax close checklist with owner, due date, reconciliation evidence, exception ageing, reviewer sign-off, and proof of filing/payment.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. A structured close process creates accountability, evidence, timely exception resolution, and a defensible audit trail across taxes. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-19',
+      type: 'mcq',
+      title: 'Compliance Root-Cause Analysis',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Three consecutive months show purchase invoices missing from GSTR-2B for the same key supplier.
+
+What is the strongest response?`,
+      options: [
+        'Escalate the recurring supplier-reporting issue, quantify exposed ITC, track ageing, and change the vendor follow-up/control process.',
+        'Treat every month as an unrelated one-off.',
+        'Claim all missing ITC permanently without review.',
+        'Stop recording purchases from the supplier.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. A repeated exception indicates a control or supplier-compliance pattern; the tax team should manage both the current exposure and the root cause. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not C: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
+    },
+    {
+      id: 'ti-20',
+      type: 'mcq',
+      title: 'Integrated Tax Control',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A controller wants one control that ties together books, GST, TDS, tax credits, and payment evidence.
+
+Which design is strongest?`,
+      diagram: `flowchart TB
+  L["Books / subledgers"] --> R["Tax reconciliations"]
+  S["GST / TDS / tax-credit statements"] --> R
+  C["Challans / payment proofs"] --> R
+  R --> X["Exception register"]
+  X --> V["Reviewer validation"]
+  V --> F["File / close / archive evidence"]`,
+      options: [
+        'A spreadsheet containing only statutory due dates.',
+        'A folder containing only filed PDF returns.',
+        'A tax-control dashboard that reconciles ledger balances to returns/statements/challans, highlights exceptions by age and amount, and requires reviewer closure.',
+        'A verbal confirmation that all taxes were handled.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. The strongest control links source books, external tax data, payment evidence, exception management, and independent review. Why not A: this choice does not follow the strongest compliance treatment for the facts given. Why not B: this choice does not follow the strongest compliance treatment for the facts given. Why not D: this choice does not follow the strongest compliance treatment for the facts given.'
+    }
+  ],
 };

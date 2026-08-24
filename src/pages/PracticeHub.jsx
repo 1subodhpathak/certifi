@@ -15,10 +15,11 @@ import {
 import DashboardShell from '../components/DashboardShell';
 import { assessmentsMap } from '../data/assessments';
 import { ASSESSMENT_TYPES } from '../data/assessmentTypes';
+import agentBuilderCover from '../assets/test-covers/AiEngineering/Agent Builder.png';
 
 const PRACTICE_ATTEMPTS_KEY = 'careerSensePracticeAttempts';
 
-const coverModules = import.meta.glob('../assets/test-covers/*.{jpg,jpeg,png,gif}', {
+const coverModules = import.meta.glob('../assets/test-covers/**/*.{jpg,jpeg,png,gif}', {
   eager: true,
   import: 'default',
 });
@@ -32,6 +33,9 @@ const coverByBaseName = Object.fromEntries(
 );
 
 const assessmentTypeEntries = Object.entries(ASSESSMENT_TYPES);
+const coverAssetOverrides = {
+  [ASSESSMENT_TYPES.agentBuilder]: agentBuilderCover,
+};
 const coverOverrides = {
   [ASSESSMENT_TYPES.communication]: 'communication',
   [ASSESSMENT_TYPES.caseStudy]: 'casestudy',
@@ -54,6 +58,7 @@ const coverOverrides = {
   [ASSESSMENT_TYPES.payroll_compliance]: 'payroll',
   [ASSESSMENT_TYPES.mis_reporting]: 'mis',
   [ASSESSMENT_TYPES.mathematics_statistics]: 'mathematics',
+  [ASSESSMENT_TYPES.fin_modeling]: 'fin_medeling',
   [ASSESSMENT_TYPES.python_ai]: 'python for ai',
   [ASSESSMENT_TYPES.numpy_ai]: 'numpy',
   [ASSESSMENT_TYPES.pandas_ai]: 'pandas',
@@ -78,9 +83,25 @@ const coverOverrides = {
   [ASSESSMENT_TYPES.agentBuilder]: 'agent builder',
   [ASSESSMENT_TYPES.vector_database_ops]: 'vector database',
   [ASSESSMENT_TYPES.llm_deployment]: 'llm deployement',
+  [ASSESSMENT_TYPES.llmFoundations]: 'llmfoundation',
+  [ASSESSMENT_TYPES.transformers]: 'transformer architecture',
+  [ASSESSMENT_TYPES.tokenizationEmbeddings]: 'tokenization and embeddings',
+  [ASSESSMENT_TYPES.promptEngineering]: 'prompting and structured output',
+  [ASSESSMENT_TYPES.llmApisProduction]: 'llm apis in production',
+  [ASSESSMENT_TYPES.modelAdaptation]: 'fine-tuning vs rag vs prompting',
+  [ASSESSMENT_TYPES.evaluationGuardrails]: 'evaluation and guardrails',
+  [ASSESSMENT_TYPES.ragFundamentals]: 'rag fundamentals',
+  [ASSESSMENT_TYPES.advancedRetrieval]: 'advanced retrieval',
+  [ASSESSMENT_TYPES.productionRag]: 'production rag',
+  [ASSESSMENT_TYPES.agentFundamentals]: 'agent fundamentals',
+  [ASSESSMENT_TYPES.agentReliability]: 'agent reliability',
+  [ASSESSMENT_TYPES.multiAgentOrchestration]: 'multi-agent orchestration',
+  [ASSESSMENT_TYPES.aiSystemDesign]: 'ai system design at scale',
+  [ASSESSMENT_TYPES.aiSecurityGovernance]: 'ai security, safety and governance',
 };
 
 const getCoverForAssessment = (assessmentId) => {
+  if (coverAssetOverrides[assessmentId]) return coverAssetOverrides[assessmentId];
   const matchedKey = assessmentTypeEntries.find(([, value]) => value === assessmentId)?.[0];
   const lookupKey = (coverOverrides[assessmentId] || matchedKey || 'practice-test').toLowerCase();
   return coverByBaseName[lookupKey] || coverByBaseName['practice-test'] || null;
@@ -88,14 +109,16 @@ const getCoverForAssessment = (assessmentId) => {
 
 const TRACKS = {
   ALL: 'All',
+  AI_ENGINEERING: 'AI Engineering',
   SKILLS: 'Skills',
+  LANGUAGES: 'Languages',
   ACCOUNTING: 'Accounting',
+  TAXATION: 'Taxation',
+  DOMAINS: 'Domains',
   AI_ML: 'AI/ML',
   SCENARIO_LABS: 'Scenario Labs',
   WORKPLACE: 'Workplace',
   ANALYTICS: 'Analytics',
-  LANGUAGES: 'Languages',
-  DOMAINS: 'Domains',
   CLOUD_SECURITY: 'Cloud & Security',
 };
 
@@ -112,7 +135,8 @@ const TRACK_BY_ID = new Map([
   [ASSESSMENT_TYPES.aptitude, TRACKS.ANALYTICS],
   [ASSESSMENT_TYPES.numerical, TRACKS.ANALYTICS],
   [ASSESSMENT_TYPES.cognitive_ability, TRACKS.ANALYTICS],
-  [ASSESSMENT_TYPES.finance, TRACKS.ANALYTICS],
+  [ASSESSMENT_TYPES.finance, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.fin_modeling, TRACKS.ACCOUNTING],
 
   [ASSESSMENT_TYPES.caseStudy, TRACKS.SCENARIO_LABS],
   [ASSESSMENT_TYPES.architecture_sandbox, TRACKS.SCENARIO_LABS],
@@ -142,17 +166,18 @@ const TRACK_BY_ID = new Map([
   [ASSESSMENT_TYPES.mis_reporting, TRACKS.ACCOUNTING],
   [ASSESSMENT_TYPES.ifrs, TRACKS.ACCOUNTING],
   [ASSESSMENT_TYPES.auditing, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.domain_accounting, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.domain_ar, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.domain_ap, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.domain_fa, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.tax_india, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.tax_usa, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.tax_europe, TRACKS.ACCOUNTING],
-  [ASSESSMENT_TYPES.tax_uae, TRACKS.ACCOUNTING],
+  [ASSESSMENT_TYPES.domain_accounting, TRACKS.DOMAINS],
+  [ASSESSMENT_TYPES.domain_ar, TRACKS.DOMAINS],
+  [ASSESSMENT_TYPES.domain_ap, TRACKS.DOMAINS],
+  [ASSESSMENT_TYPES.domain_fa, TRACKS.DOMAINS],
+  [ASSESSMENT_TYPES.tax_india, TRACKS.TAXATION],
+  [ASSESSMENT_TYPES.tax_uk, TRACKS.TAXATION],
+  [ASSESSMENT_TYPES.tax_usa, TRACKS.TAXATION],
+  [ASSESSMENT_TYPES.tax_europe, TRACKS.TAXATION],
+  [ASSESSMENT_TYPES.tax_uae, TRACKS.TAXATION],
 
   [ASSESSMENT_TYPES.aiml, TRACKS.AI_ML],
-  [ASSESSMENT_TYPES.agentBuilder, TRACKS.AI_ML],
+  [ASSESSMENT_TYPES.agentBuilder, TRACKS.AI_ENGINEERING],
   [ASSESSMENT_TYPES.r_prog, TRACKS.AI_ML],
   [ASSESSMENT_TYPES.spark, TRACKS.AI_ML],
 
@@ -199,8 +224,9 @@ const getTrack = (assessment) => {
 
   const category = (assessment.category || '').toLowerCase();
 
+  if (category.includes('ai engineering')) return TRACKS.AI_ENGINEERING;
   if (assessment.id.startsWith('language-')) return TRACKS.LANGUAGES;
-  if (assessment.id.startsWith('tax-')) return TRACKS.ACCOUNTING;
+  if (assessment.id.startsWith('tax-')) return TRACKS.TAXATION;
   if (DOMAIN_PREFIXES.some((prefix) => assessment.id.startsWith(prefix))) return TRACKS.DOMAINS;
   if (DOMAIN_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.DOMAINS;
   if (AI_ML_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.AI_ML;
@@ -225,16 +251,23 @@ const formatAttempts = (attempts) => {
 
 const filterTabs = [
   TRACKS.ALL,
+  TRACKS.AI_ENGINEERING,
   TRACKS.SKILLS,
+  TRACKS.LANGUAGES,
   TRACKS.ACCOUNTING,
+  TRACKS.TAXATION,
+  TRACKS.DOMAINS,
   TRACKS.AI_ML,
   TRACKS.SCENARIO_LABS,
   TRACKS.WORKPLACE,
   TRACKS.ANALYTICS,
-  TRACKS.LANGUAGES,
-  TRACKS.DOMAINS,
   TRACKS.CLOUD_SECURITY,
 ];
+
+const trackAttributions = {
+  [TRACKS.ACCOUNTING]: 'By Shagun Nagpal',
+  [TRACKS.AI_ENGINEERING]: 'By Satvik',
+};
 
 export default function PracticeHub() {
   const navigate = useNavigate();
@@ -348,13 +381,20 @@ export default function PracticeHub() {
                   key={tab}
                   type="button"
                   onClick={() => setActiveFilter(tab)}
-                  className={`relative shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition-all ${
+                  className={`relative shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 ${
                     activeFilter === tab
-                      ? 'bg-teal-50 text-teal-700 shadow-sm ring-1 ring-teal-200/50'
-                      : 'text-slate-500 hover:bg-slate-100 hover:text-slate-800'
+                      ? 'font-semibold text-slate-900 after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-teal-500'
+                      : 'text-slate-500 hover:text-slate-800'
                   }`}
                 >
-                  {tab === 'All' ? 'All Modules' : tab}
+                  {trackAttributions[tab] ? (
+                    <>
+                      <span className="absolute -top-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-semibold tracking-[0.06em] text-emerald-600">
+                        {trackAttributions[tab]}
+                      </span>
+                      {tab}
+                    </>
+                  ) : tab === 'All' ? 'All Modules' : tab}
                 </button>
               ))}
             </div>

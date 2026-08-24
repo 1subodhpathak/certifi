@@ -1,376 +1,442 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
+import uaeCtBridgeImage from '../../../assets/assessments/tax_uae/uae_ct_bridge.png';
+import uaeInvoiceReviewImage from '../../../assets/assessments/tax_uae/uae_invoice_review.png';
+import uaeVatReconciliationImage from '../../../assets/assessments/tax_uae/uae_vat_reconciliation.png';
 
-// Professional certification-level UAE Tax assessment. Current VAT and Corporate Tax coverage was checked and rewritten.
-export const taxUaeData = {
+export const taxUAEData = {
   id: ASSESSMENT_TYPES.tax_uae,
-  title: "UAE Taxation Professional Certification",
-  shortTitle: "UAE Tax",
-  category: "Accounting & Tax",
+  title: 'UAE Taxation Professional Certification',
+  shortTitle: 'UAE Tax',
+  category: 'Accounting & Tax',
   durationMinutes: 60,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Professional assessment covering UAE VAT, Corporate Tax, FTA compliance, EmaraTax, Free Zone tax treatment, input VAT, tax invoices, records, transfer pricing, excise tax, disputes, and tax governance.",
-  instructions: "Choose the best answer. Questions move from fundamentals to applied UAE VAT and Corporate Tax scenarios.",
+  description:
+    'Professional UAE taxation assessment covering VAT, standard and zero-rated supplies, reverse charge, input tax, Corporate Tax, taxable-income adjustments, invoice controls, FTA notices, and tax-close governance.',
+  instructions:
+    '20 scenario-based questions, 60 minutes, 100 marks. Use the exhibits, charts, tables, and process diagrams. Select the strongest tax treatment or control response for the facts given. Questions emphasize professional judgment and reconciliation rather than isolated memorization. No negative marking.',
   questions: [
     {
-      id: "uae-01",
-      type: "mcq",
-      title: "FTA",
-      prompt: "What is the FTA in the UAE tax system?",
-      options: ["Federal Tax Authority", "Foreign Trade Agency", "Financial Transfer Authority", "Federal Treasury Account"],
-      correctIndex: 0,
-      explanation: "The Federal Tax Authority administers federal taxes such as VAT, excise tax, and corporate tax."
-    },
-    {
-      id: "uae-02",
-      type: "mcq",
-      title: "VAT Introduction",
-      prompt: "When was VAT introduced in the UAE?",
-      options: ["2010", "2015", "2018", "2021"],
-      correctIndex: 2,
-      explanation: "UAE VAT started on 1 January 2018."
-    },
-    {
-      id: "uae-03",
-      type: "mcq",
-      title: "VAT Rate",
-      prompt: "What is the standard VAT rate in the UAE?",
-      options: ["0%", "5%", "9%", "15%"],
+      id: 'ae-01',
+      type: 'mcq',
+      title: 'VAT Reconciliation',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the UAE VAT exhibit.
+
+{{image}}
+
+Which line is the clearest reverse-charge exception?`,
+      image: {
+        src: uaeVatReconciliationImage,
+        alt: 'UAE VAT reconciliation'
+      },
+      options: [
+        'Standard-rated local sales already mapped.',
+        'The AED 90,000 imported-services item.',
+        'Local purchases already mapped.',
+        'Zero-rated sales solely because zero-rating never requires evidence.'
+      ],
       correctIndex: 1,
-      explanation: "The standard VAT rate in the UAE is 5%."
+      explanation:
+        'Correct: B. Imported services can require reverse-charge accounting by a UAE VAT-registered recipient, subject to the rules. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-04",
-      type: "mcq",
-      title: "VAT Registration",
-      prompt: "What is the mandatory VAT registration threshold for UAE businesses?",
-      options: ["AED 50,000", "AED 187,500", "AED 375,000", "AED 1,000,000"],
+      id: 'ae-02',
+      type: 'mcq',
+      title: 'UAE VAT Rate',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A normal taxable local supply does not qualify for zero-rating or exemption.
+
+Which VAT rate is generally relevant in the UAE?`,
+      options: [
+        '0% for every business supply.',
+        '9% because that is the Corporate Tax rate above the threshold.',
+        'There is no VAT in the UAE.',
+        '5%.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. The UAE standard VAT rate is 5% for standard-rated taxable supplies. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'ae-03',
+      type: 'mcq',
+      title: 'Reverse Charge',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A UAE VAT-registered company imports consultancy services from an overseas supplier, and the supply would be taxable in the UAE.
+
+What is the strongest conceptual treatment?`,
+      options: [
+        'Assess reverse-charge VAT and input-tax recovery separately in accordance with the rules.',
+        'The overseas supplier must always charge UAE VAT directly.',
+        'Ignore the service because it is foreign.',
+        'Treat it as Corporate Tax withholding.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. UAE reverse-charge rules can require the registered recipient to self-account for VAT on imported services. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'ae-04',
+      type: 'mcq',
+      title: 'Zero-rated Evidence',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A transaction is coded as a zero-rated export.
+
+What is the strongest close control?`,
+      options: [
+        'Assume every foreign customer is automatically zero-rated.',
+        'Delete output-tax records.',
+        'Verify that the supply meets the zero-rating conditions and retain supporting export evidence before filing.',
+        'Use the Corporate Tax return as evidence.'
+      ],
       correctIndex: 2,
-      explanation: "Businesses must register when taxable supplies and imports exceed AED 375,000, subject to rules."
+      explanation:
+        'Correct: C. Zero-rating is conditional and should be supported by evidence, not merely customer location. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-05",
-      type: "mcq",
-      title: "Voluntary VAT Registration",
-      prompt: "What is the UAE voluntary VAT registration threshold?",
-      options: ["AED 187,500", "AED 375,000", "AED 750,000", "AED 1,000,000"],
+      id: 'ae-05',
+      type: 'mcq',
+      title: 'VAT Input Tax',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A purchase invoice includes UAE VAT.
+
+What should determine whether input tax is recovered?`,
+      options: [
+        'Eligibility under the VAT rules and the business use/documentation of the purchase.',
+        'Every VAT amount is automatically recoverable.',
+        'No VAT is ever recoverable.',
+        'Corporate Tax profitability determines VAT recovery.'
+      ],
       correctIndex: 0,
-      explanation: "Businesses may voluntarily register once taxable supplies/imports or expenses exceed AED 187,500."
+      explanation:
+        'Correct: A. Input-tax recovery is a separate eligibility analysis based on VAT rules and supporting documentation. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-06",
-      type: "mcq",
-      title: "VAT Filing",
-      prompt: "When are UAE VAT returns and payments generally due after the tax period ends?",
-      options: ["Within 7 days", "Within 14 days", "Within 28 days", "Within 90 days"],
+      id: 'ae-06',
+      type: 'mcq',
+      title: 'VAT Exception Trend',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Study the chart.
+
+{{chart}}
+
+What is the strongest conclusion?`,
+      chart: {
+        type: 'line',
+        title: 'Open UAE VAT Exceptions',
+        xAxis: ['Jan','Feb','Mar','Apr','May'],
+        series: [{ name: 'Exceptions', data: [5,7,6,17,25] }]
+      },
+      options: [
+        'The VAT close is improving continuously.',
+        'The exception count is constant.',
+        'Unresolved VAT exceptions are rising and require corrective action.',
+        'May has fewer issues than January.'
+      ],
       correctIndex: 2,
-      explanation: "VAT returns and related payments are generally due within 28 days from the end of the tax period."
+      explanation:
+        'Correct: C. The exception count increases sharply in the last two periods. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-07",
-      type: "mcq",
-      title: "Tax Invoice",
-      prompt: "When must a UAE VAT tax invoice generally be issued?",
-      options: ["Within 14 calendar days from date of supply", "Only at year-end", "After the customer complains", "Never for B2B supplies"],
-      correctIndex: 0,
-      explanation: "UAE VAT rules generally require tax invoices within 14 days from the date of supply."
+      id: 'ae-07',
+      type: 'mcq',
+      title: 'Corporate Tax Bridge',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the UAE Corporate Tax bridge.
+
+{{image}}
+
+Which statement is strongest?`,
+      image: {
+        src: uaeCtBridgeImage,
+        alt: 'UAE Corporate Tax bridge'
+      },
+      options: [
+        'Accounting profit is always identical to taxable income.',
+        'Every accounting expense is automatically deductible.',
+        'Corporate Tax is calculated from VAT payable.',
+        'Accounting profit is the starting point; tax adjustments and reliefs must be analyzed before taxable income is finalized.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. UAE taxable income generally begins from accounting income and is adjusted under the Corporate Tax rules. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-08",
-      type: "mcq",
-      title: "Zero-Rated Supplies",
-      prompt: "What is a zero-rated supply under UAE VAT?",
-      options: ["No VAT charged and input tax may generally be recoverable if conditions are met", "A 5% taxable supply", "A supply outside accounting records", "A supply where input tax is never recoverable"],
-      correctIndex: 0,
-      explanation: "Zero-rated supplies are taxed at 0%, but related input tax may be recoverable."
-    },
-    {
-      id: "uae-09",
-      type: "mcq",
-      title: "Exempt Supplies",
-      prompt: "What is the main difference between exempt and zero-rated supplies?",
-      options: ["Exempt supplies usually do not allow input tax recovery; zero-rated supplies may allow recovery", "They are exactly the same", "Exempt supplies are charged at 5%", "Zero-rated supplies are illegal"],
-      correctIndex: 0,
-      explanation: "Exempt supplies usually block related input tax recovery, while zero-rated supplies may permit it."
-    },
-    {
-      id: "uae-10",
-      type: "mcq",
-      title: "Input VAT",
-      prompt: "What does input VAT recovery mean?",
-      options: ["Recovering eligible VAT paid on business purchases against output VAT", "Recovering employee salary", "Avoiding registration", "Claiming corporate tax exemption"],
-      correctIndex: 0,
-      explanation: "Registered businesses may recover eligible input VAT subject to UAE VAT rules."
-    },
-    {
-      id: "uae-11",
-      type: "mcq",
-      title: "Reverse Charge",
-      prompt: "What is reverse charge under UAE VAT?",
-      options: ["The recipient accounts for VAT on certain imports or specified supplies", "Supplier pays VAT twice", "VAT is refunded automatically", "Invoices are reversed in accounting software"],
-      correctIndex: 0,
-      explanation: "Reverse charge shifts VAT accounting to the recipient in specific cases."
-    },
-    {
-      id: "uae-12",
-      type: "mcq",
-      title: "VAT Group",
-      prompt: "What is a VAT group?",
-      options: ["Two or more eligible persons treated as a single taxable person for VAT", "A social club of accountants", "A group of customers", "An FTA audit team"],
-      correctIndex: 0,
-      explanation: "VAT grouping can simplify compliance and avoid VAT on intra-group supplies."
-    },
-    {
-      id: "uae-13",
-      type: "mcq",
-      title: "Tax Records",
-      prompt: "How long must UAE businesses generally keep VAT tax records?",
-      options: ["1 year", "3 years", "5 years, with longer periods for some real estate records", "Records are optional"],
-      correctIndex: 2,
-      explanation: "Most UAE VAT records are kept for at least five years, with longer retention for some real estate cases."
-    },
-    {
-      id: "uae-14",
-      type: "mcq",
-      title: "EmaraTax",
-      prompt: "What is EmaraTax?",
-      options: ["The FTA’s integrated digital platform for tax registration, filings, payments, and services", "A customs warehouse", "A bank account type", "A municipal tax"],
-      correctIndex: 0,
-      explanation: "EmaraTax is the FTA’s online tax services platform."
-    },
-    {
-      id: "uae-15",
-      type: "mcq",
-      title: "Corporate Tax Effective Date",
-      prompt: "UAE Corporate Tax generally applies to financial years starting on or after which date?",
-      options: ["1 January 2018", "1 June 2023", "1 January 2020", "1 April 2026"],
+      id: 'ae-08',
+      type: 'mcq',
+      title: 'Corporate Tax Rate Structure',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `For an ordinary UAE taxable person that is not applying a special qualifying free-zone rate, what is the current general rate structure reflected in FTA guidance?`,
+      options: [
+        '5% on all taxable income.',
+        '0% on taxable income up to AED 375,000 and 9% on the portion above AED 375,000.',
+        '9% on the first AED 375,000 and 0% above it.',
+        'A flat 15% for every UAE business.'
+      ],
       correctIndex: 1,
-      explanation: "UAE Corporate Tax became applicable for financial years starting on or after 1 June 2023."
+      explanation:
+        'Correct: B. FTA Corporate Tax guidance states 0% up to AED 375,000 of taxable income and 9% on the portion exceeding that amount. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-16",
-      type: "mcq",
-      title: "Corporate Tax Rate",
-      prompt: "What is the standard UAE Corporate Tax treatment for taxable income above AED 375,000?",
-      options: ["0%", "5%", "9%", "20%"],
+      id: 'ae-09',
+      type: 'mcq',
+      title: 'Invoice Classification',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the invoice exhibit.
+
+{{image}}
+
+Which transaction is the clearest reverse-charge review item?`,
+      image: {
+        src: uaeInvoiceReviewImage,
+        alt: 'UAE tax invoice review'
+      },
+      options: [
+        'INV-101, a mapped local standard-rated supply.',
+        'INV-102 solely because all exports are exempt, not zero-rated.',
+        'INV-103, the imported service.',
+        'INV-104 solely because exempt supplies always carry 5% VAT.'
+      ],
       correctIndex: 2,
-      explanation: "A 9% corporate tax rate applies to taxable income above AED 375,000, subject to rules."
+      explanation:
+        'Correct: C. Imported services are a common reverse-charge population for UAE VAT-registered businesses. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-17",
-      type: "mcq",
-      title: "Corporate Tax Threshold",
-      prompt: "What rate applies to taxable income up to AED 375,000 under the standard UAE Corporate Tax regime?",
-      options: ["0%", "5%", "9%", "15%"],
+      id: 'ae-10',
+      type: 'mcq',
+      title: 'VAT Books-to-Return Reconciliation',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The sales ledger shows AED 4.6 million of standard-rated sales while the draft VAT return shows AED 4.3 million.
+
+What is the strongest response?`,
+      options: [
+        'Reconcile the AED 300,000 difference to invoices, credit notes, timing, and tax codes before filing.',
+        'Reduce the ledger without support.',
+        'File because the draft return is presumed correct.',
+        'Move the difference to Corporate Tax.'
+      ],
       correctIndex: 0,
-      explanation: "Taxable income up to AED 375,000 is subject to 0% under the standard regime."
+      explanation:
+        'Correct: A. Books-to-return reconciliation is necessary to identify omitted, mistimed, or misclassified supplies. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-18",
-      type: "mcq",
-      title: "CT Registration",
-      prompt: "A business already registered for VAT asks whether it must also register for UAE Corporate Tax. What is the best answer?",
-      options: ["No, VAT registration replaces CT registration", "Yes, CT registration is separately required where applicable", "Only if it has imports", "Only if it has no employees"],
+      id: 'ae-11',
+      type: 'mcq',
+      title: 'Corporate Tax Forecast',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A business's projected taxable income rises materially during the year.
+
+What is the strongest tax-close response?`,
+      options: [
+        'Keep the original forecast regardless of new information.',
+        'Update the Corporate Tax forecast, assess tax adjustments/reliefs, and plan the expected cash liability.',
+        'Use VAT input tax to eliminate Corporate Tax.',
+        'Wait for an FTA audit before recalculating.'
+      ],
       correctIndex: 1,
-      explanation: "VAT and Corporate Tax are separate registrations/compliance obligations."
+      explanation:
+        'Correct: B. Forecast tax should reflect current expected taxable income and supported adjustments. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-19",
-      type: "mcq",
-      title: "Taxable Person",
-      prompt: "What is UAE Corporate Tax levied on?",
-      options: ["Net income or profit of corporations and other businesses", "Employee salaries only", "Only customs value", "Only cash withdrawals"],
-      correctIndex: 0,
-      explanation: "Corporate Tax is a direct tax on business profits."
+      id: 'ae-12',
+      type: 'mcq',
+      title: 'Tax Loss Relief',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A company has carried-forward tax losses and current taxable income.
+
+What is the strongest professional approach?`,
+      options: [
+        'Offset every historical accounting loss automatically.',
+        'Use VAT losses against Corporate Tax.',
+        'Ignore ownership/continuity or statutory conditions.',
+        'Evaluate loss-relief availability and limitations under the Corporate Tax rules before applying the loss in the computation.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Tax-loss relief is rule-based and should be supported rather than assumed from accounting losses. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-20",
-      type: "mcq",
-      title: "Free Zone Person",
-      prompt: "What is a key corporate tax benefit for a Qualifying Free Zone Person?",
-      options: ["0% on qualifying income, subject to conditions", "Automatic exemption from all taxes", "No accounting records required", "No VAT compliance ever"],
-      correctIndex: 0,
-      explanation: "Qualifying Free Zone Persons may benefit from 0% on qualifying income if conditions are met."
+      id: 'ae-13',
+      type: 'mcq',
+      title: 'VAT Liability Bridge',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Study the chart.
+
+{{chart}}
+
+Which interpretation is strongest?`,
+      chart: {
+        type: 'bar',
+        title: 'UAE VAT Liability Bridge (AED 000)',
+        categories: ['Output VAT','Recoverable Input','RCM','Net Cash'],
+        series: [{ name: 'Amount', data: [118,-73,9,54] }]
+      },
+      options: [
+        'A small net VAT amount means transaction classification does not matter.',
+        'All input VAT is always recoverable.',
+        'Reverse charge is a Corporate Tax item.',
+        'Recoverable input VAT reduces the net cash position, while reverse-charge and output classifications still need correct reporting.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. The bridge shows that classification and eligibility determine both reporting and net cash. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-21",
-      type: "mcq",
-      title: "Non-Qualifying Income",
-      prompt: "What happens if Free Zone income does not meet qualifying conditions?",
-      options: ["It may be subject to the normal corporate tax treatment", "It is always tax-free", "It is converted into VAT", "It is ignored"],
-      correctIndex: 0,
-      explanation: "Free Zone tax benefits depend on meeting qualifying income and compliance conditions."
+      id: 'ae-14',
+      type: 'mcq',
+      title: 'Tax Invoice Adjustment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A customer returns goods after a standard-rated UAE tax invoice was issued.
+
+What is the strongest control response?`,
+      options: [
+        'Delete the original invoice.',
+        'Process the appropriate tax credit-note adjustment, link it to the original supply, and update the VAT reporting trail.',
+        'Ignore the return because VAT was already reported.',
+        'Record the return only in Corporate Tax.'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. An adjustment should preserve the invoice audit trail and flow through VAT reporting. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-22",
-      type: "mcq",
-      title: "Small Business Relief",
-      prompt: "What is the purpose of Small Business Relief under UAE Corporate Tax?",
-      options: ["To reduce compliance burden for eligible small businesses", "To remove VAT registration for all businesses", "To tax employees", "To replace accounting records"],
-      correctIndex: 0,
-      explanation: "Small Business Relief supports eligible small businesses subject to conditions."
+      id: 'ae-15',
+      type: 'mcq',
+      title: 'UAE VAT Close Workflow',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What belongs in the missing step?
+
+{{diagram}}`,
+      diagram: `flowchart LR
+  A["Close sales & purchase ledgers"] --> B["Prepare VAT data"]
+  B --> C["???"]
+  C --> D["Submit VAT return / pay"]
+  D --> E["Archive evidence"]`,
+      options: [
+        'Apply 9% Corporate Tax to every invoice.',
+        'Run payroll only.',
+        'Reconcile books to VAT return categories, review RCM/zero-rated/exempt evidence, clear exceptions, and obtain sign-off.',
+        'Create a new TRN each quarter.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. The control step is reconciliation, classification review, exception clearing, and sign-off. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-23",
-      type: "mcq",
-      title: "Transfer Pricing",
-      prompt: "Why are transfer pricing rules important under UAE Corporate Tax?",
-      options: ["They require related-party transactions to follow arm’s-length pricing", "They set office rent", "They replace VAT invoices", "They apply only to individuals"],
+      id: 'ae-16',
+      type: 'mcq',
+      title: 'Corporate Tax Process',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which controlled process is strongest?`,
+      diagram: `flowchart LR
+  A["Financial statements"] --> B["Corporate Tax adjustments"]
+  B --> C["Taxable income"]
+  C --> D["Return / liability review"]
+  D --> E["File / pay / archive"]`,
+      options: [
+        'Finalize financial statements → prepare tax adjustments → determine taxable income → review return/payment → retain support.',
+        'Calculate tax directly from revenue.',
+        'Use VAT return figures as taxable income.',
+        'File before financial records are finalized.'
+      ],
       correctIndex: 0,
-      explanation: "Transfer pricing prevents profit shifting through non-market related-party pricing."
+      explanation:
+        'Correct: A. A controlled Corporate Tax process starts with financial statements and applies statutory adjustments. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-24",
-      type: "mcq",
-      title: "Related Parties",
-      prompt: "A UAE company sells services to a related entity at an artificially low price. What is the main tax concern?",
-      options: ["Arm’s-length transfer pricing risk", "VAT registration threshold only", "Office lease violation", "No issue in any case"],
-      correctIndex: 0,
-      explanation: "Related-party transactions must be priced consistently with arm’s-length principles."
+      id: 'ae-17',
+      type: 'mcq',
+      title: 'FTA Notice Response',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The FTA sends a notice indicating a VAT payment mismatch.
+
+What is the strongest response?`,
+      options: [
+        'Pay again immediately without investigation.',
+        'Reconcile the notice to the filed return, payment confirmation, tax period, and accounting records before responding.',
+        'Ignore the notice.',
+        'Change the Corporate Tax computation.'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Tax notices should be resolved using period-specific filing and payment evidence. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-25",
-      type: "mcq",
-      title: "Withholding Tax",
-      prompt: "What is the current UAE withholding tax rate under the corporate tax framework?",
-      options: ["0%", "5%", "9%", "15%"],
-      correctIndex: 0,
-      explanation: "The UAE withholding tax rate is currently 0%."
+      id: 'ae-18',
+      type: 'mcq',
+      title: 'UAE Tax Governance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which governance model is strongest for a growing UAE business?`,
+      options: [
+        'One reminder called \'tax\'.',
+        'Only save filed returns.',
+        'Rely on the accountant\'s memory.',
+        'A tax calendar and close checklist covering VAT, Corporate Tax, registrations, filings, payments, evidence, exceptions, owners, and review.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. VAT and Corporate Tax obligations need structured ownership, deadlines, reconciliations, and evidence. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-26",
-      type: "mcq",
-      title: "Pillar Two",
-      prompt: "What does Pillar Two generally refer to?",
-      options: ["OECD global minimum tax rules for large multinational groups", "A VAT invoice template", "A payroll tax on employees", "A customs inspection process"],
+      id: 'ae-19',
+      type: 'mcq',
+      title: 'Recurring RCM Failure',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Three VAT periods show imported services missing from reverse-charge coding.
+
+What is the strongest response?`,
+      options: [
+        'Correct the current reporting and redesign the vendor/tax-code process causing recurring RCM omissions.',
+        'Treat each period as unrelated.',
+        'Stop purchasing foreign services.',
+        'Ignore the issue because no UAE supplier charged VAT.'
+      ],
       correctIndex: 0,
-      explanation: "Pillar Two aims for a global minimum effective tax rate for large multinational groups."
+      explanation:
+        'Correct: A. Repeated reverse-charge omissions indicate a process/control weakness that should be remediated. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "uae-27",
-      type: "mcq",
-      title: "Domestic Minimum Top-Up Tax",
-      prompt: "What is the purpose of a domestic minimum top-up tax for large MNE groups?",
-      options: ["To help ensure large groups meet a minimum effective tax rate in the UAE", "To replace VAT for all companies", "To tax personal employment income", "To eliminate accounting records"],
-      correctIndex: 0,
-      explanation: "A DMTT aligns with global minimum tax principles for large multinational groups."
-    },
-    {
-      id: "uae-28",
-      type: "mcq",
-      title: "Excise Tax",
-      prompt: "What are excise goods in the UAE?",
-      options: ["Goods harmful to health or environment such as tobacco, energy drinks, carbonated/sweetened drinks depending on category", "All imported goods", "Only gold and jewelry", "All office supplies"],
-      correctIndex: 0,
-      explanation: "Excise tax applies to specified goods considered harmful to health or environment."
-    },
-    {
-      id: "uae-29",
-      type: "mcq",
-      title: "Tax Audit",
-      prompt: "Can the FTA conduct a tax audit?",
-      options: ["Yes, to verify compliance and accuracy of tax filings and records", "No, only courts can review tax", "Only if the taxpayer asks", "Only for banks"],
-      correctIndex: 0,
-      explanation: "The FTA has authority to review records and verify tax compliance."
-    },
-    {
-      id: "uae-30",
-      type: "mcq",
-      title: "Voluntary Disclosure",
-      prompt: "When is a voluntary disclosure generally used?",
-      options: ["To correct errors or omissions in a previously submitted tax return or assessment", "To create a new company logo", "To cancel all tax laws", "To register employees"],
-      correctIndex: 0,
-      explanation: "Voluntary disclosures help correct reported tax errors through proper channels."
-    },
-    {
-      id: "uae-31",
-      type: "mcq",
-      title: "Tax Agent",
-      prompt: "What is a Tax Agent in the UAE?",
-      options: ["A person registered with the FTA to assist taxpayers with tax obligations", "A bank teller", "A customs broker only", "An informal advisor with no approval"],
-      correctIndex: 0,
-      explanation: "FTA-registered Tax Agents can assist taxable persons in complying with tax obligations."
-    },
-    {
-      id: "uae-32",
-      type: "mcq",
-      title: "TDRC",
-      prompt: "What does TDRC stand for?",
-      options: ["Tax Dispute Resolution Committee", "Total Debt Recovery Company", "Tax Data Reporting Code", "Transfer Duty Review Center"],
-      correctIndex: 0,
-      explanation: "The TDRC handles certain tax dispute resolution matters."
-    },
-    {
-      id: "uae-33",
-      type: "mcq",
-      title: "Economic Substance",
-      prompt: "Why do Economic Substance rules matter in the UAE?",
-      options: ["They require certain entities conducting relevant activities to demonstrate adequate substance", "They replace corporate tax returns", "They apply only to tourists", "They remove audit requirements"],
-      correctIndex: 0,
-      explanation: "Economic Substance rules target entities that earn income from relevant activities without sufficient local substance."
-    },
-    {
-      id: "uae-34",
-      type: "mcq",
-      title: "Accounting Records",
-      prompt: "Why are accounting records important for UAE Corporate Tax?",
-      options: ["They support taxable income computation, deductions, elections, and audit defense", "They are optional for all companies", "They only help design invoices", "They replace contracts"],
-      correctIndex: 0,
-      explanation: "Corporate Tax compliance depends on reliable books and supporting documentation."
-    },
-    {
-      id: "uae-35",
-      type: "mcq",
-      title: "Deductible Expense",
-      prompt: "Which expense is generally more likely to be deductible for Corporate Tax?",
-      options: ["A business expense incurred wholly and exclusively for business, subject to limitations", "Owner’s personal vacation", "Undocumented cash gifts", "Penalties for tax violations"],
-      correctIndex: 0,
-      explanation: "Deductibility depends on business purpose, documentation, and statutory limitations."
-    },
-    {
-      id: "uae-36",
-      type: "mcq",
-      title: "VAT vs Corporate Tax",
-      prompt: "Which statement is correct?",
-      options: ["VAT is an indirect tax on supplies; Corporate Tax is a direct tax on business profits", "Both are the same tax", "Corporate Tax is charged on every invoice at 5%", "VAT applies only to salaries"],
-      correctIndex: 0,
-      explanation: "VAT and Corporate Tax have different tax bases, filing logic, and compliance obligations."
-    },
-    {
-      id: "uae-37",
-      type: "mcq",
-      title: "Tax Governance",
-      prompt: "Which control best improves UAE tax compliance?",
-      options: ["A monthly close checklist covering VAT, CT data, reconciliations, invoices, exemptions, and records", "Waiting until audit starts", "Keeping only screenshots", "Relying only on verbal approvals"],
-      correctIndex: 0,
-      explanation: "Good tax governance relies on periodic review, documentation, and reconciliations."
-    },
-    {
-      id: "uae-38",
-      type: "mcq",
-      title: "Input Tax Apportionment",
-      prompt: "A business has taxable and exempt supplies. What may be required for input VAT?",
-      options: ["Input tax apportionment to separate recoverable and non-recoverable VAT", "Claiming all input VAT automatically", "Ignoring exempt activity", "Moving all expenses to payroll"],
-      correctIndex: 0,
-      explanation: "Mixed supplies may require input VAT apportionment under UAE VAT rules."
-    },
-    {
-      id: "uae-39",
-      type: "mcq",
-      title: "Late Registration Risk",
-      prompt: "What is the best response when a business realizes it crossed the VAT threshold months ago?",
-      options: ["Register and assess late registration/payment exposure through the proper FTA process", "Ignore it until next year", "Stop issuing invoices", "Delete past sales"],
-      correctIndex: 0,
-      explanation: "Late registration should be addressed through proper tax compliance and remediation."
-    },
-    {
-      id: "uae-40",
-      type: "mcq",
-      title: "Professional Scenario",
-      prompt: "A Free Zone company earns income from mainland UAE customers. What should it evaluate first?",
-      options: ["Whether the income qualifies for Free Zone 0% treatment or is taxable at the normal CT rate", "Whether VAT disappears", "Whether accounting records can be skipped", "Whether invoices can omit customer details"],
-      correctIndex: 0,
-      explanation: "Free Zone treatment depends on qualifying income rules, customer type, activity, and compliance conditions."
-    },
-  ]
+      id: 'ae-20',
+      type: 'mcq',
+      title: 'Integrated UAE Tax Dashboard',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which dashboard gives the strongest tax oversight?`,
+      diagram: `flowchart TB
+  B["Books / invoices"] --> R["VAT & CT reconciliations"]
+  F["FTA filings"] --> R
+  P["Payments / proofs"] --> R
+  R --> X["Exception register"]
+  X --> V["Reviewer closure"]`,
+      options: [
+        'A list of VAT rates only.',
+        'A folder containing filed PDFs only.',
+        'A dashboard linking VAT, Corporate Tax, books, RCM items, zero-rated evidence, payments, exceptions, and reviewer closure.',
+        'A dashboard showing only accounting profit.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. The best design integrates source records, tax filings, payments, exceptions, and independent review. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    }
+  ],
 };

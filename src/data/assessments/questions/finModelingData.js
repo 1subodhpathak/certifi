@@ -1,317 +1,456 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level assessment data.
-// Original uploaded questions are preserved and extended with advanced scenarios.
 export const finModelingData = {
   id: ASSESSMENT_TYPES.fin_modeling,
-  title: "Financial Modeling & Valuation Professional Certification",
-  shortTitle: "Fin Modeling",
-  category: "Finance",
+  title: 'Financial Modeling & Valuation Professional Certification',
+  shortTitle: 'Financial Modeling 2',
+  category: 'Finance',
   durationMinutes: 60,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Professional financial modeling assessment covering three-statement models, DCF, WACC, terminal value, LBO, comparable companies, precedent transactions, sensitivity analysis, and model audit quality.",
-  instructions: "Choose the best answer. Questions move from easy to hard and test practical finance modeling and valuation judgment.",
+  description:
+    'Tests professional financial modeling and valuation judgment across three-statement models, DCF, WACC, terminal value, comparable companies, precedent transactions, LBOs, accretion/dilution, debt schedules, scenario analysis, sensitivity, and model audit quality.',
+  instructions:
+    '20 scenario-based questions, 60 minutes, 100 marks. Several questions include Mermaid diagrams, valuation schedules, or model structures. Read the complete scenario before choosing. Options are intentionally close, so select the answer that best reflects sound valuation logic, model integrity, and professional judgment. No negative marking.',
+
   questions: [
-{ id: 'fm-01', type: 'mcq', title: 'Core Concepts', prompt: 'What are the three core financial statements in a model?', options: ['P&L, Balance Sheet, Cash Flow', 'Revenue, Costs, Profit', 'Assets, Liabilities, Equity', 'Income, Taxes, Dividends'], correctIndex: 0, explanation: 'A 3-statement model links these three reports.' },
-        { id: 'fm-02', type: 'mcq', title: 'DCF', prompt: 'What does "DCF" stand for?', options: ['Direct Cash Flow', 'Discounted Cash Flow', 'Deferred Cost Function', 'Divided Capital Fund'], correctIndex: 1, explanation: 'DCF values a company based on the present value of its future cash flows.' },
-        { id: 'fm-03', type: 'mcq', title: 'WACC', prompt: 'What does "WACC" represent?', options: ['Weekly Average Cost of Capital', 'Weighted Average Cost of Capital', 'World Assets and Capital Class', 'Working Assets Cash Control'], correctIndex: 1, explanation: 'WACC is the average rate a company pays to finance its assets.' },
-        { id: 'fm-04', type: 'mcq', title: 'Excel', prompt: 'Which Excel function is commonly used for sensitivity analysis?', options: ['VLOOKUP', 'Data Tables', 'Pivot Tables', 'CONCATENATE'], correctIndex: 1, explanation: 'Data tables show how changes in inputs affect the final output.' },
-        { id: 'fm-05', type: 'mcq', title: 'Valuation', prompt: 'What is "Terminal Value"?', options: ['The end of a company', 'The value of a company beyond the explicit forecast period', 'The final profit', 'The total debt'], correctIndex: 1, explanation: 'Usually calculated using the Gordon Growth or Exit Multiple method.' },
-        { id: 'fm-06', type: 'mcq', title: 'EBITDA', prompt: 'What does EBITDA stand for?', options: ['Earnings Before Interest, Taxes, Depreciation, and Amortization', 'Estimated Business Income Total During Analysis', 'Earnings Before Internal Taxes and Debt Accounts', 'Every Business Income Total During Audit'], correctIndex: 0, explanation: 'EBITDA is a common proxy for operating cash flow.' },
-        { id: 'fm-07', type: 'mcq', title: 'Leverage', prompt: 'What is an "LBO" (Leveraged Buyout)?', options: ['Buying a company with cash', 'The acquisition of another company using a significant amount of borrowed money', 'A large bank loan', 'Liquidating a business'], correctIndex: 1, explanation: 'LBOs use the acquired company\'s assets as collateral.' },
-        { id: 'fm-08', type: 'mcq', title: 'Forecasting', prompt: 'What is a "Top-Down" revenue forecast?', options: ['Starting with unit sales', 'Starting with the total market size and estimating a percentage of market share', 'Asking sales teams', 'Looking at last year'], correctIndex: 1, explanation: 'Opposite of "Bottom-Up", which builds from specific sales activities.' },
-        { id: 'fm-09', type: 'mcq', title: 'NPV', prompt: 'What is "Net Present Value" (NPV)?', options: ['Total cash received', 'The difference between the present value of cash inflows and outflows', 'Current bank balance', 'Future value of a dollar'], correctIndex: 1, explanation: 'A positive NPV indicates a profitable investment.' },
-        { id: 'fm-10', type: 'mcq', title: 'IRR', prompt: 'What is "Internal Rate of Return" (IRR)?', options: ['Annual growth rate', 'The discount rate that makes the NPV of all cash flows equal to zero', 'Interest rate on debt', 'Internal tax rate'], correctIndex: 1, explanation: 'IRR measures the profitability of potential investments.' },
-        { id: 'fm-11', type: 'mcq', title: 'Excel - Formatting', prompt: 'In professional financial modeling, what color are hard-coded inputs usually?', options: ['Black', 'Blue', 'Green', 'Red'], correctIndex: 1, explanation: 'Blue for inputs, Black for formulas is the industry standard.' },
-        { id: 'fm-12', type: 'mcq', title: 'Statement Linking', prompt: 'Where does Net Income from the P&L flow to on the Balance Sheet?', options: ['Cash', 'Retained Earnings', 'Accounts Receivable', 'Long-term Debt'], correctIndex: 1, explanation: 'Net Income increases Equity through Retained Earnings.' },
-        { id: 'fm-13', type: 'mcq', title: 'Capex', prompt: 'What is "CAPEX"?', options: ['Operating expenses', 'Capital Expenditure - funds used by a company to acquire or upgrade physical assets', 'Monthly rent', 'Sales commissions'], correctIndex: 1, explanation: 'Capex is capitalized on the balance sheet, not expensed on the P&L.' },
-        { id: 'fm-14', type: 'mcq', title: 'Depreciation', prompt: 'How does Depreciation affect the Cash Flow Statement?', options: ['It is a cash outflow', 'It is a non-cash expense added back to Net Income', 'It is ignored', 'It is a cash inflow'], correctIndex: 1, explanation: 'Depreciation reduces taxable income but doesn\'t involve actual cash leaving.' },
-        { id: 'fm-15', type: 'mcq', title: 'Enterprise Value', prompt: 'How do you calculate Enterprise Value (EV)?', options: ['Market Cap only', 'Market Cap + Debt - Cash', 'Assets + Liabilities', 'Revenue x 10'], correctIndex: 1, explanation: 'EV represents the total value of the business, regardless of capital structure.' },
-        { id: 'fm-16', type: 'mcq', title: 'Sensitivity', prompt: 'What is the purpose of a "Monte Carlo" simulation in modeling?', options: ['To gamble', 'To understand the impact of risk and uncertainty in financial forecasting by running thousands of scenarios', 'To predict stock prices', 'To calculate tax'], correctIndex: 1, explanation: 'It uses probability distributions for inputs.' },
-        { id: 'fm-17', type: 'mcq', title: 'Working Capital', prompt: 'What is "Net Working Capital"?', options: ['Current Assets minus Current Liabilities', 'Total Cash', 'Fixed Assets', 'Equity'], correctIndex: 0, explanation: 'Measures a company\'s short-term liquidity.' },
-        { id: 'fm-18', type: 'mcq', title: 'Debt Schedule', prompt: 'What is an "Amortization Schedule"?', options: ['A list of assets', 'A table detailing each periodic payment on an amortizing loan', 'A tax form', 'A sales forecast'], correctIndex: 1, explanation: 'Shows principal vs interest for each payment.' },
-        { id: 'fm-19', type: 'mcq', title: 'Multiples', prompt: 'What is a "Price-to-Earnings" (P/E) ratio?', options: ['Revenue / Employees', 'Market Price per Share / Earnings per Share', 'Debt / Equity', 'Total Profit / Assets'], correctIndex: 1, explanation: 'A common metric for valuing a company relative to its peers.' },
-        { id: 'fm-20', type: 'mcq', title: 'Error Checking', prompt: 'What is a "Circ" (Circular Reference) in Excel modeling?', options: ['A round table', 'When a formula refers to its own cell, either directly or indirectly', 'A perfect model', 'A type of chart'], correctIndex: 1, explanation: 'Often used intentionally in interest expense calculations, but requires iterative calculation settings.' },
     {
-          "id": "fm-21",
-          "type": "mcq",
-          "title": "Three-Statement Linkage",
-          "prompt": "How does net income link into the cash flow statement?",
-          "options": [
-                "It is the starting point for operating cash flow under the indirect method",
-                "It is ignored",
-                "It only affects debt",
-                "It only changes share count"
-          ],
-          "correctIndex": 0,
-          "explanation": "The indirect cash flow statement starts with net income and adjusts to cash flow."
+      id: 'fm-01',
+      type: 'mcq',
+      title: 'Three-Statement Integration',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `A model increases depreciation expense by $2m.
+
+Ignoring tax, what is the strongest three-statement effect?`,
+      options: [
+        'Net income rises, cash flow rises, and PP&E rises.',
+        'Net income falls, depreciation is added back in operating cash flow, and PP&E declines.',
+        'Cash falls by $2m because depreciation is an expense.',
+        'Debt automatically increases by $2m.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Depreciation reduces earnings, is added back as a non-cash item in operating cash flow, and reduces PP&E carrying value. Why not A: earnings do not rise. Why not C: depreciation itself is not a cash outflow. Why not D: debt does not automatically change.'
     },
+
     {
-          "id": "fm-22",
-          "type": "mcq",
-          "title": "Balance Sheet Linkage",
-          "prompt": "Why must the balance sheet balance in a model?",
-          "options": [
-                "Assets must equal liabilities plus equity",
-                "Revenue must equal expenses",
-                "Cash must equal EBITDA",
-                "Debt must equal inventory"
-          ],
-          "correctIndex": 0,
-          "explanation": "A balanced balance sheet validates core statement linkage."
+      id: 'fm-02',
+      type: 'mcq',
+      title: 'DCF Cash Flow',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `A company is being valued using an unlevered DCF.
+
+Which cash flow should generally be discounted at WACC?`,
+      options: [
+        'Net income after dividends.',
+        'Gross revenue.',
+        'Ending cash balance.',
+        'Unlevered free cash flow available to all capital providers.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. An unlevered DCF discounts cash flow available to debt and equity holders at WACC. Why not A: net income includes financing effects. Why not B: revenue is not cash flow. Why not C: cash balance is a balance-sheet item, not a valuation cash-flow stream.'
     },
+
     {
-          "id": "fm-23",
-          "type": "mcq",
-          "title": "Working Capital",
-          "prompt": "What does an increase in inventory usually do to cash flow?",
-          "options": [
-                "Uses cash",
-                "Creates cash",
-                "Has no effect ever",
-                "Increases revenue automatically"
-          ],
-          "correctIndex": 0,
-          "explanation": "More inventory ties up cash."
+      id: 'fm-03',
+      type: 'mcq',
+      title: 'Enterprise Value Bridge',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `A company has:
+
+Equity value: $800m
+Debt: $250m
+Cash: $90m
+
+Ignoring other adjustments, what is enterprise value?`,
+      options: [
+        '$960m',
+        '$1.05bn',
+        '$710m',
+        '$550m',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Enterprise value = equity value + debt - cash = 800 + 250 - 90 = $960m. Why not B: it ignores cash. Why not C/D: they incorrectly subtract debt or equity components.'
     },
+
     {
-          "id": "fm-24",
-          "type": "mcq",
-          "title": "Capex",
-          "prompt": "Where does capital expenditure appear?",
-          "options": [
-                "Cash flow statement and fixed asset schedule",
-                "Only income statement as revenue",
-                "Only equity schedule",
-                "Only tax schedule"
-          ],
-          "correctIndex": 0,
-          "explanation": "Capex is a cash outflow and increases PP&E before depreciation."
+      id: 'fm-04',
+      type: 'mcq',
+      title: 'WACC Design',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Which WACC setup is strongest for valuing a mature operating company?`,
+      options: [
+        'Use only the company’s historical interest rate.',
+        'Use revenue growth as the discount rate.',
+        'Combine cost of equity and after-tax cost of debt using a reasonable target capital structure.',
+        'Use management’s preferred return regardless of market risk.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. WACC reflects the weighted required returns of debt and equity capital. Why not A: debt cost alone ignores equity risk. Why not B: growth is not a discount rate. Why not D: required return should reflect market and business risk, not preference.'
     },
+
     {
-          "id": "fm-25",
-          "type": "mcq",
-          "title": "Depreciation",
-          "prompt": "How does depreciation affect the three statements?",
-          "options": [
-                "Reduces EBIT/net income, is added back in cash flow, and reduces PP&E",
-                "Increases cash directly",
-                "Only affects debt",
-                "Only affects revenue"
-          ],
-          "correctIndex": 0,
-          "explanation": "Depreciation is non-cash but reduces book value and earnings."
+      id: 'fm-05',
+      type: 'mcq',
+      title: 'Terminal Growth',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `A DCF for a mature company assumes 12% perpetual growth after the explicit forecast period.
+
+What is the strongest concern?`,
+      options: [
+        'A perpetual growth rate should be economically sustainable relative to long-run market/economic growth.',
+        'Terminal growth should always equal revenue growth in year five.',
+        'Terminal growth should always exceed WACC.',
+        'Perpetual growth is irrelevant because terminal value does not affect DCF valuation.',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. A perpetual growth rate must be sustainable over the long run. Why not B: terminal assumptions need not equal the final forecast year mechanically. Why not C: if growth approaches/exceeds WACC, the Gordon Growth formula becomes economically problematic. Why not D: terminal value often represents a major portion of DCF value.'
     },
+
     {
-          "id": "fm-26",
-          "type": "mcq",
-          "title": "DCF Cash Flow",
-          "prompt": "Which cash flow is commonly discounted in an unlevered DCF?",
-          "options": [
-                "Unlevered free cash flow",
-                "Net income after dividends only",
-                "Gross revenue",
-                "Cash balance"
-          ],
-          "correctIndex": 0,
-          "explanation": "Unlevered DCF values the firm before financing effects."
+      id: 'fm-06',
+      type: 'mcq',
+      title: 'Terminal Value Cross-Check',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A DCF using the Gordon Growth method implies a terminal EV/EBITDA multiple of 21x.
+
+Comparable mature peers trade at 8x-11x.
+
+What is the strongest response?`,
+      options: [
+        'Use 21x because DCF outputs should never be compared with market multiples.',
+        'Increase WACC until the implied multiple equals exactly 10x.',
+        'Investigate whether terminal growth, margins, cash conversion, or discount-rate assumptions are too aggressive and cross-check with an exit-multiple approach.',
+        'Ignore the implied multiple because it is not shown in financial statements.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Implied terminal multiples are useful valuation sanity checks. Why not A: DCF and market methods should inform each other. Why not B: assumptions should be supported, not mechanically forced. Why not D: the multiple is a valuable diagnostic even though it is not an accounting metric.'
     },
+
     {
-          "id": "fm-27",
-          "type": "mcq",
-          "title": "WACC Components",
-          "prompt": "What inputs are commonly needed for WACC?",
-          "options": [
-                "Cost of equity, after-tax cost of debt, and target capital structure",
-                "Only revenue growth",
-                "Only inventory days",
-                "Only share count"
-          ],
-          "correctIndex": 0,
-          "explanation": "WACC weights debt and equity costs by capital structure."
+      id: 'fm-07',
+      type: 'mcq',
+      title: 'Comparable Companies',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A target company has 35% EBITDA margins and 25% revenue growth.
+
+The selected peer set has mostly 8%-12% growth and 12%-18% margins.
+
+What is the strongest valuation concern?`,
+      options: [
+        'The target must automatically trade at the median peer multiple.',
+        'The peer set may not be sufficiently comparable, so growth, margin, scale, business model, and risk differences should be considered before applying multiples.',
+        'Comparable-company analysis cannot be used for high-growth businesses.',
+        'Only P/E should be used because EBITDA margins differ.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Multiples are only meaningful when comparability is understood. Why not A: median application without adjustment can misvalue the target. Why not C: comps can still be useful. Why not D: no single multiple automatically solves comparability issues.'
     },
+
     {
-          "id": "fm-28",
-          "type": "mcq",
-          "title": "Terminal Growth",
-          "prompt": "What should be true about a perpetual growth rate in a DCF?",
-          "options": [
-                "It should be reasonable relative to long-term economic growth",
-                "It should always exceed 20%",
-                "It should be negative always",
-                "It is unrelated to valuation"
-          ],
-          "correctIndex": 0,
-          "explanation": "Terminal growth assumptions must be economically sustainable."
+      id: 'fm-08',
+      type: 'mcq',
+      title: 'Precedent Transactions',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Precedent transaction multiples are materially higher than current public-company multiples.
+
+Which explanation is strongest?`,
+      options: [
+        'Precedent transactions are always wrong.',
+        'Public-company multiples should therefore be ignored.',
+        'The target must be worth exactly the precedent median.',
+        'Precedent deals may include control premiums, synergies, different market conditions, or strategic buyer behavior.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Transaction multiples can exceed public-market multiples because acquisition pricing often includes control and synergy value. Why not A/B: both methods can be informative. Why not C: transaction medians still require comparability and context.'
     },
+
     {
-          "id": "fm-29",
-          "type": "mcq",
-          "title": "Exit Multiple",
-          "prompt": "What is an exit multiple method?",
-          "options": [
-                "Estimating terminal value using a valuation multiple applied to a terminal-year metric",
-                "Calculating depreciation",
-                "Forecasting inventory only",
-                "Setting tax rate"
-          ],
-          "correctIndex": 0,
-          "explanation": "Exit multiples often use EBITDA or revenue multiples."
+      id: 'fm-09',
+      type: 'mcq',
+      title: 'Sensitivity Analysis',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `An analyst wants to show how enterprise value changes across combinations of WACC and perpetual growth.
+
+Which Excel structure is strongest?`,
+      options: [
+        'A Pivot Table.',
+        'Goal Seek.',
+        'A two-input Data Table linked to the valuation output.',
+        'A manual list of unrelated hardcoded values.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. A two-input Data Table is designed to test one output across combinations of two assumptions. Why not A: Pivot Tables summarize datasets. Why not B: Goal Seek solves for one input to reach a target. Why not D: hardcoded sensitivities are not dynamic or auditable.'
     },
+
     {
-          "id": "fm-30",
-          "type": "mcq",
-          "title": "Sensitivity Table",
-          "prompt": "Why use sensitivity tables?",
-          "options": [
-                "To show valuation impact from changes in key assumptions",
-                "To hide assumptions",
-                "To delete formulas",
-                "To replace forecasts"
-          ],
-          "correctIndex": 0,
-          "explanation": "Sensitivity analysis reveals which assumptions matter most."
+      id: 'fm-10',
+      type: 'mcq',
+      title: 'Scenario Analysis',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Management wants downside, base, and upside valuations.
+
+What is the strongest modeling structure?`,
+      options: [
+        'Use one controlled scenario selector that switches defined assumption sets while preserving consistent formulas.',
+        'Build three unrelated workbooks with different formulas.',
+        'Hardcode three valuation outputs without changing drivers.',
+        'Use different accounting definitions in each case.',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Scenarios should change assumptions while keeping the model architecture consistent. Why not B: separate files create drift risk. Why not C: outputs should flow from assumptions. Why not D: changing accounting definitions destroys comparability.'
     },
+
     {
-          "id": "fm-31",
-          "type": "mcq",
-          "title": "Scenario Model",
-          "prompt": "What is the purpose of downside/base/upside cases?",
-          "options": [
-                "Compare outcomes under different operating assumptions",
-                "Create three logos",
-                "Avoid analysis",
-                "Make the workbook larger only"
-          ],
-          "correctIndex": 0,
-          "explanation": "Scenarios help decision-makers understand risk and range of outcomes."
+      id: 'fm-11',
+      type: 'mcq',
+      title: 'LBO Value Drivers',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Which combination most directly drives LBO equity returns?`,
+      options: [
+        'Only revenue growth and tax rate.',
+        'Entry valuation, leverage, operating performance, debt paydown, and exit valuation.',
+        'Only number of debt tranches.',
+        'Only the buyer’s accounting policy.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. LBO returns are driven by purchase price, financing structure, business performance, deleveraging, and exit value. Why not A/C/D: each omits major return drivers.'
     },
+
     {
-          "id": "fm-32",
-          "type": "mcq",
-          "title": "Circular Debt Model",
-          "prompt": "What can create a circular reference in a model?",
-          "options": [
-                "Interest expense based on debt balance while debt depends on cash flow after interest",
-                "Revenue based on units",
-                "COGS based on margin",
-                "Taxes based on EBT only"
-          ],
-          "correctIndex": 0,
-          "explanation": "Debt-interest calculations can create circularity."
+      id: 'fm-12',
+      type: 'mcq',
+      title: 'Debt Circularity',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Interest expense depends on average debt.
+Debt repayment depends on cash flow after interest.
+
+What is the strongest modeling response?`,
+      options: [
+        'Remove interest expense.',
+        'Hardcode ending debt.',
+        'Ignore the circularity warning.',
+        'Use a transparent circularity solution such as iterative calculation, a circularity switch, or algebraic logic with checks.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Debt-interest circularity should be handled deliberately and transparently. Why not A: economics would be incomplete. Why not B: hardcoding breaks dynamic logic. Why not C: unresolved circularity can destabilize outputs.'
     },
+
     {
-          "id": "fm-33",
-          "type": "mcq",
-          "title": "LBO Returns",
-          "prompt": "What mainly drives LBO equity returns?",
-          "options": [
-                "Entry valuation, leverage, EBITDA growth, debt paydown, and exit multiple",
-                "Only company logo",
-                "Only tax name",
-                "Only number of tabs"
-          ],
-          "correctIndex": 0,
-          "explanation": "LBO returns depend on operations, financing, and exit assumptions."
+      id: 'fm-13',
+      type: 'mcq',
+      title: 'LBO Debt Paydown',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `An LBO starts with $400m of debt.
+
+After five years, operating cash generation reduces debt to $180m, with no change in enterprise value.
+
+What is the strongest effect on sponsor equity value?`,
+      options: [
+        'Equity value generally increases because less debt remains against the same enterprise value.',
+        'Equity value falls because debt paydown reduces leverage.',
+        'Equity value is unchanged because enterprise value is unchanged.',
+        'Equity value becomes zero once leverage falls.',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Equity value = enterprise value less net debt, so debt paydown increases equity value if EV is unchanged. Why not B/C/D: they ignore the EV-to-equity bridge.'
     },
+
     {
-          "id": "fm-34",
-          "type": "mcq",
-          "title": "Accretion Dilution",
-          "prompt": "What does accretion/dilution analysis evaluate?",
-          "options": [
-                "Impact of an acquisition on acquirer EPS",
-                "Only cash balance",
-                "Only inventory levels",
-                "Only website traffic"
-          ],
-          "correctIndex": 0,
-          "explanation": "Accretion/dilution compares pro forma EPS to standalone EPS."
+      id: 'fm-14',
+      type: 'mcq',
+      title: 'Accretion / Dilution',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `An acquisition increases the buyer’s pro forma EPS from $4.00 to $4.28.
+
+What is the strongest high-level conclusion?`,
+      options: [
+        'The transaction is automatically value-creating.',
+        'The deal is EPS-accretive, but EPS accretion alone does not prove economic value creation.',
+        'The transaction is dilutive because shares may be issued.',
+        'The acquisition price must be below book value.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Accretion means pro forma EPS increases, but value creation also depends on purchase price, synergies, financing, risk, and return on invested capital. Why not A: accretion can occur in value-destructive deals. Why not C: issued shares do not automatically make a deal dilutive. Why not D: book value is not implied.'
     },
+
     {
-          "id": "fm-35",
-          "type": "mcq",
-          "title": "Comparable Companies",
-          "prompt": "What is comparable company analysis based on?",
-          "options": [
-                "Valuation multiples of similar publicly traded companies",
-                "Random share prices",
-                "Only book value",
-                "Only tax rates"
-          ],
-          "correctIndex": 0,
-          "explanation": "Comps infer value from market pricing of similar companies."
+      id: 'fm-15',
+      type: 'mcq',
+      title: 'DCF Forecast Consistency',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A DCF assumes revenue doubles over five years, but:
+
+- capex remains below depreciation
+- working capital stays flat
+- headcount barely changes
+- margins expand sharply
+
+What is the strongest concern?`,
+      options: [
+        'The model is conservative.',
+        'The assumptions are automatically valid because DCF is based on cash flow.',
+        'The growth and margin assumptions may be operationally inconsistent with required capacity, working capital, and investment.',
+        'Capex should always be exactly equal to depreciation.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Growth must be supported by realistic operating investment and working-capital assumptions. Why not A: underinvestment can make forecasts aggressive, not conservative. Why not B: DCF quality depends on realistic inputs. Why not D: capex and depreciation can differ.'
     },
+
     {
-          "id": "fm-36",
-          "type": "mcq",
-          "title": "Precedent Transactions",
-          "prompt": "What does precedent transaction analysis use?",
-          "options": [
-                "Multiples paid in past M&A transactions",
-                "Only current inventory",
-                "Only payroll",
-                "Only debt covenants"
-          ],
-          "correctIndex": 0,
-          "explanation": "Transaction comps reflect acquisition pricing and control premiums."
+      id: 'fm-16',
+      type: 'mcq',
+      title: 'Model Audit',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The balance sheet is out of balance by $7m.
+
+What is the strongest first diagnostic approach?`,
+      options: [
+        'Inspect statement linkages, retained earnings, cash flow, debt, working capital, PP&E roll-forwards, and sign conventions before using any plug.',
+        'Insert a $7m balancing item into equity.',
+        'Increase cash by $7m.',
+        'Delete the cash flow statement.',
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. A balance-sheet break usually indicates a linkage or roll-forward problem. Why not B/C: plugs conceal errors. Why not D: the cash-flow statement is necessary to understand the imbalance.'
     },
+
     {
-          "id": "fm-37",
-          "type": "mcq",
-          "title": "Model Formatting",
-          "prompt": "Why color-code inputs, formulas, and links?",
-          "options": [
-                "To improve auditability and model usability",
-                "To make formulas hidden",
-                "To increase file size",
-                "To avoid checks"
-          ],
-          "correctIndex": 0,
-          "explanation": "Consistent formatting helps reviewers understand model logic."
+      id: 'fm-17',
+      type: 'mcq',
+      title: 'Exit Multiple Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A model assumes the company will exit at 15x EBITDA in year five.
+
+Current peers trade at 9x-11x, and no structural improvement in growth or margins is forecast.
+
+What is the strongest response?`,
+      options: [
+        'Keep 15x because exit multiples are subjective.',
+        'Challenge the 15x assumption and support the exit multiple using future business quality, peer ranges, transaction evidence, and market conditions.',
+        'Use the highest historical multiple automatically.',
+        'Remove the exit multiple and use book value instead.',
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Exit assumptions should be supported by realistic future positioning and market evidence. Why not A: subjectivity does not remove the need for support. Why not C: peak multiples may be inappropriate. Why not D: book value is not a substitute for valuation logic.'
     },
+
     {
-          "id": "fm-38",
-          "type": "mcq",
-          "title": "Error Checks",
-          "prompt": "Which is a strong error check?",
-          "options": [
-                "Balance sheet balance check and cash flow roll-forward check",
-                "Only sheet color",
-                "Only author name",
-                "Only zoom level"
-          ],
-          "correctIndex": 0,
-          "explanation": "Error checks catch broken links and incorrect statement integration."
+      id: 'fm-18',
+      type: 'mcq',
+      title: 'Terminal Value Concentration',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Terminal value represents 82% of total DCF enterprise value.
+
+What is the strongest interpretation?`,
+      options: [
+        'The model is automatically wrong.',
+        'Terminal value should be removed entirely.',
+        'The analyst should use the highest terminal value method to compensate for uncertainty.',
+        'The valuation is highly dependent on long-duration assumptions, so terminal growth, WACC, exit multiples, and forecast maturity should be stress-tested and cross-checked.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. High terminal-value concentration increases sensitivity to long-term assumptions and calls for stronger validation. Why not A: high concentration is common in some businesses, though risky. Why not B: terminal value is economically necessary for a going concern. Why not C: using the highest value introduces bias.'
     },
+
     {
-          "id": "fm-39",
-          "type": "mcq",
-          "title": "Hardcoding",
-          "prompt": "Why avoid hardcoding inside formulas?",
-          "options": [
-                "It hides assumptions and makes audit difficult",
-                "It always improves flexibility",
-                "It is required for all models",
-                "It prevents errors forever"
-          ],
-          "correctIndex": 0,
-          "explanation": "Hardcoded numbers should be clearly separated as inputs."
+      id: 'fm-19',
+      type: 'mcq',
+      title: 'Valuation Cross-Check',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A valuation produces:
+
+{{diagram}}
+
+DCF: $1.6bn EV
+Comparable companies: $1.0bn-$1.2bn EV
+Precedent transactions: $1.15bn-$1.35bn EV
+
+What is the strongest analyst response?`,
+      diagram: `flowchart TB
+  DCF["DCF<br/><b>$1.6bn</b>"] --> J["Valuation judgment"]
+  C["Comps<br/><b>$1.0-1.2bn</b>"] --> J
+  P["Precedents<br/><b>$1.15-1.35bn</b>"] --> J
+  J --> R["Investigate why DCF is materially higher"]
+  classDef warning fill:#fff7ed,stroke:#f97316,color:#9a3412;
+  class DCF,J,R warning;`,
+      options: [
+        'Use the DCF because it is the highest method.',
+        'Average all endpoints mechanically.',
+        'Discard market-based methods because intrinsic value is always superior.',
+        'Investigate whether DCF assumptions such as margins, terminal value, or WACC explain the premium before choosing a valuation range.',
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Material differences between valuation methods should be understood, not mechanically ignored. Why not A: selecting the highest method is biased. Why not B: averaging without understanding assumptions can be misleading. Why not C: market evidence is an important cross-check.'
     },
+
     {
-          "id": "fm-40",
-          "type": "mcq",
-          "title": "Advanced Modeling Judgment",
-          "prompt": "A valuation is extremely sensitive to terminal value. What should the analyst do?",
-          "options": [
-                "Stress-test terminal assumptions, compare methods, and clearly disclose sensitivity",
-                "Hide the sensitivity",
-                "Use the highest value only",
-                "Ignore terminal value"
-          ],
-          "correctIndex": 0,
-          "explanation": "Terminal value often drives DCF results and must be tested carefully."
-    }
-  ]
+      id: 'fm-20',
+      type: 'mcq',
+      title: 'Integrated Valuation Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A review of a valuation model finds:
+
+{{diagram}}
+
+Which remediation is strongest?`,
+      diagram: `flowchart TB
+  H["Hardcoded forecast outputs"] --> J["Model redesign"]
+  TV["Terminal value = 78% of EV"] --> J
+  W["Unsupported WACC"] --> J
+  EX["Aggressive exit multiple"] --> J
+  C["Weak comps selection"] --> J
+  L["LBO circularity unresolved"] --> J
+  CH["No model checks"] --> J
+  classDef warning fill:#fff7ed,stroke:#f97316,color:#9a3412;
+  class H,TV,W,EX,C,L,CH,J warning;`,
+      options: [
+        'Improve only formatting because the valuation methods are already present.',
+        'Keep all assumptions and add more charts.',
+        'Rebuild the model around driver-based forecasts, supported valuation assumptions, cross-method sanity checks, controlled circularity, scenarios, sensitivities, and embedded model checks.',
+        'Remove all valuation methods except DCF.',
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. The weaknesses are structural and require better forecasting, valuation support, cross-checking, circularity control, and model governance. Why not A/B: presentation does not fix logic. Why not D: multiple methods provide useful triangulation.'
+    },
+  ],
 };

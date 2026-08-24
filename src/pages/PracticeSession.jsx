@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -17,7 +17,7 @@ import {
 import { assessmentsMap } from '../data/assessments';
 import { buildProctoringSummary, buildQuestionBank, buildSkillReportCard } from '../services/assessmentInsights';
 import { saveAssessmentAttempt } from '../services/attemptRegistry';
-import MermaidDiagram from '../components/shared/MermaidDiagram';
+import QuestionContent from '../components/shared/QuestionContent';
 
 const PRACTICE_ATTEMPTS_KEY = 'careerSensePracticeAttempts';
 const timestamp = () => new Date().toISOString();
@@ -391,27 +391,7 @@ export default function PracticeSession() {
             {/* Question Content */}
             <div className="p-4 sm:p-6 lg:p-8">
               <h2 className="text-base font-semibold text-slate-900 sm:text-lg">{currentQuestion.title}</h2>
-              {currentQuestion.prompt?.includes('{{diagram}}') && currentQuestion.diagram ? (
-                <div className="mt-4 text-sm leading-relaxed text-slate-700 sm:text-base">
-                  {currentQuestion.prompt.split('{{diagram}}').map((part, idx, arr) => (
-                    <React.Fragment key={idx}>
-                      <span className="whitespace-pre-wrap">{part}</span>
-                      {idx < arr.length - 1 && (
-                        <MermaidDiagram chart={currentQuestion.diagram} />
-                      )}
-                    </React.Fragment>
-                  ))}
-                </div>
-              ) : (
-                <div>
-                  <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed text-slate-700 sm:text-base">
-                    {currentQuestion.prompt}
-                  </p>
-                  {currentQuestion.diagram && (
-                    <MermaidDiagram chart={currentQuestion.diagram} />
-                  )}
-                </div>
-              )}
+              <QuestionContent question={currentQuestion} />
 
               {currentQuestion.expectedOutput ? (
                 <div className="mt-6 border-l-4 border-slate-400 bg-slate-50 p-4 text-sm text-slate-700">

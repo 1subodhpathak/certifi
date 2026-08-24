@@ -1,317 +1,470 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
+import businessEmailImage from '../../../assets/assessments/german/business_email.png';
+import meetingScheduleImage from '../../../assets/assessments/german/meeting_schedule.png';
+import officeDirectoryImage from '../../../assets/assessments/german/office_directory.png';
 
-// Professional certification-level assessment data.
-// Original uploaded questions are preserved and extended with advanced scenarios.
 export const germanData = {
   id: ASSESSMENT_TYPES.german,
-  title: "German Professional Language Proficiency Certification",
-  shortTitle: "German",
-  category: "Language Skills",
+  title: 'German Professional Language Proficiency Certification',
+  shortTitle: 'German',
+  category: 'Language Skills',
   durationMinutes: 50,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Professional German language assessment covering grammar, cases, vocabulary, sentence structure, business expressions, email etiquette, and workplace communication.",
-  instructions: "Wählen Sie die beste Antwort für jede Frage. Questions progress from foundational German to professional communication.",
+  description:
+    'Interactive professional language assessment covering workplace comprehension, business communication, schedules, charts, tables, grammar in context, professional tone, negotiation, and customer communication.',
+  instructions:
+    '20 scenario-based questions, 50 minutes, 100 marks. Questions include message/email exhibits, office visuals, schedules, tables, charts, and Mermaid conversation flows. Read each scenario carefully and choose the most accurate and professional answer. No negative marking.',
   questions: [
-{ id: 'de-01', type: 'mcq', title: 'Grammatik', prompt: 'Wählen Sie den richtigen Artikel: "___ Tisch ist groß."', options: ['Der', 'Die', 'Das', 'Den'], correctIndex: 0, explanation: 'Tisch is a masculine noun in German, so it takes the article "der".' },
-        { id: 'de-02', type: 'mcq', title: 'Vokabular', prompt: 'Was bedeutet "Arbeit" ?', options: ['Play', 'Work', 'School', 'Home'], correctIndex: 1, explanation: '"Arbeit" means work.' },
-        { id: 'de-03', type: 'mcq', title: 'Konjugation', prompt: 'Ich ___ aus Deutschland.', options: ['bist', 'ist', 'bin', 'sind'], correctIndex: 2, explanation: '"Ich bin" is the first person singular of the verb "sein" (to be).' },
-        { id: 'de-04', type: 'mcq', title: 'Business German', prompt: 'Wie sagt man "Thank you for your email" ?', options: ['Danke für Ihre E-Mail', 'Tschüss für die E-Mail', 'Hallo E-Mail', 'Bitte E-Mail'], correctIndex: 0, explanation: '"Danke für Ihre E-Mail" is the correct formal way to thank someone for their email.' },
-        { id: 'de-05', type: 'mcq', title: 'Satzbau', prompt: 'Welcher Satz ist korrekt?', options: ['Ich gehen nach Hause.', 'Ich gehe nach Hause.', 'Ich gehst nach Hause.', 'Ich geht nach Hause.'], correctIndex: 1, explanation: 'The correct conjugation for "ich" is "gehe".' },
-        { id: 'de-06', type: 'mcq', title: 'Präpositionen', prompt: 'Ich wohne ___ Berlin.', options: ['an', 'in', 'auf', 'bei'], correctIndex: 1, explanation: 'We use "in" for cities.' },
-        { id: 'de-07', type: 'mcq', title: 'Modalverben', prompt: 'Ich ___ Deutsch sprechen.', options: ['muss', 'kann', 'soll', 'will'], correctIndex: 1, explanation: '"Kann" (can) refers to ability.' },
-        { id: 'de-08', type: 'mcq', title: 'Zeitformen', prompt: 'Er ___ ein Buch gelesen.', options: ['hat', 'ist', 'wird', 'habe'], correctIndex: 0, explanation: 'The perfect tense of "lesen" uses "haben".' },
-        { id: 'de-09', type: 'mcq', title: 'Fälle', prompt: 'Ich gebe ___ Mann das Buch.', options: ['der', 'die', 'dem', 'den'], correctIndex: 2, explanation: 'Dative case for indirect object (the man receiving the book).' },
-        { id: 'de-10', type: 'mcq', title: 'Kultur', prompt: 'Wie begrüßt man jemanden am Morgen?', options: ['Gute Nacht', 'Guten Abend', 'Guten Morgen', 'Mahlzeit'], correctIndex: 2, explanation: '"Guten Morgen" is used in the morning.' },
-        { id: 'de-11', type: 'mcq', title: 'Vocab', prompt: 'Was ist "ein Auto" ?', options: ['A train', 'A bus', 'A car', 'A bike'], correctIndex: 2, explanation: 'Auto = car.' },
-        { id: 'de-12', type: 'mcq', title: 'Verbs', prompt: 'Ich ___ Durst.', options: ['bin', 'habe', 'werde', 'mache'], correctIndex: 1, explanation: 'Ich habe Durst.' },
-        { id: 'de-13', type: 'mcq', title: 'Past', prompt: 'Past participle of "schreiben" ?', options: ['geschreibt', 'geschrieben', 'schrieb', 'schreiben'], correctIndex: 1, explanation: 'geschrieben.' },
-        { id: 'de-14', type: 'mcq', title: 'Business', prompt: 'How to say "Sincerely" ?', options: ['Mit freundlichen Grüßen', 'Tschüss', 'Bis bald', 'Hallo'], correctIndex: 0, explanation: 'Formal sign-off.' },
-        { id: 'de-15', type: 'mcq', title: 'Cases', prompt: 'Ich helfe ___ Frau.', options: ['die', 'der', 'den', 'das'], correctIndex: 1, explanation: 'Helfen takes dative.' },
-        { id: 'de-16', type: 'mcq', title: 'Plural', prompt: 'Plural of "Kind" ?', options: ['Kind', 'Kinds', 'Kinder', 'Kindern'], correctIndex: 2, explanation: 'Die Kinder.' },
-        { id: 'de-17', type: 'mcq', title: 'Adjectives', prompt: 'Das ist ein ___ Buch.', options: ['gut', 'guter', 'gutes', 'gute'], correctIndex: 2, explanation: 'Neuter nominative.' },
-        { id: 'de-18', type: 'mcq', title: 'Numbers', prompt: 'Zwanzig = ?', options: ['2', '12', '20', '200'], correctIndex: 2, explanation: 'Zwanzig = 20.' },
-        { id: 'de-19', type: 'mcq', title: 'Prepositions', prompt: 'Ich komme ___ Deutschland.', options: ['aus', 'von', 'in', 'zu'], correctIndex: 0, explanation: 'Kommen aus = come from.' },
-        { id: 'de-20', type: 'mcq', title: 'Culture', prompt: 'Capital of Germany?', options: ['München', 'Berlin', 'Frankfurt', 'Hamburg'], correctIndex: 1, explanation: 'Berlin.' },
     {
-          "id": "de-21",
-          "type": "mcq",
-          "title": "Fälle",
-          "prompt": "Wählen Sie den richtigen Artikel: Ich sehe ___ Hund.",
-          "options": [
-                "der",
-                "dem",
-                "den",
-                "des"
-          ],
-          "correctIndex": 2,
-          "explanation": "Hund is masculine and the direct object takes accusative: den."
+      id: 'de-01',
+      type: 'mcq',
+      title: 'Geschäftliche E-Mail',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Lesen Sie die E-Mail.
+
+{{image}}
+
+Was möchte Daniel hauptsächlich?`,
+      image: {
+        src: businessEmailImage,
+        alt: 'Geschäftliche E-Mail mit Bitte um Terminverschiebung'
+      },
+      options: [
+        'Den Termin endgültig absagen.',
+        'Den Termin höflich verschieben und eine Bestätigung erhalten.',
+        'Eine Rechnung senden.',
+        'Sich über die Kundin beschweren.'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Die Nachricht bittet um eine neue Uhrzeit und um Bestätigung. Why not A/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-22",
-          "type": "mcq",
-          "title": "Dativ",
-          "prompt": "Wählen Sie die richtige Form: Ich helfe ___ Kollegin.",
-          "options": [
-                "die",
-                "der",
-                "das",
-                "den"
-          ],
-          "correctIndex": 1,
-          "explanation": "helfen takes the dative case; feminine dative is der."
+      id: 'de-02',
+      type: 'mcq',
+      title: 'Terminplan verstehen',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Lesen Sie den Terminplan.
+
+{{image}}
+
+Sie sind nur von 11:15 bis 12:30 verfügbar. An welchem Termin können Sie vollständig teilnehmen?`,
+      image: {
+        src: meetingScheduleImage,
+        alt: 'Terminplan eines Arbeitstags'
+      },
+      options: [
+        'Am Lieferantenanruf.',
+        'Am Kundentermin.',
+        'An der Budgetprüfung.',
+        'An der Marketing-Präsentation.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Die Präsentation findet von 11:30 bis 12:15 statt. Why not A/B/C: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-23",
-          "type": "mcq",
-          "title": "Business German",
-          "prompt": "Wie sagt man formal: “Please find attached the report”?",
-          "options": [
-                "Anbei finden Sie den Bericht.",
-                "Hier ist Zeug.",
-                "Nimm den Bericht.",
-                "Bericht kommt."
-          ],
-          "correctIndex": 0,
-          "explanation": "Anbei finden Sie... is a standard formal email phrase."
+      id: 'de-03',
+      type: 'mcq',
+      title: 'Höfliche Bitte',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Sie schreiben zum ersten Mal an einen wichtigen Kunden.
+
+Welche Formulierung ist am professionellsten?`,
+      options: [
+        'Könnten Sie bitte bestätigen, ob Donnerstag um 10 Uhr für Sie passt?',
+        'Bestätigen Sie Donnerstag 10 Uhr.',
+        'Ich brauche jetzt Ihre Bestätigung.',
+        'Donnerstag 10 Uhr. Antworten Sie.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Der Konjunktiv II macht die Bitte höflich und professionell. Why not B/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-24",
-          "type": "mcq",
-          "title": "Email Closing",
-          "prompt": "Welche Grußformel ist in einer formellen E-Mail üblich?",
-          "options": [
-                "Mit freundlichen Grüßen",
-                "Tschüssi",
-                "Bis dann",
-                "Ciao"
-          ],
-          "correctIndex": 0,
-          "explanation": "Mit freundlichen Grüßen is a standard formal closing."
+      id: 'de-04',
+      type: 'mcq',
+      title: 'Wenn-Satz',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Ergänzen Sie:
+
+„Wenn der Lieferant heute bestätigt, ___ wir die Bestellung morgen.“`,
+      options: [
+        'gaben wir frei',
+        'würden wir freigeben',
+        'werden wir freigeben',
+        'geben wir frei'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Bei einer realistischen zukünftigen Bedingung ist Präsens im wenn-Satz plus Zukunft/Futur möglich. Why not A/B/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-25",
-          "type": "mcq",
-          "title": "Word Order",
-          "prompt": "Welcher Satz ist korrekt?",
-          "options": [
-                "Morgen ich habe einen Termin.",
-                "Morgen habe ich einen Termin.",
-                "Morgen einen Termin ich habe.",
-                "Habe morgen ich einen Termin."
-          ],
-          "correctIndex": 1,
-          "explanation": "When an adverbial comes first, the conjugated verb stays in second position."
+      id: 'de-05',
+      type: 'mcq',
+      title: 'Pronomen',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `„Ich habe Frau Müller den Vertrag geschickt.“
+
+Welcher Folgesatz ist richtig?`,
+      options: [
+        'Ich habe ihn ihr gestern geschickt.',
+        'Ich habe sie ihn gestern geschickt.',
+        'Ich habe er ihr gestern geschickt.',
+        'Ich habe ihnen sie gestern geschickt.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. „ihn“ ersetzt den Vertrag und „ihr“ die indirekte Empfängerin. Why not B/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-26",
-          "type": "mcq",
-          "title": "Modalverb",
-          "prompt": "Wählen Sie richtig: Wir ___ das Projekt heute abschließen.",
-          "options": [
-                "können",
-                "kann",
-                "kannst",
-                "könnt"
-          ],
-          "correctIndex": 0,
-          "explanation": "Wir takes können."
+      id: 'de-06',
+      type: 'mcq',
+      title: 'Diagramm lesen',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Sehen Sie sich das Diagramm an.
+
+{{chart}}
+
+Welche Aussage beschreibt die Entwicklung am besten?`,
+      chart: {
+        type: 'line',
+        title: 'Kundenanfragen pro Woche',
+        xAxis: ['W1','W2','W3','W4','W5'],
+        series: [{ name: 'Anfragen', data: [42,47,45,58,66] }]
+      },
+      options: [
+        'Die Anfragen sinken jede Woche.',
+        'Die Anfragen bleiben völlig konstant.',
+        'Die Anfragen steigen insgesamt, trotz eines kleinen Rückgangs in Woche 3.',
+        'Nach Woche 2 brechen die Anfragen stark ein.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Die Werte steigen insgesamt von 42 auf 66. Why not A/B/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-27",
-          "type": "mcq",
-          "title": "Perfekt",
-          "prompt": "Wählen Sie richtig: Sie ___ nach Berlin gefahren.",
-          "options": [
-                "hat",
-                "ist",
-                "sind",
-                "haben"
-          ],
-          "correctIndex": 1,
-          "explanation": "fahren as movement commonly uses sein in the perfect tense; sie singular formal/context here uses ist if 'she'."
+      id: 'de-07',
+      type: 'mcq',
+      title: 'Telefongespräch',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Lesen Sie den Gesprächsablauf.
+
+{{diagram}}
+
+Welche Antwort passt am besten?`,
+      diagram: `flowchart LR
+  A["Kunde: Kann ich Frau Braun sprechen?"] --> B["Empfang: Sie ist bis 15 Uhr in einer Besprechung."]
+  B --> C["Kunde: ______"]
+  C --> D["Empfang: Natürlich, ich richte es ihr aus."]`,
+      options: [
+        'Dann lege ich auf.',
+        'Geben Sie mir ihre private Nummer.',
+        'Sie muss jetzt aus der Besprechung kommen.',
+        'Könnten Sie sie bitten, mich zurückzurufen?'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Die Bitte um Rückruf passt logisch zur Antwort des Empfangs. Why not A/B/C: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-28",
-          "type": "mcq",
-          "title": "Vocabulary",
-          "prompt": "Was bedeutet “Rechnung” im Geschäftskontext?",
-          "options": [
-                "Invoice",
-                "Meeting",
-                "Holiday",
-                "Password"
-          ],
-          "correctIndex": 0,
-          "explanation": "Rechnung means invoice or bill."
+      id: 'de-08',
+      type: 'mcq',
+      title: 'Kundenservice',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Ein Kunde schreibt: „Meine Bestellung ist seit fünf Tagen verspätet und niemand informiert mich.“
+
+Welche Antwort ist am professionellsten?`,
+      options: [
+        'Warten Sie noch etwas.',
+        'Wir entschuldigen uns für die Verzögerung. Wir prüfen die Sendung jetzt und geben Ihnen heute bis 16 Uhr ein Update.',
+        'Das ist das Problem des Kurierdienstes.',
+        'Sie haben wahrscheinlich die Adresse falsch eingegeben.'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Die Antwort übernimmt Verantwortung für die Kommunikation und nennt eine konkrete Frist. Why not A/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-29",
-          "type": "mcq",
-          "title": "Separable Verb",
-          "prompt": "Welche Form ist korrekt? Ich ___ den Kunden morgen ___.",
-          "options": [
-                "rufe/an",
-                "an/rufe",
-                "rufen/an",
-                "anrufen/--"
-          ],
-          "correctIndex": 0,
-          "explanation": "Anrufen is separable: Ich rufe ... an."
+      id: 'de-09',
+      type: 'mcq',
+      title: 'Bürovokabular',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Sehen Sie das Büroverzeichnis.
+
+{{image}}
+
+Wohin sollte ein neuer Mitarbeiter seine Einstellungsunterlagen bringen?`,
+      image: {
+        src: officeDirectoryImage,
+        alt: 'Büroverzeichnis'
+      },
+      options: [
+        'Zum Empfang.',
+        'Zu Finanzen.',
+        'Zur Personalabteilung.',
+        'Zu den Besprechungsräumen.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Einstellungsunterlagen werden typischerweise von HR/Personal betreut. Why not A/B/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-30",
-          "type": "mcq",
-          "title": "Genitive",
-          "prompt": "Wählen Sie richtig: Der Bericht ___ Managers ist fertig.",
-          "options": [
-                "der",
-                "dem",
-                "des",
-                "den"
-          ],
-          "correctIndex": 2,
-          "explanation": "Masculine genitive singular uses des."
+      id: 'de-10',
+      type: 'mcq',
+      title: 'Tabelle verstehen',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Lesen Sie die Tabelle.
+
+{{table}}
+
+Welcher Lieferant hat die angekündigte Lieferzeit genau eingehalten?`,
+      table: {
+        headers: ['Lieferant','Angekündigt','Tatsächlich'],
+        rows: [['A','5 Tage','7 Tage'],['B','8 Tage','8 Tage'],['C','4 Tage','6 Tage'],['D','10 Tage','13 Tage']]
+      },
+      options: [
+        'Lieferant B.',
+        'Lieferant A.',
+        'Lieferant C.',
+        'Lieferant D.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Bei B stimmen angekündigte und tatsächliche 8 Tage überein. Why not B/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-31",
-          "type": "mcq",
-          "title": "Subordinate Clause",
-          "prompt": "Welcher Satz ist korrekt?",
-          "options": [
-                "Ich glaube, dass er kommt morgen.",
-                "Ich glaube, dass er morgen kommt.",
-                "Ich glaube, dass kommt er morgen.",
-                "Ich glaube, er dass morgen kommt."
-          ],
-          "correctIndex": 1,
-          "explanation": "In a dass-clause, the conjugated verb moves to the end."
+      id: 'de-11',
+      type: 'mcq',
+      title: 'Vergangenheit',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Ergänzen Sie:
+
+„Ich ___ den Bericht, als der Direktor anrief.“`,
+      options: [
+        'habe vorbereitet morgen',
+        'bereitete gerade',
+        'werde vorbereiten',
+        'bereite vor gewesen'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Die fortlaufende Handlung in der Vergangenheit wird hier idiomatisch mit „bereitete gerade ... vor“ ausgedrückt. Why not A/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-32",
-          "type": "mcq",
-          "title": "Politeness",
-          "prompt": "Wie bittet man höflich um eine Rückmeldung?",
-          "options": [
-                "Bitte geben Sie mir eine Rückmeldung.",
-                "Sag was.",
-                "Antwort jetzt.",
-                "Du musst schreiben."
-          ],
-          "correctIndex": 0,
-          "explanation": "Bitte geben Sie mir eine Rückmeldung is polite and professional."
+      id: 'de-12',
+      type: 'mcq',
+      title: 'Formelle Umformulierung',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Ein Kollege schreibt: „Schick mir die Zahlen heute.“
+
+Welche Version passt für einen externen Direktor?`,
+      options: [
+        'Schicken Sie die Zahlen heute.',
+        'Ich will die Zahlen jetzt.',
+        'Zahlen. Heute.',
+        'Könnten Sie mir die Zahlen bitte bis zum Ende des Tages zusenden?'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Die korrekte Formulierung ist höflich, präzise und angemessen formell. Why not A/B/C: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-33",
-          "type": "mcq",
-          "title": "Preposition",
-          "prompt": "Wählen Sie richtig: Wir sprechen ___ den Vertrag.",
-          "options": [
-                "über",
-                "auf",
-                "bei",
-                "nach"
-          ],
-          "correctIndex": 0,
-          "explanation": "Über is used for speaking about a topic."
+      id: 'de-13',
+      type: 'mcq',
+      title: 'Leistungsdaten',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Sehen Sie die Grafik.
+
+{{chart}}
+
+Welche Schlussfolgerung ist am stärksten?`,
+      chart: {
+        type: 'bar',
+        title: 'Kundenzufriedenheit (%)',
+        categories: ['Empfang','Geschwindigkeit','Klarheit','Lösung'],
+        series: [{ name: 'Wert', data: [92,74,88,69] }]
+      },
+      options: [
+        'Empfang ist am schwächsten.',
+        'Klarheit liegt unter 70 %.',
+        'Alle Werte liegen über 85 %.',
+        'Problemlösung ist der wichtigste Verbesserungsbereich.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Problemlösung hat mit 69 % den niedrigsten Wert. Why not A/B/C: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-34",
-          "type": "mcq",
-          "title": "Comparison",
-          "prompt": "Wählen Sie richtig: Dieses Angebot ist ___ als das andere.",
-          "options": [
-                "besser",
-                "gut",
-                "besten",
-                "gute"
-          ],
-          "correctIndex": 0,
-          "explanation": "Besser is the comparative of gut."
+      id: 'de-14',
+      type: 'mcq',
+      title: 'Konnektor',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Ergänzen Sie:
+
+„Der Umsatz stieg um 12 %. ___ sank die Marge wegen höherer Kosten.“`,
+      options: [
+        'Deshalb',
+        'Allerdings',
+        'Zum Beispiel',
+        'Ebenso'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. „Allerdings“ drückt den notwendigen Gegensatz aus. Why not A/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-35",
-          "type": "mcq",
-          "title": "Passive",
-          "prompt": "Was bedeutet: Der Vertrag wird geprüft?",
-          "options": [
-                "The contract is being reviewed.",
-                "The contract reviewed someone.",
-                "The contract is deleted.",
-                "The contract is signed yesterday."
-          ],
-          "correctIndex": 0,
-          "explanation": "wird + past participle forms passive voice."
+      id: 'de-15',
+      type: 'mcq',
+      title: 'Verhandlungssprache',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Sie möchten eine Alternative höflich vorschlagen.
+
+Welche Formulierung ist am besten?`,
+      options: [
+        'Sie müssen zwei Lieferungen akzeptieren.',
+        'Wir ändern den Lieferplan.',
+        'Wir könnten eine Lieferung in zwei Phasen erwägen, wenn das für Sie passt.',
+        'Teilen Sie die Lieferung in zwei Teile.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. „Wir könnten“ formuliert einen kooperativen Vorschlag. Why not A/B/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-36",
-          "type": "mcq",
-          "title": "Culture",
-          "prompt": "Was ist in deutschen Geschäftsmails besonders wichtig?",
-          "options": [
-                "Clarity, politeness, and direct structure",
-                "Only jokes",
-                "No subject line",
-                "Very informal language"
-          ],
-          "correctIndex": 0,
-          "explanation": "German business communication tends to value clarity and professional formality."
+      id: 'de-16',
+      type: 'mcq',
+      title: 'Besprechung verstehen',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Lesen Sie die Sequenz.
+
+{{diagram}}
+
+Was wurde am Ende beschlossen?`,
+      diagram: `sequenceDiagram
+  participant K as Kunde
+  participant V as Vertrieb
+  participant F as Finanzen
+  K->>V: Wir möchten 8 % Rabatt
+  V->>F: Können wir 8 % genehmigen?
+  F-->>V: Ohne Eskalation maximal 5 %
+  V-->>K: Wir können sofort 5 % anbieten
+  K-->>V: Einverstanden`,
+      options: [
+        'Das Vertriebsteam bot 5 % an und der Kunde akzeptierte.',
+        'Finanzen genehmigte 8 %.',
+        'Der Kunde lehnte jeden Rabatt ab.',
+        'Die Verhandlung wurde abgebrochen.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Die Sequenz endet mit der Annahme von 5 %. Why not B/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-37",
-          "type": "mcq",
-          "title": "Numbers",
-          "prompt": "Was bedeutet “zweiundzwanzig”?",
-          "options": [
-                "22",
-                "12",
-                "32",
-                "20"
-          ],
-          "correctIndex": 0,
-          "explanation": "zweiundzwanzig means twenty-two."
+      id: 'de-17',
+      type: 'mcq',
+      title: 'Vergleich',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Lesen Sie die Tabelle.
+
+{{table}}
+
+Welche Aussage ist korrekt?`,
+      table: {
+        headers: ['Team','Durchschnittliche Antwortzeit'],
+        rows: [['Paris','2 h 10'],['Lyon','3 h 05'],['Bordeaux','1 h 45'],['Lille','2 h 35']]
+      },
+      options: [
+        'Lyon antwortet schneller als Bordeaux.',
+        'Bordeaux antwortet am schnellsten.',
+        'Paris ist am langsamsten.',
+        'Lille ist weniger langsam als Bordeaux.'
+      ],
+      correctIndex: 1,
+      explanation:
+        'Correct: B. Bordeaux hat die kürzeste Antwortzeit. Why not A/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-38",
-          "type": "mcq",
-          "title": "Time",
-          "prompt": "Wie sagt man “quarter past three” auf Deutsch?",
-          "options": [
-                "Viertel nach drei",
-                "Halb drei",
-                "Viertel vor drei",
-                "Drei Uhr minus Viertel"
-          ],
-          "correctIndex": 0,
-          "explanation": "Viertel nach drei means 3:15."
+      id: 'de-18',
+      type: 'mcq',
+      title: 'Anweisung verstehen',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Ein Manager schreibt:
+
+„Die Monatszahlen stimmen, aber prüfen Sie bitte die zwei markierten Abweichungen, bevor Sie den Bericht an den Kunden senden.“
+
+Was tun Sie zuerst?`,
+      options: [
+        'Den Bericht sofort senden.',
+        'Die Abweichungen löschen.',
+        'Den gesamten Bericht neu schreiben.',
+        'Die zwei markierten Abweichungen prüfen.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Die Anweisung verlangt ausdrücklich die Prüfung vor dem Versand. Why not A/B/C: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-39",
-          "type": "mcq",
-          "title": "Business Vocabulary",
-          "prompt": "Was bedeutet “Frist”?",
-          "options": [
-                "Deadline",
-                "Profit",
-                "Team",
-                "Office"
-          ],
-          "correctIndex": 0,
-          "explanation": "Frist means deadline or time limit."
+      id: 'de-19',
+      type: 'mcq',
+      title: 'Professioneller Ton',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Welche Formulierung kommuniziert eine Verzögerung am professionellsten?`,
+      options: [
+        'Wir entschuldigen uns für die Verzögerung. Der neue Fertigstellungstermin ist 17 Uhr; um 15 Uhr senden wir ein Zwischenupdate.',
+        'Es ist verspätet, aber wird schon passen.',
+        'Wir haben es vergessen. Sorry.',
+        'Noch kein Update.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. Die Antwort nennt Verantwortung, neuen Termin und Follow-up. Why not B/C/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     },
     {
-          "id": "de-40",
-          "type": "mcq",
-          "title": "Professional Communication",
-          "prompt": "Was ist die beste Antwort auf Kritik?",
-          "options": [
-                "Danke für den Hinweis. Ich prüfe das und melde mich mit einer Lösung.",
-                "Das ist mir egal.",
-                "Sie liegen immer falsch.",
-                "Ich antworte nicht."
-          ],
-          "correctIndex": 0,
-          "explanation": "Professional communication acknowledges feedback and commits to follow-up."
+      id: 'de-20',
+      type: 'mcq',
+      title: 'Integrierte Kommunikation',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Nutzen Sie den Ablauf.
+
+{{diagram}}
+
+Welche Antwort folgt dem stärksten Kommunikationsmuster?`,
+      diagram: `flowchart TB
+  I["Problem erkannt"] --> A["Problem anerkennen"]
+  A --> E["Kurz erklären ohne Schuldzuweisung"]
+  E --> P["Maßnahme und Frist nennen"]
+  P --> F["Follow-up bestätigen"]`,
+      options: [
+        'Wir haben Ihre Nachricht erhalten.',
+        'Der Lieferant ist schuld.',
+        'Es tut uns leid. Wir haben die Ursache identifiziert, die Korrektur gestartet und bestätigen die Lösung heute bis 16 Uhr.',
+        'Danke fürs Warten.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Die Antwort enthält Anerkennung, Erklärung, Maßnahme, Frist und Follow-up. Why not A/B/D: the other choices are grammatically weaker, less professional, or inconsistent with the exhibit/context.'
     }
-  ]
+  ],
 };

@@ -26,6 +26,8 @@ export {
   vectorDatabasesData,
 } from './aiMlExpansionData';
 export { accountingFundamentalsData } from './accountingFundamentalsData';
+export { englishData } from './englishData';
+export { hindiData } from './hindiData';
 export { angularData } from './angularData';
 export { aptitudeData } from './aptitudeData';
 export { asanaData } from './asanaData';
@@ -131,8 +133,9 @@ export { tableauData } from './tableauData';
 export { tallyPrimeData } from './tallyPrimeData';
 export { taxEuropeData } from './taxEuropeData';
 export { taxIndiaData } from './taxIndiaData';
-export { taxUaeData } from './taxUaeData';
-export { taxUsaData } from './taxUsaData';
+export { taxUAEData } from './taxUAEData';
+export { taxUKData } from './taxUKData';
+export { taxUSAData } from './taxUSAData';
 export { terraformData } from './terraformData';
 export { trelloData } from './trelloData';
 export { uiuxData } from './uiuxData';
@@ -142,4 +145,3 @@ export { web3Data } from './web3Data';
 export { zohoBooksData } from './zohoBooksData';
 export { dynamics365FinanceData } from './dynamics365FinanceData';
 export { agentBuilderData } from './agentBuilderData';
-

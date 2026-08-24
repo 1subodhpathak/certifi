@@ -11,7 +11,7 @@ import { useAuth as useClerkAuth } from '@clerk/clerk-react';
 export default function MyBadges() {
   const navigate = useNavigate();
   const { user } = useAuth();
-  
+
   const [badges, setBadges] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedBadge, setSelectedBadge] = useState(null);
@@ -75,7 +75,7 @@ export default function MyBadges() {
       scrollHeader
     >
       <div className="mx-auto max-w-7xl pt-6 sm:pt-8">
-        
+
         {/* Search Bar & Header */}
         {badges.length > 0 && (
           <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
@@ -83,7 +83,7 @@ export default function MyBadges() {
               <h2 className="text-lg font-bold text-slate-900">Stored Credentials</h2>
               <p className="mt-1 text-sm text-slate-500">{badges.length} badges in your locker</p>
             </div>
-            
+
             <div className="relative w-full sm:max-w-md">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
               <input
@@ -105,7 +105,7 @@ export default function MyBadges() {
         ) : (
           <div className="grid grid-cols-2 gap-4 sm:gap-6 md:grid-cols-3 lg:grid-cols-4 xl:gap-8">
             {filteredBadges.map((badge) => (
-              <BadgeCard 
+              <BadgeCard
                 key={badge.id}
                 badge={badge}
                 onView={() => setSelectedBadge(badge)}
@@ -217,7 +217,7 @@ function BadgeCard({ badge, onView }) {
     >
       {/* Subtle background glow on hover */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(20,184,166,0.04),_transparent_60%)] opacity-0 transition-opacity duration-300 group-hover:opacity-100 pointer-events-none" />
-      
+
       {/* Badge Image */}
       <img
         src={badge.imageUrl}

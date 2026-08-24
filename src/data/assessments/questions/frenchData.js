@@ -1,317 +1,223 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
+import businessEmailImage from '../../../assets/assessments/french/business_email.png';
+import meetingScheduleImage from '../../../assets/assessments/french/meeting_schedule.png';
+import officeSignsImage from '../../../assets/assessments/french/office_signs.png';
 
-// Professional certification-level assessment data.
-// Original uploaded questions are preserved and extended with advanced scenarios.
 export const frenchData = {
   id: ASSESSMENT_TYPES.french,
-  title: "French Professional Language Proficiency Certification",
-  shortTitle: "French",
-  category: "Language Skills",
+  title: 'French Professional Language Proficiency Certification',
+  shortTitle: 'French',
+  category: 'Language Skills',
   durationMinutes: 50,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Professional French language assessment covering grammar, vocabulary, conjugation, pronouns, formal email phrases, business communication, and workplace comprehension.",
-  instructions: "Choisissez la meilleure réponse pour chaque question. Questions progress from foundational French to professional communication.",
+  description: 'Interactive professional French assessment covering workplace comprehension, grammar in context, business email, meetings, schedules, charts, pronouns, tense choice, formal register, negotiation language, and practical communication.',
+  instructions: '20 scenario-based questions, 50 minutes, 100 marks. Questions include business-email exhibits, office visuals, schedules, tables, charts, and Mermaid conversation flows. Read each visual and scenario carefully before choosing the best professional French response. No negative marking.',
   questions: [
-{ id: 'fr-01', type: 'mcq', title: 'Grammaire', prompt: 'Choisissez la forme correcte : "Elle ___ à Paris depuis trois ans."', options: ['habite', 'habiter', 'habitait', 'habité'], correctIndex: 0, explanation: 'Present tense is used for an action that started in the past and continues in the present.' },
-        { id: 'fr-02', type: 'mcq', title: 'Vocabulaire', prompt: 'Que signifie "un rendez-vous" ?', options: ['A gift', 'A meeting', 'A restaurant', 'A road'], correctIndex: 1, explanation: 'Un rendez-vous is a meeting or an appointment.' },
-        { id: 'fr-03', type: 'mcq', title: 'Conjugaison', prompt: 'Quel est le participe passé du verbe "finir" ?', options: ['finis', 'fini', 'finie', 'finissant'], correctIndex: 1, explanation: 'The past participle of finir is fini.' },
-        { id: 'fr-04', type: 'mcq', title: 'Business French', prompt: 'Comment dit-on "Best regards" en français formel ?', options: ['Salut', 'À bientôt', 'Cordialement', 'Merci beaucoup'], correctIndex: 2, explanation: 'Cordialement is a standard formal closing in business emails.' },
-        { id: 'fr-05', type: 'mcq', title: 'Compréhension', prompt: '"Je vous en prie" est une réponse à ___ ?', options: ['Merci', 'S\'il vous plaît', 'Pardon', 'Bonjour'], correctIndex: 0, explanation: '"Je vous en prie" is a polite way to say "You\'re welcome".' },
-        { id: 'fr-06', type: 'mcq', title: 'Adjectifs', prompt: 'Accordez l\'adjectif : "Les fleurs sont ___."', options: ['beau', 'belle', 'beaux', 'belles'], correctIndex: 3, explanation: 'Fleurs is feminine plural, so the adjective must be belles.' },
-        { id: 'fr-07', type: 'mcq', title: 'Pronoms', prompt: 'Remplacez par un pronom : "Je donne le livre à Marie. Je ___ donne le livre."', options: ['le', 'la', 'lui', 'leur'], correctIndex: 2, explanation: 'Lui is the indirect object pronoun for both masculine and feminine singular.' },
-        { id: 'fr-08', type: 'mcq', title: 'Temps', prompt: 'Identifiez le temps : "Nous irons à la plage."', options: ['Présent', 'Passé composé', 'Futur simple', 'Imparfait'], correctIndex: 2, explanation: 'Irons is the futur simple of the verbe aller.' },
-        { id: 'fr-09', type: 'mcq', title: 'Négation', prompt: 'Transformez à la négation : "Il mange encore."', options: ['Il ne mange plus', 'Il ne mange pas', 'Il ne mange jamais', 'Il ne mange rien'], correctIndex: 0, explanation: 'The opposite of encore in negation is ne... plus (no longer).' },
-        { id: 'fr-10', type: 'mcq', title: 'Culture/Idiom', prompt: 'Que signifie l\'expression "C\'est la vie" ?', options: ['It\'s easy', 'That\'s life', 'Good luck', 'Welcome'], correctIndex: 1, explanation: '"C\'est la vie" translates to "That\'s life".' },
-        { id: 'fr-11', type: 'mcq', title: 'Vocabulaire', prompt: 'Que signifie "un ordinateur" ?', options: ['A computer', 'An order', 'A book', 'A desk'], correctIndex: 0, explanation: 'Un ordinateur is a computer.' },
-        { id: 'fr-12', type: 'mcq', title: 'Grammaire', prompt: 'Complétez : "Je ___ faim."', options: ['suis', 'ai', 'fais', 'vais'], correctIndex: 1, explanation: 'In French, we say "avoir faim" (to have hunger).' },
-        { id: 'fr-13', type: 'mcq', title: 'Passé', prompt: 'Quel est le participe passé de "boire" ?', options: ['boit', 'bu', 'boir', 'buvait'], correctIndex: 1, explanation: 'Bu is the past participle.' },
-        { id: 'fr-14', type: 'mcq', title: 'Business', prompt: 'Comment dire "I look forward to hearing from you" ?', options: ['Dans l\'attente de vous lire', 'J\'attends de vous entendre', 'Je veux vous lire', 'Merci pour votre réponse'], correctIndex: 0, explanation: 'Standard formal closing.' },
-        { id: 'fr-15', type: 'mcq', title: 'Culture', prompt: 'Quelle est la monnaie de la France ?', options: ['Le Franc', 'L\'Euro', 'Le Dollar', 'La Livre'], correctIndex: 1, explanation: 'France uses the Euro.' },
-        { id: 'fr-16', type: 'mcq', title: 'Verbes', prompt: 'Je ___ au cinéma.', options: ['vais', 'va', 'vas', 'aller'], correctIndex: 0, explanation: '"Je vais" is I go.' },
-        { id: 'fr-17', type: 'mcq', title: 'Nombres', prompt: 'Quatre-vingt-dix = ?', options: ['80', '90', '99', '19'], correctIndex: 1, explanation: '4*20 + 10 = 90.' },
-        { id: 'fr-18', type: 'mcq', title: 'Temps', prompt: 'Complétez: "S\'il fait beau, je ___ au parc."', options: ['allais', 'irai', 'irait', 'vais'], correctIndex: 1, explanation: 'Si + present -> future.' },
-        { id: 'fr-19', type: 'mcq', title: 'Subjonctif', prompt: 'Il faut que tu ___ tes devoirs.', options: ['fais', 'fasses', 'fait', 'faire'], correctIndex: 1, explanation: '"Fasses" is subjunctive.' },
-        { id: 'fr-20', type: 'mcq', title: 'Vocabulaire', prompt: 'Lequel est un fruit ?', options: ['Pomme', 'Carotte', 'Pain', 'Lait'], correctIndex: 0, explanation: 'Pomme = apple.' },
     {
-          "id": "fr-21",
-          "type": "mcq",
-          "title": "Grammaire",
-          "prompt": "Choisissez la bonne préposition : Je vais ___ bureau.",
-          "options": [
-                "au",
-                "à le",
-                "en",
-                "du"
-          ],
-          "correctIndex": 0,
-          "explanation": "À + le becomes au."
+      id: 'fr-01', type: 'mcq', title: 'Courriel professionnel', difficulty: 'easy', points: 5,
+      prompt: `Observez le courriel ci-dessous.
+
+{{image}}
+
+Quelle est l’intention principale de Julien ?`,
+      image: { src: businessEmailImage, alt: 'Courriel professionnel demandant de déplacer une réunion' },
+      options: ['Annuler définitivement la réunion.', 'Demander poliment de déplacer la réunion et obtenir une confirmation.', 'Envoyer une facture au client.', 'Refuser de participer à la réunion.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Julien demande un changement d’horaire et souhaite une confirmation. Why not A: il ne veut pas annuler. Why not C: aucune facture n’est mentionnée. Why not D: il souhaite toujours participer à la réunion.'
     },
     {
-          "id": "fr-22",
-          "type": "mcq",
-          "title": "Passé composé",
-          "prompt": "Choisissez la forme correcte : Elle ___ arrivée hier.",
-          "options": [
-                "a",
-                "est",
-                "ont",
-                "sont"
-          ],
-          "correctIndex": 1,
-          "explanation": "Arriver uses être in passé composé."
+      id: 'fr-02', type: 'mcq', title: 'Compréhension d’agenda', difficulty: 'easy', points: 5,
+      prompt: `Observez l’agenda.
+
+{{image}}
+
+Vous êtes disponible uniquement entre 13 h 30 et 15 h 30. À quelle activité pouvez-vous participer complètement ?`,
+      image: { src: meetingScheduleImage, alt: 'Agenda professionnel avec horaires et lieux' },
+      options: ['Au point équipe.', 'À l’appel fournisseur.', 'À la présentation marketing.', 'À la réunion client.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. La réunion client a lieu de 14 h à 15 h. Why not A/B/C: ces activités ont lieu le matin.'
     },
     {
-          "id": "fr-23",
-          "type": "mcq",
-          "title": "Objet direct",
-          "prompt": "Remplacez : Je vois Marie. Je ___ vois.",
-          "options": [
-                "lui",
-                "la",
-                "leur",
-                "en"
-          ],
-          "correctIndex": 1,
-          "explanation": "Marie is a direct object feminine singular: la."
+      id: 'fr-03', type: 'mcq', title: 'Formulation polie', difficulty: 'easy', points: 5,
+      prompt: `Vous appelez un fournisseur que vous ne connaissez pas. Quelle phrase est la plus professionnelle ?`,
+      options: ['Pourriez-vous me préciser la date de livraison, s’il vous plaît ?', 'Donne-moi la date de livraison.', 'Je veux la date maintenant.', 'Tu peux me dire ça vite ?'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Le conditionnel de politesse et le vouvoiement conviennent au contexte. Why not B/C/D: formulations trop directes ou informelles.'
     },
     {
-          "id": "fr-24",
-          "type": "mcq",
-          "title": "Objet indirect",
-          "prompt": "Remplacez : Je parle à mes collègues. Je ___ parle.",
-          "options": [
-                "les",
-                "leur",
-                "lui",
-                "en"
-          ],
-          "correctIndex": 1,
-          "explanation": "À mes collègues is indirect plural: leur."
+      id: 'fr-04', type: 'mcq', title: 'Choix du temps', difficulty: 'easy', points: 5,
+      prompt: `Complétez : « Si le client confirme aujourd’hui, nous ___ le contrat demain. »`,
+      options: ['signions', 'signerions', 'signerons', 'avons signé'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Avec si + présent, la conséquence future se met au futur simple. Why not A: imparfait. Why not B: conditionnel. Why not D: passé composé.'
     },
     {
-          "id": "fr-25",
-          "type": "mcq",
-          "title": "Business French",
-          "prompt": "Comment dit-on “Please find attached” ?",
-          "options": [
-                "Veuillez trouver ci-joint",
-                "Salut attaché",
-                "Regarde le fichier",
-                "Je joins peut-être"
-          ],
-          "correctIndex": 0,
-          "explanation": "Veuillez trouver ci-joint is a formal business expression."
+      id: 'fr-05', type: 'mcq', title: 'Pronoms en contexte', difficulty: 'easy', points: 5,
+      prompt: `Un collègue demande : « As-tu envoyé le rapport à Madame Leroy ? » Quelle réponse est correcte ?`,
+      options: ['Oui, je lui ai envoyé le rapport.', 'Oui, je la ai envoyé le rapport.', 'Oui, je leur ai envoyé le rapport.', 'Oui, je en ai envoyé le rapport.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. À Madame Leroy est un complément indirect singulier remplacé par lui. Why not B/C/D: mauvais pronom ou mauvais nombre.'
     },
     {
-          "id": "fr-26",
-          "type": "mcq",
-          "title": "Email Closing",
-          "prompt": "Quelle formule est professionnelle ?",
-          "options": [
-                "Cordialement",
-                "Bisous",
-                "À plus",
-                "Salut"
-          ],
-          "correctIndex": 0,
-          "explanation": "Cordialement is a common professional closing."
+      id: 'fr-06', type: 'mcq', title: 'Lecture d’un graphique', difficulty: 'medium', points: 5,
+      prompt: `Le graphique montre le nombre de demandes clients reçues par semaine.
+
+{{chart}}
+
+Quelle phrase décrit le mieux la tendance ?`,
+      chart: { type: 'line', title: 'Demandes clients par semaine', xAxis: ['S1','S2','S3','S4','S5'], series: [{ name: 'Demandes', data: [42,47,45,58,66] }] },
+      options: ['Le volume diminue régulièrement.', 'Le volume reste exactement stable.', 'Le volume augmente globalement malgré une légère baisse en semaine 3.', 'Le volume chute fortement après la semaine 2.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. La série passe globalement de 42 à 66 avec une petite baisse en S3. Why not A/B/D: ces descriptions ne correspondent pas aux données.'
     },
     {
-          "id": "fr-27",
-          "type": "mcq",
-          "title": "Subjonctif",
-          "prompt": "Choisissez : Il faut que vous ___ à l’heure.",
-          "options": [
-                "êtes",
-                "soyez",
-                "serez",
-                "étiez"
-          ],
-          "correctIndex": 1,
-          "explanation": "Il faut que takes the subjunctive: soyez."
+      id: 'fr-07', type: 'mcq', title: 'Conversation téléphonique', difficulty: 'medium', points: 5,
+      prompt: `Lisez le flux de conversation.
+
+{{diagram}}
+
+Quelle réponse complète le mieux la conversation ?`,
+      diagram: `flowchart LR
+  A["Client : Bonjour, je souhaite parler à Mme Bernard."] --> B["Standard : Elle est en réunion jusqu'à 15 h."]
+  B --> C["Client : ______"]
+  C --> D["Standard : Bien sûr, je lui transmets votre message."]`,
+      options: ['Je raccroche alors.', 'Elle doit sortir maintenant.', 'Je veux son numéro personnel.', 'Pouvez-vous lui demander de me rappeler, s’il vous plaît ?'],
+      correctIndex: 3,
+      explanation: 'Correct: D. La demande est polie et correspond à la réponse du standard. Why not A/B/C: elles ne conviennent ni au contexte ni au registre.'
     },
     {
-          "id": "fr-28",
-          "type": "mcq",
-          "title": "Conditionnel",
-          "prompt": "Quelle phrase utilise le conditionnel de politesse ?",
-          "options": [
-                "Je voudrais un renseignement.",
-                "Je veux un renseignement.",
-                "Donne-moi un renseignement.",
-                "J’ai pris un renseignement."
-          ],
-          "correctIndex": 0,
-          "explanation": "Je voudrais is polite and conditional."
+      id: 'fr-08', type: 'mcq', title: 'Registre professionnel', difficulty: 'medium', points: 5,
+      prompt: `Un client écrit : « Je n’ai toujours pas reçu ma commande. » Quelle réponse est la plus professionnelle ?`,
+      options: ['Ce n’est pas notre problème.', 'Nous sommes désolés pour ce retard. Nous vérifions immédiatement l’expédition et revenons vers vous aujourd’hui avec une mise à jour.', 'Vous avez sûrement fait une erreur.', 'Attendez encore un peu.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. La réponse reconnaît le problème et annonce une action concrète. Why not A/C/D: réponses défensives, accusatrices ou vagues.'
     },
     {
-          "id": "fr-29",
-          "type": "mcq",
-          "title": "Négation",
-          "prompt": "Transformez : J’ai déjà fini.",
-          "options": [
-                "Je n’ai pas fini.",
-                "Je n’ai jamais fini.",
-                "Je n’ai plus fini.",
-                "Je n’ai pas encore fini."
-          ],
-          "correctIndex": 3,
-          "explanation": "The opposite of déjà is pas encore."
+      id: 'fr-09', type: 'mcq', title: 'Vocabulaire de bureau', difficulty: 'medium', points: 5,
+      prompt: `Observez les panneaux.
+
+{{image}}
+
+Vous devez remettre un contrat à un nouveau salarié. Où allez-vous ?`,
+      image: { src: officeSignsImage, alt: 'Panneaux de différents services de bureau' },
+      options: ['À l’accueil.', 'À la comptabilité.', 'Aux ressources humaines.', 'À la salle de réunion.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Les contrats et dossiers salariés relèvent généralement des ressources humaines. Why not A/B/D: ces services ont d’autres fonctions.'
     },
     {
-          "id": "fr-30",
-          "type": "mcq",
-          "title": "Adjectif",
-          "prompt": "Choisissez : Une décision ___",
-          "options": [
-                "important",
-                "importante",
-                "importants",
-                "importantes"
-          ],
-          "correctIndex": 1,
-          "explanation": "Décision is feminine singular: importante."
+      id: 'fr-10', type: 'mcq', title: 'Compréhension de tableau', difficulty: 'medium', points: 5,
+      prompt: `Analysez les délais suivants.
+
+{{table}}
+
+Quel fournisseur respecte exactement le délai annoncé ?`,
+      table: { headers: ['Fournisseur','Délai annoncé','Délai réel'], rows: [['A','5 jours','7 jours'],['B','8 jours','8 jours'],['C','4 jours','6 jours'],['D','10 jours','13 jours']] },
+      options: ['Fournisseur B.', 'Fournisseur A.', 'Fournisseur C.', 'Fournisseur D.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Le fournisseur B livre en 8 jours pour un délai annoncé de 8 jours. Why not B/C/D: ils dépassent le délai annoncé.'
     },
     {
-          "id": "fr-31",
-          "type": "mcq",
-          "title": "Comparatif",
-          "prompt": "Choisissez : Ce rapport est ___ clair que l’autre.",
-          "options": [
-                "plus",
-                "beaucoup",
-                "très",
-                "le plus"
-          ],
-          "correctIndex": 0,
-          "explanation": "plus ... que forms a comparative."
+      id: 'fr-11', type: 'mcq', title: 'Passé composé vs imparfait', difficulty: 'medium', points: 5,
+      prompt: `Complétez : « Je ___ le rapport quand le directeur m’___ appelé. »`,
+      options: ['ai préparé / avait', 'préparais / a', 'préparerai / a', 'prépare / avait'],
+      correctIndex: 1,
+      explanation: 'Correct: B. L’imparfait décrit l’action en cours et le passé composé l’événement ponctuel. Why not A/C/D: combinaison de temps inadéquate.'
     },
     {
-          "id": "fr-32",
-          "type": "mcq",
-          "title": "Vocabulaire",
-          "prompt": "Que signifie “chiffre d’affaires” ?",
-          "options": [
-                "Revenue / turnover",
-                "Password",
-                "Meeting room",
-                "Tax office"
-          ],
-          "correctIndex": 0,
-          "explanation": "Chiffre d’affaires means revenue or turnover."
+      id: 'fr-12', type: 'mcq', title: 'Subjonctif au travail', difficulty: 'medium', points: 5,
+      prompt: `Complétez : « Il est essentiel que vous ___ ce document avant 17 h. »`,
+      options: ['envoyez', 'enverrez', 'envoyer', 'envoyiez'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Après il est essentiel que, on emploie le subjonctif : envoyiez. Why not A: indicatif/impératif. Why not B: futur. Why not C: infinitif.'
     },
     {
-          "id": "fr-33",
-          "type": "mcq",
-          "title": "Compréhension",
-          "prompt": "“Pouvez-vous me rappeler demain ?” signifie :",
-          "options": [
-                "Can you call me back tomorrow?",
-                "Can you write yesterday?",
-                "Can you cancel today?",
-                "Can you pay now?"
-          ],
-          "correctIndex": 0,
-          "explanation": "Rappeler means to call back in this context."
+      id: 'fr-13', type: 'mcq', title: 'Lecture de performance', difficulty: 'hard', points: 5,
+      prompt: `Le tableau de satisfaction montre :
+
+{{chart}}
+
+Quelle conclusion est la plus juste ?`,
+      chart: { type: 'bar', title: 'Satisfaction client (%)', categories: ['Accueil','Rapidité','Clarté','Résolution'], series: [{ name: 'Score', data: [92,74,88,69] }] },
+      options: ['L’accueil est le point le plus faible.', 'La clarté obtient moins de 70 %.', 'Tous les indicateurs dépassent 85 %.', 'La résolution des problèmes est le principal axe d’amélioration.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Résolution obtient le score le plus faible à 69 %. Why not A/B/C: les données les contredisent.'
     },
     {
-          "id": "fr-34",
-          "type": "mcq",
-          "title": "Pronoms",
-          "prompt": "Choisissez : Des problèmes ? Oui, il y ___ a.",
-          "options": [
-                "en",
-                "y",
-                "le",
-                "lui"
-          ],
-          "correctIndex": 0,
-          "explanation": "en replaces a quantity or noun introduced by de/des."
+      id: 'fr-14', type: 'mcq', title: 'Reformulation professionnelle', difficulty: 'hard', points: 5,
+      prompt: `Votre collègue écrit : « Envoie-moi les chiffres aujourd’hui. » Vous écrivez à un directeur externe. Quelle reformulation est la plus appropriée ?`,
+      options: ['Je veux les chiffres aujourd’hui.', 'Pourriez-vous, s’il vous plaît, me transmettre les chiffres d’ici la fin de la journée ?', 'Merci d’envoyer les chiffres.', 'Les chiffres, aujourd’hui.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. La formulation combine politesse, précision et registre professionnel. Why not A/C/D: trop directes ou elliptiques.'
     },
     {
-          "id": "fr-35",
-          "type": "mcq",
-          "title": "Lieu",
-          "prompt": "Choisissez : Je travaille ___ France.",
-          "options": [
-                "en",
-                "au",
-                "aux",
-                "dans le"
-          ],
-          "correctIndex": 0,
-          "explanation": "Countries that are feminine generally use en."
+      id: 'fr-15', type: 'mcq', title: 'Connecteurs logiques', difficulty: 'hard', points: 5,
+      prompt: `Complétez : « Les ventes ont progressé de 12 %. ___, la marge a diminué à cause de la hausse des coûts. »`,
+      options: ['Donc', 'Par conséquent', 'Cependant', 'En effet'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Cependant introduit un contraste. Why not A/B: expriment plutôt une conséquence. Why not D: introduit généralement une justification.'
     },
     {
-          "id": "fr-36",
-          "type": "mcq",
-          "title": "Registre",
-          "prompt": "Quelle phrase est la plus formelle ?",
-          "options": [
-                "Je vous remercie pour votre retour.",
-                "Merci pour ta réponse.",
-                "Cool, merci.",
-                "Ça marche."
-          ],
-          "correctIndex": 0,
-          "explanation": "Je vous remercie is formal and professional."
+      id: 'fr-16', type: 'mcq', title: 'Interprétation de réunion', difficulty: 'hard', points: 5,
+      prompt: `Lisez la séquence.
+
+{{diagram}}
+
+Quelle phrase résume le mieux la décision ?`,
+      diagram: `sequenceDiagram
+  participant C as Client
+  participant V as Vente
+  participant F as Finance
+  C->>V: Nous demandons une remise de 8 %
+  V->>F: Peut-on accepter 8 % ?
+  F-->>V: Maximum autorisé sans validation : 5 %
+  V-->>C: Nous pouvons proposer 5 % immédiatement
+  C-->>V: D'accord pour 5 %`,
+      options: ['La vente propose 5 % et le client accepte.', 'Le client refuse toute remise.', 'Finance autorise directement 8 %.', 'La vente annule la négociation.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. La séquence montre une demande à 8 %, une limite à 5 %, puis l’acceptation du client. Why not B/C/D: elles contredisent le dialogue.'
     },
     {
-          "id": "fr-37",
-          "type": "mcq",
-          "title": "Temps",
-          "prompt": "Identifiez : Nous avions terminé le dossier.",
-          "options": [
-                "Plus-que-parfait",
-                "Futur simple",
-                "Présent",
-                "Impératif"
-          ],
-          "correctIndex": 0,
-          "explanation": "avions + participe passé forms plus-que-parfait."
+      id: 'fr-17', type: 'mcq', title: 'Lecture comparative', difficulty: 'hard', points: 5,
+      prompt: `Les délais moyens de réponse sont :
+
+{{table}}
+
+Quelle phrase est grammaticalement et factuellement correcte ?`,
+      table: { headers: ['Équipe','Délai moyen'], rows: [['Paris','2 h 10'],['Lyon','3 h 05'],['Bordeaux','1 h 45'],['Lille','2 h 35']] },
+      options: ['Lyon répond plus rapidement que Bordeaux.', 'Bordeaux répond le plus rapidement.', 'Paris est l’équipe la plus lente.', 'Lille répond moins lentement que Bordeaux.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Bordeaux a le délai moyen le plus court. Why not A/C/D: comparaisons incorrectes.'
     },
     {
-          "id": "fr-38",
-          "type": "mcq",
-          "title": "Culture professionnelle",
-          "prompt": "Dans un e-mail professionnel, il est important de :",
-          "options": [
-                "Être clair, poli et structuré",
-                "Utiliser seulement des abréviations",
-                "Ne pas mettre d’objet",
-                "Écrire sans contexte"
-          ],
-          "correctIndex": 0,
-          "explanation": "Professional emails should be clear, polite, and structured."
+      id: 'fr-18', type: 'mcq', title: 'Conditionnel de négociation', difficulty: 'hard', points: 5,
+      prompt: `Vous souhaitez proposer une alternative sans être trop direct. Quelle phrase est la plus naturelle ?`,
+      options: ['Nous changeons le contrat.', 'Vous devez accepter notre proposition.', 'Changez les conditions.', 'Nous pourrions envisager une livraison en deux étapes si cela vous convient.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Le conditionnel nous pourrions adoucit la proposition. Why not A/B/C: formulations trop catégoriques ou impératives.'
     },
     {
-          "id": "fr-39",
-          "type": "mcq",
-          "title": "Traduction",
-          "prompt": "“Deadline” se traduit souvent par :",
-          "options": [
-                "date limite",
-                "cadeau",
-                "réunion",
-                "facture"
-          ],
-          "correctIndex": 0,
-          "explanation": "Date limite is a common translation for deadline."
+      id: 'fr-19', type: 'mcq', title: 'Analyse d’un message', difficulty: 'hard', points: 5,
+      prompt: `Un responsable écrit : « Les chiffres du mois sont corrects, mais merci de vérifier les deux écarts signalés avant d’envoyer le rapport au client. » Que devez-vous faire en premier ?`,
+      options: ['Vérifier les deux écarts avant l’envoi externe.', 'Envoyer immédiatement le rapport.', 'Supprimer les écarts du fichier.', 'Réécrire tout le rapport.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. L’instruction explicite est de vérifier les écarts avant l’envoi. Why not B/C/D: actions prématurées ou non demandées.'
     },
     {
-          "id": "fr-40",
-          "type": "mcq",
-          "title": "Communication",
-          "prompt": "Quelle réponse est la plus professionnelle à un retard ?",
-          "options": [
-                "Je suis désolé pour le retard. Voici la nouvelle échéance et le plan d’action.",
-                "Pas mon problème.",
-                "On verra.",
-                "J’ai oublié, voilà."
-          ],
-          "correctIndex": 0,
-          "explanation": "A professional response acknowledges the issue and gives a concrete plan."
+      id: 'fr-20', type: 'mcq', title: 'Communication intégrée', difficulty: 'hard', points: 5,
+      prompt: `Vous devez répondre à un client après un incident.
+
+{{diagram}}
+
+Quelle réponse suit le mieux le processus ?`,
+      diagram: `flowchart TB
+  I["Incident détecté"] --> A["Reconnaître le problème"]
+  A --> E["Expliquer brièvement sans accuser"]
+  E --> P["Proposer une action et un délai"]
+  P --> C["Confirmer le suivi"]`,
+      options: ['Nous avons bien reçu votre message.', 'Le problème vient du transporteur, pas de nous.', 'Nous sommes désolés pour l’incident. Nous avons identifié la cause, lancé la correction et vous confirmerons la résolution avant 16 h aujourd’hui.', 'Merci pour votre patience.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. La réponse reconnaît le problème, explique brièvement, donne une action et un délai puis confirme le suivi. Why not A/B/D: trop incomplètes ou défensives.'
     }
-  ]
+  ],
 };

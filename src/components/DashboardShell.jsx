@@ -29,11 +29,9 @@ function SidebarItem({ icon: Icon, label, active = false, badge, collapsed = fal
     <button
       onClick={onClick}
       title={label}
-      className={`group mb-1 flex w-full items-center rounded-lg text-xs font-medium transition-all ${
-        collapsed ? 'justify-center px-2 py-3' : 'justify-between px-3 py-2.5'
-      } ${
-        active ? 'border border-teal-500/30 bg-teal-600/20 text-teal-300 font-semibold shadow-2xs' : 'text-slate-300 hover:bg-teal-900/40 hover:text-white'
-      }`}
+      className={`group mb-1 flex w-full items-center rounded-lg text-xs font-medium transition-all ${collapsed ? 'justify-center px-2 py-3' : 'justify-between px-3 py-2.5'
+        } ${active ? 'border border-teal-500/30 bg-teal-600/20 text-teal-300 font-semibold shadow-2xs' : 'text-slate-300 hover:bg-teal-900/40 hover:text-white'
+        }`}
     >
       <div className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
         <Icon className={`h-4 w-4 ${active ? 'text-teal-300' : 'text-slate-400 transition-colors group-hover:text-white'}`} />
@@ -145,7 +143,7 @@ export default function DashboardShell({
           <Zap className="h-4 w-4" />
         </div>
         <div>
-          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CareerPoints Used</p>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points Used</p>
           <p className="text-sm font-black text-slate-900">{displayStats.totalCareerPoints}</p>
         </div>
       </div>
@@ -211,9 +209,8 @@ export default function DashboardShell({
       ) : null}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#0e483c] bg-[#04201b] text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
-          isMobileNavOpen ? 'translate-x-0' : '-translate-x-full'
-        } ${isSidebarCollapsed ? 'md:w-20' : 'md:w-64'}`}
+        className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#0e483c] bg-[#04201b] text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${isMobileNavOpen ? 'translate-x-0' : '-translate-x-full'
+          } ${isSidebarCollapsed ? 'md:w-20' : 'md:w-64'}`}
       >
         <div className={`${isSidebarCollapsed ? 'p-4' : 'p-5'} border-b border-[#0e483c]/70`}>
           <div className={`flex items-center gap-3 ${isSidebarCollapsed ? 'justify-center' : 'justify-between'}`}>

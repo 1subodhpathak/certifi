@@ -49,6 +49,7 @@ import {
   domainTextileData,
   eqData,
   ensembleModelsData,
+  englishData,
   ethicsData,
   excelData,
   financeData,
@@ -63,6 +64,7 @@ import {
   gstIndiaProData,
   hackingData,
   huggingFaceData,
+  hindiData,
   hubspotData,
   ifrsData,
   interviewingData,
@@ -128,8 +130,9 @@ import {
   tallyPrimeData,
   taxEuropeData,
   taxIndiaData,
-  taxUaeData,
-  taxUsaData,
+  taxUAEData,
+  taxUKData,
+  taxUSAData,
   terraformData,
   trelloData,
   uiuxData,
@@ -143,6 +146,7 @@ import {
   dynamics365FinanceData,
   agentBuilderData
 } from './questions';
+import { CERTIFICATION_LEVELS as aiEngineeringAssessments } from './ai-engineering';
 
 export const ALL_ASSESSMENTS = {
   ...communicationData, // Wait, these are objects, not arrays. I should export the objects.
@@ -307,6 +311,7 @@ const buildAssessmentsMap = (assessmentMap) => Object.fromEntries(
 
 // Actually, I should probably export them by ID as a map.
 const rawAssessmentsMap = {
+  ...Object.fromEntries(aiEngineeringAssessments.map((assessment) => [assessment.id, assessment])),
   [communicationData.id]: communicationData,
   [sjtData.id]: sjtData,
   [caseStudyData.id]: caseStudyData,
@@ -315,15 +320,14 @@ const rawAssessmentsMap = {
   [cognitiveAbilityData.id]: cognitiveAbilityData,
   [cultureData.id]: cultureData,
   [financeData.id]: financeData,
-  [systemDesignMcqData.id]: systemDesignMcqData,
+  
   [architectureSandboxData.id]: architectureSandboxData,
   [ethicsData.id]: ethicsData,
-  [productData.id]: productData,
-  [productCaseAiData.id]: productCaseAiData,
-  [debuggingData.id]: debuggingData,
-  [debuggingDuelData.id]: debuggingDuelData,
+  
   [dailyIncidentMcqData.id]: dailyIncidentMcqData,
   [frenchData.id]: frenchData,
+  [englishData.id]: englishData,
+  [hindiData.id]: hindiData,
   [germanData.id]: germanData,
   [spanishData.id]: spanishData,
   [japaneseData.id]: japaneseData,
@@ -373,6 +377,11 @@ const rawAssessmentsMap = {
   [vectorDatabaseOpsData.id]: vectorDatabaseOpsData,
   [llmDeploymentData.id]: llmDeploymentData,
   [uiuxData.id]: uiuxData,
+  [productData.id]: productData,
+  [productCaseAiData.id]: productCaseAiData,
+  [debuggingData.id]: debuggingData,
+  [debuggingDuelData.id]: debuggingDuelData,
+  [systemDesignMcqData.id]: systemDesignMcqData,
   // Phase 2
   [angularData.id]: angularData,
   [vueData.id]: vueData,
@@ -447,9 +456,10 @@ const rawAssessmentsMap = {
   [domainApData.id]: domainApData,
   [domainFaData.id]: domainFaData,
   [taxIndiaData.id]: taxIndiaData,
-  [taxUsaData.id]: taxUsaData,
+  [taxUSAData.id]: taxUSAData,
+  [taxUKData.id]: taxUKData,
   [taxEuropeData.id]: taxEuropeData,
-  [taxUaeData.id]: taxUaeData,
+  [taxUAEData.id]: taxUAEData,
   [auditingData.id]: auditingData,
 };
 

@@ -1,377 +1,441 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
-
-// Professional certification-level assessment. All original questions were checked, normalized, and expanded with advanced scenarios.
+import euVatFlowImage from '../../../assets/assessments/tax_europe/eu_vat_flow.png';
+import ossReviewImage from '../../../assets/assessments/tax_europe/oss_review.png';
+import reverseChargeReviewImage from '../../../assets/assessments/tax_europe/reverse_charge_review.png';
 
 export const taxEuropeData = {
   id: ASSESSMENT_TYPES.tax_europe,
-  title: "European Tax VAT & Corporate Tax Professional Certification",
-  shortTitle: "Europe Tax",
-  category: "Accounting & Tax",
+  title: 'Europe Taxation Professional Certification',
+  shortTitle: 'Europe Tax',
+  category: 'Accounting & Tax',
   durationMinutes: 60,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "EU VAT, reverse charge, VIES, OSS/IOSS, BEPS, transfer pricing, withholding tax, digital services tax, country-specific rules, compliance, and tax risk judgment.",
-  instructions: "Choose the best answer. Every question has been checked, normalized, and upgraded from fundamentals to advanced professional scenarios.",
+  description:
+    'Professional European taxation assessment focused on EU VAT, intra-Community supplies and acquisitions, place of taxation, imports, B2B services, OSS, cross-border evidence, Member-State reporting, and VAT governance.',
+  instructions:
+    '20 scenario-based questions, 60 minutes, 100 marks. Use the exhibits, charts, tables, and process diagrams. Select the strongest tax treatment or control response for the facts given. Questions emphasize professional judgment and reconciliation rather than isolated memorization. No negative marking.',
   questions: [
     {
-      id: "te-01",
-      type: "mcq",
-      title: "Indirect Tax",
-      prompt: "What is \"VAT\"?",
-      options: ["Value Added Tax", "Virtual Account Transaction", "Volume and Tax", "Variable Asset Type"],
-      correctIndex: 0,
-      explanation: "A consumption tax placed on a product whenever value is added at each stage of supply."
-    },
-    {
-      id: "te-02",
-      type: "mcq",
-      title: "EU VAT",
-      prompt: "What is \"VIES\"?",
-      options: ["A type of visa", "VAT Information Exchange System (for validating VAT numbers in the EU)", "Virtual Internal Equity System", "Very Important Entry Standard"],
+      id: 'eu-01',
+      type: 'mcq',
+      title: 'Intra-EU Goods Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the cross-border exhibit.
+
+{{image}}
+
+A German business dispatches goods to a French VAT-registered business for use in France. What is the strongest VAT analysis?`,
+      image: {
+        src: euVatFlowImage,
+        alt: 'EU cross-border VAT transaction review'
+      },
+      options: [
+        'Treat it as a domestic German consumer sale automatically.',
+        'Treat it as an intra-EU supply/acquisition flow and evaluate the supplier exemption and customer acquisition VAT under the applicable conditions.',
+        'Ignore VAT because both countries use the euro.',
+        'Charge the same VAT rate in every Member State.'
+      ],
       correctIndex: 1,
-      explanation: "Allows businesses to check if a customer in another EU country is VAT-registered."
+      explanation:
+        'Correct: B. EU VAT distinguishes intra-Community supply and acquisition treatment for goods moving between Member States. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-03",
-      type: "mcq",
-      title: "Cross-Border",
-      prompt: "What is \"Reverse Charge\" in EU VAT?",
-      options: ["Paying tax backwards", "When the buyer of a service from another EU country accounts for the VAT", "Getting a refund", "A tax for exports only"],
+      id: 'eu-02',
+      type: 'mcq',
+      title: 'Place of Taxation',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why is place-of-supply analysis critical in EU VAT?`,
+      options: [
+        'It sets one single EU corporate-income-tax rate.',
+        'It replaces invoice documentation.',
+        'It means every transaction is taxed where the supplier\'s bank is located.',
+        'It determines which Member State\'s VAT rules may apply to the transaction.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. EU VAT rules use place-of-taxation rules to determine the relevant jurisdiction; rates and invoicing can vary by Member State. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-03',
+      type: 'mcq',
+      title: 'Intra-EU Acquisition',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A French company acquires goods from Germany and the goods arrive in France.
+
+Who generally accounts for acquisition VAT, subject to the rules?`,
+      options: [
+        'The French customer as the acquirer.',
+        'The customer\'s bank.',
+        'The European Commission directly on the invoice.',
+        'No one, because intra-EU acquisitions are outside VAT.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. For a taxable intra-EU acquisition, the acquirer is generally liable to account for the VAT. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-04',
+      type: 'mcq',
+      title: 'Import VAT',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Goods enter the EU from a non-EU country and are imported into the Netherlands.
+
+What should the tax team determine first?`,
+      options: [
+        'The supplier\'s home-country income-tax rate.',
+        'The euro exchange rate only.',
+        'The importation jurisdiction/procedure and the resulting import VAT and customs treatment.',
+        'Whether the goods can be treated as payroll.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Import VAT is linked to the place/procedure of importation; customs and VAT processes must be aligned. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-05',
+      type: 'mcq',
+      title: 'EU VAT Classification',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `A business has domestic sales, intra-EU goods, B2B services, and imports.
+
+What is the strongest close control?`,
+      options: [
+        'Classify each transaction type before applying place-of-supply, liability, rate, and reporting rules.',
+        'Apply one VAT code to every transaction.',
+        'Use corporate tax treatment to decide VAT.',
+        'Ignore destination country information.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. EU VAT treatment depends heavily on transaction classification and place-of-taxation rules. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-06',
+      type: 'mcq',
+      title: 'Cross-border Exceptions',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Study the chart.
+
+{{chart}}
+
+What is the strongest conclusion?`,
+      chart: {
+        type: 'line',
+        title: 'Open Cross-border VAT Exceptions',
+        xAxis: ['Jan','Feb','Mar','Apr','May'],
+        series: [{ name: 'Exceptions', data: [7,9,8,18,27] }]
+      },
+      options: [
+        'The close is improving every month.',
+        'Exceptions are flat.',
+        'Cross-border VAT exceptions are increasing and require root-cause remediation.',
+        'May has no issues.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. The number of unresolved exceptions rises materially by April and May. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-07',
+      type: 'mcq',
+      title: 'OSS Review',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the B2C/OSS exhibit.
+
+{{image}}
+
+Which market is the clearest filing exception?`,
+      image: {
+        src: ossReviewImage,
+        alt: 'EU One Stop Shop cross-border sales review'
+      },
+      options: [
+        'France, because VAT is mapped.',
+        'Germany, because VAT is mapped.',
+        'Spain, because VAT is mapped.',
+        'Italy, because VAT capture is only partial.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. A destination market with incomplete VAT capture should be investigated before OSS reporting. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-08',
+      type: 'mcq',
+      title: 'Destination-country Control',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A retailer sells to consumers in several EU Member States.
+
+What is the strongest data control?`,
+      options: [
+        'Store only total EU sales with no country detail.',
+        'Capture customer destination, transaction value, VAT treatment, and reporting scheme consistently at transaction level.',
+        'Use the seller\'s domestic VAT rate for every customer automatically.',
+        'Ignore returns and credit notes.'
+      ],
       correctIndex: 1,
-      explanation: "Simplifies VAT for B2B cross-border services. This is a checked foundational concept for professional Europe Tax work."
+      explanation:
+        'Correct: B. Destination-country reporting depends on reliable country-level transaction data. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-04",
-      type: "mcq",
-      title: "Direct Tax",
-      prompt: "What is the \"BEPS\" initiative?",
-      options: ["Base Erosion and Profit Shifting (OECD project to tackle tax avoidance)", "Better European Payment System", "Business Equity and Profit Standard", "Business Entry and Price System"],
+      id: 'eu-09',
+      type: 'mcq',
+      title: 'Reverse Charge / Acquisition Review',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the acquisition exhibit.
+
+{{image}}
+
+Which transaction is clearly different from the intra-EU acquisitions?`,
+      image: {
+        src: reverseChargeReviewImage,
+        alt: 'EU intra-community acquisition review'
+      },
+      options: [
+        'The German supplier.',
+        'The Belgian supplier.',
+        'The local French supplier transaction, which is a domestic purchase rather than an intra-EU acquisition.',
+        'All foreign suppliers are always identical.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Domestic purchases and intra-EU acquisitions follow different VAT mechanics and should not be coded identically. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-10',
+      type: 'mcq',
+      title: 'VAT Number Validation',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A supplier intends to apply exempt intra-EU supply treatment to goods shipped to a business customer in another Member State.
+
+What control is strongest?`,
+      options: [
+        'Validate customer VAT details and retain transport/transaction evidence supporting the conditions for the treatment.',
+        'Assume every foreign customer qualifies.',
+        'Use the customer\'s website as the only evidence.',
+        'Ignore goods movement evidence.'
+      ],
       correctIndex: 0,
-      explanation: "BEPS aims to prevent multinational companies from moving profits to low-tax jurisdictions."
+      explanation:
+        'Correct: A. Cross-border VAT treatments depend on statutory conditions and supporting evidence, not foreign address alone. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-05",
-      type: "mcq",
-      title: "Transfer Pricing",
-      prompt: "What is the \"Arm's Length Principle\"?",
-      options: ["Staying far away from tax offices", "Pricing transactions between related entities as if they were unrelated parties", "A type of accounting rule for banks", "A measure of physical distance"],
+      id: 'eu-11',
+      type: 'mcq',
+      title: 'B2B Service Review',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A consulting service is provided cross-border between VAT-registered businesses in different Member States.
+
+What should the tax team analyze first?`,
+      options: [
+        'Only the supplier\'s domestic VAT rate.',
+        'The B2B place-of-supply rule and whether reverse-charge accounting applies to the customer.',
+        'The customer\'s payroll tax.',
+        'The EU customs tariff for goods.'
+      ],
       correctIndex: 1,
-      explanation: "Used to prevent profit shifting through internal pricing. This is a checked foundational concept for professional Europe Tax work."
+      explanation:
+        'Correct: B. Services require place-of-supply analysis; B2B services often place tax responsibility with the customer under reverse charge, subject to rules. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-06",
-      type: "mcq",
-      title: "UK Tax",
-      prompt: "In the UK, what is \"HMRC\"?",
-      options: ["Her Majesty's Revenue and Customs", "High Market Revenue Control", "Home Management and Rural Council", "Heavy Metal Research Corp"],
-      correctIndex: 0,
-      explanation: "The UK government department responsible for tax collection. This is a checked foundational concept for professional Europe Tax work."
+      id: 'eu-12',
+      type: 'mcq',
+      title: 'Member-State Differences',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why should a 'Europe Tax' assessment avoid assuming one VAT rate and one corporate tax rate across all EU countries?`,
+      options: [
+        'The EU has no VAT framework.',
+        'All Member States use identical tax legislation.',
+        'Only customs duties differ.',
+        'Member States can have different VAT rates, invoicing rules, and direct-tax systems even under common EU frameworks.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. EU law harmonizes important VAT principles, but Member States retain differences in rates and many implementation/direct-tax rules. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-07",
-      type: "mcq",
-      title: "Germany Tax",
-      prompt: "What is \"Gewerbesteuer\" in Germany?",
-      options: ["Income tax", "Trade Tax (levied by local municipalities)", "VAT", "Solidarity surcharge"],
+      id: 'eu-13',
+      type: 'mcq',
+      title: 'VAT Reporting Bridge',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Study the chart.
+
+{{chart}}
+
+What is the strongest interpretation?`,
+      chart: {
+        type: 'bar',
+        title: 'EU VAT Reporting Bridge (€000)',
+        categories: ['Domestic Output','Destination VAT','Acquisition VAT','Recoverable Input','Net'],
+        series: [{ name: 'Amount', data: [84,31,22,-96,41] }]
+      },
+      options: [
+        'A low net VAT balance means classifications do not matter.',
+        'All intra-EU transactions are zero tax with no reporting.',
+        'Input VAT can always be claimed without conditions.',
+        'Destination VAT and acquisition/reverse-charge amounts must be correctly classified even when the overall net VAT position appears manageable.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. Classification drives jurisdictional reporting even when the net group cash position is modest. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-14',
+      type: 'mcq',
+      title: 'Credit Note Across Borders',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A cross-border B2B goods sale is partially returned.
+
+What is the strongest control response?`,
+      options: [
+        'Delete the original invoice.',
+        'Issue the appropriate credit-note adjustment, link it to the original transaction, and update the relevant cross-border VAT reporting/evidence.',
+        'Ignore the return because the original supply crossed a border.',
+        'Record it only in corporate income tax.'
+      ],
       correctIndex: 1,
-      explanation: "A business tax that varies by city. This is a checked foundational concept for professional Europe Tax work."
+      explanation:
+        'Correct: B. Returns should preserve the audit trail and flow into the relevant VAT reporting rather than erasing history. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-08",
-      type: "mcq",
-      title: "Withholding",
-      prompt: "What is \"Withholding Tax\" (WHT)?",
-      options: ["A tax you don't pay", "Tax deducted at source on payments to non-residents (e.g., dividends, royalties)", "A tax refund", "A fine for late filing"],
+      id: 'eu-15',
+      type: 'mcq',
+      title: 'EU VAT Close Workflow',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What belongs in the missing step?
+
+{{diagram}}`,
+      diagram: `flowchart LR
+  A["Close transaction ledgers"] --> B["Extract VAT data by country"]
+  B --> C["???"]
+  C --> D["Submit local / OSS VAT reports"]
+  D --> E["Archive evidence"]`,
+      options: [
+        'Apply one EU-wide VAT percentage.',
+        'Prepare payroll tax only.',
+        'Classify domestic/intra-EU/import/service flows, reconcile by Member State, review exceptions, and sign off.',
+        'Ignore destination-country data.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. Cross-border VAT close requires classification, jurisdictional reconciliation, and review before filing. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-16',
+      type: 'mcq',
+      title: 'Intra-EU Goods Process',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which controlled process is strongest?`,
+      diagram: `flowchart LR
+  V["Validate VAT/customer"] --> M["Confirm movement"]
+  M --> C["Classify supply/acquisition"]
+  C --> R["VAT reporting"]
+  R --> E["Retain evidence"]`,
+      options: [
+        'Validate customer/VAT status → confirm goods movement → classify intra-EU treatment → report supplier/customer VAT consequences → retain evidence.',
+        'Use destination country only after filing.',
+        'Assume exemption whenever customer is foreign.',
+        'Ignore proof of transport.'
+      ],
+      correctIndex: 0,
+      explanation:
+        'Correct: A. The process ties legal conditions to transaction evidence and reporting. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
+    },
+    {
+      id: 'eu-17',
+      type: 'mcq',
+      title: 'VAT Audit Trail',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A group has entities in six Member States.
+
+What is the strongest audit-trail design?`,
+      options: [
+        'Keep only consolidated EU totals.',
+        'Maintain transaction-level mapping from source invoices to country VAT returns/OSS reports, adjustments, and payment/refund evidence.',
+        'Store only filed PDFs.',
+        'Let each entity use undocumented manual codes.'
+      ],
       correctIndex: 1,
-      explanation: "Regulated by Double Tax Treaties (DTT). This is a checked foundational concept for professional Europe Tax work."
+      explanation:
+        'Correct: B. Cross-border compliance needs traceability from transaction to jurisdictional filing. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-09",
-      type: "mcq",
-      title: "Digital Tax",
-      prompt: "What is the \"DST\" (Digital Services Tax)?",
-      options: ["A tax on computers", "A tax on revenue generated from certain digital services (e.g., social media, search)", "A tax on phone apps only", "A type of VAT"],
-      correctIndex: 1,
-      explanation: "Proposed/enacted by several European countries to tax big tech. This is a checked foundational concept for professional Europe Tax work."
+      id: 'eu-18',
+      type: 'mcq',
+      title: 'EU Tax Governance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which governance model is strongest for a pan-European group?`,
+      options: [
+        'One calendar entry called \'EU tax\'.',
+        'Use only the parent company\'s domestic rules.',
+        'Rely on local memory with no group oversight.',
+        'A jurisdiction matrix covering VAT registrations, local returns, OSS/IOSS where relevant, customs interfaces, owners, deadlines, and reconciliations.'
+      ],
+      correctIndex: 3,
+      explanation:
+        'Correct: D. EU operations combine common frameworks with Member-State obligations, so explicit jurisdictional governance is essential. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-10",
-      type: "mcq",
-      title: "Compliance",
-      prompt: "What is \"CbCR\"?",
-      options: ["Country-by-Country Reporting", "Central Business Cost Report", "Corporate Bank Cash Review", "Creative Business Color Range"],
+      id: 'eu-19',
+      type: 'mcq',
+      title: 'Recurring Destination Error',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Three periods show Italian B2C sales incorrectly coded to the seller's domestic VAT rate.
+
+What is the strongest response?`,
+      options: [
+        'Correct current reporting and redesign the tax-engine/customer-destination mapping that caused the repeated error.',
+        'Treat each month as unrelated.',
+        'Stop selling to Italy immediately.',
+        'Ignore the error because both countries are in the EU.'
+      ],
       correctIndex: 0,
-      explanation: "Requires large multinationals to report revenue and taxes for every country they operate in."
+      explanation:
+        'Correct: A. Repeated miscoding indicates a system/control issue requiring root-cause remediation. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not C: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     },
     {
-      id: "te-11",
-      type: "mcq",
-      title: "Ireland Tax",
-      prompt: "Why is Ireland known for its corporate tax regime?",
-      options: ["It has no tax", "It historically has a low corporate tax rate (e.g., 12.5%)", "It is only for Irish companies", "It is a tax haven only for individuals"],
-      correctIndex: 1,
-      explanation: "Ireland is a major hub for tech and pharma due to its tax policy. This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-12",
-      type: "mcq",
-      title: "VAT",
-      prompt: "What is the \"Standard Rate\" of VAT in the EU?",
-      options: ["Exactly 20% everywhere", "At least 15% (varies by country, often 17-27%)", "Fixed at 10%", "0%"],
-      correctIndex: 1,
-      explanation: "Each country sets its own rate within EU guidelines. This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-13",
-      type: "mcq",
-      title: "France Tax",
-      prompt: "What is the \"Impôt sur les Sociétés\" (IS)?",
-      options: ["Income tax", "Corporate Tax in France", "VAT", "Social security tax"],
-      correctIndex: 1,
-      explanation: "France has been gradually lowering its corporate tax rate. This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-14",
-      type: "mcq",
-      title: "Terminology",
-      prompt: "What is a \"Tax Resident\"?",
-      options: ["A person living in a tax office", "An individual or entity subject to tax in a country based on their presence or connection", "A tourist", "A government employee"],
-      correctIndex: 1,
-      explanation: "Residency rules vary (e.g., 183-day rule). This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-15",
-      type: "mcq",
-      title: "Tax Havens",
-      prompt: "What is a \"Blacklisted Jurisdiction\"?",
-      options: ["A country with black flags", "A country identified by the EU as non-cooperative for tax purposes", "A country with high taxes", "A country with no internet"],
-      correctIndex: 1,
-      explanation: "The EU list of non-cooperative jurisdictions for tax purposes. This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-16",
-      type: "mcq",
-      title: "Inheritance Tax",
-      prompt: "Is Inheritance Tax common in Europe?",
-      options: ["No", "Yes, but rates and exemptions vary significantly by country", "Only in the UK", "Only for royalty"],
-      correctIndex: 1,
-      explanation: "Often called \"Succession Duty\". This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-17",
-      type: "mcq",
-      title: "Environmental Tax",
-      prompt: "What is a \"Carbon Tax\"?",
-      options: ["A tax on pencils", "A tax on the carbon content of fuels or emissions", "A tax on paper", "A tax on recycling"],
-      correctIndex: 1,
-      explanation: "An \"eco-tax\" aimed at reducing CO2 emissions. This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-18",
-      type: "mcq",
-      title: "Customs",
-      prompt: "What is the \"Common External Tariff\" in the EU?",
-      options: ["A tax on all internal sales", "A uniform tariff applied to goods imported from outside the EU", "A sales tax", "A tax on transport"],
-      correctIndex: 1,
-      explanation: "The EU is a Customs Union. This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-19",
-      type: "mcq",
-      title: "Capital Gains",
-      prompt: "How are Capital Gains generally taxed in Europe?",
-      options: ["They are always exempt", "Varies, but often taxed separately from ordinary income at specific rates", "Taxed at 100%", "Included in VAT"],
-      correctIndex: 1,
-      explanation: "Some countries have exemptions for long-term holdings. This is a checked foundational concept for professional Europe Tax work."
-    },
-    {
-      id: "te-20",
-      type: "mcq",
-      title: "Audit",
-      prompt: "What is \"Statutory Audit\"?",
-      options: ["A voluntary check", "A legally required audit of financial records for companies meeting certain size criteria", "A tax inspection", "A bank audit"],
-      correctIndex: 1,
-      explanation: "Ensures compliance with local accounting standards (e.g., UK GAAP, German HGB)."
-    },
-    {
-      id: "te-21",
-      type: "mcq",
-      title: "Vat Registration Threshold",
-      prompt: "In a professional European Tax VAT & Corporate Tax scenario, what is the strongest approach when dealing with VAT registration threshold?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Vat Registration Threshold requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "te-22",
-      type: "mcq",
-      title: "Input Vat Recovery",
-      prompt: "A team is making a decision about input VAT recovery. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about input VAT recovery balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "te-23",
-      type: "mcq",
-      title: "Output Vat Liability",
-      prompt: "Which signal suggests output VAT liability needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when output VAT liability could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "te-24",
-      type: "mcq",
-      title: "Reverse Charge Invoice",
-      prompt: "What is the best way to validate work involving reverse charge invoice?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for reverse charge invoice should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "te-25",
-      type: "mcq",
-      title: "Intra-Community Supply",
-      prompt: "In a professional European Tax VAT & Corporate Tax scenario, what is the strongest approach when dealing with intra-community supply?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Intra-Community Supply requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "te-26",
-      type: "mcq",
-      title: "Vies Validation",
-      prompt: "A team is making a decision about VIES validation. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about VIES validation balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "te-27",
-      type: "mcq",
-      title: "Oss Scheme",
-      prompt: "Which signal suggests OSS scheme needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when OSS scheme could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "te-28",
-      type: "mcq",
-      title: "Ioss Imports",
-      prompt: "What is the best way to validate work involving IOSS imports?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for IOSS imports should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "te-29",
-      type: "mcq",
-      title: "Place Of Supply Rules",
-      prompt: "In a professional European Tax VAT & Corporate Tax scenario, what is the strongest approach when dealing with place of supply rules?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Place Of Supply Rules requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "te-30",
-      type: "mcq",
-      title: "Vat Exemption Risk",
-      prompt: "A team is making a decision about VAT exemption risk. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about VAT exemption risk balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "te-31",
-      type: "mcq",
-      title: "Beps Pillar Two",
-      prompt: "Which signal suggests BEPS Pillar Two needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when BEPS Pillar Two could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "te-32",
-      type: "mcq",
-      title: "Transfer Pricing Documentation",
-      prompt: "What is the best way to validate work involving transfer pricing documentation?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for transfer pricing documentation should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "te-33",
-      type: "mcq",
-      title: "Arm’S Length Method",
-      prompt: "In a professional European Tax VAT & Corporate Tax scenario, what is the strongest approach when dealing with arm’s length method?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Arm’S Length Method requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "te-34",
-      type: "mcq",
-      title: "Withholding Tax Treaty",
-      prompt: "A team is making a decision about withholding tax treaty. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about withholding tax treaty balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "te-35",
-      type: "mcq",
-      title: "Permanent Establishment",
-      prompt: "Which signal suggests permanent establishment needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when permanent establishment could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "te-36",
-      type: "mcq",
-      title: "Uk Making Tax Digital",
-      prompt: "What is the best way to validate work involving UK Making Tax Digital?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for UK Making Tax Digital should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "te-37",
-      type: "mcq",
-      title: "Germany Trade Tax",
-      prompt: "In a professional European Tax VAT & Corporate Tax scenario, what is the strongest approach when dealing with Germany trade tax?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Germany Trade Tax requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "te-38",
-      type: "mcq",
-      title: "France Corporate Tax Concept",
-      prompt: "A team is making a decision about France corporate tax concept. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about France corporate tax concept balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "te-39",
-      type: "mcq",
-      title: "Digital Services Tax",
-      prompt: "Which signal suggests digital services tax needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when digital services tax could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "te-40",
-      type: "mcq",
-      title: "Tax Compliance Judgment",
-      prompt: "What is the best way to validate work involving tax compliance judgment?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for tax compliance judgment should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
+      id: 'eu-20',
+      type: 'mcq',
+      title: 'Integrated EU VAT Dashboard',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which dashboard gives the best oversight?`,
+      diagram: `flowchart TB
+  T["Transaction data"] --> C["Country / flow classification"]
+  C --> R["Local VAT / OSS reports"]
+  P["Payments / refunds"] --> X["Reconciliation"]
+  R --> X
+  X --> E["Exception register"]
+  E --> V["Reviewer closure"]`,
+      options: [
+        'One total called \'Europe VAT\'.',
+        'A list of country VAT rates only.',
+        'A dashboard by Member State linking domestic VAT, intra-EU acquisitions/supplies, imports, OSS sales, payments/refunds, exceptions, and reviewer closure.',
+        'A dashboard showing only revenue.'
+      ],
+      correctIndex: 2,
+      explanation:
+        'Correct: C. The strongest design provides jurisdictional traceability and exception governance. Why not A: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not B: it does not best fit the tax facts, control objective, or reporting treatment in this scenario. Why not D: it does not best fit the tax facts, control objective, or reporting treatment in this scenario.'
     }
-  ]
+  ],
 };
