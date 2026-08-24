@@ -142,16 +142,34 @@ export function normalizeCertificateRecord(certificate = {}) {
 }
 
 export function getStoredCertificates() {
+  const getCertTime = (cert) => {
+    if (cert.issuedAt) return new Date(cert.issuedAt).getTime();
+    if (cert.date) {
+      const parsed = new Date(cert.date).getTime();
+      if (!isNaN(parsed)) return parsed;
+    }
+    return 0;
+  };
+
+  let list = [];
   if (typeof window !== 'undefined' && window.clerkUserId) {
-    return useCertifiStore.getState().certificates.map(normalizeCertificateRecord);
+    list = useCertifiStore.getState().certificates.map(normalizeCertificateRecord);
+  } else {
+    try {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      list = Array.isArray(stored) ? stored.map(normalizeCertificateRecord) : [];
+    } catch (error) {
+      console.error('Failed to read certificates:', error);
+      list = [];
+    }
   }
-  try {
-    const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
-    return Array.isArray(stored) ? stored.map(normalizeCertificateRecord) : [];
-  } catch (error) {
-    console.error('Failed to read certificates:', error);
-    return [];
-  }
+
+  return [...list].reverse().sort((a, b) => {
+    const tA = getCertTime(a);
+    const tB = getCertTime(b);
+    if (tA && tB && tA !== tB) return tB - tA;
+    return 0;
+  });
 }
 
 export function saveCertificate(certificate) {

@@ -1247,10 +1247,28 @@ export function normalizeBadgeRecord(badge = {}) {
 }
 
 export function getStoredBadges() {
+  const getBadgeTime = (badge) => {
+    if (badge.issuedAt) return new Date(badge.issuedAt).getTime();
+    if (badge.date) {
+      const parsed = new Date(badge.date).getTime();
+      if (!isNaN(parsed)) return parsed;
+    }
+    return 0;
+  };
+
+  let list = [];
   if (typeof window !== 'undefined' && window.clerkUserId) {
-    return useCertifiStore.getState().badges.map(normalizeBadgeRecord);
+    list = useCertifiStore.getState().badges.map(normalizeBadgeRecord);
+  } else {
+    list = safeParse(localStorage.getItem(STORAGE_KEY)).map(normalizeBadgeRecord);
   }
-  return safeParse(localStorage.getItem(STORAGE_KEY)).map(normalizeBadgeRecord);
+
+  return [...list].reverse().sort((a, b) => {
+    const tA = getBadgeTime(a);
+    const tB = getBadgeTime(b);
+    if (tA && tB && tA !== tB) return tB - tA;
+    return 0;
+  });
 }
 export function findBadgeByCertificateId(certificateId) { return getStoredBadges().find((badge) => badge.certificateId === certificateId) || null; }
 

@@ -24,9 +24,26 @@ export default function MyBadges() {
   }, [isSynced]);
 
   const filteredBadges = useMemo(() => {
+    const getBadgeTimestamp = (badge) => {
+      if (badge.issuedAt) return new Date(badge.issuedAt).getTime();
+      if (badge.date) {
+        const parsed = new Date(badge.date).getTime();
+        if (!isNaN(parsed)) return parsed;
+      }
+      return 0;
+    };
+
+    // Sort badges newest first (most recently earned at top)
+    const sorted = [...badges].reverse().sort((a, b) => {
+      const tA = getBadgeTimestamp(a);
+      const tB = getBadgeTimestamp(b);
+      if (tA && tB && tA !== tB) return tB - tA;
+      return 0;
+    });
+
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return badges;
-    return badges.filter((badge) =>
+    if (!query) return sorted;
+    return sorted.filter((badge) =>
       [badge.skill, badge.badgeTitle, badge.certificateId, badge.designName, badge.paletteName]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(query))

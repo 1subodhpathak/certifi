@@ -41,9 +41,26 @@ export default function MyCertificates() {
   );
 
   const filteredCertificates = useMemo(() => {
+    const getCertTimestamp = (cert) => {
+      if (cert.issuedAt) return new Date(cert.issuedAt).getTime();
+      if (cert.date) {
+        const parsed = new Date(cert.date).getTime();
+        if (!isNaN(parsed)) return parsed;
+      }
+      return 0;
+    };
+
+    // Sort certificates newest first (most recently issued at top)
+    const sorted = [...certificates].reverse().sort((a, b) => {
+      const tA = getCertTimestamp(a);
+      const tB = getCertTimestamp(b);
+      if (tA && tB && tA !== tB) return tB - tA;
+      return 0;
+    });
+
     const query = searchQuery.trim().toLowerCase();
-    if (!query) return certificates;
-    return certificates.filter((certificate) =>
+    if (!query) return sorted;
+    return sorted.filter((certificate) =>
       [certificate.skill, certificate.studentName, certificate.id]
         .filter(Boolean)
         .some((value) => String(value).toLowerCase().includes(query))

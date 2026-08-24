@@ -13,6 +13,8 @@ import {
   ShieldCheck,
   Info,
   X,
+  Lock,
+  Sparkles,
 } from 'lucide-react';
 
 const DIFFICULTY_OPTIONS = ['Beginner', 'Intermediate', 'Advanced', 'Expert'];
@@ -109,6 +111,8 @@ export default function CreateAssessment() {
   const [skillValidationSuggestions, setSkillValidationSuggestions] = useState([]);
   const [isSkillOverviewOpen, setIsSkillOverviewOpen] = useState(false);
   const [skillOverview, setSkillOverview] = useState(null);
+  const [showPremiumModal, setShowPremiumModal] = useState(false);
+  const [premiumNotice, setPremiumNotice] = useState('');
   const deferredAssessmentTitle = useDeferredValue(assessmentTitle);
   const quotaStatus = getCsPointsQuotaStatus(user?.email);
 
@@ -501,35 +505,76 @@ export default function CreateAssessment() {
             {/* Range Slider */}
             <div>
               <div className="mb-1.5 flex items-center justify-between">
-                <span className="text-sm font-medium text-slate-700">Number of Questions</span>
+                <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium text-slate-700">Number of Questions</span>
+                  <span className="inline-flex items-center gap-1 rounded-full border border-teal-200/80 bg-teal-50 px-2 py-0.5 text-[10px] font-bold text-teal-700">
+                    <Sparkles className="h-3 w-3 text-teal-600" />
+                    Free Plan: Max 20 Qs
+                  </span>
+                </div>
                 <span className="text-sm font-semibold text-slate-900">{summary.questionCount}</span>
               </div>
-              <div className="px-0">
+              <div className="px-0 relative">
                 <input
                   type="range"
                   min="5"
                   max="30"
                   step="1"
-                  value={summary.questionCount}
-                  onChange={(event) => setQuestionCount(Number(event.target.value))}
+                  value={questionCount}
+                  onChange={(event) => {
+                    const val = Number(event.target.value);
+                    if (val > 20) {
+                      setQuestionCount(20);
+                      setShowPremiumModal(true);
+                    } else {
+                      setQuestionCount(val);
+                    }
+                  }}
                   disabled={isGenerating}
                   className="custom-range-input cursor-pointer"
                 />
               </div>
-              <div className="relative mt-1 h-5 px-2 text-xs font-semibold text-slate-700">
+              <div className="relative mt-1 h-6 px-2 text-xs font-semibold text-slate-700">
                 {QUESTION_MARKERS.map((value) => {
                   const percentage = ((value - 5) / (30 - 5)) * 100;
+                  const isLocked = value > 20;
 
                   return (
-                    <span
+                    <button
                       key={value}
-                      className="absolute top-0 -translate-x-1/2 text-center"
+                      type="button"
+                      onClick={() => {
+                        if (isLocked) {
+                          setQuestionCount(20);
+                          setShowPremiumModal(true);
+                        } else {
+                          setQuestionCount(value);
+                        }
+                      }}
+                      className={`absolute top-0 -translate-x-1/2 text-center transition-all ${
+                        isLocked
+                          ? 'text-slate-400 cursor-pointer hover:text-amber-600'
+                          : questionCount === value
+                          ? 'text-teal-700 font-bold scale-110'
+                          : 'text-slate-600 hover:text-slate-900'
+                      }`}
                       style={{ left: `calc(8px + (${percentage} * (100% - 16px) / 100))` }}
                     >
-                      {value}
-                    </span>
+                      <span className="flex items-center gap-0.5">
+                        {value}
+                        {isLocked && <Lock className="h-2.5 w-2.5 text-amber-500" />}
+                      </span>
+                    </button>
                   );
                 })}
+              </div>
+
+              {/* Premium Feature Lock Notice */}
+              <div className="mt-3.5 flex items-center gap-2 rounded-xl border border-amber-200/60 bg-amber-50/40 px-3 py-2 text-[11px] text-amber-800">
+                <Lock className="h-3.5 w-3.5 text-amber-600 shrink-0" />
+                <span>
+                  <span className="font-bold">25-30 Questions</span> is a Premium Feature (Coming Soon). Up to 20 questions available on Free Plan.
+                </span>
               </div>
             </div>
 
@@ -714,9 +759,13 @@ export default function CreateAssessment() {
       )}
 
       {isSkillOverviewOpen && skillOverview ? (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/35 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-2xl overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl">
-            <div className="flex items-start justify-between gap-4 border-b border-slate-100 bg-slate-50 px-5 py-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 md:p-6 backdrop-blur-sm">
+          {/* Backdrop click to close */}
+          <div className="absolute inset-0" onClick={() => setIsSkillOverviewOpen(false)} />
+
+          <div className="relative z-10 flex max-h-[85vh] w-full max-w-2xl flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+            {/* Sticky Fixed Header */}
+            <div className="flex shrink-0 items-start justify-between gap-4 border-b border-slate-100 bg-slate-50/95 px-6 py-4.5 backdrop-blur-md">
               <div>
                 <p className="text-xs font-bold uppercase tracking-[0.18em] text-teal-600">AI Skill Overview</p>
                 <h3 className="mt-1 text-xl font-bold text-slate-900">{skillOverview.skill}</h3>
@@ -724,39 +773,46 @@ export default function CreateAssessment() {
               <button
                 type="button"
                 onClick={() => setIsSkillOverviewOpen(false)}
-                className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100"
+                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 transition hover:bg-slate-100 hover:text-slate-900 shadow-sm"
               >
                 <X className="h-4 w-4" />
               </button>
             </div>
 
-            <div className="space-y-6 p-5">
+            {/* Scrollable Body Content */}
+            <div className="flex-1 overflow-y-auto p-6 space-y-6 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-200 hover:[&::-webkit-scrollbar-thumb]:bg-slate-300 [&::-webkit-scrollbar-track]:bg-transparent">
               <div>
                 <p className="text-sm font-bold text-slate-900">What Is This Skill About?</p>
                 <p className="mt-2 text-sm leading-7 text-slate-600">{skillOverview.summary}</p>
               </div>
 
               <div className="grid gap-5 md:grid-cols-2">
-                <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4.5">
                   <p className="text-sm font-bold text-slate-900">What You Will Learn</p>
-                  <div className="mt-3 space-y-2">
+                  <div className="mt-3 space-y-2.5">
                     {skillOverview.whatYouLearn?.map((item) => (
-                      <p key={item} className="text-sm text-slate-600">{item}</p>
+                      <div key={item} className="flex items-start gap-2 text-sm text-slate-600">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-500" />
+                        <span className="leading-snug">{item}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
 
-                <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4">
+                <div className="rounded-2xl border border-slate-200 bg-slate-50/60 p-4.5">
                   <p className="text-sm font-bold text-slate-900">Where It Is Used</p>
-                  <div className="mt-3 space-y-2">
+                  <div className="mt-3 space-y-2.5">
                     {skillOverview.whereItIsUsed?.map((item) => (
-                      <p key={item} className="text-sm text-slate-600">{item}</p>
+                      <div key={item} className="flex items-start gap-2 text-sm text-slate-600">
+                        <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-teal-500" />
+                        <span className="leading-snug">{item}</span>
+                      </div>
                     ))}
                   </div>
                 </div>
               </div>
 
-              <div className="rounded-2xl border border-teal-100 bg-teal-50/70 p-4">
+              <div className="rounded-2xl border border-teal-100 bg-teal-50/70 p-4.5">
                 <p className="text-sm font-bold text-slate-900">Why It Matters</p>
                 <p className="mt-2 text-sm leading-7 text-slate-700">{skillOverview.whyItMatters}</p>
               </div>
@@ -764,6 +820,42 @@ export default function CreateAssessment() {
           </div>
         </div>
       ) : null}
+
+      {/* Premium Feature Locked Modal */}
+      {showPremiumModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="absolute inset-0" onClick={() => setShowPremiumModal(false)} />
+          <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-amber-200 bg-white p-6 shadow-2xl animate-in zoom-in-95 duration-200 text-center">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 border border-amber-200/80 shadow-sm">
+              <Lock className="h-7 w-7" />
+            </div>
+
+            <div className="mt-4">
+              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100/80 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-amber-800 border border-amber-200">
+                <Sparkles className="h-3.5 w-3.5 text-amber-600" />
+                Premium Feature
+              </span>
+              <h3 className="mt-2.5 text-xl font-extrabold text-slate-900">25 & 30 Questions Limit</h3>
+              <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
+                Custom assessments with 25 to 30 questions are reserved for <span className="font-bold text-slate-900">Premium Subscriptions</span> (Coming Soon).
+              </p>
+              <div className="mt-3.5 rounded-xl border border-amber-200 bg-amber-50/90 p-3 text-xs font-medium text-amber-900">
+                On the Free Plan, custom assessments are limited to a maximum of 20 questions. Your selection has been set to 20 questions.
+              </div>
+            </div>
+
+            <div className="mt-6">
+              <button
+                type="button"
+                onClick={() => setShowPremiumModal(false)}
+                className="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-slate-800"
+              >
+                Got It, Keep 20 Questions
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </DashboardShell>
   );
 }
