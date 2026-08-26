@@ -122,21 +122,23 @@ export default function VerifyCertificate() {
   return (
     <div className="min-h-screen bg-[#f6efe2] font-sans text-[#2a1714]">
       {/* Navbar */}
-      <nav className="border-b border-[#4a6285] bg-[#01142e] px-4 py-2.5 text-[#fff9ec] shadow-[0_10px_26px_rgba(13,28,49,0.28)] sm:px-6">
+      <nav className="border-b border-[#4a6285] bg-[#01142e] px-4 py-2 text-[#fff9ec] shadow-[0_10px_26px_rgba(13,28,49,0.28)] sm:px-6">
         <div className="mx-auto flex max-w-[1320px] items-center justify-between gap-4">
           <button
             type="button"
             onClick={() => navigate('/')}
-            className="group flex items-center gap-3 text-left"
+            className="group flex items-center gap-2 text-left sm:gap-2.5"
           >
-            <div className="flex h-16 w-16 items-center justify-center rounded-full">
-              <img src="/Logo.png" alt="CareerSense Academy crest" className="h-12 w-12 object-contain" />
-            </div>
+            <img
+              src="/Logo.png"
+              alt="CareerSense Academy crest"
+              className="h-10 w-10 shrink-0 translate-y-1 object-contain sm:h-11 sm:w-11"
+            />
             <div className="leading-none">
-              <div className="text-xl font-black tracking-tight text-slate-100 sm:text-2xl">
-                Career<span className="text-teal-600">Sense</span>
+              <div className="text-lg font-black tracking-tight text-slate-100 sm:text-xl">
+                Career<span className="text-teal-300">Sense</span>
               </div>
-              <div className="mt-1 text-[7px] font-black uppercase tracking-[0.26em] text-slate-100 sm:text-[8px] sm:tracking-[0.3em]">
+              <div className="mt-1 text-[6px] font-black uppercase tracking-[0.14em] text-white-200 sm:tracking-[0.16em]">
                 Centre for Professional Certification
               </div>
             </div>

@@ -1,9 +1,5 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level Debugging & Code Quality assessment.
-// Questions progress from basic JavaScript bugs to advanced async behavior,
-// edge cases, state mutation, performance issues, memory leaks, testing,
-// production debugging, and root-cause analysis.
 export const debuggingData = {
   id: ASSESSMENT_TYPES.debugging,
   title: 'Debugging & Code Quality Professional Certification',
@@ -11,535 +7,455 @@ export const debuggingData = {
   category: 'Software Quality',
   durationMinutes: 50,
   pointsPerQuestion: 5,
-  description:
-    'Professional debugging assessment covering logical flaws, JavaScript behavior, async bugs, edge cases, performance issues, memory leaks, state mutation, testing strategy, production triage, and root-cause analysis.',
-  instructions:
-    'Examine each code snippet or debugging scenario and choose the best answer. Questions move from easy to hard and test practical debugging judgment, not only syntax knowledge.',
+  passingPercentage: 85,
+  description: 'Professional debugging assessment covering reproduction, async races, memory leaks, observability, performance, test failures, incident response, root-cause analysis, safe mitigation, and code-quality practices.',
+  instructions: '40 scenario-based questions, 50 minutes, 200 marks. Use the dashboards, charts, tables, code/image exhibits, and diagrams. Choose the strongest professional response.',
   questions: [
     {
       id: 'dbg-01',
       type: 'mcq',
-      title: 'Loop Boundary',
-      prompt: 'What is the bug in this code? for (let i = 0; i <= arr.length; i++) { console.log(arr[i]); }',
-      options: [
-        'No bug',
-        'Index out of bounds on the last iteration',
-        'Infinite loop',
-        'Wrong syntax'
-      ],
+      title: 'Incident Triage',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the incident.\n\n{{image}}\n\nWhat is the strongest first response?`,
+      image: { src: '/assets/assessments/debugging/incident.png', alt: 'Production incident timeline' },
+      options: ['Start a full rewrite.', 'Stabilize customer impact—evaluate safe rollback/mitigation while preserving evidence and comparing deploy/database timelines.', 'Ignore DB metrics.', 'Wait for more complaints.'],
       correctIndex: 1,
-      explanation:
-        'Arrays are zero-indexed. The last valid index is arr.length - 1, so the condition should usually be i < arr.length.'
+      explanation: 'Correct: B. Impact is rising and rollback exists. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-02',
       type: 'mcq',
-      title: 'Off-by-One',
-      prompt: 'Which index represents the 10th element in a zero-indexed array?',
-      options: ['9', '10', '11', '0'],
-      correctIndex: 0,
-      explanation:
-        'In zero-indexed arrays, the first element is index 0, so the 10th element is index 9.'
+      title: 'Async Race',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the code.\n\n{{image}}\n\nWhat is the bug?`,
+      image: { src: '/assets/assessments/debugging/race.png', alt: 'Async race condition' },
+      options: ['await forces order across separate calls.', 'setResults is synchronous so race is impossible.', 'The API must be cached.', 'Out-of-order responses can write stale results; cancel or guard requests by sequence/latest intent.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Independent async calls may finish out of order. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-03',
       type: 'mcq',
-      title: 'Variable Scope',
-      prompt: 'What happens when this function runs? function test() { if (true) { var x = 5; } console.log(x); }',
-      options: ['ReferenceError', 'Logs 5', 'Logs undefined', 'SyntaxError'],
-      correctIndex: 1,
-      explanation:
-        'var is function-scoped, not block-scoped. The variable x is available throughout the function.'
+      title: 'Listener Leak',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the code.\n\n{{image}}\n\nWhat is the likely symptom?`,
+      image: { src: '/assets/assessments/debugging/leak.png', alt: 'Event listener memory leak' },
+      options: ['Duplicate handlers and retained references accumulate because listeners are never removed.', 'The browser removes them on every render.', 'The code becomes blocking.', 'Resize events stop firing.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Lifecycle cleanup is missing. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-04',
       type: 'mcq',
-      title: 'Block Scope',
-      prompt: 'What happens when this function runs? function test() { if (true) { let x = 5; } console.log(x); }',
-      options: ['Logs 5', 'Logs undefined', 'ReferenceError', 'SyntaxError'],
+      title: 'Environment-Specific Failures',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the matrix.\n\n{{image}}\n\nWhat is the strongest next step?`,
+      image: { src: '/assets/assessments/debugging/test_failures.png', alt: 'Test failure matrix' },
+      options: ['Assume CI is broken.', 'Delete failing tests.', 'Reproduce with CI/prod-like timing, timezone, and configuration while isolating each environmental variable.', 'Only rerun until green.'],
       correctIndex: 2,
-      explanation:
-        'let is block-scoped, so x is not available outside the if block.'
+      explanation: 'Correct: C. The pattern points to environment/timing causes. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-05',
       type: 'mcq',
-      title: 'Recursion',
-      prompt: 'What is missing in this recursive function? function rec(n) { return n * rec(n - 1); }',
-      options: ['Return type', 'Base case', 'Variable declaration', 'Nothing'],
-      correctIndex: 1,
-      explanation:
-        'A recursive function needs a base case. Without it, recursion continues until the call stack overflows.'
+      title: 'Memory Leak',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review memory profile.\n\n{{image}}\n\nWhat should be investigated first?`,
+      image: { src: '/assets/assessments/debugging/memory.png', alt: 'Memory leak profile' },
+      options: ['Retainer paths from listeners/detached DOM nodes keeping objects reachable after lifecycle completion.', 'Increase heap limit.', 'Disable GC.', 'Minify CSS.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Heap and retained objects grow continuously. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-06',
       type: 'mcq',
-      title: 'Null Access',
-      prompt: 'What happens if profile is null in this expression? user.profile.name',
-      options: [
-        'Returns undefined',
-        'Throws TypeError',
-        'Returns null',
-        'Returns an empty string'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Trying to access a property of null or undefined throws a TypeError.'
+      title: 'Reliable Reproduction',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the first goal for a complex bug?`,
+      options: ['Rewrite the subsystem.', 'Add random logs forever.', 'Create a deterministic reproduction or smallest failing case.', 'Blame the last commit.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-07',
       type: 'mcq',
-      title: 'Optional Chaining',
-      prompt: 'Which expression safely reads name when user or profile may be null?',
-      options: [
-        'user.profile.name',
-        'user && profile.name',
-        'user?.profile?.name',
-        'user.profile?.name.value'
-      ],
-      correctIndex: 2,
-      explanation:
-        'Optional chaining safely returns undefined instead of throwing when an intermediate value is null or undefined.'
+      title: 'Binary Search',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `How can git bisect help?`,
+      options: ['Optimize runtime.', 'Merge branches.', 'Format code.', 'Narrow the regression to the first bad commit using repeated good/bad checks.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-08',
       type: 'mcq',
-      title: 'Strict Equality',
-      prompt: 'Why is === usually preferred over == in JavaScript debugging?',
-      options: [
-        'It is always faster',
-        'It avoids unexpected type coercion',
-        'It converts all values to strings',
-        'It ignores null and undefined'
-      ],
+      title: 'Hypothesis Testing',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a strong debugging hypothesis?`,
+      options: ['A vague suspicion.', 'Specific, falsifiable, tied to evidence, and predicts what a test/metric should show.', 'Anything the senior engineer says.', 'A theory that cannot be disproved.'],
       correctIndex: 1,
-      explanation:
-        'Strict equality compares both value and type, reducing bugs caused by implicit coercion.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-09',
       type: 'mcq',
-      title: 'Type Coercion',
-      prompt: 'In JavaScript, what is the value of [] == ![]?',
-      options: ['true', 'false', 'TypeError', 'undefined'],
-      correctIndex: 0,
-      explanation:
-        'This evaluates to true because of JavaScript coercion rules. It is a good example of why strict equality is preferred.'
+      title: 'Observability',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What makes logs useful?`,
+      options: ['Only stack traces.', 'Random print statements.', 'Structured context, timestamps, correlation IDs, relevant state, and no sensitive-data leakage.', 'Secrets.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-10',
       type: 'mcq',
-      title: 'typeof null',
-      prompt: 'What is typeof null in JavaScript?',
-      options: ['"null"', '"undefined"', '"object"', '"boolean"'],
-      correctIndex: 2,
-      explanation:
-        'typeof null returns "object", which is a long-standing JavaScript legacy behavior.'
+      title: 'Metrics',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When are metrics more useful than logs?`,
+      options: ['When detecting aggregate rate/latency/resource trends across many requests.', 'For exact source line only.', 'For user passwords.', 'Never.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-11',
       type: 'mcq',
-      title: 'NaN Check',
-      prompt: 'What is the result of NaN === NaN?',
-      options: ['true', 'false', 'TypeError', 'undefined'],
+      title: 'Tracing',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is distributed tracing most useful?`,
+      options: ['Static websites only.', 'Following one request across multiple services/dependencies to locate latency/failure contribution.', 'Database backups.', 'CSS bugs.'],
       correctIndex: 1,
-      explanation:
-        'NaN is not equal to itself. Use Number.isNaN(value) to check whether a value is NaN.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-12',
       type: 'mcq',
-      title: 'Floating Point',
-      prompt: 'Is 0.1 + 0.2 === 0.3 in JavaScript?',
-      options: ['Yes', 'No', 'Only in strict mode', 'It throws an error'],
-      correctIndex: 1,
-      explanation:
-        'Floating-point precision causes 0.1 + 0.2 to produce 0.30000000000000004, so the strict equality check is false.'
+      title: 'Off-by-One',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Loop uses i <= arr.length. What is wrong?`,
+      options: ['It skips first item.', 'It is infinite.', 'It sorts array.', 'It accesses one index past the last valid element.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-13',
       type: 'mcq',
-      title: 'Closure with var',
-      prompt: 'What is logged? for (var i = 0; i < 3; i++) { setTimeout(() => console.log(i), 100); }',
-      options: ['0, 1, 2', '3, 3, 3', 'undefined, undefined, undefined', '0, 0, 0'],
-      correctIndex: 1,
-      explanation:
-        'var is function-scoped, so each callback references the same i after the loop ends. The final value is 3.'
+      title: 'Null Safety',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use optional chaining carefully?`,
+      options: ['It converts null to zero.', 'It validates types.', 'It retries API calls.', 'It avoids crashes but can also hide unexpected missing data if absence should be treated as an error.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-14',
       type: 'mcq',
-      title: 'Closure Fix',
-      prompt: 'How can the previous var loop bug usually be fixed?',
-      options: [
-        'Use let instead of var for the loop variable',
-        'Remove setTimeout',
-        'Use == instead of ===',
-        'Wrap console.log in JSON.stringify'
-      ],
-      correctIndex: 0,
-      explanation:
-        'let creates a new block-scoped binding for each loop iteration, so the callbacks capture the expected value.'
+      title: 'Equality Coercion',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why prefer === in JS?`,
+      options: ['It is always faster.', 'Avoid implicit type coercion that can make comparisons surprising.', 'It compares references only.', 'It rejects numbers.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-15',
       type: 'mcq',
-      title: 'Async Await',
-      prompt: 'What happens if you call an async function without await?',
-      options: [
-        'The function does not run',
-        'It returns a Promise immediately',
-        'The code always crashes',
-        'It blocks automatically'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Async functions return Promises. Without await, the caller receives the Promise instead of the resolved value.'
+      title: 'Floating Point',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `How should money generally be represented?`,
+      options: ['Always JavaScript Number cents with arbitrary division.', 'Strings only.', 'Using integer minor units or decimal/fixed-precision types appropriate to the platform, not binary float assumptions.', 'Random rounding.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-16',
       type: 'mcq',
-      title: 'Missing await Bug',
-      prompt: 'What is the likely bug? const user = fetchUser(); console.log(user.name);',
-      options: [
-        'fetchUser returns a Promise, so user.name is not the resolved user name',
-        'console.log cannot print objects',
-        'const cannot store function results',
-        'JavaScript does not support functions'
-      ],
+      title: 'Async Await',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What happens if an async function is called without await?`,
+      options: ['The caller receives a Promise immediately unless it handles the Promise another way.', 'Function does not run.', 'It blocks automatically.', 'It returns null.'],
       correctIndex: 0,
-      explanation:
-        'If fetchUser is async, user is a Promise. The code should await fetchUser() or use .then().'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-17',
       type: 'mcq',
-      title: 'Promise Error Handling',
-      prompt: 'What is the main purpose of try/catch with await?',
-      options: [
-        'To make async code synchronous internally',
-        'To handle rejected Promises in async/await flow',
-        'To speed up network requests',
-        'To prevent all runtime errors forever'
-      ],
+      title: 'Promise.all',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When is Promise.all appropriate?`,
+      options: ['Partial success must always continue.', 'Independent tasks where all results are required and any failure should reject the aggregate.', 'Sequential dependencies.', 'Infinite streams.'],
       correctIndex: 1,
-      explanation:
-        'try/catch around awaited calls catches Promise rejections and thrown errors in the async function.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-18',
       type: 'mcq',
-      title: 'Promise.all Behavior',
-      prompt: 'What happens if one Promise rejects inside Promise.all([p1, p2, p3])?',
-      options: [
-        'Promise.all resolves with null for the rejected promise',
-        'Promise.all rejects immediately with that error',
-        'All promises are retried automatically',
-        'The rejection is ignored'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Promise.all fails fast. If any input Promise rejects, the returned Promise rejects.'
+      title: 'allSettled',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When use allSettled?`,
+      options: ['When one failure should abort everything.', 'For synchronous arrays only.', 'For no Promises.', 'When every outcome is needed even if some operations fail.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-19',
       type: 'mcq',
-      title: 'Promise.allSettled',
-      prompt: 'When is Promise.allSettled more appropriate than Promise.all?',
-      options: [
-        'When you need results from all tasks even if some fail',
-        'When every task must succeed or everything should fail',
-        'When you want to block the event loop',
-        'When promises are not supported'
-      ],
+      title: 'Async forEach',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why is await inside forEach risky?`,
+      options: ['forEach does not await callback Promises, so completion/error flow is not what many expect.', 'await is invalid in callbacks.', 'forEach is synchronous only.', 'Promises cannot be returned.'],
       correctIndex: 0,
-      explanation:
-        'Promise.allSettled returns the status of every Promise, making it useful when partial success is acceptable.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-20',
       type: 'mcq',
-      title: 'Async forEach',
-      prompt: 'What is the issue with using await inside Array.forEach callbacks?',
-      options: [
-        'forEach waits for every async callback automatically',
-        'forEach does not await async callbacks, so completion order and error handling may be unexpected',
-        'forEach cannot use functions',
-        'await is invalid in JavaScript'
-      ],
-      correctIndex: 1,
-      explanation:
-        'forEach does not await Promises returned by callbacks. Use for...of with await or Promise.all with map depending on the desired behavior.'
+      title: 'Shallow Copy',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is risky about {...obj} with nested objects?`,
+      options: ['It deep-clones automatically.', 'It freezes values.', 'Nested references remain shared, so mutation can leak across copies.', 'It drops primitives.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-21',
       type: 'mcq',
-      title: 'const Mutation',
-      prompt: 'Does this throw an error? const x = [1, 2]; x.push(3);',
-      options: ['Yes', 'No', 'Only in strict mode', 'Only in TypeScript'],
-      correctIndex: 1,
-      explanation:
-        'const prevents reassignment of the variable binding, but the array itself can still be mutated.'
+      title: 'State Mutation',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why can direct mutation break reactive UIs?`,
+      options: ['Mutation is syntax error.', 'React forbids objects.', 'Change detection/selectors often depend on identity and immutable update patterns.', 'It changes network state.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-22',
       type: 'mcq',
-      title: 'Shallow Copy',
-      prompt: 'Is this a deep copy? const b = [...a];',
-      options: ['Yes', 'No, it is shallow', 'Only for objects', 'Only for strings'],
-      correctIndex: 1,
-      explanation:
-        'The spread operator copies the first level. Nested objects remain shared references.'
+      title: 'Sort Bug',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why does [10,2,1].sort() surprise people?`,
+      options: ['Default sort compares string representations unless a comparator is supplied.', 'Arrays are unordered.', 'sort is random.', 'Numbers cannot sort.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-23',
       type: 'mcq',
-      title: 'Shared Reference',
-      prompt: 'What is logged? const a = [{ count: 1 }]; const b = [...a]; b[0].count = 2; console.log(a[0].count);',
-      options: ['1', '2', 'undefined', 'TypeError'],
-      correctIndex: 1,
-      explanation:
-        'The array was copied shallowly, but the nested object is still shared by reference.'
+      title: 'parseInt Map',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why does ['1','2','3'].map(parseInt) fail?`,
+      options: ['parseInt cannot parse strings.', 'map skips values.', 'Arrays coerce to numbers.', 'map passes index as the second argument, which parseInt interprets as radix.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-24',
       type: 'mcq',
-      title: 'State Mutation',
-      prompt: 'In React or similar state-driven UI code, why is direct state mutation dangerous?',
-      options: [
-        'It may prevent change detection and cause stale or incorrect UI',
-        'It always throws a syntax error',
-        'It makes the code compile slower',
-        'It prevents variables from being declared'
-      ],
-      correctIndex: 0,
-      explanation:
-        'State-driven UIs often rely on identity changes. Mutating existing objects can prevent updates from being detected correctly.'
+      title: 'Nullish Coalescing',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When is ?? better than || for defaults?`,
+      options: ['When all falsy values are invalid.', "When 0, false, or '' are valid values and only null/undefined should trigger fallback.", 'For arrays only.', 'For exceptions.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-25',
       type: 'mcq',
-      title: 'Array Sort Bug',
-      prompt: 'What is the output of [10, 2, 1].sort() in JavaScript?',
-      options: [
-        '[1, 2, 10]',
-        '[10, 2, 1]',
-        '[1, 10, 2]',
-        'TypeError'
-      ],
-      correctIndex: 2,
-      explanation:
-        'Default sort converts values to strings and sorts lexicographically. Use sort((a, b) => a - b) for numeric sort.'
+      title: 'Complexity',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Nested linear scan inside a loop over N items is often what complexity?`,
+      options: ['O(1).', 'O(N²).', 'O(log N).', 'O(N log N) always.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-26',
       type: 'mcq',
-      title: 'parseInt Map Bug',
-      prompt: 'What is the result of ["1", "2", "3"].map(parseInt)?',
-      options: [
-        '[1, 2, 3]',
-        '[1, NaN, NaN]',
-        '[NaN, NaN, NaN]',
-        '[0, 1, 2]'
-      ],
-      correctIndex: 1,
-      explanation:
-        'map passes value and index. parseInt receives the index as radix, causing parseInt("2", 1) and parseInt("3", 2) to return NaN.'
+      title: 'Performance Profiling',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should you optimize first?`,
+      options: ['Longest function name.', 'Every loop.', 'Only CPU.', 'Measured hotspots that materially affect user/system goals, not code that merely looks slow.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-27',
       type: 'mcq',
-      title: 'Default Parameter',
-      prompt: 'What is logged? function f(x = 10) { console.log(x); } f(null);',
-      options: ['10', 'null', 'undefined', 'TypeError'],
-      correctIndex: 1,
-      explanation:
-        'Default parameters apply when the argument is undefined, not when it is null.'
+      title: 'Race Condition',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What defines a race condition?`,
+      options: ['Correctness depends on nondeterministic ordering/timing of concurrent operations.', 'A slow function.', 'A syntax error.', 'A memory leak.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-28',
       type: 'mcq',
-      title: 'Logical OR Default',
-      prompt: 'What is the bug in this defaulting logic? const limit = userLimit || 10;',
-      options: [
-        'No bug in any case',
-        'A valid value of 0 will be replaced with 10',
-        'The code always throws',
-        'The variable must be declared with var'
-      ],
-      correctIndex: 1,
-      explanation:
-        'The || operator treats 0 as falsy. Use nullish coalescing, userLimit ?? 10, when only null or undefined should trigger the default.'
+      title: 'Deadlock',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a deadlock?`,
+      options: ['High CPU.', 'Lost update only.', 'Two or more operations wait indefinitely on resources/locks held in a cycle.', 'Retry loop.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-29',
       type: 'mcq',
-      title: 'Nullish Coalescing',
-      prompt: 'What does value ?? fallback do?',
-      options: [
-        'Uses fallback only when value is null or undefined',
-        'Uses fallback when value is 0',
-        'Uses fallback when value is an empty string',
-        'Always uses fallback'
-      ],
-      correctIndex: 0,
-      explanation:
-        'The nullish coalescing operator only falls back for null or undefined, not for other falsy values like 0 or empty string.'
+      title: 'Timeouts',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why should external calls have timeouts?`,
+      options: ['Make requests succeed.', 'Avoid errors.', 'Replace retries.', 'Bound resource occupancy and prevent hung dependencies from consuming capacity indefinitely.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-30',
       type: 'mcq',
-      title: 'De Morgan Law',
-      prompt: '!(A && B) is equivalent to:',
-      options: ['!A && !B', '!A || !B', 'A || B', 'A && !B'],
+      title: 'Retries',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a retry storm?`,
+      options: ['A faster recovery.', 'Many clients retry failing requests aggressively, increasing load and worsening the outage.', 'An idempotency guarantee.', 'A cache refresh.'],
       correctIndex: 1,
-      explanation:
-        'By De Morgan’s Law, not (A and B) is equivalent to (not A) or (not B).'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-31',
       type: 'mcq',
-      title: 'Time Complexity',
-      prompt: 'What is the time complexity of nested loops where each loop iterates over the same array of size N?',
-      options: ['O(N)', 'O(log N)', 'O(N²)', 'O(1)'],
-      correctIndex: 2,
-      explanation:
-        'For each of N items, the inner loop may run N times, giving N × N operations.'
+      title: 'Feature Flags',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `How can flags help debugging?`,
+      options: ['Isolate/disable a suspect behavior for controlled comparison or mitigation without full rollback.', 'Replace tests.', 'Hide errors permanently.', 'Guarantee correctness.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-32',
       type: 'mcq',
-      title: 'Performance Bug',
-      prompt: 'A page becomes slow after adding a loop that searches an array inside another loop. What is the likely issue?',
-      options: [
-        'The logic may have become O(N²)',
-        'The page has too few comments',
-        'The variable names are too short',
-        'The code is using strict equality'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Searching inside a loop often creates quadratic behavior. A Map or Set can often reduce repeated lookups.'
+      title: 'Canary',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is canary debugging value?`,
+      options: ['Deploy everywhere faster.', 'Avoid monitoring.', 'Compare small exposed population against control before wide rollout.', 'Skip rollback.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-33',
       type: 'mcq',
-      title: 'Memory Leak',
-      prompt: 'What commonly causes a memory leak in a long-running application?',
-      options: [
-        'Large files only',
-        'Objects no longer needed but still referenced',
-        'Fast CPU',
-        'Too many comments'
-      ],
+      title: 'Data Corruption',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should happen before 'fixing' corrupted production data?`,
+      options: ['Run ad hoc updates immediately.', 'Preserve evidence/backups, understand invariants/root cause, validate repair logic, and make changes auditable/reversible.', 'Delete affected rows.', 'Hide it.'],
       correctIndex: 1,
-      explanation:
-        'Garbage collectors cannot reclaim objects that are still reachable through references.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-34',
       type: 'mcq',
-      title: 'Event Listener Leak',
-      prompt: 'A component adds a window resize listener every time it mounts but never removes it. What can happen?',
-      options: [
-        'Memory leak and duplicate event handling',
-        'The browser automatically prevents all issues',
-        'The listener runs only once forever',
-        'The code becomes synchronous'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Unremoved listeners can keep references alive and cause repeated handlers to run.'
+      title: 'Regression Test',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should accompany a bug fix?`,
+      options: ['Only a comment.', 'Only manual testing.', 'A screenshot.', 'A test that would fail before the fix and pass after, at the appropriate layer.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-35',
       type: 'mcq',
-      title: 'Race Condition',
-      prompt: 'What is a race condition?',
-      options: [
-        'Code that runs too fast',
-        'A bug where output depends on unpredictable timing of concurrent operations',
-        'A loop that never ends',
-        'Slow internet'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Race conditions occur when timing or ordering of operations affects correctness.'
+      title: 'Flaky Tests',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Strong response to flaky tests?`,
+      options: ['Retry until pass.', 'Delete randomly.', 'Identify nondeterminism/shared state/timing/environment causes and fix or quarantine with ownership—not just rerun indefinitely.', 'Ignore CI failures.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-36',
       type: 'mcq',
-      title: 'Stale Response',
-      prompt: 'A user types search queries quickly. The response for an older query arrives after the newer query and overwrites the UI. What bug is this?',
-      options: [
-        'Race condition',
-        'Syntax error',
-        'Integer overflow',
-        'Dead code'
-      ],
+      title: 'Debug Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the debugging loop.\n\n{{image}}\n\nWhy stabilize first?`,
+      image: { src: '/assets/assessments/debugging/debug_flow.png', alt: 'Debugging process' },
+      options: ['Reduce customer/system harm before spending time on deep diagnosis, while preserving evidence.', 'Diagnosis is unnecessary.', 'Fix can never be rolled back.', 'Metrics are optional.'],
       correctIndex: 0,
-      explanation:
-        'Out-of-order async responses can create stale UI updates. Use request cancellation, sequence IDs, or latest-request guards.'
+      explanation: 'Correct: A. Incident response balances mitigation and diagnosis. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-37',
       type: 'mcq',
-      title: 'Integer Overflow',
-      prompt: 'In a fixed signed 32-bit integer system, what can happen when adding 1 to the maximum value?',
-      options: [
-        'It always throws an error',
-        'It may wrap to a large negative number',
-        'It stays at the maximum value',
-        'It becomes a string'
-      ],
-      correctIndex: 1,
-      explanation:
-        'In fixed-width integer systems, overflow may wrap around, which can cause logic and security bugs.'
+      title: 'Root Cause',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is root cause analysis trying to avoid?`,
+      options: ['Writing timelines.', 'Testing hypotheses.', 'Monitoring.', 'Stopping at the first visible symptom instead of identifying contributing technical/process causes.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-38',
       type: 'mcq',
-      title: 'Regex Dot',
-      prompt: 'What does "." usually mean in a regular expression?',
-      options: [
-        'The literal dot character',
-        'Any single character except newline',
-        'End of string',
-        'Start of string'
-      ],
+      title: 'Five Whys',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When is Five Whys useful?`,
+      options: ['To assign blame.', 'As a simple prompt to explore causal layers, provided evidence is used and complex incidents are not forced into one cause.', 'To prove one person caused incident.', 'To replace logs.'],
       correctIndex: 1,
-      explanation:
-        'In most regex contexts, . is a wildcard for any single character except newline. To match a literal dot, escape it as \\..'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-39',
       type: 'mcq',
-      title: 'Reproduction',
-      prompt: 'What is the first practical goal when debugging a complex bug?',
-      options: [
-        'Rewrite the entire system',
-        'Create a reliable reproduction or identify the smallest failing case',
-        'Blame the last person who changed the file',
-        'Add random logs everywhere forever'
-      ],
-      correctIndex: 1,
-      explanation:
-        'A reliable reproduction makes it possible to isolate, test, and verify the fix.'
+      title: 'Production Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A new deploy coincides with DB latency, cache misses, and errors. Strongest approach?`,
+      options: ['Assume deploy is sole cause.', 'Restart randomly.', 'Mitigate safely, correlate timelines, compare before/after metrics, test competing hypotheses, isolate changes, and verify the fix with regression/monitoring.', 'Ignore DB.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'dbg-40',
       type: 'mcq',
-      title: 'Production Debugging Judgment',
-      prompt: 'A production incident appears after a release, but logs show both application errors and database latency. What is the best debugging approach?',
-      options: [
-        'Assume the release is definitely the only cause',
-        'Form hypotheses, compare timelines, check metrics by service, validate rollback safety, and stabilize customer impact first',
-        'Restart random services until the issue disappears',
-        'Ignore database metrics because the application changed'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Strong production debugging combines hypothesis testing, timeline analysis, observability, safe mitigation, and customer-impact reduction.'
+      title: 'Code Quality',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What makes code easier to debug long term?`,
+      options: ['Clear boundaries, explicit invariants, tests, typed contracts where available, structured errors, observability, and simple control flow.', 'More abstraction everywhere.', 'Long functions.', 'Silent catches.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     }
   ]
 };

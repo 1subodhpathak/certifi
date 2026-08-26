@@ -1,30 +1,28 @@
 export { aimlData } from './aimlData';
-export {
-  aiAgentsData,
-  awsAiServicesData,
-  cicdForMlData,
-  classificationMlData,
-  dockerForAiData,
-  ensembleModelsData,
-  googleVertexAiData,
-  huggingFaceData,
-  langchainData,
-  llamaindexData,
-  llmDeploymentData,
-  llmFundamentalsData,
-  mathematicsStatisticsData,
-  mlDeploymentData,
-  mlMonitoringData,
-  numpyAiData,
-  openAiApisData,
-  pandasAiData,
-  promptEngineeringData,
-  pythonForAiData,
-  ragAiData,
-  regressionMlData,
-  vectorDatabaseOpsData,
-  vectorDatabasesData,
-} from './aiMlExpansionData';
+export { aiAgentsData } from './aiAgentsData';
+export { awsAiServicesData } from './awsAiServicesData';
+export { cicdForMlData } from './cicdForMlData';
+export { classificationMlData } from './classificationMlData';
+export { dockerForAiData } from './dockerForAiData';
+export { ensembleModelsData } from './ensembleModelsData';
+export { googleVertexAiData } from './googleVertexAiData';
+export { huggingFaceData } from './huggingFaceData';
+export { langchainData } from './langchainData';
+export { llamaindexData } from './llamaindexData';
+export { llmDeploymentData } from './llmDeploymentData';
+export { llmFundamentalsData } from './llmFundamentalsData';
+export { mlDeploymentData } from './mlDeploymentData';
+export { mlMonitoringData } from './mlMonitoringData';
+export { openAiApisData } from './openAiApisData';
+export { promptEngineeringData } from './promptEngineeringData';
+export { pythonForAiData } from './pythonForAiData';
+export { ragAiData } from './ragAiData';
+export { regressionMlData } from './regressionMlData';
+export { vectorDatabaseOpsData } from './vectorDatabaseOpsData';
+export { vectorDatabasesData } from './vectorDatabasesData';
+export { mathematicsStatisticsData } from './mathematicsStatisticsData';
+export { numpyAiData } from './numpyAiData';
+export { pandasAiData } from './pandasAiData';
 export { accountingFundamentalsData } from './accountingFundamentalsData';
 export { englishData } from './englishData';
 export { hindiData } from './hindiData';

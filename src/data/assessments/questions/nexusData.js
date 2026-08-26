@@ -1,377 +1,465 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level assessment. Questions were checked, normalized, and expanded with advanced scenarios.
-
 export const nexusData = {
   id: ASSESSMENT_TYPES.nexus,
-  title: "Nexus Scaled Scrum Professional Certification",
-  shortTitle: "Nexus",
-  category: "Project Management",
+  title: 'Nexus Scaled Scrum Professional Certification',
+  shortTitle: 'Nexus',
+  category: 'Project Management',
   durationMinutes: 50,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Scaled Scrum with Nexus, integration, dependencies, Nexus Sprint Planning, Nexus Daily Scrum, refinement, Nexus Sprint Backlog, and integrated increments.",
-  instructions: "Choose the best answer. All questions have been checked, normalized, and upgraded from fundamentals to advanced professional scenarios.",
+  description: 'Professional Nexus assessment aligned to the Nexus Guide: single Product Backlog/Product Owner, Nexus Integration Team, cross-team refinement, Nexus events/artifacts, dependencies, continuous integration, Integrated Increment, and systemic scaling judgment.',
+  instructions: '40 scenario-based questions, 50 minutes, 200 marks. Use the dashboards, charts, tables, image/code exhibits, and process diagrams. Choose the strongest professional response.',
   questions: [
     {
-      id: "nx-01",
-      type: "mcq",
-      title: "Scaling",
-      prompt: "What is the primary purpose of the Nexus framework?",
-      options: ["To replace Scrum", "To scale Scrum for 3-9 teams working on a single product", "To manage waterfalls", "To reduce team size"],
+      id: 'nx-01',
+      type: 'mcq',
+      title: 'Integrated Increment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the integration dashboard.\n\n{{image}}\n\nWhat is the most important conclusion?`,
+      image: { src: '/assets/assessments/nexus/integration_dashboard.png', alt: 'Nexus integration dashboard' },
+      options: ['Each team may ship separate increments.', 'Local team completion is insufficient; the Nexus must produce one Done Integrated Increment.', 'The NIT should integrate all code itself.', 'Only failed builds matter.'],
       correctIndex: 1,
-      explanation: "Nexus is designed for multiple teams working on one Product Backlog."
+      explanation: 'Correct: B. Nexus accountability is centered on a Done Integrated Increment. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-02",
-      type: "mcq",
-      title: "The NIT",
-      prompt: "What does NIT stand for in Nexus?",
-      options: ["Nexus Integration Team", "Nexus IT Team", "New Implementation Task", "Nexus Internal Testing"],
-      correctIndex: 0,
-      explanation: "The NIT is responsible for ensuring an integrated Increment is produced."
-    },
-    {
-      id: "nx-03",
-      type: "mcq",
-      title: "Dependencies",
-      prompt: "What is the biggest challenge Nexus aims to solve?",
-      options: ["Lack of budget", "Cross-team dependencies and integration issues", "Choosing tools", "Managing stakeholders"],
-      correctIndex: 1,
-      explanation: "Scale increases communication and dependency overhead. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "nx-04",
-      type: "mcq",
-      title: "Events",
-      prompt: "Which event replaces the standard Sprint Planning when scaling with Nexus?",
-      options: ["Nexus Sprint Planning", "Big Room Planning", "Master Planning", "Shared Planning"],
-      correctIndex: 0,
-      explanation: "Nexus Sprint Planning coordinates work across all teams."
-    },
-    {
-      id: "nx-05",
-      type: "mcq",
-      title: "The Daily",
-      prompt: "What is the \"Nexus Daily Scrum\"?",
-      options: ["A meeting for all developers", "A meeting for representatives to identify integration issues", "A monthly update", "A board review"],
-      correctIndex: 1,
-      explanation: "It happens before individual team Dailies to coordinate cross-team work."
-    },
-    {
-      id: "nx-06",
-      type: "mcq",
-      title: "Sprint Backlog",
-      prompt: "Does Nexus have a \"Nexus Sprint Backlog\"?",
-      options: ["No, only team backlogs", "Yes, it provides visibility into dependencies and the Nexus goal", "Only for the PO", "Only for managers"],
-      correctIndex: 1,
-      explanation: "The Nexus Sprint Backlog shows the state of the integrated work."
-    },
-    {
-      id: "nx-07",
-      type: "mcq",
-      title: "Roles",
-      prompt: "Which role is part of the Nexus Integration Team?",
-      options: ["Product Owner", "Scrum Master", "One or more NIT Members", "All of the above"],
+      id: 'nx-02',
+      type: 'mcq',
+      title: 'Dependency Discovery',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the dependency map.\n\n{{image}}\n\nWhat process weakness is clearest?`,
+      image: { src: '/assets/assessments/nexus/dependency_map.png', alt: 'Nexus dependency map' },
+      options: ['Dependencies should only be discussed after coding.', 'Each team needs a separate Product Backlog.', 'The Product Owner should assign technical tasks.', 'Dependencies are being discovered too late and should be exposed/minimized through ongoing cross-team refinement.'],
       correctIndex: 3,
-      explanation: "The NIT consists of the PO, a Scrum Master, and members from the teams."
+      explanation: 'Correct: D. Late dependency discovery undermines integration. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-08",
-      type: "mcq",
-      title: "Refinement",
-      prompt: "How is Refinement different in Nexus?",
-      options: ["It isn't", "It is a formal event used to decompose work and identify dependencies early", "It is optional", "It is done by the PO only"],
+      id: 'nx-03',
+      type: 'mcq',
+      title: 'Nexus Sprint Planning',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the Nexus Sprint Backlog.\n\n{{image}}\n\nWhat should have happened differently?`,
+      image: { src: '/assets/assessments/nexus/sprint_backlog.png', alt: 'Nexus Sprint Backlog dashboard' },
+      options: ['Teams should coordinate around the Nexus Sprint Goal and dependencies before finalizing their individual Sprint Backlogs.', 'Teams should plan independently.', 'The NIT should assign every task.', 'There should be one giant team Sprint Backlog only.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Nexus Sprint Planning coordinates cross-team work toward one goal. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-04',
+      type: 'mcq',
+      title: 'Continuous Integration',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review CI health.\n\n{{image}}\n\nWhat is the strongest improvement?`,
+      image: { src: '/assets/assessments/nexus/ci_health.png', alt: 'Nexus integrated increment CI dashboard' },
+      options: ['Move integration to after the Sprint.', 'Add a separate final QA team.', 'Integrate and test continuously throughout the Sprint so cross-team failures surface earlier.', 'Let each team define Done independently.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Late integration causes delayed feedback and risk. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-05',
+      type: 'mcq',
+      title: 'Cross-Team Refinement',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review refinement health.\n\n{{image}}\n\nWhat should improve first?`,
+      image: { src: '/assets/assessments/nexus/refinement.png', alt: 'Nexus refinement dashboard' },
+      options: ['Decompose PBIs and identify/minimize dependencies collaboratively before Sprint Planning.', 'Increase PBI size.', 'Stop refinement.', 'Let only the Product Owner refine.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Nexus refinement makes dependencies transparent before commitment. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-06',
+      type: 'mcq',
+      title: 'Nexus Definition',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `What is a Nexus?`,
+      options: ['One Scrum Team plus vendors.', 'A portfolio of unrelated products.', 'Approximately 3–9 Scrum Teams working together on one product from a single Product Backlog.', 'A project-management office.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Nexus scales Scrum around one product. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-07',
+      type: 'mcq',
+      title: 'Single Product Owner',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `How many Product Owners does a Nexus have for the Product Backlog?`,
+      options: ['One per Scrum Team.', 'One per component.', 'None.', 'One.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. One Product Backlog has one Product Owner. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-08',
+      type: 'mcq',
+      title: 'Single Product Backlog',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Why is there one Product Backlog?`,
+      options: ['To let teams avoid collaboration.', 'All teams are working toward one product and need one ordered source of product work.', 'Because each team has its own product.', 'To replace Sprint Backlogs.'],
       correctIndex: 1,
-      explanation: "Frequent refinement is essential to minimize future integration issues."
+      explanation: 'Correct: B. A single product needs one product backlog. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-09",
-      type: "mcq",
-      title: "The Increment",
-      prompt: "What is the expected output of every Nexus Sprint?",
-      options: ["Multiple separate increments", "A single, integrated \"Done\" Increment", "A prototype", "A plan"],
+      id: 'nx-09',
+      type: 'mcq',
+      title: 'Nexus Integration Team',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the NIT accountable for?`,
+      options: ['Doing all integration work itself.', 'Managing team performance reviews.', 'Ensuring a valuable, useful Done Integrated Increment is produced at least once every Sprint.', 'Owning the Product Backlog instead of the Product Owner.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. The NIT provides integration accountability and coaching. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-10',
+      type: 'mcq',
+      title: 'NIT Composition',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Who belongs to the NIT?`,
+      options: ['The Product Owner, a Scrum Master, and appropriate members with needed skills/knowledge.', 'Only architects.', 'All stakeholders.', 'A separate permanent QA department.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Membership can change with integration needs. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-11',
+      type: 'mcq',
+      title: 'NIT Role',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A dependency problem appears. What should the NIT generally do?`,
+      options: ["Take over every team's work.", 'Coach, consult, expose constraints, and help teams resolve integration issues using bottom-up intelligence.', 'Act as command-and-control management.', 'Ignore team-level causes.'],
       correctIndex: 1,
-      explanation: "The goal is always one integrated product increment. This has been reviewed and retained as a relevant professional assessment point."
+      explanation: 'Correct: B. The NIT is a focal point, not a delivery bureaucracy. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-10",
-      type: "mcq",
-      title: "Nexus Sprint Goal",
-      prompt: "Who is accountable for the Nexus Sprint Goal?",
-      options: ["Individual teams", "The Nexus Integration Team", "The Stakeholders", "The CEO"],
+      id: 'nx-12',
+      type: 'mcq',
+      title: 'Integration Work',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Who performs actual integration work?`,
+      options: ['Only the NIT.', 'Only a separate integration team.', 'Only the Product Owner.', 'The Scrum Teams in the Nexus.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. The teams build and integrate the product. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-13',
+      type: 'mcq',
+      title: 'Nexus Sprint Goal',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the Nexus Sprint Goal?`,
+      options: ['A list of every task.', 'A release contract.', 'A team utilization target.', 'The objective for the Sprint that coordinates the work and Sprint Goals of the Scrum Teams.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. The Nexus Sprint Goal aligns teams on the Sprint objective. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-14',
+      type: 'mcq',
+      title: 'Nexus Sprint Backlog',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is its purpose?`,
+      options: ['Replace all team Sprint Backlogs.', 'Provide transparency into work and dependencies needed to achieve the Nexus Sprint Goal.', 'Store only defects.', 'Track individual performance.'],
       correctIndex: 1,
-      explanation: "The NIT ensures the goal is met and the product integrates."
+      explanation: 'Correct: B. The artifact improves cross-team transparency. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-11",
-      type: "mcq",
-      title: "Integration",
-      prompt: "Who performs the actual integration work in Nexus?",
-      options: ["The NIT only", "The individual Scrum Teams", "A separate QA team", "The Customer"],
+      id: 'nx-15',
+      type: 'mcq',
+      title: 'Cross-Team Refinement',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Is Nexus refinement a single mandatory meeting?`,
+      options: ['Yes, exactly one meeting per Sprint.', 'Only the Product Owner may attend.', 'No; refinement is continuous as needed to make dependencies/work transparent and ready.', 'It occurs after the Sprint Review.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. The Guide emphasizes ongoing refinement rather than one prescribed meeting. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-16',
+      type: 'mcq',
+      title: 'Nexus Daily Scrum',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is its focus?`,
+      options: ['Inspect the state of the Integrated Increment and cross-team integration/dependency issues, then adapt plans.', 'Individual status reporting.', 'Management approval.', 'Backlog ordering by the Product Owner.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. It focuses on Nexus-level integration. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-17',
+      type: 'mcq',
+      title: 'Team Daily Scrums',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `How should team Daily Scrums relate to the Nexus Daily Scrum?`,
+      options: ['They are cancelled.', 'Teams use Nexus-level information as needed to adapt their own plans and resolve dependencies.', 'They are replaced by one meeting for every developer.', 'They occur only monthly.'],
       correctIndex: 1,
-      explanation: "The teams do the work; the NIT provides coaching and ensures accountability."
+      explanation: 'Correct: B. Nexus augments rather than removes Scrum. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-12",
-      type: "mcq",
-      title: "Scrum Master",
-      prompt: "Can the Scrum Master of a Nexus also be a Scrum Master for an individual team?",
-      options: ["Yes", "No", "Only if the project is small", "Only with permission"],
+      id: 'nx-18',
+      type: 'mcq',
+      title: 'Nexus Sprint Review',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is reviewed?`,
+      options: ['Separate team increments only.', 'Individual performance.', 'Budget utilization only.', 'The Done Integrated Increment and progress toward the Product Goal with stakeholders.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. The product is reviewed as one integrated whole. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-19',
+      type: 'mcq',
+      title: 'Nexus Retrospective',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should Nexus retrospection prioritize?`,
+      options: ['Cross-team/systemic issues that prevented effective integration and experiments to improve the whole Nexus.', 'Only individual team morale.', 'Only Product Owner behavior.', 'Only velocity comparison.'],
       correctIndex: 0,
-      explanation: "This is common to ensure alignment, but depends on capacity."
+      explanation: 'Correct: A. At scale, systemic integration issues matter. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-13",
-      type: "mcq",
-      title: "Product Owner",
-      prompt: "How many Product Owners are in a Nexus?",
-      options: ["One per team", "Only one for the entire Nexus", "Two", "Unlimited"],
+      id: 'nx-20',
+      type: 'mcq',
+      title: 'Definition of Done',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is the commitment for the Integrated Increment?`,
+      options: ['A separate DoD per component can override integration.', 'Completion means code merged.', 'A shared Definition of Done that the integrated product increment must meet.', 'Testing may happen next Sprint.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Integrated work must meet a common Done standard. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-21',
+      type: 'mcq',
+      title: 'Local Optimization',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Team A maximizes its velocity by creating work that blocks Teams B/C. What is wrong?`,
+      options: ['Higher velocity is always better.', "Dependencies are the NIT's problem only.", 'The team is optimizing locally at the expense of Nexus-level value and integration.', 'Teams should compete.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Nexus optimizes the whole product. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-22',
+      type: 'mcq',
+      title: 'Team Boundaries',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A component structure creates constant dependencies. Strongest response?`,
+      options: ['Consider changing team/product architecture and work decomposition to reduce dependencies.', 'Add more coordination meetings only.', 'Accept dependencies permanently.', 'Create more component owners.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Nexus encourages structural dependency reduction. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-23',
+      type: 'mcq',
+      title: 'Empiricism',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does empiricism at Nexus scale require?`,
+      options: ['Detailed long-term plans only.', 'Management status slides.', 'Team utilization targets.', 'Transparent integrated work, inspection of real product/integration evidence, and adaptation.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Nexus preserves Scrum empiricism. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-24',
+      type: 'mcq',
+      title: 'Nexus Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the flow.\n\n{{image}}\n\nWhy does cross-team refinement come before planning?`,
+      image: { src: '/assets/assessments/nexus/nexus_flow.png', alt: 'Nexus delivery flow' },
+      options: ['To approve budgets.', 'To expose/decompose dependencies and make coordinated Sprint selection possible.', 'To assign people.', 'To eliminate Scrum events.'],
       correctIndex: 1,
-      explanation: "One product, one backlog, one Product Owner. This has been reviewed and retained as a relevant professional assessment point."
+      explanation: 'Correct: B. Planning quality depends on dependency transparency. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-14",
-      type: "mcq",
-      title: "Retrospective",
-      prompt: "What are the three parts of the Nexus Sprint Retrospective?",
-      options: ["Start, Stop, Continue", "Nexus-wide, Team-level, Nexus-wide (Integrated)", "Initiate, Plan, Execute", "Individual, Team, Stakeholder"],
+      id: 'nx-25',
+      type: 'mcq',
+      title: 'Scaling Down',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A Nexus has 9 teams but coordination cost exceeds delivered value. What should be considered?`,
+      options: ['Add more teams automatically.', 'Reducing team count or product/team complexity if fewer people can deliver more effectively.', 'Create another backlog.', 'Increase reporting.'],
       correctIndex: 1,
-      explanation: "It starts with cross-team issues, then team specific, then back to integrated improvement."
+      explanation: 'Correct: B. The Nexus Guide notes scaling down can improve value. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-15",
-      type: "mcq",
-      title: "Team Size",
-      prompt: "What is the recommended number of Scrum Teams in a Nexus?",
-      options: ["2-5", "3-9", "10-20", "Unlimited"],
+      id: 'nx-26',
+      type: 'mcq',
+      title: 'Product Goal',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What commitment belongs to the Product Backlog?`,
+      options: ['Nexus Sprint Goal.', 'Definition of Done.', 'Release Plan.', 'Product Goal.'],
+      correctIndex: 3,
+      explanation: "Correct: D. Nexus inherits Scrum's Product Goal commitment. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice."
+    },
+    {
+      id: 'nx-27',
+      type: 'mcq',
+      title: 'Dependency Transparency',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What belongs on a useful Nexus Sprint Backlog view?`,
+      options: ['Cross-team work/dependencies and progress toward the Nexus Sprint Goal.', 'Only individual tasks.', 'Only bugs.', 'Only story points.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. The artifact exists for Nexus transparency. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-28',
+      type: 'mcq',
+      title: 'Integration Debt',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Teams defer integration to future Sprints. What is the main risk?`,
+      options: ['Velocity increases permanently.', 'The Product Backlog becomes unnecessary.', 'They are accumulating integration debt and cannot demonstrate a Done Integrated Increment each Sprint.', 'NIT accountability disappears.'],
+      correctIndex: 2,
+      explanation: "Correct: C. Deferred integration defeats Nexus's core purpose. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice."
+    },
+    {
+      id: 'nx-29',
+      type: 'mcq',
+      title: 'Automated Testing',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why are automated contract/integration tests valuable in Nexus?`,
+      options: ['They replace collaboration.', 'They remove the need for DoD.', 'They guarantee no defects.', 'They provide fast shared feedback on cross-team compatibility and integration quality.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Automation helps expose integration issues early. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-30',
+      type: 'mcq',
+      title: 'Shared Architecture',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A schema/API contract changes without notifying dependent teams. Strongest response?`,
+      options: ['Ban all API changes.', 'Improve cross-team technical transparency and contract/change practices so dependent work is coordinated early.', 'Let teams discover breaks in E2E tests.', 'Make NIT approve every code line.'],
       correctIndex: 1,
-      explanation: "Nexus is designed for scaling up to 9 teams. This has been reviewed and retained as a relevant professional assessment point."
+      explanation: 'Correct: B. Cross-team contracts need deliberate coordination. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-16",
-      type: "mcq",
-      title: "Nexus Sprint Review",
-      prompt: "Which event provides transparency into the integrated increment for stakeholders?",
-      options: ["Team Sprint Review", "Nexus Sprint Review", "Stakeholder Meeting", "Demo Day"],
+      id: 'nx-31',
+      type: 'mcq',
+      title: 'Nexus Planning Failure',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `During planning, every team selects maximum capacity but combined work cannot integrate. Best response?`,
+      options: ['Re-plan around the Nexus Sprint Goal and integrated feasibility, not local utilization.', 'Keep all work because utilization matters.', 'Create separate release dates.', 'Ignore dependencies.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Integrated value is the objective. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-32',
+      type: 'mcq',
+      title: 'Nexus Daily Anti-Pattern',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The Nexus Daily Scrum becomes a 90-minute management status meeting. Strongest correction?`,
+      options: ['Invite more managers.', 'Add slide decks.', 'Refocus it on inspecting integrated progress/dependencies and enabling participants to adapt work quickly.', 'Replace all team Daily Scrums.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. The event is for coordination and adaptation, not status reporting. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-33',
+      type: 'mcq',
+      title: 'NIT Membership',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Should NIT membership be permanently fixed?`,
+      options: ['Yes, exactly the same people forever.', 'Not necessarily; appropriate members can change as integration needs and required skills change.', 'Only executives can join.', 'No Scrum Team members may join.'],
       correctIndex: 1,
-      explanation: "The Nexus Sprint Review replaces individual reviews for the product."
+      explanation: 'Correct: B. The Guide allows composition to evolve. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-17",
-      type: "mcq",
-      title: "Self-Organization",
-      prompt: "Does Nexus reduce the self-organization of teams?",
-      options: ["Yes, NIT dictates everything", "No, the NIT coaches teams to solve their own integration issues", "Partially", "Only for juniors"],
+      id: 'nx-34',
+      type: 'mcq',
+      title: 'Nexus Review Anti-Pattern',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Each team runs a separate stakeholder review and no integrated product is shown. What is missing?`,
+      options: ['More team reviews.', 'A project manager.', 'A Gantt chart.', 'A Nexus Sprint Review of the Integrated Increment as one product.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Stakeholders need transparency into the integrated product. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-35',
+      type: 'mcq',
+      title: 'Outcome Metric',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which metric is more meaningful than comparing team velocities?`,
+      options: ['Highest team velocity.', 'Lines of code.', 'Frequency/quality of Done Integrated Increments and product outcomes.', 'Utilization.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Nexus is about integrated value, not team competition. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-36',
+      type: 'mcq',
+      title: 'Dependency Ownership',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A team says 'that dependency belongs to Team C, not us.' Strongest response?`,
+      options: ['Treat integration/dependency resolution as a shared Nexus responsibility toward one product goal.', 'Accept ownership silos.', 'Escalate every dependency to management.', 'Remove Team C.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. The Nexus collaborates on one product. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-37',
+      type: 'mcq',
+      title: 'Repeated Integration Failure',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Integration fails for four Sprints. Strongest response?`,
+      options: ['Add another integration phase after Sprint.', 'Increase local velocity targets.', 'Hide failed work from Review.', 'Use Nexus retrospection and NIT coaching to address root causes in architecture, refinement, team structure, CI, and shared Done practices.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Recurring failure requires systemic adaptation. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'nx-38',
+      type: 'mcq',
+      title: 'Nexus Professional Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Six teams are locally productive but integrated delivery is unstable, dependencies are late, and CI feedback is slow. Strongest plan?`,
+      options: ['Add more teams.', 'Improve cross-team refinement/decomposition, reduce structural dependencies, integrate continuously, strengthen shared DoD/contract tests, and inspect Nexus-level outcomes.', 'Separate the Product Backlog by team.', 'Measure individual productivity.'],
       correctIndex: 1,
-      explanation: "The NIT is a coaching and accountability body, not a management body."
+      explanation: 'Correct: B. The solution targets the system of integration. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-      id: "nx-18",
-      type: "mcq",
-      title: "Conflict",
-      prompt: "If a team cannot integrate their work, what should the NIT do?",
-      options: ["Do it for them", "Work with the teams to resolve the underlying issue", "Fire the team", "Ignore it"],
-      correctIndex: 1,
-      explanation: "The NIT exists to help the Nexus deliver an integrated increment."
-    },
-    {
-      id: "nx-19",
-      type: "mcq",
-      title: "Transparency",
-      prompt: "What is the primary artifact that provides transparency in Nexus?",
-      options: ["The NIT Report", "The Integrated Increment", "The Gantt Chart", "The Budget"],
-      correctIndex: 1,
-      explanation: "The increment is the ultimate proof of progress. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "nx-20",
-      type: "mcq",
-      title: "Nexus Framework",
-      prompt: "Nexus is a process or a framework?",
-      options: ["Process", "Framework", "Methodology", "Tool"],
-      correctIndex: 1,
-      explanation: "Like Scrum, Nexus is a framework that can be adapted. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "nx-21",
-      type: "mcq",
-      title: "Nexus Scale",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus scale?",
-      options: ["Apply Nexus scale with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus scale only because it sounds advanced, without checking impact or constraints", "Ignore Nexus scale until the issue becomes urgent in production or with customers", "Delegate Nexus scale completely without understanding the decision, risks, or success criteria"],
+      id: 'nx-39',
+      type: 'mcq',
+      title: 'Product Backlog Ordering at Scale',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Six Scrum Teams ask the Product Owner to split the Product Backlog into permanent team-specific backlogs because coordination feels difficult.
+
+What is the strongest Nexus response?`,
+      options: ['Keep one Product Backlog for the single product, improve refinement/decomposition and dependency transparency, and let likely team ownership emerge without fragmenting product ordering.', 'Create six independent Product Owners and backlogs.', 'Let each team optimize its own local roadmap.', 'Replace Scrum Teams with functional departments.'],
       correctIndex: 0,
-      explanation: "Nexus scale is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
+      explanation: 'Correct: A. Nexus is built around one product, one Product Owner, and one Product Backlog. Why not B: multiple independent backlogs fragment product ordering. Why not C: local roadmaps can optimize teams rather than product value. Why not D: functional silos usually increase dependencies.'
     },
     {
-      id: "nx-22",
-      type: "mcq",
-      title: "Single Product Backlog",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for single Product Backlog?",
-      options: ["Apply single Product Backlog with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use single Product Backlog only because it sounds advanced, without checking impact or constraints", "Ignore single Product Backlog until the issue becomes urgent in production or with customers", "Delegate single Product Backlog completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "single Product Backlog is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-23",
-      type: "mcq",
-      title: "Nexus Integration Team",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus Integration Team?",
-      options: ["Apply Nexus Integration Team with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus Integration Team only because it sounds advanced, without checking impact or constraints", "Ignore Nexus Integration Team until the issue becomes urgent in production or with customers", "Delegate Nexus Integration Team completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus Integration Team is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-24",
-      type: "mcq",
-      title: "Cross-Team Dependencies",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for cross-team dependencies?",
-      options: ["Apply cross-team dependencies with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use cross-team dependencies only because it sounds advanced, without checking impact or constraints", "Ignore cross-team dependencies until the issue becomes urgent in production or with customers", "Delegate cross-team dependencies completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "cross-team dependencies is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-25",
-      type: "mcq",
-      title: "Nexus Sprint Planning",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus Sprint Planning?",
-      options: ["Apply Nexus Sprint Planning with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus Sprint Planning only because it sounds advanced, without checking impact or constraints", "Ignore Nexus Sprint Planning until the issue becomes urgent in production or with customers", "Delegate Nexus Sprint Planning completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus Sprint Planning is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-26",
-      type: "mcq",
-      title: "Nexus Daily Scrum",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus Daily Scrum?",
-      options: ["Apply Nexus Daily Scrum with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus Daily Scrum only because it sounds advanced, without checking impact or constraints", "Ignore Nexus Daily Scrum until the issue becomes urgent in production or with customers", "Delegate Nexus Daily Scrum completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus Daily Scrum is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-27",
-      type: "mcq",
-      title: "Nexus Sprint Review",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus Sprint Review?",
-      options: ["Apply Nexus Sprint Review with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus Sprint Review only because it sounds advanced, without checking impact or constraints", "Ignore Nexus Sprint Review until the issue becomes urgent in production or with customers", "Delegate Nexus Sprint Review completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus Sprint Review is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-28",
-      type: "mcq",
-      title: "Nexus Retrospective",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus Retrospective?",
-      options: ["Apply Nexus Retrospective with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus Retrospective only because it sounds advanced, without checking impact or constraints", "Ignore Nexus Retrospective until the issue becomes urgent in production or with customers", "Delegate Nexus Retrospective completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus Retrospective is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-29",
-      type: "mcq",
-      title: "Shared Definition Of Done",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for shared Definition of Done?",
-      options: ["Apply shared Definition of Done with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use shared Definition of Done only because it sounds advanced, without checking impact or constraints", "Ignore shared Definition of Done until the issue becomes urgent in production or with customers", "Delegate shared Definition of Done completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "shared Definition of Done is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-30",
-      type: "mcq",
-      title: "Nexus Refinement",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus refinement?",
-      options: ["Apply Nexus refinement with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus refinement only because it sounds advanced, without checking impact or constraints", "Ignore Nexus refinement until the issue becomes urgent in production or with customers", "Delegate Nexus refinement completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus refinement is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-31",
-      type: "mcq",
-      title: "Integration Debt",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for integration debt?",
-      options: ["Apply integration debt with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use integration debt only because it sounds advanced, without checking impact or constraints", "Ignore integration debt until the issue becomes urgent in production or with customers", "Delegate integration debt completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "integration debt is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-32",
-      type: "mcq",
-      title: "Local Optimization Anti-Pattern",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for local optimization anti-pattern?",
-      options: ["Apply local optimization anti-pattern with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use local optimization anti-pattern only because it sounds advanced, without checking impact or constraints", "Ignore local optimization anti-pattern until the issue becomes urgent in production or with customers", "Delegate local optimization anti-pattern completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "local optimization anti-pattern is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-33",
-      type: "mcq",
-      title: "Product Owner Accountability",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Product Owner accountability?",
-      options: ["Apply Product Owner accountability with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Product Owner accountability only because it sounds advanced, without checking impact or constraints", "Ignore Product Owner accountability until the issue becomes urgent in production or with customers", "Delegate Product Owner accountability completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Product Owner accountability is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-34",
-      type: "mcq",
-      title: "Nexus Sprint Backlog Transparency",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus Sprint Backlog transparency?",
-      options: ["Apply Nexus Sprint Backlog transparency with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus Sprint Backlog transparency only because it sounds advanced, without checking impact or constraints", "Ignore Nexus Sprint Backlog transparency until the issue becomes urgent in production or with customers", "Delegate Nexus Sprint Backlog transparency completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus Sprint Backlog transparency is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-35",
-      type: "mcq",
-      title: "Continuous Integration",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for continuous integration?",
-      options: ["Apply continuous integration with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use continuous integration only because it sounds advanced, without checking impact or constraints", "Ignore continuous integration until the issue becomes urgent in production or with customers", "Delegate continuous integration completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "continuous integration is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-36",
-      type: "mcq",
-      title: "Nit Membership",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for NIT membership?",
-      options: ["Apply NIT membership with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use NIT membership only because it sounds advanced, without checking impact or constraints", "Ignore NIT membership until the issue becomes urgent in production or with customers", "Delegate NIT membership completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "NIT membership is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-37",
-      type: "mcq",
-      title: "Dependency Resolution",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for dependency resolution?",
-      options: ["Apply dependency resolution with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use dependency resolution only because it sounds advanced, without checking impact or constraints", "Ignore dependency resolution until the issue becomes urgent in production or with customers", "Delegate dependency resolution completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "dependency resolution is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-38",
-      type: "mcq",
-      title: "Scrum Principles At Scale",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Scrum principles at scale?",
-      options: ["Apply Scrum principles at scale with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Scrum principles at scale only because it sounds advanced, without checking impact or constraints", "Ignore Scrum principles at scale until the issue becomes urgent in production or with customers", "Delegate Scrum principles at scale completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Scrum principles at scale is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-39",
-      type: "mcq",
-      title: "Nexus Sprint Goal",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for Nexus Sprint Goal?",
-      options: ["Apply Nexus Sprint Goal with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use Nexus Sprint Goal only because it sounds advanced, without checking impact or constraints", "Ignore Nexus Sprint Goal until the issue becomes urgent in production or with customers", "Delegate Nexus Sprint Goal completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "Nexus Sprint Goal is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "nx-40",
-      type: "mcq",
-      title: "Repeated Integration Failure",
-      prompt: "In a professional Nexus Scaled Scrum Professional scenario, which response best demonstrates strong judgment for repeated integration failure?",
-      options: ["Apply repeated integration failure with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use repeated integration failure only because it sounds advanced, without checking impact or constraints", "Ignore repeated integration failure until the issue becomes urgent in production or with customers", "Delegate repeated integration failure completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "repeated integration failure is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
+      id: 'nx-40',
+      type: 'mcq',
+      title: 'Nexus Integrated Delivery Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A Nexus has strong individual-team velocity, but the Integrated Increment frequently fails the shared Definition of Done because contract changes and test environments are discovered late.
+
+Which response is strongest?`,
+      options: ['Increase each team velocity target.', 'Create a final integration Sprint after every three Sprints.', 'Strengthen cross-team refinement, shared contract/test practices, continuous integration, environment readiness, and Nexus-level inspection of the Integrated Increment.', 'Allow each team to define Done independently.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. The failure is systemic integration, so earlier dependency discovery, shared quality practices, and continuous integration are required. Why not A: local velocity does not solve integration. Why not B: a later integration Sprint contradicts the expectation of a Done Integrated Increment every Sprint. Why not D: separate definitions undermine integrated Done.'
     }
   ]
 };

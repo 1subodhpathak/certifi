@@ -1,377 +1,463 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level assessment. All original questions were checked, normalized, and expanded with advanced scenarios.
-
 export const reactData = {
   id: ASSESSMENT_TYPES.react,
-  title: "React Frontend Engineering Professional Certification",
-  shortTitle: "React",
-  category: "Software Development",
+  title: 'React Frontend Engineering Professional Certification',
+  shortTitle: 'React',
+  category: 'Software Development',
   durationMinutes: 60,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "React component architecture, hooks, state management, rendering behavior, performance, routing, forms, testing, accessibility, and production frontend judgment.",
-  instructions: "Choose the best answer. Every question has been checked, normalized, and upgraded from fundamentals to advanced professional scenarios.",
+  description: 'Professional React assessment covering rendering, hooks, effects, state architecture, Context, reducers, server state, Suspense, Server Components, hydration, accessibility, testing, Web Vitals, and production frontend performance.',
+  instructions: '40 scenario-based questions, 60 minutes, 200 marks. Use the dashboards, charts, tables, code/image exhibits, and diagrams. Choose the strongest professional response.',
   questions: [
     {
-      id: "re-01",
-      type: "mcq",
-      title: "Virtual DOM",
-      prompt: "Why is the Virtual DOM considered fast?",
-      options: ["It uses less memory", "It calculates the minimum number of changes needed to the real DOM", "It replaces the browser", "It doesn't use JavaScript"],
+      id: 're-01',
+      type: 'mcq',
+      title: 'Rendering Performance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review render profile.\n\n{{image}}\n\nWhat should be investigated first?`,
+      image: { src: '/assets/assessments/react/render.png', alt: 'React rendering profile' },
+      options: ['Header.', 'The expensive Table receiving unstable recreated props/callbacks and whether memoization/data shaping can reduce unnecessary renders.', 'Add more Context.', 'Disable reconciliation.'],
       correctIndex: 1,
-      explanation: "Reconciliation (diffing) minimizes expensive real-DOM operations. This is a checked foundational concept for professional React work."
+      explanation: 'Correct: B. Table dominates commit cost. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-02",
-      type: "mcq",
-      title: "Hooks",
-      prompt: "Which hook is used for side effects (like API calls)?",
-      options: ["useState", "useContext", "useEffect", "useMemo"],
+      id: 're-02',
+      type: 'mcq',
+      title: 'Effect Dependencies',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the effect.\n\n{{image}}\n\nWhat is the bug?`,
+      image: { src: '/assets/assessments/react/effect.png', alt: 'React effect dependency bug' },
+      options: ['Effects always rerun on props changes.', 'fetchUser cannot be called in effect.', 'setUser is synchronous.', 'The effect captures initial userId and will not refetch when userId changes because dependency list is empty.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. External synchronization depends on userId. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-03',
+      type: 'mcq',
+      title: 'Request Race',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review search effect.\n\n{{image}}\n\nWhat should be added?`,
+      image: { src: '/assets/assessments/react/race_react.png', alt: 'React async request race' },
+      options: ['Abort/cancel or sequence stale requests in effect cleanup so older responses cannot overwrite the latest intent.', 'Remove dependency q.', 'Use setTimeout only.', 'Store results in ref only.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Responses can complete out of order. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-04',
+      type: 'mcq',
+      title: 'Accessibility',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review audit.\n\n{{image}}\n\nWhat should design-system owners prioritize?`,
+      image: { src: '/assets/assessments/react/a11y.png', alt: 'React accessibility audit' },
+      options: ['Fix each page independently.', 'Ignore keyboard.', 'Fix shared component semantics/focus behavior centrally because defects propagate across the whole app.', 'Add aria-label to every div.'],
       correctIndex: 2,
-      explanation: "useEffect handles synchronization with external systems. This is a checked foundational concept for professional React work."
+      explanation: 'Correct: C. Shared components amplify defects. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-03",
-      type: "mcq",
-      title: "Props vs State",
-      prompt: "What is the main difference between Props and State?",
-      options: ["Props are internal, State is external", "Props are immutable from the component's view; State is managed internally", "There is no difference", "State is faster"],
+      id: 're-05',
+      type: 'mcq',
+      title: 'Web Vitals',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review Web Vitals.\n\n{{image}}\n\nWhat is the strongest first bundle optimization?`,
+      image: { src: '/assets/assessments/react/webvitals.png', alt: 'React web vitals' },
+      options: ['Code-split/lazy-load admin-only code from anonymous routes while optimizing the LCP hero asset.', 'Ship more JS.', 'Disable caching.', 'Render admin UI hidden.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Anonymous users receive unnecessary admin code. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-06',
+      type: 'mcq',
+      title: 'Component Purity',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does a pure React component conceptually mean?`,
+      options: ['No hooks.', 'No CSS.', 'Same inputs/state/context produce the same render output without mutating external state during render.', 'Class only.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-07',
+      type: 'mcq',
+      title: 'Props',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `How should props be treated?`,
+      options: ['Mutate directly.', 'Global state.', 'Database values.', 'As read-only inputs owned by the parent/caller.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-08',
+      type: 'mcq',
+      title: 'State',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is state for?`,
+      options: ['Every derived value.', 'Data that affects rendering and changes over time within an ownership boundary.', 'Static constants.', 'Secrets.'],
       correctIndex: 1,
-      explanation: "Props are passed down; State is local data that changes over time. This is a checked foundational concept for professional React work."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-04",
-      type: "mcq",
-      title: "Keys",
-      prompt: "Why are \"keys\" important when rendering a list of components?",
-      options: ["To style them", "To help React identify which items have changed, been added, or removed", "To set IDs", "To bind data"],
+      id: 're-09',
+      type: 'mcq',
+      title: 'Derived State',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why avoid storing derivable values in state?`,
+      options: ['State is limited to strings.', 'React forbids math.', 'It duplicates sources of truth and can become stale; derive during render or memoize only if expensive.', 'Memoization is required.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-10',
+      type: 'mcq',
+      title: 'Keys',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What makes a good list key?`,
+      options: ['Stable identity unique among siblings across insertions/reordering.', 'Array index always.', 'Random UUID every render.', 'Display text if duplicated.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-11',
+      type: 'mcq',
+      title: 'Index Key',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why can index keys break editable/reorderable lists?`,
+      options: ['React rejects indexes.', 'State may stick to positions rather than logical items after insertion/reordering.', 'Indexes are too large.', 'They slow network.'],
       correctIndex: 1,
-      explanation: "Stable keys ensure efficient updates and preserve component state. This is a checked foundational concept for professional React work."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-05",
-      type: "mcq",
-      title: "JSX",
-      prompt: "What is JSX?",
-      options: ["A Java extension", "A syntax extension for JavaScript that looks like HTML", "A CSS framework", "A database language"],
+      id: 're-12',
+      type: 'mcq',
+      title: 'useEffect',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is useEffect primarily for?`,
+      options: ['Deriving pure values.', 'Event handlers only.', 'All computations.', 'Synchronizing React state/rendering with external systems after commit.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-13',
+      type: 'mcq',
+      title: 'Effect Cleanup',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is cleanup needed?`,
+      options: ['Every setState.', 'Every render.', 'Static JSX.', 'For subscriptions/listeners/timers/in-flight work/resources that should stop or detach when dependencies change/unmount.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-14',
+      type: 'mcq',
+      title: 'Strict Mode',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why can effects appear to run twice in development?`,
+      options: ['Production does same always.', 'Strict Mode intentionally replays certain lifecycle behavior to expose unsafe side effects/cleanup problems.', 'Browser bug.', 'Redux retries.'],
       correctIndex: 1,
-      explanation: "JSX allows writing UI structure inside JavaScript. This is a checked foundational concept for professional React work."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-06",
-      type: "mcq",
-      title: "Context API",
-      prompt: "What problem does the Context API solve?",
-      options: ["Slow rendering", "Prop drilling", "Data security", "Missing files"],
+      id: 're-15',
+      type: 'mcq',
+      title: 'useMemo',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is useMemo justified?`,
+      options: ['Every value.', 'For side effects.', 'When measured expensive computation or stable reference identity meaningfully avoids work; not as default decoration.', 'For network calls.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-16',
+      type: 'mcq',
+      title: 'useCallback',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is useCallback useful?`,
+      options: ['When stable function identity matters to memoized children/effect dependencies and measurement supports the optimization.', 'Every handler.', 'To call API automatically.', 'To store DOM nodes.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-17',
+      type: 'mcq',
+      title: 'React.memo',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does React.memo do?`,
+      options: ['Deep-freeze props.', 'Skip re-render when props are shallowly equal, subject to context/state changes and custom comparison.', 'Cache server data.', 'Prevent state updates.'],
       correctIndex: 1,
-      explanation: "Context allows sharing state deeply without passing props manually at every level."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-07",
-      type: "mcq",
-      title: "Redux",
-      prompt: "In Redux, what is the only way to change the state?",
-      options: ["Directly editing the store", "Dispatching an action", "Updating a prop", "Calling a hook"],
+      id: 're-18',
+      type: 'mcq',
+      title: 'Context',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What problem does Context solve?`,
+      options: ['All state management.', 'Server caching.', 'Routing.', 'Provide values to a subtree without explicit prop threading through every intermediate component.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-19',
+      type: 'mcq',
+      title: 'Context Performance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why can one large Context cause re-renders?`,
+      options: ['Consumers re-render when the provided value identity changes; split contexts/stabilize values/selectors as appropriate.', 'Context is always global.', 'Context disables memo.', 'Provider cannot hold objects.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-20',
+      type: 'mcq',
+      title: 'Reducer',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When is useReducer useful?`,
+      options: ['Simple constant only.', 'Network cache only.', 'Complex state transitions with multiple related events that benefit from explicit transition logic.', 'DOM refs.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-21',
+      type: 'mcq',
+      title: 'Controlled Inputs',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is a controlled input?`,
+      options: ['Browser owns value only.', 'Read-only input.', 'Its displayed value is driven by React state/props with change handlers updating that state.', 'Ref-only input.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-22',
+      type: 'mcq',
+      title: 'Uncontrolled Inputs',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When can uncontrolled inputs be reasonable?`,
+      options: ['Simple forms or integration cases where the DOM can own value and React reads it via ref/form APIs.', 'Never.', 'For all validation.', 'Global state.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-23',
+      type: 'mcq',
+      title: 'Server State',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why treat server state differently from local UI state?`,
+      options: ['Server state is always static.', 'React state automatically caches APIs.', 'It cannot be shared.', 'It has caching, freshness, deduplication, retries, background refetch, and ownership semantics unlike local state.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-24',
+      type: 'mcq',
+      title: 'React Query',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What value does a server-state library add?`,
+      options: ['CSS.', 'Caching/freshness, request dedupe, retries, invalidation, mutations, and background synchronization.', 'Routing.', 'Build compilation.'],
       correctIndex: 1,
-      explanation: "State is read-only; actions describe \"what happened\" to trigger a change."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-08",
-      type: "mcq",
-      title: "Pure Components",
-      prompt: "What makes a component \"Pure\"?",
-      options: ["It has no CSS", "It renders the same output for the same props and state", "It doesn't use hooks", "It is a class component"],
+      id: 're-25',
+      type: 'mcq',
+      title: 'Suspense',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does Suspense boundary provide?`,
+      options: ['Error handling only.', 'A declarative fallback boundary while supported child work/data/code is pending.', 'Automatic fetch for any Promise.', 'Global state.'],
       correctIndex: 1,
-      explanation: "Pure components are predictable and easier to optimize. This is a checked foundational concept for professional React work."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-09",
-      type: "mcq",
-      title: "React Router",
-      prompt: "How do you handle navigation in a React Single Page Application (SPA)?",
-      options: ["<a> tags only", "React Router or similar library", "Window.location", "Manual DOM manipulation"],
+      id: 're-26',
+      type: 'mcq',
+      title: 'Error Boundary',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does an error boundary catch?`,
+      options: ['All network errors.', 'Server 500s automatically.', 'Syntax errors before bundle loads.', 'Render/lifecycle errors in its descendant tree, not arbitrary event-handler/asynchronous errors automatically.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-27',
+      type: 'mcq',
+      title: 'Lazy Loading',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does React.lazy/code splitting improve?`,
+      options: ['Load feature/component code on demand instead of shipping it in the initial bundle.', 'Database speed.', 'State consistency.', 'CSS semantics.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-28',
+      type: 'mcq',
+      title: 'Server Components',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a key benefit of server components in supporting frameworks?`,
+      options: ['Every component becomes interactive without JS.', 'They replace APIs.', 'Run non-interactive component logic on the server and reduce client JavaScript for suitable UI/data work.', 'They run only in browser.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-29',
+      type: 'mcq',
+      title: 'Hydration',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What causes hydration mismatch?`,
+      options: ['CSS only.', 'HTTP 404.', 'Large bundle.', "Server-rendered markup differs from the client's initial render due to time/random/browser-only/state differences."],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-30',
+      type: 'mcq',
+      title: 'Forms',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What makes form validation strong?`,
+      options: ['Client-only security.', 'Client UX validation plus authoritative server validation, clear errors, accessible labels, and preservation of user input.', 'Error after losing data.', 'Placeholder-only labels.'],
       correctIndex: 1,
-      explanation: "Libraries like React Router manage URL changes without full page reloads."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-10",
-      type: "mcq",
-      title: "Performance",
-      prompt: "Which hook would you use to memoize a expensive calculation result?",
-      options: ["useCallback", "useMemo", "useRef", "useEffect"],
+      id: 're-31',
+      type: 'mcq',
+      title: 'State Immutability',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why avoid mutating state objects in place?`,
+      options: ['React updates/memoization rely on identity changes and predictable snapshots; mutation can cause stale UI/logic.', 'Objects are immutable by language.', 'Mutation always throws.', 'It affects CSS.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-32',
+      type: 'mcq',
+      title: 'Accessibility Semantics',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is better than div onClick for a button action?`,
+      options: ["div role='button' without keyboard.", 'span only.', 'Use native button semantics whenever possible, preserving keyboard/focus behavior automatically.', 'Canvas.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-33',
+      type: 'mcq',
+      title: 'Keyboard Navigation',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What must modal/dialog behavior include?`,
+      options: ['Hide focus.', 'Move focus into dialog, keep focus appropriately contained, support escape/close, and restore focus on close.', 'Mouse only.', 'Tab to page behind.'],
       correctIndex: 1,
-      explanation: "useMemo returns a memoized value that only re-calculates when dependencies change."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-11",
-      type: "mcq",
-      title: "useCallback",
-      prompt: "When should you use useCallback?",
-      options: ["To memoize an object", "To prevent unnecessary re-renders of child components that depend on a stable function reference", "To make an API call", "To store a DOM element"],
+      id: 're-34',
+      type: 'mcq',
+      title: 'Testing',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should React Testing Library tests focus on?`,
+      options: ['Private hooks.', 'Component instance methods.', 'CSS class counts only.', 'User-observable behavior via accessible queries/interactions rather than implementation internals.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-35',
+      type: 'mcq',
+      title: 'Mocking',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should be mocked sparingly?`,
+      options: ['Everything.', 'Nothing ever.', 'Internal implementation details; prefer mocking true external boundaries such as network/time as needed.', 'Only CSS.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-36',
+      type: 'mcq',
+      title: 'Web Vitals',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What do LCP, INP, CLS represent broadly?`,
+      options: ['Loading, interaction responsiveness, and visual stability.', 'Network, memory, CPU.', 'Revenue, churn, NPS.', 'Auth, routing, caching.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-37',
+      type: 'mcq',
+      title: 'Data Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review flow.\n\n{{image}}\n\nWhere should route-level data loading/caching often live?`,
+      image: { src: '/assets/assessments/react/react_flow.png', alt: 'React data flow' },
+      options: ['Inside CSS.', 'Inside every button.', 'Only Context.', 'At a route/data boundary or server-state layer rather than being duplicated across leaf components.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Central data boundaries reduce duplicate fetch logic. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
+    },
+    {
+      id: 're-38',
+      type: 'mcq',
+      title: 'Architecture',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What makes component architecture maintainable?`,
+      options: ['One giant component.', 'Feature ownership, composition, clear state boundaries, reusable primitives, and limited coupling between domains.', 'Global state for everything.', 'Deep prop mutation.'],
       correctIndex: 1,
-      explanation: "useCallback memoizes the function itself. This is a checked foundational concept for professional React work."
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-12",
-      type: "mcq",
-      title: "useRef",
-      prompt: "What is a primary use case for the useRef hook?",
-      options: ["To trigger re-renders", "To access a DOM element directly or store mutable values that don't trigger re-renders", "To share state", "To handle errors"],
-      correctIndex: 1,
-      explanation: "Refs are a \"back door\" for imperative actions or persistent data. This is a checked foundational concept for professional React work."
+      id: 're-39',
+      type: 'mcq',
+      title: 'Production Rendering',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A React app has high INP, huge JS, effect races, and accessibility defects. Strongest plan?`,
+      options: ['Add memo everywhere.', 'Disable Strict Mode.', 'Profile render/JS work, split code, fix effect lifecycles/races, repair shared semantic components, and validate with Web Vitals plus behavioral tests.', 'Ignore accessibility.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
-      id: "re-13",
-      type: "mcq",
-      title: "HOC",
-      prompt: "What is a \"Higher-Order Component\"?",
-      options: ["A large component", "A function that takes a component and returns a new component", "A component with many props", "A Redux store"],
-      correctIndex: 1,
-      explanation: "HOCs are a pattern for reusing component logic. This is a checked foundational concept for professional React work."
-    },
-    {
-      id: "re-14",
-      type: "mcq",
-      title: "Composition",
-      prompt: "What is meant by \"Composition over Inheritance\" in React?",
-      options: ["Building small, reusable components and combining them", "Extending classes", "Writing code once", "Using CSS"],
+      id: 're-40',
+      type: 'mcq',
+      title: 'React Production Architecture Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A large React application has duplicated server-state fetching, oversized Context providers, effect races, accessibility regressions, and poor INP.
+
+What is the strongest remediation plan?`,
+      options: ['Clarify state ownership, centralize server-state caching where appropriate, split broad Contexts, fix effect cancellation/lifecycles, repair shared accessible primitives, and profile rendering/JavaScript work against Web Vitals.', 'Add React.memo to every component without profiling.', 'Move all state into one global Context so every feature uses the same source.', 'Disable Strict Mode and accessibility tests to reduce development noise.'],
       correctIndex: 0,
-      explanation: "React favors building complex UIs by nesting components rather than extending them."
-    },
-    {
-      id: "re-15",
-      type: "mcq",
-      title: "Fragment",
-      prompt: "What is a React Fragment (<> or <React.Fragment>)?",
-      options: ["A piece of CSS", "A way to group a list of children without adding extra nodes to the DOM", "A breaking change", "A type of hook"],
-      correctIndex: 1,
-      explanation: "Fragments prevent \"div soup\" in the HTML output. This is a checked foundational concept for professional React work."
-    },
-    {
-      id: "re-16",
-      type: "mcq",
-      title: "Error Boundaries",
-      prompt: "How do you catch JavaScript errors in your component tree?",
-      options: ["try/catch everywhere", "Error Boundary components", "Window.onerror", "Redux"],
-      correctIndex: 1,
-      explanation: "Error boundaries are class components that catch errors in their child tree."
-    },
-    {
-      id: "re-17",
-      type: "mcq",
-      title: "Testing",
-      prompt: "Which library is standard for testing React components?",
-      options: ["Jest & React Testing Library", "Mocha", "Selenium", "Postman"],
-      correctIndex: 0,
-      explanation: "RTL focuses on testing components from the user's perspective. This is a checked foundational concept for professional React work."
-    },
-    {
-      id: "re-18",
-      type: "mcq",
-      title: "Strict Mode",
-      prompt: "What is the purpose of <React.StrictMode>?",
-      options: ["To make the app faster", "To highlight potential problems in the application (like unsafe lifecycles)", "To block users", "To encrypt data"],
-      correctIndex: 1,
-      explanation: "StrictMode helps find deprecated patterns and side-effect bugs in dev mode."
-    },
-    {
-      id: "re-19",
-      type: "mcq",
-      title: "Portals",
-      prompt: "What do Portals allow you to do?",
-      options: ["Navigate to other websites", "Render children into a DOM node outside the parent component's hierarchy", "Upload files", "Change the theme"],
-      correctIndex: 1,
-      explanation: "Portals are useful for modals, tooltips, and global overlays. This is a checked foundational concept for professional React work."
-    },
-    {
-      id: "re-20",
-      type: "mcq",
-      title: "Server Components",
-      prompt: "What is a benefit of React Server Components?",
-      options: ["They run in the browser", "They reduce the bundle size sent to the client and can fetch data on the server", "They are harder to build", "They replace CSS"],
-      correctIndex: 1,
-      explanation: "Server components move logic to the server, improving client performance."
-    },
-    {
-      id: "re-21",
-      type: "mcq",
-      title: "Component Composition",
-      prompt: "In a professional React Frontend Engineering scenario, what is the strongest approach when dealing with component composition?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Component Composition requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "re-22",
-      type: "mcq",
-      title: "Useeffect Dependency Arrays",
-      prompt: "A team is making a decision about useEffect dependency arrays. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about useEffect dependency arrays balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "re-23",
-      type: "mcq",
-      title: "Controlled Components",
-      prompt: "Which signal suggests controlled components needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when controlled components could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "re-24",
-      type: "mcq",
-      title: "Lifting State Up",
-      prompt: "What is the best way to validate work involving lifting state up?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for lifting state up should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "re-25",
-      type: "mcq",
-      title: "Memoization With Usememo",
-      prompt: "In a professional React Frontend Engineering scenario, what is the strongest approach when dealing with memoization with useMemo?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Memoization With Usememo requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "re-26",
-      type: "mcq",
-      title: "Usecallback Trade-Offs",
-      prompt: "A team is making a decision about useCallback trade-offs. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about useCallback trade-offs balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "re-27",
-      type: "mcq",
-      title: "React.Memo Usage",
-      prompt: "Which signal suggests React.memo usage needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when React.memo usage could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "re-28",
-      type: "mcq",
-      title: "Context Performance",
-      prompt: "What is the best way to validate work involving context performance?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for context performance should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "re-29",
-      type: "mcq",
-      title: "Redux Toolkit Slice Design",
-      prompt: "In a professional React Frontend Engineering scenario, what is the strongest approach when dealing with Redux Toolkit slice design?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Redux Toolkit Slice Design requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "re-30",
-      type: "mcq",
-      title: "React Query Server State",
-      prompt: "A team is making a decision about React Query server state. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about React Query server state balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "re-31",
-      type: "mcq",
-      title: "Suspense Boundaries",
-      prompt: "Which signal suggests Suspense boundaries needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when Suspense boundaries could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "re-32",
-      type: "mcq",
-      title: "Error Boundaries",
-      prompt: "What is the best way to validate work involving error boundaries?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for error boundaries should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "re-33",
-      type: "mcq",
-      title: "Lazy Loading Routes",
-      prompt: "In a professional React Frontend Engineering scenario, what is the strongest approach when dealing with lazy loading routes?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Lazy Loading Routes requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "re-34",
-      type: "mcq",
-      title: "Form Validation",
-      prompt: "A team is making a decision about form validation. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about form validation balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "re-35",
-      type: "mcq",
-      title: "Accessibility Semantics",
-      prompt: "Which signal suggests accessibility semantics needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when accessibility semantics could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "re-36",
-      type: "mcq",
-      title: "Keyboard Navigation",
-      prompt: "What is the best way to validate work involving keyboard navigation?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for keyboard navigation should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
-    },
-    {
-      id: "re-37",
-      type: "mcq",
-      title: "Hydration Mismatch",
-      prompt: "In a professional React Frontend Engineering scenario, what is the strongest approach when dealing with hydration mismatch?",
-      options: ["Clarify the expected outcome, review evidence, test realistic edge cases, document trade-offs, and monitor the result", "Use the approach because it sounds advanced, without confirming the problem or business impact", "Ignore the issue until customers, auditors, or stakeholders escalate it", "Delegate the decision without understanding ownership, risk, or success criteria"],
-      correctIndex: 0,
-      explanation: "Hydration Mismatch requires evidence-based judgment, clear ownership, practical validation, and awareness of downstream impact."
-    },
-    {
-      id: "re-38",
-      type: "mcq",
-      title: "State Immutability",
-      prompt: "A team is making a decision about state immutability. What should guide the decision?",
-      options: ["The user or business objective, technical constraints, measurable success criteria, risks, and maintainability", "The fastest option, even if it creates hidden risk or rework", "The most complex option, because complexity signals expertise", "The preference of the loudest stakeholder without checking data or constraints"],
-      correctIndex: 0,
-      explanation: "A strong decision about state immutability balances impact, feasibility, risk, and long-term maintainability."
-    },
-    {
-      id: "re-39",
-      type: "mcq",
-      title: "Testing User Behavior",
-      prompt: "Which signal suggests testing user behavior needs deeper review before rollout?",
-      options: ["The approach has unclear ownership, weak validation, compliance risk, poor measurement, or repeated failure patterns", "The topic appears in documentation and therefore cannot fail", "No one has complained yet, so the implementation is automatically safe", "The team has used the same approach before, so no review is needed"],
-      correctIndex: 0,
-      explanation: "Deeper review is needed when testing user behavior could affect quality, trust, reliability, compliance, or decision confidence."
-    },
-    {
-      id: "re-40",
-      type: "mcq",
-      title: "Production Rendering Performance",
-      prompt: "What is the best way to validate work involving production rendering performance?",
-      options: ["Define acceptance criteria, test realistic scenarios, check edge cases, verify metrics, and document follow-up ownership", "Assume it is correct if it works once in a simple demo", "Ask only one person for an opinion and skip formal validation", "Avoid documenting the reasoning so the team can move faster"],
-      correctIndex: 0,
-      explanation: "Validation for production rendering performance should cover realistic use, edge cases, measurable outcomes, and accountable follow-up."
+      explanation: 'Correct: A. The problems span state architecture, effects, accessibility, and rendering performance, so the remediation must address those causes together. Why not B: blanket memoization adds complexity and may not solve measured bottlenecks. Why not C: one broad Context can worsen coupling and re-renders. Why not D: disabling diagnostics hides defects rather than fixing them.'
     }
   ]
 };

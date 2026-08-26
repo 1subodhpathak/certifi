@@ -701,7 +701,7 @@ export default function LearningPaths() {
             className="inline-flex items-center gap-2 rounded-xl bg-[#f57a1f] px-3.5 py-2 text-xs font-bold text-white shadow-sm hover:bg-[#e06912] transition-all"
           >
             <Users className="h-4 w-4" />
-            Join Skool
+            Join Skool & Learn
           </a>
         </div>
 

@@ -14,6 +14,22 @@ import MermaidDiagram from './MermaidDiagram';
 
 const CHART_COLORS = ['#0f766e', '#2563eb', '#b45309', '#7c3aed'];
 const PLACEHOLDER_PATTERN = /(\{\{(?:image|chart|table|diagram)\}\})/g;
+const QUESTION_ASSETS = import.meta.glob('/src/assets/**/*.png', {
+  eager: true,
+  query: '?url',
+  import: 'default',
+});
+
+const resolveQuestionImageSrc = (src) => {
+  if (!src?.startsWith('/assets/')) return src;
+
+  const assetPath = `/src${src}`;
+  const debuggingFallback = src.startsWith('/assets/assessments/debugging/')
+    ? `/src/assets/debugging/${src.split('/').pop()}`
+    : null;
+
+  return QUESTION_ASSETS[assetPath] || (debuggingFallback && QUESTION_ASSETS[debuggingFallback]) || src;
+};
 
 function QuestionImage({ image }) {
   if (!image?.src) return null;
@@ -21,7 +37,7 @@ function QuestionImage({ image }) {
   return (
     <figure className="my-5 overflow-hidden rounded-xl border border-slate-200 bg-slate-50">
       <img
-        src={image.src}
+        src={resolveQuestionImageSrc(image.src)}
         alt={image.alt || 'Question reference'}
         className="mx-auto max-h-[28rem] w-full object-contain"
       />

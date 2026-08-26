@@ -1,317 +1,465 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level assessment data.
-// Original uploaded questions are preserved and extended with advanced scenarios.
 export const javaData = {
   id: ASSESSMENT_TYPES.java,
-  title: "Java Backend Engineering Professional Certification",
-  shortTitle: "Java",
-  category: "Software Development",
+  title: 'Java Backend Engineering Professional Certification',
+  shortTitle: 'Java',
+  category: 'Software Development',
   durationMinutes: 60,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "Professional Java assessment covering OOP, JVM, memory, collections, generics, exceptions, streams, concurrency, performance, backend reliability, and production debugging.",
-  instructions: "Choose the best answer. Questions move from easy to hard and test practical Java backend engineering judgment.",
+  description: 'Professional Java backend assessment covering modern Java, JVM/GC, records, sealed types, generics, concurrency, virtual threads, Spring, transactions, persistence, reliability, testing, observability, and production debugging.',
+  instructions: '40 scenario-based questions, 60 minutes, 200 marks. Use the dashboards, charts, tables, image/code exhibits, and process diagrams. Choose the strongest professional response.',
   questions: [
-{ id: 'jv-01', type: 'mcq', title: 'JVM Architecture', prompt: 'Which part of the JVM is responsible for converting bytecode to machine code at runtime?', options: ['ClassLoader', 'JIT Compiler', 'Garbage Collector', 'Interpreter'], correctIndex: 1, explanation: 'The Just-In-Time (JIT) compiler optimizes performance.' },
-        { id: 'jv-02', type: 'mcq', title: 'OOP Principles', prompt: 'What is "Encapsulation"?', options: ['Inheriting from a parent', 'Hiding internal state and requiring all interaction through methods', 'Writing code once', 'Using interfaces'], correctIndex: 1, explanation: 'It protects the integrity of the object\'s data.' },
-        { id: 'jv-03', type: 'mcq', title: 'Collections', prompt: 'Which Collection type does not allow duplicate elements?', options: ['ArrayList', 'LinkedList', 'HashSet', 'Vector'], correctIndex: 2, explanation: 'Sets are mathematical collections that enforce uniqueness.' },
-        { id: 'jv-04', type: 'mcq', title: 'Keywords', prompt: 'What does the "static" keyword mean?', options: ['The variable is constant', 'The member belongs to the class, not an instance', 'The code is private', 'The memory is cleared'], correctIndex: 1, explanation: 'Static members can be accessed without creating an object.' },
-        { id: 'jv-05', type: 'mcq', title: 'Interfaces', prompt: 'Can a Java class implement multiple interfaces?', options: ['No', 'Yes', 'Only if they are empty', 'Only in Java 8+'], correctIndex: 1, explanation: 'Java supports multiple inheritance through interfaces.' },
-        { id: 'jv-06', type: 'mcq', title: 'Inheritance', prompt: 'Which keyword is used to inherit from a class?', options: ['implements', 'extends', 'inherits', 'uses'], correctIndex: 1, explanation: 'extends creates a subclass relationship.' },
-        { id: 'jv-07', type: 'mcq', title: 'Strings', prompt: 'Why is String immutable in Java?', options: ['Performance', 'Security and String Pool efficiency', 'JVM limitation', 'It isn\'t'], correctIndex: 1, explanation: 'Immutability allows sharing in the String Pool and thread safety.' },
-        { id: 'jv-08', type: 'mcq', title: 'Exceptions', prompt: 'What is the difference between a Checked and Unchecked exception?', options: ['No difference', 'Checked must be handled/declared at compile time', 'Unchecked are more serious', 'Checked are for hardware errors'], correctIndex: 1, explanation: 'Checked exceptions ensure developers handle common recoverable errors.' },
-        { id: 'jv-09', type: 'mcq', title: 'Memory', prompt: 'Where are objects stored in Java memory?', options: ['Stack', 'Heap', 'Method Area', 'PC Register'], correctIndex: 1, explanation: 'The Heap is the shared memory for all objects; variables are on the Stack.' },
-        { id: 'jv-10', type: 'mcq', title: 'Garbage Collection', prompt: 'Which method can you call to "suggest" garbage collection?', options: ['System.gc()', 'gc.collect()', 'Object.clear()', 'Memory.flush()'], correctIndex: 0, explanation: 'System.gc() is a hint, not a guarantee.' },
-        { id: 'jv-11', type: 'mcq', title: 'Final Keyword', prompt: 'What happens if a class is declared "final"?', options: ['It cannot be instantiated', 'It cannot be inherited', 'It cannot have methods', 'It is private'], correctIndex: 1, explanation: 'Final classes prevent subclassing.' },
-        { id: 'jv-12', type: 'mcq', title: 'Generics', prompt: 'What is the purpose of Generics?', options: ['To make code slower', 'Type safety and elimination of casting', 'To hide code', 'To use Python libraries'], correctIndex: 1, explanation: 'Generics allow classes and methods to operate on types specified by the user.' },
-        { id: 'jv-13', type: 'mcq', title: 'Threads', prompt: 'Which method starts the execution of a new thread?', options: ['run()', 'start()', 'execute()', 'init()'], correctIndex: 1, explanation: 'start() initializes the thread; run() just executes the code in the current thread.' },
-        { id: 'jv-14', type: 'mcq', title: 'Spring Framework', prompt: 'What is "Dependency Injection"?', options: ['Manually creating objects', 'The framework providing object dependencies at runtime', 'A security flaw', 'A type of database join'], correctIndex: 1, explanation: 'DI promotes loose coupling and testability.' },
-        { id: 'jv-15', type: 'mcq', title: 'Data Structures', prompt: 'Which map implementation maintains insertion order?', options: ['HashMap', 'TreeMap', 'LinkedHashMap', 'Hashtable'], correctIndex: 2, explanation: 'LinkedHashMap uses a doubly-linked list to track order.' },
-        { id: 'jv-16', type: 'mcq', title: 'Reflection', prompt: 'What is Reflection in Java?', options: ['A mirror', 'The ability to inspect or modify classes/methods at runtime', 'A design pattern', 'Code review'], correctIndex: 1, explanation: 'Reflection is powerful but can be slow and break encapsulation.' },
-        { id: 'jv-17', type: 'mcq', title: 'Java 8', prompt: 'Which feature was introduced in Java 8 for functional-style programming?', options: ['Generics', 'Lambda Expressions', 'Annotations', 'Enums'], correctIndex: 1, explanation: 'Lambdas and the Stream API were major additions in Java 8.' },
-        { id: 'jv-18', type: 'mcq', title: 'Abstract Class vs Interface', prompt: 'What is a key difference between an Abstract Class and an Interface?', options: ['No difference', 'Abstract classes can have state (fields); Interfaces (pre-Java 8) could not', 'Interfaces are slower', 'Abstract classes are private'], correctIndex: 1, explanation: 'Abstract classes are for "is-a" relationships; Interfaces are for "can-do" capabilities.' },
-        { id: 'jv-19', type: 'mcq', title: 'Wrapper Classes', prompt: 'What is "Autoboxing"?', options: ['Packaging code', 'Automatic conversion between primitive types and their wrapper objects (e.g., int to Integer)', 'Writing tests', 'Memory clearing'], correctIndex: 1, explanation: 'Java handles the conversion automatically for developer convenience.' },
-        { id: 'jv-20', type: 'mcq', title: 'Build Tools', prompt: 'Which of these is a popular Java build and dependency management tool?', options: ['npm', 'pip', 'Maven', 'Composer'], correctIndex: 2, explanation: 'Maven and Gradle are the industry standard for Java projects.' },
     {
-          "id": "jv-21",
-          "type": "mcq",
-          "title": "Generics",
-          "prompt": "What is the main benefit of Java generics?",
-          "options": [
-                "Type safety at compile time and reduced casting",
-                "Faster internet",
-                "Automatic database creation",
-                "Replacing all interfaces"
-          ],
-          "correctIndex": 0,
-          "explanation": "Generics let collections and APIs express expected types safely."
+      id: 'jv-01',
+      type: 'mcq',
+      title: 'GC Pressure',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the JVM dashboard.\n\n{{image}}\n\nWhat should be investigated first?`,
+      image: { src: '/assets/assessments/java/jvm_dashboard.png', alt: 'Java JVM performance dashboard' },
+      options: ['Increase heap blindly.', 'The sharp allocation-rate increase and temporary-object creation introduced by the release.', 'Disable GC.', 'Optimize the health endpoint.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. High allocation and GC pause growth correlate with the release. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-22",
-          "type": "mcq",
-          "title": "HashMap",
-          "prompt": "What is required for objects used as HashMap keys to behave correctly?",
-          "options": [
-                "Consistent equals() and hashCode() implementations",
-                "Only a public constructor",
-                "A toString() method only",
-                "A main method"
-          ],
-          "correctIndex": 0,
-          "explanation": "Hash-based collections rely on equals and hashCode contracts."
+      id: 'jv-02',
+      type: 'mcq',
+      title: 'Lost Updates',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the code.\n\n{{image}}\n\nWhy is the final count too low?`,
+      image: { src: '/assets/assessments/java/concurrency_bug.png', alt: 'Java concurrent counter bug' },
+      options: ['int cannot exceed 10,000.', 'Threads automatically reset fields.', 'private fields are immutable.', 'value++ is a read-modify-write operation and is not atomic across threads.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Concurrent increments can overwrite each other. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-23",
-          "type": "mcq",
-          "title": "Comparable vs Comparator",
-          "prompt": "When should Comparator be used?",
-          "options": [
-                "When defining external or multiple sorting strategies",
-                "Only when no class exists",
-                "Only for arrays",
-                "Never"
-          ],
-          "correctIndex": 0,
-          "explanation": "Comparator separates sorting logic from the class and allows multiple orderings."
+      id: 'jv-03',
+      type: 'mcq',
+      title: 'Database Pool Saturation',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the API dashboard.\n\n{{image}}\n\nWhat is the strongest first diagnosis?`,
+      image: { src: '/assets/assessments/java/api_dashboard.png', alt: 'Spring Boot API dashboard' },
+      options: ['The N+1 regression is saturating the DB pool and driving /orders latency and failures.', 'The health endpoint is too fast.', 'Add more logging only.', 'Increase every timeout without fixing queries.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. The exhibit links pool saturation to an N+1 regression. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-24",
-          "type": "mcq",
-          "title": "Immutability",
-          "prompt": "Which practice supports immutable class design?",
-          "options": [
-                "Use final fields, no setters, defensive copies, and controlled construction",
-                "Expose mutable internals",
-                "Use public fields",
-                "Share arrays directly"
-          ],
-          "correctIndex": 0,
-          "explanation": "Immutability reduces side effects and improves thread safety."
+      id: 'jv-04',
+      type: 'mcq',
+      title: 'Parallel Stream Safety',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the stream code.\n\n{{image}}\n\nWhat is the strongest problem?`,
+      image: { src: '/assets/assessments/java/stream_bug.png', alt: 'Java parallel stream side effect bug' },
+      options: ['peek cannot exist in streams.', 'parallelStream always preserves side-effect order.', 'The parallel stream mutates a shared non-thread-safe ArrayList from multiple worker threads.', 'sum() is not thread-safe.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Shared mutable side effects make the parallel pipeline unsafe. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-25",
-          "type": "mcq",
-          "title": "StringBuilder",
-          "prompt": "When is StringBuilder usually preferred over repeated string concatenation in loops?",
-          "options": [
-                "When building strings repeatedly in mutable form",
-                "Only for database access",
-                "Only for exceptions",
-                "Never"
-          ],
-          "correctIndex": 0,
-          "explanation": "StringBuilder avoids creating many intermediate String objects."
+      id: 'jv-05',
+      type: 'mcq',
+      title: 'Thread Contention',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the thread summary.\n\n{{image}}\n\nWhat should be investigated first?`,
+      image: { src: '/assets/assessments/java/thread_dump.png', alt: 'Java thread dump summary' },
+      options: ['The single synchronized inventory lock causing 84 request threads to block.', 'The scheduler threads.', 'The Netty event loop because it is runnable.', 'Rename thread pools.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. The largest abnormal state is BLOCKED on one monitor. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-26",
-          "type": "mcq",
-          "title": "try-with-resources",
-          "prompt": "What problem does try-with-resources solve?",
-          "options": [
-                "It closes AutoCloseable resources reliably",
-                "It creates threads",
-                "It disables exceptions",
-                "It replaces collections"
-          ],
-          "correctIndex": 0,
-          "explanation": "try-with-resources helps avoid resource leaks for files, streams, sockets, and similar resources."
+      id: 'jv-06',
+      type: 'mcq',
+      title: 'JIT Compiler',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `What is the JIT compiler responsible for?`,
+      options: ['Loading Maven dependencies.', 'Performing garbage collection.', 'Compiling frequently executed bytecode into optimized native machine code at runtime.', 'Managing database transactions.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. JIT compilation improves runtime performance. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-27",
-          "type": "mcq",
-          "title": "Optional",
-          "prompt": "What is a good use of Optional?",
-          "options": [
-                "Representing a value that may be absent as a return type",
-                "Replacing every field in every entity",
-                "Avoiding all validation",
-                "Storing null directly"
-          ],
-          "correctIndex": 0,
-          "explanation": "Optional can make absence explicit for API consumers."
+      id: 'jv-07',
+      type: 'mcq',
+      title: 'Heap vs Stack',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Where are ordinary Java objects generally allocated?`,
+      options: ['Only on the stack.', 'Only in metaspace.', 'Only in CPU registers.', 'On the heap, with references/local frames commonly held on thread stacks.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Java object lifetime is generally managed in heap memory. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-28",
-          "type": "mcq",
-          "title": "Streams",
-          "prompt": "What is a Java Stream best used for?",
-          "options": [
-                "Declarative processing of collections or data pipelines",
-                "Direct memory allocation only",
-                "Replacing all loops in every case",
-                "Managing JVM startup"
-          ],
-          "correctIndex": 0,
-          "explanation": "Streams provide map/filter/reduce-style operations over data."
+      id: 'jv-08',
+      type: 'mcq',
+      title: 'equals/hashCode',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What must be true for HashMap keys?`,
+      options: ['Only toString matters.', 'Objects considered equal must return the same hashCode and equals/hashCode must be consistent.', 'hashCode must always be unique.', 'Keys must be mutable.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Hash-based collections depend on the equals/hashCode contract. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-29",
-          "type": "mcq",
-          "title": "Parallel Streams",
-          "prompt": "When should parallel streams be used carefully?",
-          "options": [
-                "When operations are stateful, blocking, small, or order-sensitive",
-                "Only when data is large and independent",
-                "Never for any data",
-                "Only for printing text"
-          ],
-          "correctIndex": 0,
-          "explanation": "Parallelism has overhead and can cause issues with shared state or blocking work."
+      id: 'jv-09',
+      type: 'mcq',
+      title: 'Immutability',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Which design best supports an immutable value object?`,
+      options: ['Expose internal lists directly.', 'Use public mutable fields.', 'Final fields, no mutating setters, controlled construction, and defensive copies for mutable members.', 'Provide setters for every field.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Immutability requires preventing state mutation through references. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-30",
-          "type": "mcq",
-          "title": "Thread Safety",
-          "prompt": "Which collection is not inherently thread-safe for concurrent writes?",
-          "options": [
-                "ArrayList",
-                "ConcurrentHashMap",
-                "CopyOnWriteArrayList",
-                "BlockingQueue"
-          ],
-          "correctIndex": 0,
-          "explanation": "ArrayList needs external synchronization or a concurrent alternative for concurrent mutation."
+      id: 'jv-10',
+      type: 'mcq',
+      title: 'Records',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When are Java records a strong fit?`,
+      options: ['Concise immutable data carriers whose identity is primarily their component values.', 'Long-lived mutable entities with many setters.', 'Replacing every interface.', 'Managing threads.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Records reduce boilerplate for transparent data carriers. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-31",
-          "type": "mcq",
-          "title": "Volatile",
-          "prompt": "What does volatile primarily guarantee?",
-          "options": [
-                "Visibility of changes across threads",
-                "Atomicity of compound operations",
-                "Faster CPU execution",
-                "Object immutability"
-          ],
-          "correctIndex": 0,
-          "explanation": "volatile helps with visibility but does not make operations like increment atomic."
+      id: 'jv-11',
+      type: 'mcq',
+      title: 'Sealed Classes',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What do sealed classes/interfaces provide?`,
+      options: ['Automatic serialization.', 'Control over which classes may extend or implement a type hierarchy.', 'Database connection pooling.', 'Garbage-collection tuning.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Sealed types constrain inheritance explicitly. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-32",
-          "type": "mcq",
-          "title": "Synchronization",
-          "prompt": "Why use synchronized?",
-          "options": [
-                "To control concurrent access to shared mutable state",
-                "To make code compile faster",
-                "To encrypt data",
-                "To define inheritance"
-          ],
-          "correctIndex": 0,
-          "explanation": "synchronized provides mutual exclusion and visibility guarantees."
+      id: 'jv-12',
+      type: 'mcq',
+      title: 'Generics',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the core benefit of generics?`,
+      options: ['Faster networks.', 'Automatic reflection.', 'Runtime type erasure is eliminated.', 'Compile-time type safety and reusable APIs without pervasive casts.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Generics express type relationships to the compiler. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-33",
-          "type": "mcq",
-          "title": "ExecutorService",
-          "prompt": "What is the benefit of ExecutorService?",
-          "options": [
-                "Managing thread pools and asynchronous task execution",
-                "Replacing the JVM",
-                "Creating SQL tables",
-                "Compiling bytecode manually"
-          ],
-          "correctIndex": 0,
-          "explanation": "ExecutorService abstracts thread management and task scheduling."
+      id: 'jv-13',
+      type: 'mcq',
+      title: 'PECS',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A method only reads T values from a producer list. Which wildcard guideline fits?`,
+      options: ['Use ? super T for reading typed values.', 'Use raw List.', 'Use Object[] instead.', 'Use ? extends T for a producer.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Producer Extends, Consumer Super. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-34",
-          "type": "mcq",
-          "title": "CompletableFuture",
-          "prompt": "What is CompletableFuture used for?",
-          "options": [
-                "Composing asynchronous computations",
-                "Changing class inheritance",
-                "Formatting strings only",
-                "Disabling exceptions"
-          ],
-          "correctIndex": 0,
-          "explanation": "CompletableFuture supports async pipelines and composition."
+      id: 'jv-14',
+      type: 'mcq',
+      title: 'Optional',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is a strong use of Optional?`,
+      options: ['Every entity field.', 'Representing an optional return value at an API boundary when absence is meaningful.', 'Method parameters everywhere.', 'Replacing validation.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Optional makes absence explicit to callers. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-35",
-          "type": "mcq",
-          "title": "GC Pressure",
-          "prompt": "What can increase garbage collection pressure?",
-          "options": [
-                "Creating many short-lived objects in hot paths",
-                "Using final variables",
-                "Reading constants",
-                "Using interfaces"
-          ],
-          "correctIndex": 0,
-          "explanation": "High allocation rates can increase GC frequency and latency."
+      id: 'jv-15',
+      type: 'mcq',
+      title: 'try-with-resources',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use try-with-resources?`,
+      options: ['It suppresses every exception.', 'It creates threads.', 'It reliably closes AutoCloseable resources even when exceptions occur.', 'It disables GC.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Resource lifetime is handled automatically. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-36",
-          "type": "mcq",
-          "title": "JVM Tuning",
-          "prompt": "What should guide JVM tuning decisions?",
-          "options": [
-                "Metrics such as heap usage, GC logs, latency, throughput, and allocation patterns",
-                "Random memory settings",
-                "Only developer preference",
-                "Class names"
-          ],
-          "correctIndex": 0,
-          "explanation": "JVM tuning should be evidence-based."
+      id: 'jv-16',
+      type: 'mcq',
+      title: 'Checked Exceptions',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When can a checked exception be appropriate?`,
+      options: ['A recoverable condition callers are reasonably expected to acknowledge and handle.', 'Every programming bug.', 'NullPointerException.', 'All latency spikes.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Checked exceptions make selected recovery paths explicit. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-37",
-          "type": "mcq",
-          "title": "Checked Exceptions",
-          "prompt": "When are checked exceptions most appropriate?",
-          "options": [
-                "Recoverable conditions callers are expected to handle",
-                "Programming bugs only",
-                "Null pointer errors only",
-                "All runtime failures"
-          ],
-          "correctIndex": 0,
-          "explanation": "Checked exceptions force callers to acknowledge recoverable error paths."
+      id: 'jv-17',
+      type: 'mcq',
+      title: 'Exception Chaining',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why use throw new DomainException(...) with the original cause?`,
+      options: ['Hide the stack trace.', 'Preserve diagnostic root cause while exposing a domain-appropriate abstraction.', 'Retry automatically.', 'Convert the exception to a warning.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Exception chaining improves observability and abstraction. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-38",
-          "type": "mcq",
-          "title": "SOLID",
-          "prompt": "What does the Single Responsibility Principle mean?",
-          "options": [
-                "A class should have one primary reason to change",
-                "A class can only have one method",
-                "A project can only have one class",
-                "A developer can only own one file"
-          ],
-          "correctIndex": 0,
-          "explanation": "SRP improves maintainability by keeping responsibilities focused."
+      id: 'jv-18',
+      type: 'mcq',
+      title: 'Streams',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is a Java Stream strongest for?`,
+      options: ['Managing JVM startup.', 'Replacing every loop.', 'Database transactions.', 'Declarative transformations/aggregations over data without requiring mutation of the source collection.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Streams express data-processing pipelines. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-39",
-          "type": "mcq",
-          "title": "Backend Reliability",
-          "prompt": "What matters most for a Java financial API?",
-          "options": [
-                "Validation, transactions, idempotency, authorization, and clear error handling",
-                "Only using the newest syntax",
-                "Skipping logs for speed",
-                "Returning 200 for every error"
-          ],
-          "correctIndex": 0,
-          "explanation": "Financial APIs need correctness, security, and reliable failure handling."
+      id: 'jv-19',
+      type: 'mcq',
+      title: 'Parallel Streams',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When should parallel streams be avoided or tested carefully?`,
+      options: ['Small workloads, blocking I/O, order-sensitive logic, or shared mutable side effects.', 'Any CPU-heavy stateless workload.', 'Only lists.', 'Only strings.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Parallelism has overhead and correctness constraints. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
-          "id": "jv-40",
-          "type": "mcq",
-          "title": "Production Debugging",
-          "prompt": "A Java service has rising latency and frequent GC pauses. What should be inspected?",
-          "options": [
-                "Heap usage, allocation rate, GC logs, thread dumps, and recent code changes",
-                "Only CSS files",
-                "Only API names",
-                "Nothing if CPU is low"
-          ],
-          "correctIndex": 0,
-          "explanation": "Latency issues often require JVM, application, and dependency-level evidence."
+      id: 'jv-20',
+      type: 'mcq',
+      title: 'CompletableFuture',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is CompletableFuture useful for?`,
+      options: ['Changing inheritance.', 'Replacing HTTP clients.', 'Composing asynchronous stages with success/failure pipelines.', 'Declaring records.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. CompletableFuture models asynchronous computations. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-21',
+      type: 'mcq',
+      title: 'Virtual Threads',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What workload is a strong fit for virtual threads?`,
+      options: ['CPU-bound numerical loops that need more cores than exist.', 'Single-threaded deterministic math.', 'Large numbers of mostly blocking I/O-bound tasks written in a thread-per-request style.', 'Replacing synchronization semantics.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Virtual threads make blocking-style concurrency scalable for many I/O tasks. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-22',
+      type: 'mcq',
+      title: 'Thread Pools',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why can an oversized platform-thread pool hurt a service?`,
+      options: ['It increases context switching, memory use, and pressure on downstream resources.', 'More threads always increase throughput.', 'Threads do not consume memory.', 'Only GC is affected.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Concurrency must respect system/downstream capacity. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-23',
+      type: 'mcq',
+      title: 'volatile',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does volatile guarantee?`,
+      options: ['Atomicity of value++.', 'Mutual exclusion.', 'Object immutability.', 'Visibility/order guarantees for reads/writes of the variable, not atomicity of compound operations.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. volatile does not make read-modify-write atomic. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-24',
+      type: 'mcq',
+      title: 'AtomicInteger',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is AtomicInteger useful for?`,
+      options: ['Database transactions.', 'Lock-free atomic operations such as incrementing a shared counter.', 'Immutable strings.', 'Class loading.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Atomic classes provide CAS-based atomic operations. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-25',
+      type: 'mcq',
+      title: 'ConcurrentHashMap',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use ConcurrentHashMap?`,
+      options: ['It preserves insertion order.', 'Support safe concurrent access with better concurrency than synchronizing a whole HashMap manually.', 'It sorts keys.', 'It is immutable.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. ConcurrentHashMap is designed for concurrent access. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-26',
+      type: 'mcq',
+      title: 'Spring Dependency Injection',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the main architectural benefit of DI?`,
+      options: ['Faster bytecode.', 'Automatic indexing.', 'No need for interfaces or abstractions.', 'Loose coupling and easier substitution/testing of dependencies.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. DI separates object construction from business behavior. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-27',
+      type: 'mcq',
+      title: 'Spring Transactions',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A service writes Order and Payment rows; both must succeed or both fail. Strongest design?`,
+      options: ['Use a properly bounded database transaction around the business operation.', 'Catch and ignore insert errors.', 'Commit each row independently.', 'Rely on HTTP retry only.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Atomic business changes require transaction boundaries. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-28',
+      type: 'mcq',
+      title: 'N+1 Queries',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is an N+1 query problem?`,
+      options: ['One query with many joins.', 'A JVM memory leak.', 'Loading a collection and then issuing one additional query per row/entity, causing excessive DB round trips.', 'A thread-pool issue.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. N+1 multiplies database calls with result size. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-29',
+      type: 'mcq',
+      title: 'Connection Pooling',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is the purpose of a JDBC connection pool?`,
+      options: ['Create a new physical connection for every method.', 'Cache HTTP responses.', 'Replace transactions.', 'Reuse a bounded set of database connections and control pressure on the database.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Pools amortize connection setup and protect downstream capacity. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-30',
+      type: 'mcq',
+      title: 'Idempotency',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A payment API may receive the same request twice after a retry. Strongest design?`,
+      options: ['Process every retry again.', 'Use an idempotency key/business key and persist deduplication semantics transactionally.', 'Return 200 without processing anything.', 'Use a random delay.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Idempotency prevents duplicate side effects. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-31',
+      type: 'mcq',
+      title: 'Validation',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Where should untrusted API input be validated?`,
+      options: ['At the boundary with schema/bean validation plus business-rule validation before side effects.', 'Only in the database after writes.', 'Only in frontend code.', 'Never if JSON parses.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Boundary validation protects downstream logic. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-32',
+      type: 'mcq',
+      title: 'Observability',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should production logs/metrics/traces enable?`,
+      options: ['Only printing stack traces.', 'Logging secrets.', 'Correlating requests to failures/latency and identifying dependency, JVM, and business-level causes.', 'Using one generic error message.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Observability should support diagnosis. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-33',
+      type: 'mcq',
+      title: 'GC Tuning',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should guide JVM GC tuning?`,
+      options: ['Random flags from a blog.', 'Measured heap/allocation/latency/throughput/GC-log evidence under representative load.', 'Maximum heap only.', 'Class names.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. JVM tuning should be evidence-based. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-34',
+      type: 'mcq',
+      title: 'Memory Leak',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A Java heap grows until OOM even after full GCs. What should be analyzed?`,
+      options: ['Only CPU.', 'Only thread names.', 'Maven version.', 'Heap dump dominator/retained-object paths and references preventing collection.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Leaks are about objects remaining strongly reachable. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-35',
+      type: 'mcq',
+      title: 'Testing',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is a strong test strategy for a backend service?`,
+      options: ['Only end-to-end tests.', 'Only code coverage.', 'Fast unit tests plus integration/contract tests around DB, messaging, HTTP boundaries, and critical business flows.', 'No tests if types compile.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Different test layers cover different risks. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-36',
+      type: 'mcq',
+      title: 'Build Reproducibility',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why lock/pin dependency versions and use controlled build artifacts?`,
+      options: ['To make releases reproducible and reduce unexpected dependency drift.', 'To avoid patching forever.', 'To remove vulnerability scanning.', 'To increase classpath size.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Reproducibility is essential for controlled releases. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-37',
+      type: 'mcq',
+      title: 'Delivery Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the delivery flow.\n\n{{image}}\n\nWhat should happen before deployment?`,
+      image: { src: '/assets/assessments/java/java_delivery.png', alt: 'Java delivery flow' },
+      options: ['Manual edits on the server.', 'Deploy first and test later.', 'Skip artifact versioning.', 'Automated tests and build/package validation should pass on the exact artifact being promoted.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Promoted artifacts should be tested before production. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-38',
+      type: 'mcq',
+      title: 'Java Production Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A service has GC pauses, DB pool saturation, duplicate payment requests, and weak logs. Strongest remediation?`,
+      options: ['Increase all timeouts.', 'Address allocation/GC evidence, fix DB query/pool pressure, add transactional idempotency, and improve structured observability with regression/load tests.', 'Add more threads.', 'Catch all exceptions and return 200.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. The incident spans performance, correctness, and observability. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
+    },
+    {
+      id: 'jv-39',
+      type: 'mcq',
+      title: 'Caching and Consistency',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A Spring Boot service caches account profiles. Updates are written to the database, but some requests continue serving stale profiles for several minutes.
+
+What is the strongest design response?`,
+      options: ['Define an explicit cache-consistency strategy such as update/evict-on-write with suitable TTLs, keys, observability, and failure handling.', 'Increase the JVM heap so cached values remain longer.', 'Disable database transactions.', 'Return stale values intentionally without documenting it.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Cache behavior must be designed around freshness requirements, invalidation, keys, TTLs, and failure modes. Why not B: heap size does not solve invalidation correctness. Why not C: transactions protect database consistency and are unrelated to cache eviction. Why not D: undocumented staleness creates correctness risk.'
+    },
+    {
+      id: 'jv-40',
+      type: 'mcq',
+      title: 'Java Backend Architecture Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A Java API has high request concurrency, blocking downstream HTTP calls, moderate CPU usage, and a large platform-thread pool that is causing context switching and memory pressure.
+
+Which modernization path is strongest?`,
+      options: ['Replace all network calls with synchronized blocks.', 'Increase the platform-thread pool until latency improves.', 'Evaluate virtual threads or carefully designed async I/O for the blocking workload, while bounding downstream concurrency and measuring latency/throughput.', 'Move every request onto the common ForkJoinPool without limits.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Blocking I/O with high concurrency is a strong case for virtual threads or explicit async designs, but downstream capacity still needs protection and measurement. Why not A: synchronization worsens contention. Why not B: unlimited platform threads increase resource pressure. Why not D: unbounded use of a shared common pool can create starvation and poor isolation.'
     }
   ]
 };
