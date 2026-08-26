@@ -1,377 +1,467 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
-
-// Professional certification-level assessment. Questions were checked, normalized, and expanded with advanced scenarios.
+import stageDashboardImage from '../../../assets/assessments/prince2/stage_dashboard.png';
+import businessCaseImage from '../../../assets/assessments/prince2/business_case.png';
+import qualityDashboardImage from '../../../assets/assessments/prince2/quality_dashboard.png';
+import riskRegisterImage from '../../../assets/assessments/prince2/risk_register.png';
+import peopleDashboardImage from '../../../assets/assessments/prince2/people_dashboard.png';
+import processFlowImage from '../../../assets/assessments/prince2/process_flow.png';
 
 export const prince2Data = {
   id: ASSESSMENT_TYPES.prince2,
-  title: "PRINCE2 Project Management Foundation Certification",
-  shortTitle: "PRINCE2",
-  category: "Project Management",
-  durationMinutes: 60,
+  title: 'PRINCE2 7 Project Management Foundation Certification',
+  shortTitle: 'PRINCE2 7',
+  category: 'Project Management',
+  durationMinutes: 75,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description: "PRINCE2 principles, themes/practices, processes, business case, stages, tolerances, change, risk, quality, and governance.",
-  instructions: "Choose the best answer. All questions have been checked, normalized, and upgraded from fundamentals to advanced professional scenarios.",
+  description: 'PRINCE2 7 assessment covering the seven principles, seven practices, seven processes, Business Case, products, stages, tolerances, exceptions, people, sustainability, digital/data management, risk, quality, issues, and governance.',
+  instructions: '40 scenario-based questions, 75 minutes, 200 marks. Use the dashboards, charts, tables, image exhibits, and process diagrams. Choose the strongest professional response.',
   questions: [
     {
-      id: "p2-01",
-      type: "mcq",
-      title: "Principles",
-      prompt: "How many principles are in PRINCE2?",
-      options: ["5", "7", "9", "12"],
+      id: 'p2-01',
+      type: 'mcq',
+      title: 'Manage by Exception',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review stage status.\n\n{{image}}\n\nWhat should the Project Manager do when time tolerance is forecast to be exceeded?`,
+      image: { src: stageDashboardImage, alt: 'PRINCE2 stage status dashboard' },
+      options: ['Silently rebaseline the Stage Plan.', 'Raise an exception to the Project Board with impact/options rather than continuing outside delegated tolerance.', 'Ignore it until the stage ends.', 'Ask the Team Manager to change the project tolerance.'],
       correctIndex: 1,
-      explanation: "PRINCE2 is based on 7 core principles. This has been reviewed and retained as a relevant professional assessment point."
+      explanation: 'Correct: B. Forecast tolerance breach triggers exception management. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-02",
-      type: "mcq",
-      title: "Business Case",
-      prompt: "Which principle states that a project must have a valid reason to start and continue?",
-      options: ["Learn from experience", "Continued business justification", "Focus on products", "Manage by stages"],
+      id: 'p2-02',
+      type: 'mcq',
+      title: 'Continued Business Justification',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the Business Case.\n\n{{image}}\n\nWhat is the strongest Board question?`,
+      image: { src: businessCaseImage, alt: 'PRINCE2 Business Case review' },
+      options: ['Can the original business case be kept unchanged for consistency?', 'Can quality criteria be removed to protect benefits?', 'Can the Project Manager approve continuation alone?', 'Does the project still remain desirable, viable, and achievable enough to justify continued investment?'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Continued business justification must be reassessed as conditions change. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-03',
+      type: 'mcq',
+      title: 'Quality Practice',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the quality dashboard.\n\n{{image}}\n\nWhat should happen to the API product?`,
+      image: { src: qualityDashboardImage, alt: 'PRINCE2 quality dashboard' },
+      options: ['Evaluate it against its documented quality specifications/acceptance criteria and resolve nonconformities before acceptance.', 'Accept it because most products passed.', 'Delete the quality criteria.', 'Let schedule performance override quality.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Quality is judged against defined product requirements. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-04',
+      type: 'mcq',
+      title: 'Risk Practice',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the risk register.\n\n{{image}}\n\nWhich item is an opportunity rather than a threat?`,
+      image: { src: riskRegisterImage, alt: 'PRINCE2 risk register' },
+      options: ['Supplier delay.', 'Low adoption.', 'Earlier launch.', 'Data breach.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Earlier launch is a favorable uncertain event. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-05',
+      type: 'mcq',
+      title: 'People Element',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the people dashboard.\n\n{{image}}\n\nWhat is the strongest project response?`,
+      image: { src: peopleDashboardImage, alt: 'PRINCE2 people and change dashboard' },
+      options: ['Treat adoption/readiness as a managed project concern: engage resistant operations stakeholders, plan change/training, and track readiness.', 'Focus only on product delivery.', 'Escalate all resistance as misconduct.', 'Remove adoption metrics.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. PRINCE2 7 explicitly emphasizes people and successful change. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-06',
+      type: 'mcq',
+      title: 'Seven Principles',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `How many PRINCE2 7 principles are there?`,
+      options: ['Five.', 'Nine.', 'Seven.', 'Twelve.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. PRINCE2 7 retains seven principles. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-07',
+      type: 'mcq',
+      title: 'Seven Practices',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `What replaced the old 'themes' terminology in PRINCE2 7?`,
+      options: ['Five ceremonies.', 'Ten knowledge areas.', 'Three streams.', 'Seven management practices.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. PRINCE2 7 uses the term practices. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-08',
+      type: 'mcq',
+      title: 'Seven Processes',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `How many core PRINCE2 processes are retained in Version 7?`,
+      options: ['Four.', 'Seven.', 'Eight.', 'Twelve.'],
       correctIndex: 1,
-      explanation: "Without justification, a project should be stopped. This has been reviewed and retained as a relevant professional assessment point."
+      explanation: 'Correct: B. PRINCE2 7 retains seven processes. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-03",
-      type: "mcq",
-      title: "Organization",
-      prompt: "What are the three levels of management in the PRINCE2 project team?",
-      options: ["Owner, Manager, Staff", "Directing, Managing, Delivering", "Initiation, Planning, Closing", "Sponsor, PM, Team Lead"],
+      id: 'p2-09',
+      type: 'mcq',
+      title: 'Starting Up a Project',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the purpose of Starting Up a Project?`,
+      options: ['Create every product in detail.', 'Run the final benefits review.', 'Determine whether the project is worthwhile and viable enough to justify initiation.', 'Approve all stage exceptions.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Starting Up provides pre-project viability checks. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-10',
+      type: 'mcq',
+      title: 'Initiating a Project',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should Initiating a Project establish?`,
+      options: ['A solid foundation for managing the project, including baselines, controls, approaches, and justification.', 'Only team timesheets.', 'Only procurement contracts.', 'Only final acceptance.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Initiation establishes how the project will be managed. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-11',
+      type: 'mcq',
+      title: 'Directing a Project',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Who primarily performs Directing a Project?`,
+      options: ['Only Team Managers.', 'The Project Board.', 'End users.', 'External auditors.'],
       correctIndex: 1,
-      explanation: "Project Board (Directing), PM (Managing), Team Manager (Delivering)."
+      explanation: 'Correct: B. The Board provides overall direction and key decisions. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-04",
-      type: "mcq",
-      title: "Processes",
-      prompt: "What is the first process in a PRINCE2 project?",
-      options: ["Initiating a Project", "Starting up a Project (SU)", "Directing a Project", "Controlling a Stage"],
+      id: 'p2-12',
+      type: 'mcq',
+      title: 'Controlling a Stage',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Who is primarily responsible for day-to-day control of a management stage?`,
+      options: ['The Executive only.', 'Senior Supplier only.', 'Project Assurance only.', 'The Project Manager.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. The PM controls work within delegated stage tolerance. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-13',
+      type: 'mcq',
+      title: 'Managing Product Delivery',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the core link in Managing Product Delivery?`,
+      options: ['The Board directly assigns every task.', 'Users approve budgets.', 'The PM does all specialist work.', 'Team Managers/teams accept, execute, and deliver authorized Work Packages to the Project Manager.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Work Packages connect project management with delivery. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-14',
+      type: 'mcq',
+      title: 'Managing a Stage Boundary',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a key purpose of Managing a Stage Boundary?`,
+      options: ['Close the project automatically.', 'Review current-stage performance, update Business Case/project plan, and prepare the next Stage Plan for Board decision.', 'Remove tolerances.', 'Skip lessons learned.'],
       correctIndex: 1,
-      explanation: "Starting up a Project occurs pre-project to verify viability."
+      explanation: 'Correct: B. Stage boundaries support controlled continuation decisions. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-05",
-      type: "mcq",
-      title: "Tolerance",
-      prompt: "What is the purpose of \"Manage by Exception\"?",
-      options: ["To fire people", "To allow management to intervene only when tolerances are exceeded", "To document everything", "To speed up work"],
+      id: 'p2-15',
+      type: 'mcq',
+      title: 'Closing a Project',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should controlled closure confirm?`,
+      options: ['All future benefits are guaranteed.', 'Every risk is zero.', 'Products are accepted/handed over appropriately, objectives are reviewed, follow-on actions/benefits/lessons are addressed, and closure is authorized.', 'No documentation is needed.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Closure is deliberate and controlled. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-16',
+      type: 'mcq',
+      title: 'Continued Business Justification',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does the principle require?`,
+      options: ['A valid reason for the project to start and continue throughout its life.', 'A fixed plan that never changes.', 'A benefit only at project end.', 'No sponsor involvement.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Justification is continuous. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-17',
+      type: 'mcq',
+      title: 'Learn from Experience',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `How should lessons be used?`,
+      options: ['Capture only failures at closure.', 'Seek previous lessons at startup, record/apply lessons during the project, and pass useful lessons onward.', 'Never change practice mid-project.', 'Keep lessons private.'],
       correctIndex: 1,
-      explanation: "It defines the authority levels and thresholds (tolerances)."
+      explanation: 'Correct: B. Learning is continuous. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-06",
-      type: "mcq",
-      title: "Products",
-      prompt: "What is the \"Project Product Description\" used for?",
-      options: ["To buy products", "To define the customer's quality expectations", "To market the project", "To list all tasks"],
+      id: 'p2-18',
+      type: 'mcq',
+      title: 'Defined Roles',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why does PRINCE2 define roles/responsibilities?`,
+      options: ['To maximize bureaucracy.', 'To eliminate teamwork.', 'To centralize every decision with the PM.', 'To clarify business, user, supplier interests, accountability, and decision rights.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Clear accountability is a core governance feature. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-19',
+      type: 'mcq',
+      title: 'Manage by Stages',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why manage by stages?`,
+      options: ['It creates decision points where the Board can review viability/performance before committing further resources.', 'To avoid planning.', 'To make every stage the same length.', 'To remove tolerances.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Stages support progressive commitment and control. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-20',
+      type: 'mcq',
+      title: 'Focus on Products',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does Focus on Products emphasize?`,
+      options: ['Track hours before requirements.', 'Prioritize tasks over outcomes.', 'Define what must be delivered and its quality criteria before focusing on activities.', 'Avoid product descriptions.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Product-based focus clarifies outputs and acceptance. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-21',
+      type: 'mcq',
+      title: 'Tailoring',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does tailoring mean in PRINCE2 7?`,
+      options: ['Delete principles that are inconvenient.', 'Use every management product at maximum detail.', "Adapt the method's application to project context while preserving the method's intent and effective governance.", 'Ignore project scale.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. PRINCE2 is designed to be adapted to context. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-22',
+      type: 'mcq',
+      title: 'Business Case Practice',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Who is accountable for the Business Case at Project Board level?`,
+      options: ['The Executive.', 'Team Manager.', 'Project Support.', 'Senior Supplier alone.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. The Executive owns the business perspective/justification. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-23',
+      type: 'mcq',
+      title: 'Organizing Practice',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is the strongest Board composition principle?`,
+      options: ['Only technical specialists.', 'Only finance.', 'Only the Project Manager.', 'Represent business, user, and supplier interests with clear accountability.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. PRINCE2 governance balances the three primary interests. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-24',
+      type: 'mcq',
+      title: 'Plans Practice',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should a Stage Plan do?`,
+      options: ['Replace the Project Plan permanently.', 'Provide the detailed basis for managing and controlling a specific management stage within delegated tolerances.', 'Serve only as a lessons log.', 'Contain only budget.'],
       correctIndex: 1,
-      explanation: "It defines what the project must deliver to be accepted."
+      explanation: 'Correct: B. Stage Plans are detailed control plans. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-07",
-      type: "mcq",
-      title: "Themes",
-      prompt: "Which theme addresses how the project will handle changes and issues?",
-      options: ["Risk", "Change", "Quality", "Progress"],
+      id: 'p2-25',
+      type: 'mcq',
+      title: 'Quality Practice',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the value of a Product Description?`,
+      options: ['List only activities.', 'Define product purpose, composition/requirements, quality specifications, and acceptance/quality methods as appropriate.', 'Replace the Business Case.', 'Authorize project funding.'],
       correctIndex: 1,
-      explanation: "The Change theme manages requests and configurations. This has been reviewed and retained as a relevant professional assessment point."
+      explanation: 'Correct: B. Product descriptions anchor product quality. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-08",
-      type: "mcq",
-      title: "Stages",
-      prompt: "What is the minimum number of management stages in a PRINCE2 project?",
-      options: ["1", "2", "3", "5"],
+      id: 'p2-26',
+      type: 'mcq',
+      title: 'Risk Practice',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the difference between risk owner and risk actionee?`,
+      options: ['They are always the same role.', 'The actionee owns the Business Case.', 'The owner only records the risk.', 'The owner is accountable for managing the risk; an actionee carries out specific response actions.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Risk accountability and action execution can be separate. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-27',
+      type: 'mcq',
+      title: 'Issues Practice',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A request for change is raised. Strongest response?`,
+      options: ['Capture/classify it, assess impact and options, and use delegated change authority/tolerances for a decision.', 'Implement immediately.', 'Reject every change.', 'Ask the team to hide the impact.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Change/issues are controlled through analysis and authority. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-28',
+      type: 'mcq',
+      title: 'Progress Practice',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does the progress practice primarily answer?`,
+      options: ['Who wrote the most code?', 'What colors should reports use?', 'Where are we now, where are we going, and should we continue or escalate based on performance/tolerances?', 'How many meetings occurred?'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Progress supports control and exception decisions. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-29',
+      type: 'mcq',
+      title: 'Tolerance Dimensions',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Which set reflects PRINCE2 project performance targets including Version 7 emphasis?`,
+      options: ['Only time, cost, scope.', 'Only quality and risk.', 'Revenue, headcount, market share.', 'Time, cost, quality, scope, benefits, risk, and sustainability.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. PRINCE2 7 includes sustainability alongside traditional performance targets. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-30',
+      type: 'mcq',
+      title: 'Exception Report',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is an Exception Report appropriate?`,
+      options: ['For every daily status update.', 'When a stage/project tolerance is forecast to be exceeded and higher authority needs impact/options.', 'Only at closure.', 'Whenever a product passes quality.'],
       correctIndex: 1,
-      explanation: "An initiation stage and at least one further management stage."
+      explanation: 'Correct: B. Exception reporting supports manage-by-exception. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-09",
-      type: "mcq",
-      title: "Project Board",
-      prompt: "Who represents the interests of those who will use the project products?",
-      options: ["Executive", "Senior User", "Senior Supplier", "Project Manager"],
+      id: 'p2-31',
+      type: 'mcq',
+      title: 'Exception Plan',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is an Exception Plan?`,
+      options: ['A plan that may replace the plan in exception after approval, showing how recovery/continuation will be managed.', 'A risk register.', 'A daily Team Plan.', 'A quality test script.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Exception Plans respond to approved recovery decisions. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-32',
+      type: 'mcq',
+      title: 'Work Package',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should a Work Package communicate?`,
+      options: ['Only budget.', 'Only team names.', 'Authorized work/products, constraints, reporting, quality, interfaces, and acceptance expectations for a team.', 'Only risks.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Work Packages define delegated delivery expectations. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-33',
+      type: 'mcq',
+      title: 'Highlight Report',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Who normally receives Highlight Reports from the Project Manager?`,
+      options: ['Only end users.', 'The Project Board.', 'Only suppliers.', 'External auditors only.'],
       correctIndex: 1,
-      explanation: "The Senior User is responsible for specifying the requirements."
+      explanation: 'Correct: B. Highlight Reports provide regular Board-level progress information. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-10",
-      type: "mcq",
-      title: "Plans",
-      prompt: "Which plan provides the Project Board with the info needed to approve the next stage?",
-      options: ["Project Plan", "Stage Plan", "Team Plan", "Exception Plan"],
+      id: 'p2-34',
+      type: 'mcq',
+      title: 'Checkpoint Report',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Who typically sends a Checkpoint Report to the Project Manager?`,
+      options: ['The Executive.', 'Project Assurance only.', 'A regulator.', 'A Team Manager / delivery team lead.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Checkpoint Reports provide delivery-team progress to the PM. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-35',
+      type: 'mcq',
+      title: 'Sustainability',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `How should sustainability be treated in PRINCE2 7?`,
+      options: ['As optional marketing text only.', 'Only after closure.', 'As a project performance consideration integrated into planning, decisions, and whole-life product/project impacts.', 'Only for environmental projects.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Version 7 explicitly integrates sustainability. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-36',
+      type: 'mcq',
+      title: 'Digital and Data',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is the strongest PRINCE2 7 approach to digital/data use?`,
+      options: ['Use digital/data tools deliberately to improve decisions/control while considering data quality, governance, security, and context.', 'Use AI output as authority.', 'Avoid all digital tools.', 'Collect data without purpose.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. PRINCE2 7 explicitly addresses digital/data management. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-37',
+      type: 'mcq',
+      title: 'Process Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the process flow.\n\n{{image}}\n\nWhy are stage boundaries important?`,
+      image: { src: processFlowImage, alt: 'PRINCE2 7 process flow' },
+      options: ['They eliminate Board decisions.', 'They remove the need for a Business Case.', 'They mean every stage must use waterfall.', 'They create governance points for reviewing performance, justification, risk, and next-stage commitment.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Stage boundaries support controlled decision-making. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice.'
+    },
+    {
+      id: 'p2-38',
+      type: 'mcq',
+      title: 'Project Board Decision',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `The stage remains within tolerance, but the Business Case is no longer attractive. What should the Board do?`,
+      options: ['Continue because tolerance is the only success test.', 'Reassess continued justification and consider stopping or redirecting the project despite stage performance being within tolerance.', 'Ask the PM to hide the Business Case change.', 'Wait until final closure.'],
       correctIndex: 1,
-      explanation: "The Stage Plan is the detailed plan for the current/next stage."
+      explanation: 'Correct: B. Continued business justification overrides blind continuation. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-11",
-      type: "mcq",
-      title: "Quality",
-      prompt: "What is a \"Quality Audit\"?",
-      options: ["Checking every product", "An independent check that the project is following its quality processes", "A performance review", "A financial check"],
-      correctIndex: 1,
-      explanation: "Audits ensure compliance with the quality management system."
+      id: 'p2-39',
+      type: 'mcq',
+      title: 'Premature Closure',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A project is no longer justified. What is the strongest PRINCE2 response?`,
+      options: ['Keep spending until the stage ends.', 'Delete all records.', 'Use controlled premature closure: confirm status/products, protect value, document lessons/actions, and close under Board direction.', 'Let the supplier decide alone.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. PRINCE2 supports controlled early closure when justification ends. Why not A: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     },
     {
-      id: "p2-12",
-      type: "mcq",
-      title: "Risk",
-      prompt: "What is the \"Risk Appetite\"?",
-      options: ["How much risk is acceptable", "A list of risks", "The cost of risk", "A strategy"],
+      id: 'p2-40',
+      type: 'mcq',
+      title: 'PRINCE2 7 Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A stage is near tolerance, adoption is weak, benefits fell, and a digital tool is producing unreliable forecasts. Strongest response?`,
+      options: ['Integrate the evidence: reassess Business Case, people/change readiness, risk and digital-data quality, forecast tolerance, and escalate to the Board if authority is exceeded.', 'Focus only on schedule.', 'Continue because products are being built.', 'Replace human judgment with the tool.'],
       correctIndex: 0,
-      explanation: "Risk appetite defines the level of risk exposure the organization is willing to take."
-    },
-    {
-      id: "p2-13",
-      type: "mcq",
-      title: "Work Package",
-      prompt: "What is a Work Package?",
-      options: ["A suitcase", "A set of info about one or more products to be delivered by a team", "A project stage", "A financial budget"],
-      correctIndex: 1,
-      explanation: "Work Packages are the link between the PM and Team Manager."
-    },
-    {
-      id: "p2-14",
-      type: "mcq",
-      title: "Progress",
-      prompt: "What is an \"End Stage Report\" used for?",
-      options: ["To end the project", "To summarize progress and help the Board decide on the next stage", "To assign tasks", "To hire people"],
-      correctIndex: 1,
-      explanation: "It provides a snapshot of performance at the end of a stage."
-    },
-    {
-      id: "p2-15",
-      type: "mcq",
-      title: "Issue Register",
-      prompt: "What is the difference between an Issue and a Risk?",
-      options: ["No difference", "A risk is a future uncertainty; an issue has already happened", "A risk is always bad", "An issue is always small"],
-      correctIndex: 1,
-      explanation: "Issues are current events; risks are potential events. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "p2-16",
-      type: "mcq",
-      title: "Executive",
-      prompt: "What is the primary role of the Executive on the Project Board?",
-      options: ["To do the work", "To ensure the project provides value for money (Business)", "To write code", "To manage the team"],
-      correctIndex: 1,
-      explanation: "The Executive is the \"owner\" of the Business Case. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "p2-17",
-      type: "mcq",
-      title: "Checkpoints",
-      prompt: "What is a \"Checkpoint Report\"?",
-      options: ["A status update from the Team Manager to the PM", "A report to the Board", "A final report", "A technical doc"],
-      correctIndex: 0,
-      explanation: "It provides progress info at the team level. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "p2-18",
-      type: "mcq",
-      title: "Closure",
-      prompt: "Which process prepares the project for its end?",
-      options: ["Managing Product Delivery", "Closing a Project (CP)", "Controlling a Stage", "Directing a Project"],
-      correctIndex: 1,
-      explanation: "CP ensures a clean shutdown and handover. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "p2-19",
-      type: "mcq",
-      title: "Tailoring",
-      prompt: "What does \"Tailoring\" PRINCE2 mean?",
-      options: ["Removing rules", "Adapting the methodology to suit the project context", "Ignoring principles", "Changing the name"],
-      correctIndex: 1,
-      explanation: "Tailoring ensures the method is appropriate for the scale/risk/complexity."
-    },
-    {
-      id: "p2-20",
-      type: "mcq",
-      title: "Configuration Management",
-      prompt: "What is Configuration Management primarily concerned with?",
-      options: ["Setting up PCs", "Version control and tracking of project products", "Hiring", "Office layout"],
-      correctIndex: 1,
-      explanation: "It tracks the status and versions of all deliverables. This has been reviewed and retained as a relevant professional assessment point."
-    },
-    {
-      id: "p2-21",
-      type: "mcq",
-      title: "Tailoring Prince2",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for tailoring PRINCE2?",
-      options: ["Apply tailoring PRINCE2 with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use tailoring PRINCE2 only because it sounds advanced, without checking impact or constraints", "Ignore tailoring PRINCE2 until the issue becomes urgent in production or with customers", "Delegate tailoring PRINCE2 completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "tailoring PRINCE2 is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-22",
-      type: "mcq",
-      title: "Business Case Ownership",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for business case ownership?",
-      options: ["Apply business case ownership with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use business case ownership only because it sounds advanced, without checking impact or constraints", "Ignore business case ownership until the issue becomes urgent in production or with customers", "Delegate business case ownership completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "business case ownership is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-23",
-      type: "mcq",
-      title: "Product-Based Planning",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for product-based planning?",
-      options: ["Apply product-based planning with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use product-based planning only because it sounds advanced, without checking impact or constraints", "Ignore product-based planning until the issue becomes urgent in production or with customers", "Delegate product-based planning completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "product-based planning is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-24",
-      type: "mcq",
-      title: "Management Stages",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for management stages?",
-      options: ["Apply management stages with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use management stages only because it sounds advanced, without checking impact or constraints", "Ignore management stages until the issue becomes urgent in production or with customers", "Delegate management stages completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "management stages is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-25",
-      type: "mcq",
-      title: "Tolerances",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for tolerances?",
-      options: ["Apply tolerances with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use tolerances only because it sounds advanced, without checking impact or constraints", "Ignore tolerances until the issue becomes urgent in production or with customers", "Delegate tolerances completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "tolerances is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-26",
-      type: "mcq",
-      title: "Change Control",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for change control?",
-      options: ["Apply change control with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use change control only because it sounds advanced, without checking impact or constraints", "Ignore change control until the issue becomes urgent in production or with customers", "Delegate change control completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "change control is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-27",
-      type: "mcq",
-      title: "Risk Response",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for risk response?",
-      options: ["Apply risk response with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use risk response only because it sounds advanced, without checking impact or constraints", "Ignore risk response until the issue becomes urgent in production or with customers", "Delegate risk response completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "risk response is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-28",
-      type: "mcq",
-      title: "Quality Register",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for quality register?",
-      options: ["Apply quality register with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use quality register only because it sounds advanced, without checking impact or constraints", "Ignore quality register until the issue becomes urgent in production or with customers", "Delegate quality register completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "quality register is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-29",
-      type: "mcq",
-      title: "Work Package",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for work package?",
-      options: ["Apply work package with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use work package only because it sounds advanced, without checking impact or constraints", "Ignore work package until the issue becomes urgent in production or with customers", "Delegate work package completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "work package is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-30",
-      type: "mcq",
-      title: "Highlight Report",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for highlight report?",
-      options: ["Apply highlight report with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use highlight report only because it sounds advanced, without checking impact or constraints", "Ignore highlight report until the issue becomes urgent in production or with customers", "Delegate highlight report completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "highlight report is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-31",
-      type: "mcq",
-      title: "Exception Plan",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for exception plan?",
-      options: ["Apply exception plan with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use exception plan only because it sounds advanced, without checking impact or constraints", "Ignore exception plan until the issue becomes urgent in production or with customers", "Delegate exception plan completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "exception plan is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-32",
-      type: "mcq",
-      title: "Lessons Log",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for lessons log?",
-      options: ["Apply lessons log with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use lessons log only because it sounds advanced, without checking impact or constraints", "Ignore lessons log until the issue becomes urgent in production or with customers", "Delegate lessons log completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "lessons log is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-33",
-      type: "mcq",
-      title: "Benefits Review",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for benefits review?",
-      options: ["Apply benefits review with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use benefits review only because it sounds advanced, without checking impact or constraints", "Ignore benefits review until the issue becomes urgent in production or with customers", "Delegate benefits review completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "benefits review is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-34",
-      type: "mcq",
-      title: "Project Brief",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for project brief?",
-      options: ["Apply project brief with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use project brief only because it sounds advanced, without checking impact or constraints", "Ignore project brief until the issue becomes urgent in production or with customers", "Delegate project brief completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "project brief is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-35",
-      type: "mcq",
-      title: "Pid Baseline",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for PID baseline?",
-      options: ["Apply PID baseline with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use PID baseline only because it sounds advanced, without checking impact or constraints", "Ignore PID baseline until the issue becomes urgent in production or with customers", "Delegate PID baseline completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "PID baseline is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-36",
-      type: "mcq",
-      title: "Project Board",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for project board?",
-      options: ["Apply project board with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use project board only because it sounds advanced, without checking impact or constraints", "Ignore project board until the issue becomes urgent in production or with customers", "Delegate project board completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "project board is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-37",
-      type: "mcq",
-      title: "Senior Supplier",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for senior supplier?",
-      options: ["Apply senior supplier with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use senior supplier only because it sounds advanced, without checking impact or constraints", "Ignore senior supplier until the issue becomes urgent in production or with customers", "Delegate senior supplier completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "senior supplier is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-38",
-      type: "mcq",
-      title: "Controlled Closure",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for controlled closure?",
-      options: ["Apply controlled closure with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use controlled closure only because it sounds advanced, without checking impact or constraints", "Ignore controlled closure until the issue becomes urgent in production or with customers", "Delegate controlled closure completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "controlled closure is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-39",
-      type: "mcq",
-      title: "Premature Closure",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for premature closure?",
-      options: ["Apply premature closure with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use premature closure only because it sounds advanced, without checking impact or constraints", "Ignore premature closure until the issue becomes urgent in production or with customers", "Delegate premature closure completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "premature closure is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
-    },
-    {
-      id: "p2-40",
-      type: "mcq",
-      title: "Stage Exception Scenario",
-      prompt: "In a professional PRINCE2 Project Management Foundation scenario, which response best demonstrates strong judgment for stage exception scenario?",
-      options: ["Apply stage exception scenario with clear context, evidence, validation, ownership, and awareness of trade-offs", "Use stage exception scenario only because it sounds advanced, without checking impact or constraints", "Ignore stage exception scenario until the issue becomes urgent in production or with customers", "Delegate stage exception scenario completely without understanding the decision, risks, or success criteria"],
-      correctIndex: 0,
-      explanation: "stage exception scenario is strongest when applied deliberately with evidence, practical constraints, clear ownership, and measurable impact."
+      explanation: 'Correct: A. PRINCE2 7 integrates governance, justification, people, data, risk, and exception management. Why not B: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not C: it does not best fit the scenario, measurement/governance logic, or professional practice. Why not D: it does not best fit the scenario, measurement/governance logic, or professional practice.'
     }
   ]
 };

@@ -1,9 +1,5 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level UI/UX Design Strategy assessment.
-// Questions cover research, information architecture, interaction design,
-// accessibility, design systems, usability testing, product metrics,
-// responsive design, ethics, and practical design judgment.
 export const uiuxData = {
   id: ASSESSMENT_TYPES.uiux,
   title: 'UI/UX Design Strategy Professional Certification',
@@ -12,610 +8,456 @@ export const uiuxData = {
   durationMinutes: 50,
   pointsPerQuestion: 5,
   passingPercentage: 85,
-  description:
-    'Professional UI/UX assessment covering user research, information architecture, wireframing, prototyping, accessibility, interaction design, visual hierarchy, usability testing, design systems, responsive design, product metrics, and ethical design judgment.',
-  instructions:
-    'Choose the best answer for each design scenario. Questions move from fundamentals to practical product-design judgment and accessibility-aware decision-making.',
+  description: 'Professional UI/UX assessment covering research, information architecture, prototyping, usability, accessibility, interaction design, design systems, responsive behavior, metrics, ethical design, and product-design judgment.',
+  instructions: '40 scenario-based questions, 50 minutes, 200 marks. Use the dashboards, charts, tables, code/image exhibits, and diagrams. Choose the strongest professional response.',
   questions: [
     {
       id: 'ui-01',
       type: 'mcq',
-      title: 'User Persona',
-      prompt: 'What is the primary goal of a user persona?',
-      options: [
-        'To design a logo for the product',
-        'To create a research-informed representation of a target user group',
-        'To replace usability testing',
-        'To write final marketing copy'
-      ],
+      title: 'Checkout Funnel',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the funnel.\n\n{{image}}\n\nWhere should design research focus first?`,
+      image: { src: '/assets/assessments/uiux/checkout.png', alt: 'Checkout UX funnel' },
+      options: ['Desktop checkout only.', 'Mobile payment completion, because mobile completion is dramatically lower and users report form difficulty.', 'Hero visuals.', 'Marketing homepage.'],
       correctIndex: 1,
-      explanation:
-        'Personas help teams stay focused on user goals, needs, behaviors, and context rather than designing only from internal opinion.'
+      explanation: 'Correct: B. Behavioral and qualitative evidence converge on mobile payment. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-02',
       type: 'mcq',
-      title: 'Visual Hierarchy',
-      prompt: 'What does visual hierarchy refer to in UI design?',
-      options: [
-        'The company reporting structure',
-        'The arrangement of elements to show importance and guide attention',
-        'The folder structure of a design file',
-        'Font size only'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Visual hierarchy uses size, spacing, contrast, placement, typography, and color to help users understand what matters first.'
+      title: 'Accessibility Audit',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the audit.\n\n{{image}}\n\nWhich issue is most severe for operation?`,
+      image: { src: '/assets/assessments/uiux/accessibility.png', alt: 'Accessibility audit' },
+      options: ['The link has high contrast.', 'Primary button contrast only.', 'No issue matters.', 'The modal close control is not keyboard reachable, potentially trapping keyboard users.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Keyboard access is essential for operability. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-03',
       type: 'mcq',
-      title: 'Accessibility Standard',
-      prompt: 'What does WCAG stand for?',
-      options: [
-        'Web Color Accessibility Guide',
-        'Web Content Accessibility Guidelines',
-        'Website Component Audit Group',
-        'Wireframe Compliance and Grid'
-      ],
-      correctIndex: 1,
-      explanation:
-        'WCAG stands for Web Content Accessibility Guidelines and provides a widely used standard for accessible digital experiences.'
+      title: 'Usability Testing',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review results.\n\n{{image}}\n\nWhat is the strongest ethical/usability finding?`,
+      image: { src: '/assets/assessments/uiux/usability.png', alt: 'Usability test results' },
+      options: ['Cancellation is intentionally or effectively hidden and should be redesigned for discoverability and transparency.', 'Upgrade is too easy.', 'Plan finding should be removed.', 'Long tasks are always acceptable.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Low success on cancellation is both usability and trust risk. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-04',
       type: 'mcq',
-      title: 'Affordance',
-      prompt: 'What is an affordance in interaction design?',
-      options: [
-        'The price of a design project',
-        'A property of an object that suggests how it can be used',
-        'A type of animation library',
-        'A project management workflow'
-      ],
-      correctIndex: 1,
-      explanation:
-        'A button that looks clickable or a handle that suggests dragging are examples of affordances.'
+      title: 'Design System Governance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review adoption.\n\n{{image}}\n\nWhat should the design-system team prioritize?`,
+      image: { src: '/assets/assessments/uiux/design_system.png', alt: 'Design system adoption dashboard' },
+      options: ['Create more duplicate inputs.', 'Force teams to stop shipping.', 'Reduce duplicate components by improving contribution/governance and fixing shared accessibility gaps.', 'Focus only on documentation colors.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Duplication and accessibility bugs undermine consistency. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-05',
       type: 'mcq',
-      title: 'Low-Fidelity Wireframe',
-      prompt: 'What is the main purpose of a low-fidelity wireframe?',
-      options: [
-        'To finalize color and brand identity',
-        'To explore layout, structure, and flow before visual polish',
-        'To produce the final production UI',
-        'To test server performance'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Low-fidelity wireframes keep attention on structure, content priority, and task flow while remaining fast to change.'
+      title: 'Visual Hierarchy',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review attention study.\n\n{{image}}\n\nWhat is the strongest redesign?`,
+      image: { src: '/assets/assessments/uiux/heatmap.png', alt: 'Dashboard attention study' },
+      options: ['Reduce decorative dominance and strengthen hierarchy around the primary KPI/action users need.', 'Make hero larger.', 'Hide filters.', 'Add more colors.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Attention is being captured by low-value decoration. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-06',
       type: 'mcq',
-      title: 'Typography',
-      prompt: 'What is kerning?',
-      options: [
-        'The space between lines of text',
-        'The spacing between individual characters',
-        'The thickness of a font',
-        'The size of a paragraph'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Kerning adjusts spacing between specific character pairs to improve readability and visual balance.'
+      title: 'Personas',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What makes a persona useful?`,
+      options: ['A fictional biography only.', 'A marketing segment with no research.', 'It is grounded in research patterns and captures relevant goals, behaviors, context, and constraints.', 'One exact user copied.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-07',
       type: 'mcq',
-      title: 'Color Theory',
-      prompt: 'What is a complementary color scheme?',
-      options: [
-        'Colors next to each other on the color wheel',
-        'Colors opposite each other on the color wheel',
-        'Different shades of one color',
-        'Only black and white'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Complementary colors create high contrast because they sit opposite each other on the color wheel.'
+      title: 'Jobs / Needs',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should a problem statement describe?`,
+      options: ['A feature list.', 'A UI style.', 'A technical architecture.', 'The user/context, unmet need or friction, evidence, and desired outcome without prematurely prescribing a solution.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-08',
       type: 'mcq',
-      title: 'A/B Testing',
-      prompt: 'What is A/B testing used for in product design?',
-      options: [
-        'Testing two versions to compare performance against a defined metric',
-        'Testing only with two users',
-        'Testing visual design without measuring behavior',
-        'Replacing all user research'
-      ],
-      correctIndex: 0,
-      explanation:
-        'A/B testing compares variants using real behavior and a clear success metric.'
+      title: 'Interviewing',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Best interview question?`,
+      options: ['Would you use our new design?', 'Tell me about the last time you tried to accomplish this task.', 'Do you like blue?', 'Would you pay $100? only.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-09',
       type: 'mcq',
-      title: 'Information Architecture',
-      prompt: 'What is a sitemap in UX design?',
-      options: [
-        'A physical map of an office',
-        'A representation of a website or product structure and hierarchy',
-        'A list of image files',
-        'A button style guide'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Sitemaps help teams organize content and navigation before detailed screen design.'
+      title: 'Contextual Inquiry',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is contextual inquiry valuable?`,
+      options: ['Logo testing.', 'Server profiling.', 'When workflow/environment constraints are important and observing real behavior reveals hidden workarounds.', 'Pricing only.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-10',
       type: 'mcq',
-      title: 'Fitts Law',
-      prompt: 'What is Fitts Law primarily concerned with?',
-      options: [
-        'Color contrast between foreground and background',
-        'The time required to reach a target based on its size and distance',
-        'The number of words in a heading',
-        'The loading speed of an image'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Important actions should be easy to reach and large enough to interact with comfortably.'
+      title: 'Information Architecture',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is IA about?`,
+      options: ['Organizing, labeling, navigation, and relationships so users can find/understand information.', 'Typography only.', 'Animations.', 'Backend APIs.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-11',
       type: 'mcq',
-      title: 'Microinteraction',
-      prompt: 'What is a microinteraction?',
-      options: [
-        'A small task-specific feedback moment such as a like animation or save confirmation',
-        'A very short meeting',
-        'A user interview under five minutes',
-        'A hidden admin setting'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Microinteractions provide feedback, communicate state, and make interfaces feel responsive.'
+      title: 'Card Sorting',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does card sorting help uncover?`,
+      options: ['Color preferences only.', 'How users mentally group and label content, informing navigation/IA.', 'Performance.', 'Code quality.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-12',
       type: 'mcq',
-      title: 'Responsive Design',
-      prompt: 'What is a breakpoint in responsive design?',
-      options: [
-        'A point where an app crashes',
-        'A screen width where the layout changes to better fit the device',
-        'A pause in the user journey',
-        'A disabled button state'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Breakpoints help layouts adapt across mobile, tablet, desktop, and other screen sizes.'
+      title: 'Tree Testing',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does tree testing evaluate?`,
+      options: ['Button contrast.', 'Animation speed.', 'Database structure.', 'Whether users can find destinations in a proposed hierarchy without visual design cues.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-13',
       type: 'mcq',
-      title: 'Gestalt Principle',
-      prompt: 'Which Gestalt principle states that objects close to each other are perceived as related?',
-      options: [
-        'Similarity',
-        'Proximity',
-        'Continuity',
-        'Closure'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Proximity is a core grouping principle and is especially important for forms, cards, and dashboards.'
+      title: 'Low-Fi Wireframes',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why start low fidelity?`,
+      options: ['They are final deliverables.', 'They test backend load.', 'They improve brand recall only.', 'Explore structure, task flow, and content hierarchy cheaply before visual polish creates sunk-cost bias.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-14',
       type: 'mcq',
-      title: 'Design Systems',
-      prompt: 'What is the main purpose of a design system?',
-      options: [
-        'To make every screen look identical with no flexibility',
-        'To provide reusable patterns, components, guidelines, and tokens for consistent product design',
-        'To replace designers with templates',
-        'To store only logos and brand colors'
-      ],
+      title: 'Prototype Fidelity',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When should prototype fidelity increase?`,
+      options: ['Immediately for every idea.', 'When the research question depends on realistic interaction/content/visual detail and lower fidelity can no longer answer it.', 'Never.', 'Only after engineering ships.'],
       correctIndex: 1,
-      explanation:
-        'A design system improves consistency, speed, accessibility, and collaboration across teams.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-15',
       type: 'mcq',
-      title: 'Dark Patterns',
-      prompt: 'What is a dark pattern in UX?',
-      options: [
-        'A dark visual theme',
-        'A deceptive interface pattern that manipulates users into actions they did not intend',
-        'A broken link on a website',
-        'A high-contrast accessibility mode'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Dark patterns harm trust and can create legal, ethical, and brand risk.'
+      title: 'Usability Test',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is strong moderator behavior?`,
+      options: ['Teach the interface first.', 'Correct users immediately.', 'Give realistic tasks, avoid leading, observe behavior, ask neutral follow-ups, and capture evidence.', 'Ask only preferences.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-16',
       type: 'mcq',
-      title: 'Mental Model',
-      prompt: 'What is a mental model in UX?',
-      options: [
-        'A machine learning model',
-        'A user’s internal understanding of how a system works based on prior experience',
-        'A design sketch',
-        'A research database'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Designs that align with user mental models are easier to learn and use.'
+      title: 'Task Success',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does task success measure?`,
+      options: ['Whether users can complete the intended outcome under defined criteria.', 'Aesthetic appeal.', 'Number of clicks only.', 'Page load only.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-17',
       type: 'mcq',
-      title: 'White Space',
-      prompt: 'What is white space or negative space?',
-      options: [
-        'An error in the background',
-        'The empty space between design elements',
-        'A blank page with no purpose',
-        'Unused source code'
-      ],
+      title: 'Time on Task',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `How should time-on-task be interpreted?`,
+      options: ['Always lower is better.', 'In context of task success, complexity, and user goals; faster is not always better if quality or comprehension drops.', 'Ignore success.', 'Compare unrelated tasks.'],
       correctIndex: 1,
-      explanation:
-        'White space improves focus, scanning, grouping, hierarchy, and perceived quality.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-18',
       type: 'mcq',
-      title: 'Double Diamond',
-      prompt: 'What does the Double Diamond model represent?',
-      options: [
-        'Two expensive design tools',
-        'A process of discovering, defining, developing, and delivering solutions',
-        'A type of grid system',
-        'A luxury brand design pattern'
-      ],
-      correctIndex: 1,
-      explanation:
-        'The Double Diamond visualizes divergent and convergent thinking during problem discovery and solution development.'
+      title: 'SUS',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is SUS used for?`,
+      options: ['Accessibility conformance.', 'Visual design rating only.', 'Revenue.', 'A standardized questionnaire giving a perceived-usability score for a system.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-19',
       type: 'mcq',
-      title: 'Heuristic Evaluation',
-      prompt: 'What is a heuristic evaluation?',
-      options: [
-        'A usability expert review of an interface against established principles',
-        'A marketing campaign review',
-        'A database performance test',
-        'A survey sent only after launch'
-      ],
+      title: 'WCAG',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does WCAG organize around?`,
+      options: ['Perceivable, Operable, Understandable, Robust principles.', 'Performance, Output, Utility, Revenue.', 'Color only.', 'Screen size.'],
       correctIndex: 0,
-      explanation:
-        'Heuristic evaluations help identify usability issues before or alongside user testing.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-20',
       type: 'mcq',
-      title: 'Empathy Map',
-      prompt: 'What is an empathy map used for?',
-      options: [
-        'Mapping physical store locations',
-        'Synthesizing what users say, think, do, and feel',
-        'Tracking cursor movement only',
-        'Writing production code'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Empathy maps help teams convert research into a shared understanding of user needs and emotions.'
+      title: 'Contrast',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why is color contrast important?`,
+      options: ['Brand consistency only.', 'SEO.', 'Ensure text/UI components remain perceivable for users with low vision or difficult viewing conditions.', 'Server speed.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-21',
       type: 'mcq',
-      title: 'Problem Framing',
-      prompt: 'A stakeholder says, “Add a chatbot to reduce support tickets.” What should a UX designer do first?',
-      options: [
-        'Immediately design a chatbot screen',
-        'Clarify the support problem, user intent, ticket categories, and success metrics',
-        'Reject the request because chatbots are overused',
-        'Copy a competitor chatbot'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Strong UX starts by validating the problem before committing to a solution.'
+      title: 'Color Alone',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why should color not be the only status cue?`,
+      options: ['Colors are ugly.', 'CSS fails.', 'Users with color-vision differences or nonvisual access may miss the distinction; add text/icon/shape semantics.', 'Screens cannot render color.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-22',
       type: 'mcq',
-      title: 'Research Method Choice',
-      prompt: 'You need to understand why users abandon checkout. Which approach is strongest?',
-      options: [
-        'Only ask the CEO',
-        'Combine funnel analytics with session review, usability testing, and user interviews',
-        'Change the button color immediately',
-        'Ignore checkout because traffic is high'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Behavioral data shows where drop-off happens, while qualitative research helps explain why.'
+      title: 'Keyboard',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What must keyboard UX include?`,
+      options: ['Logical focus order, visible focus, operable controls, no traps, and expected shortcuts/escape behavior.', 'Mouse fallback only.', 'Hidden focus.', 'ARIA labels alone.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-23',
       type: 'mcq',
-      title: 'Usability Testing',
-      prompt: 'What is the best instruction during a moderated usability test?',
-      options: [
-        'Tell users exactly where to click',
-        'Give users realistic tasks and ask them to think aloud without leading them',
-        'Explain the correct design first',
-        'Ask only whether they like the colors'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Good usability testing observes natural behavior and avoids leading the participant.'
+      title: 'Screen Reader',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should designers specify for accessible forms?`,
+      options: ['Placeholder only.', 'Color-only errors.', 'Visual alignment only.', 'Programmatic labels, instructions, error associations, grouping, and meaningful reading/focus order.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-24',
       type: 'mcq',
-      title: 'Task Success',
-      prompt: 'Which metric best measures whether users can complete a key workflow?',
-      options: [
-        'Task completion rate',
-        'Number of brand colors',
-        'Designer confidence level',
-        'Total number of icons'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Task completion rate directly measures whether users can achieve the intended outcome.'
+      title: 'Touch Targets',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why size touch targets adequately?`,
+      options: ['Increase data usage.', 'Reduce motor precision demands and accidental taps, especially on mobile.', 'Improve SEO.', 'Reduce contrast.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-25',
       type: 'mcq',
-      title: 'Accessibility Contrast',
-      prompt: 'A primary button uses light gray text on a white background. What is the likely accessibility issue?',
-      options: [
-        'Insufficient color contrast',
-        'Too much animation',
-        'Wrong layout grid',
-        'Too many icons'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Low contrast can make text difficult or impossible to read for many users.'
+      title: 'Fitts Law',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does Fitts Law predict?`,
+      options: ['Reading speed.', 'Acquisition time depends on target size and distance.', 'Memory capacity.', 'Color perception.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-26',
       type: 'mcq',
-      title: 'Keyboard Accessibility',
-      prompt: 'Which design choice best supports keyboard users?',
-      options: [
-        'Only allow mouse clicks',
-        'Ensure all interactive elements can be reached and operated with visible focus states',
-        'Hide focus outlines for cleaner visuals',
-        'Use hover-only menus for key actions'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Keyboard accessibility requires reachable controls, logical focus order, and visible focus indicators.'
+      title: "Hick's Law",
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does Hick's Law suggest?`,
+      options: ['Always show one option.', 'Users cannot handle menus.', 'More choices always improve conversion.', 'More/complex choices can increase decision time, so grouping/prioritization may help.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-27',
       type: 'mcq',
-      title: 'Form Design',
-      prompt: 'Which form design pattern is usually strongest for reducing user errors?',
-      options: [
-        'Hide labels after typing begins',
-        'Use clear labels, helpful constraints, inline validation, and specific error messages',
-        'Use vague placeholder-only instructions',
-        'Show all errors only after final submission'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Clear labels and contextual validation help users prevent and fix mistakes.'
+      title: 'Progressive Disclosure',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is it?`,
+      options: ['Reveal advanced complexity when needed while keeping primary tasks clear.', 'Hide essential info.', 'Show all settings initially.', 'Remove navigation.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-28',
       type: 'mcq',
-      title: 'Error Message',
-      prompt: 'Which error message is most helpful?',
-      options: [
-        'Invalid',
-        'Something went wrong',
-        'Password must be at least 12 characters and include one number',
-        'Error code UX-8921'
-      ],
+      title: 'Error Prevention',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is stronger than a generic error after submission?`,
+      options: ['Red text only.', 'No validation.', 'Design constraints, defaults, inline validation, confirmations for destructive actions, and recovery guidance.', 'Disable undo.'],
       correctIndex: 2,
-      explanation:
-        'Useful errors explain what happened and how the user can fix it.'
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-29',
       type: 'mcq',
-      title: 'Progressive Disclosure',
-      prompt: 'What is progressive disclosure?',
-      options: [
-        'Showing advanced information only when users need it',
-        'Displaying every option on the first screen',
-        'Hiding all settings permanently',
-        'Changing colors as users scroll'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Progressive disclosure reduces cognitive load by revealing complexity gradually.'
+      title: 'Empty States',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should an empty state do?`,
+      options: ['Show blank white area.', 'Only a mascot.', 'Hide feature.', 'Explain state/context and guide the next meaningful action without clutter.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-30',
       type: 'mcq',
-      title: 'Cognitive Load',
-      prompt: 'A dashboard has 25 metrics, six colors, and no clear priority. What is the most likely UX problem?',
-      options: [
-        'Too little data',
-        'High cognitive load and weak visual hierarchy',
-        'Too much accessibility',
-        'Insufficient animation'
-      ],
+      title: 'Onboarding',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should onboarding optimize?`,
+      options: ['Tooltip count.', 'Time-to-first-value and progressive learning, not completion of a long product tour.', 'Feature exposure only.', 'Account fields.'],
       correctIndex: 1,
-      explanation:
-        'Too many competing elements make it harder for users to understand what matters.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-31',
       type: 'mcq',
-      title: 'Design Handoff',
-      prompt: 'What should a strong design handoff include?',
-      options: [
-        'Only a screenshot',
-        'Specs, states, responsive behavior, accessibility notes, assets, and interaction details',
-        'Only the designer’s verbal explanation',
-        'Only final colors'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Detailed handoff reduces implementation ambiguity and helps engineering build the intended experience.'
+      title: 'Responsive Design',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should drive breakpoints?`,
+      options: ['Content/layout behavior and usability needs rather than device names alone.', 'Only common phone widths.', 'Brand colors.', 'Backend limits.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-32',
       type: 'mcq',
-      title: 'Component States',
-      prompt: 'Which button states should typically be defined in a design system?',
-      options: [
-        'Default, hover, focus, active, disabled, loading, and error where relevant',
-        'Only default',
-        'Only hover',
-        'Only disabled'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Complete states help create consistent, accessible, and predictable interactions.'
+      title: 'Design Tokens',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What are tokens?`,
+      options: ['Crypto.', 'Only CSS classes.', 'Named reusable design decisions for color, spacing, type, radius, motion, etc., mapped into implementation.', 'Research notes.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-33',
       type: 'mcq',
-      title: 'Design Tokens',
-      prompt: 'What are design tokens?',
-      options: [
-        'Cryptocurrency used by designers',
-        'Named design decisions such as color, spacing, typography, radius, and elevation values',
-        'Only icons',
-        'User research notes'
-      ],
+      title: 'Component API',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What makes a design-system component scalable?`,
+      options: ['Maximum customization.', 'Clear states/variants/behavior/accessibility rules and constrained extension points, not endless one-off props.', 'No documentation.', 'Visuals only.'],
       correctIndex: 1,
-      explanation:
-        'Design tokens help maintain consistency across design tools, code, and platforms.'
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-34',
       type: 'mcq',
-      title: 'Mobile UX',
-      prompt: 'What is a strong mobile UX practice for primary actions?',
-      options: [
-        'Place key actions where users can comfortably reach and identify them',
-        'Use tiny touch targets to save space',
-        'Put every action behind hover menus',
-        'Require users to zoom before tapping'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Mobile design should account for thumb reach, touch target size, and quick recognition.'
+      title: 'Design Handoff',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should handoff include?`,
+      options: ['Screenshot only.', 'Verbal explanation only.', 'Color palette.', 'Behavior, states, responsive rules, content, accessibility, tokens/assets, edge cases, and acceptance details.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-35',
       type: 'mcq',
-      title: 'Empty State',
-      prompt: 'What should a good empty state do?',
-      options: [
-        'Show a blank page',
-        'Explain what is missing, why it matters, and what the user can do next',
-        'Show only an error icon',
-        'Hide the feature permanently'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Empty states are guidance opportunities that help users take the next meaningful action.'
+      title: 'A/B Testing UX',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is A/B testing inappropriate?`,
+      options: ['Never.', 'For conversion changes.', 'When the core usability problem is not yet understood or the change involves ethical/accessibility minimums that should not be randomized away.', 'For copy variants.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-36',
       type: 'mcq',
-      title: 'Onboarding',
-      prompt: 'A complex product has low activation because new users feel overwhelmed. What should the design team consider?',
-      options: [
-        'Add more pop-ups on every screen',
-        'Use guided onboarding focused on the first value moment and progressive learning',
-        'Force users to read a long PDF',
-        'Hide all features forever'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Effective onboarding helps users reach value quickly without overwhelming them with everything at once.'
+      title: 'UX Metrics',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a balanced UX metric set?`,
+      options: ['Effectiveness, efficiency, satisfaction, accessibility/quality, and product outcome measures appropriate to the journey.', 'Page views only.', 'NPS only.', 'Task time only.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-37',
       type: 'mcq',
-      title: 'UX Metrics',
-      prompt: 'Which metric best indicates that onboarding is creating early product value?',
-      options: [
-        'Activation rate tied to a meaningful first success action',
-        'Total number of screens',
-        'Number of fonts used',
-        'Number of mockups created'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Activation should be tied to a behavior that reflects real user value, not just account creation.'
+      title: 'Dark Patterns',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a dark pattern?`,
+      options: ['Dark mode.', 'High contrast.', 'An onboarding tooltip.', 'A deceptive or coercive design that steers users into choices they did not intend.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-38',
       type: 'mcq',
-      title: 'Ethical Design',
-      prompt: 'A business asks you to make cancellation hard to find to reduce churn. What is the best response?',
-      options: [
-        'Hide cancellation behind confusing navigation',
-        'Recommend a transparent cancellation flow and investigate the real reasons users cancel',
-        'Disable account settings',
-        'Use misleading button labels'
-      ],
+      title: 'Design Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review UX flow.\n\n{{image}}\n\nWhy test before ship?`,
+      image: { src: '/assets/assessments/uiux/design_flow.png', alt: 'UX design process' },
+      options: ['Testing is only for QA.', 'Validate whether the proposed solution actually improves the target task before scaling implementation cost/risk.', 'Research is enough.', 'Ship metrics replace testing.'],
       correctIndex: 1,
-      explanation:
-        'Ethical UX protects user trust while helping the business learn why users leave.'
+      explanation: 'Correct: B. Pre-release testing reduces uncertainty. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-39',
       type: 'mcq',
-      title: 'Design Critique',
-      prompt: 'What is the strongest way to give design feedback?',
-      options: [
-        'Say “I do not like it” with no reasoning',
-        'Tie feedback to user goals, evidence, constraints, and design principles',
-        'Redesign everything during the meeting',
-        'Focus only on personal taste'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Effective critique evaluates design decisions against goals, evidence, and constraints rather than preference alone.'
+      title: 'UI/UX Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A redesign looks modern but mobile task success falls, accessibility defects rise, and support tickets increase. Strongest response?`,
+      options: ['Ship because stakeholders like it.', 'Ignore support.', 'Pause broad rollout, investigate task failures/accessibility evidence, iterate with users, and measure recovery before resuming.', 'Optimize aesthetics further.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ui-40',
       type: 'mcq',
-      title: 'Advanced UX Judgment',
-      prompt: 'A redesign improves visual appeal but reduces task completion for the main workflow. What should the team do?',
-      options: [
-        'Keep it because it looks modern',
-        'Investigate the task failure, prioritize usability, and iterate before full rollout',
-        'Ignore the metric because users dislike change',
-        'Launch immediately to protect the timeline'
-      ],
-      correctIndex: 1,
-      explanation:
-        'A polished UI is not successful if it makes key user tasks harder. Usability and outcomes should guide iteration.'
+      title: 'Design Strategy Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A product redesign receives strong internal praise, but usability tests show lower task success, accessibility defects increased, and mobile conversion fell.
+
+What should the design team do?`,
+      options: ['Treat the evidence as a failed outcome, identify the specific interaction/accessibility breakdowns, iterate with users, and validate recovery before broad rollout.', 'Keep the redesign because stakeholder preference is more important than user evidence.', 'Remove usability testing from the process because it creates conflicting feedback.', 'Focus only on making the interface more visually distinctive.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. UX quality is measured by user outcomes, accessibility, and product performance—not internal preference alone. Why not B: stakeholder taste does not outweigh failed user outcomes. Why not C: removing research hides evidence rather than improving the design. Why not D: additional visual novelty does not address the measured failures.'
     }
   ]
 };

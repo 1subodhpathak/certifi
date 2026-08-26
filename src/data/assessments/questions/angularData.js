@@ -1,8 +1,5 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level Angular assessment.
-// Questions progress from Angular fundamentals to enterprise architecture,
-// RxJS, routing, forms, performance, security, testing, SSR, and modern Angular features.
 export const angularData = {
   id: ASSESSMENT_TYPES.angular,
   title: 'Angular Enterprise Developer Certification',
@@ -10,543 +7,455 @@ export const angularData = {
   category: 'Software Development',
   durationMinutes: 50,
   pointsPerQuestion: 5,
-  description:
-    'Professional Angular assessment covering components, standalone architecture, dependency injection, templates, routing, forms, RxJS, HttpClient, interceptors, signals, performance optimization, testing, security, SSR, and enterprise application design.',
+  passingPercentage: 85,
+  description: 'Professional Angular assessment covering standalone architecture, DI, reactive forms, RxJS, signals, routing, HTTP, change detection, SSR/hydration, performance, testing, security, accessibility, and enterprise design.',
+  instructions: '40 scenario-based questions, 50 minutes, 200 marks. Use the dashboards, charts, tables, code/image exhibits, and diagrams. Choose the strongest professional response.',
   questions: [
     {
       id: 'ng-01',
       type: 'mcq',
-      title: 'Angular Fundamentals',
-      prompt: 'What is Angular primarily used for?',
-      options: [
-        'Building scalable client-side web applications using TypeScript, templates, routing, dependency injection, and tooling',
-        'Managing relational databases only',
-        'Writing backend APIs only',
-        'Replacing HTML and CSS completely'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Angular is a full-featured web application framework used to build scalable, maintainable client-side applications.'
+      title: 'Bundle Performance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the profile.\n\n{{image}}\n\nWhat should be optimized first?`,
+      image: { src: '/assets/assessments/angular/perf.png', alt: 'Angular performance profile' },
+      options: ['Disable TypeScript.', 'Route-level lazy loading/code splitting and expensive list rendering before adding micro-optimizations.', 'Add more global providers.', 'Eager-load every feature.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Initial JS and eager features are dominant. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-02',
       type: 'mcq',
-      title: 'Components',
-      prompt: 'What is the main role of a component in Angular?',
-      options: [
-        'To define a reusable UI block with its own template, styles, and behavior',
-        'To store database records',
-        'To replace the Angular router',
-        'To run only server-side code'
-      ],
-      correctIndex: 0,
-      explanation:
-        'A component is the basic building block of Angular UI. It combines a TypeScript class, template, styles, and metadata.'
+      title: 'Stale Search Results',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the RxJS pipeline.\n\n{{image}}\n\nWhat is the strongest fix?`,
+      image: { src: '/assets/assessments/angular/rxjs.png', alt: 'Angular RxJS search flow' },
+      options: ['Use concatMap to queue all searches.', 'Remove debounce only.', 'Use map instead of mergeMap.', 'Use switchMap so each new search term cancels/unsubscribes from the previous request stream.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. mergeMap allows out-of-order responses. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-03',
       type: 'mcq',
-      title: 'Component Decorator',
-      prompt: 'Which decorator is used to define an Angular component?',
-      options: ['@NgModule', '@Injectable', '@Component', '@Pipe'],
-      correctIndex: 2,
-      explanation:
-        '@Component marks a class as an Angular component and provides metadata such as selector, template, styles, and imports.'
+      title: 'Signals',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the signal example.\n\n{{image}}\n\nWhy is computed appropriate for total?`,
+      image: { src: '/assets/assessments/angular/signals.png', alt: 'Angular signals example' },
+      options: ['It derives a cached reactive value from price and quantity and updates when dependencies change.', 'It performs HTTP requests.', 'It replaces DI.', 'It mutates signals automatically.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. computed is for derived reactive state. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-04',
       type: 'mcq',
-      title: 'Standalone Components',
-      prompt: 'In modern Angular, what is the main benefit of standalone components?',
-      options: [
-        'They allow components to be used without declaring them inside an NgModule',
-        'They prevent dependency injection from working',
-        'They remove the need for templates',
-        'They are used only for unit tests'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Standalone components simplify Angular architecture by allowing components, directives, and pipes to declare their own dependencies directly.'
+      title: 'Form UX',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review form state.\n\n{{image}}\n\nWhat is strongest error-display behavior?`,
+      image: { src: '/assets/assessments/angular/forms.png', alt: 'Angular reactive form audit' },
+      options: ['Show every error on page load.', 'Hide errors permanently.', 'Show field-specific messages after relevant interaction/submit while preserving clear validation rules.', 'Validate only on backend with no frontend feedback.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Validation feedback should be timely and actionable. Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-05',
       type: 'mcq',
-      title: 'Template Binding',
-      prompt: 'Which syntax is used for interpolation in an Angular template?',
-      options: ['[value]', '(click)', '{{ value }}', '[(ngModel)]'],
-      correctIndex: 2,
-      explanation:
-        'Interpolation uses double curly braces to display component data inside the template.'
+      title: 'Hydration Mismatch',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review SSR health.\n\n{{image}}\n\nWhat is the strongest diagnosis?`,
+      image: { src: '/assets/assessments/angular/ssr.png', alt: 'Angular SSR hydration dashboard' },
+      options: ['Non-deterministic or browser-only values differ between server and client render, causing hydration mismatch.', 'SSR is too fast.', 'LCP causes mismatch.', 'CSS cannot hydrate.'],
+      correctIndex: 0,
+      explanation: 'Correct: A. Mismatch sources are explicitly non-deterministic. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-06',
       type: 'mcq',
-      title: 'Property Binding',
-      prompt: 'Which Angular binding syntax is used to set a DOM property from component data?',
-      options: ['[src]="imageUrl"', '(src)="imageUrl"', '{{ src }}="imageUrl"', '#src="imageUrl"'],
-      correctIndex: 0,
-      explanation:
-        'Property binding uses square brackets to bind a DOM property or component input to an expression.'
+      title: 'Standalone Components',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use standalone components/directives/pipes?`,
+      options: ['Disable DI.', 'Avoid templates.', 'Reduce NgModule ceremony and make feature dependencies more explicit.', 'Force global imports.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-07',
       type: 'mcq',
-      title: 'Event Binding',
-      prompt: 'Which syntax correctly handles a button click event in Angular?',
-      options: [
-        '[click]="save()"',
-        '(click)="save()"',
-        '{{ click }}="save()"',
-        '[(click)]="save()"'
-      ],
-      correctIndex: 1,
-      explanation:
-        'Event binding uses parentheses around the event name, such as (click), to call a component method.'
+      title: 'Dependency Injection',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why is constructor/inject-based DI useful?`,
+      options: ['It removes interfaces.', 'It makes all services global.', 'It replaces routing.', 'It separates dependency creation from consumers, improving testability and configuration.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-08',
       type: 'mcq',
-      title: 'Two-Way Binding',
-      prompt: 'Which syntax is commonly used for two-way binding with template-driven forms?',
-      options: ['{{ value }}', '[value]', '(value)', '[(ngModel)]'],
-      correctIndex: 3,
-      explanation:
-        '[(ngModel)] is called banana-in-a-box syntax because it combines property binding and event binding.'
+      title: 'Provider Scope',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A service provided at a route/component boundary unexpectedly has multiple instances. Why?`,
+      options: ['Services are always recreated per method.', "Angular's hierarchical injectors can create scoped instances below different provider boundaries.", 'Signals duplicate services.', 'HttpClient clones providers.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-09',
       type: 'mcq',
-      title: 'Structural Directives',
-      prompt: 'What is the purpose of a structural directive such as *ngIf?',
-      options: [
-        'To change the structure of the DOM by adding or removing elements',
-        'To make HTTP requests',
-        'To register services globally',
-        'To encrypt route parameters'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Structural directives modify the DOM layout. For example, *ngIf conditionally creates or removes an element.'
+      title: 'Injection Token',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When use an InjectionToken?`,
+      options: ['Only for CSS.', 'Only for routes.', 'When injecting configuration or abstractions that have no runtime class token.', 'To replace TypeScript types.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-10',
       type: 'mcq',
-      title: 'Modern Control Flow',
-      prompt: 'In modern Angular templates, which syntax is used for built-in conditional rendering?',
-      options: ['@if', '#if', '$if', '<if>'],
+      title: 'Lifecycle',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is ngOnDestroy for?`,
+      options: ['Cleanup of resources/subscriptions/listeners not otherwise automatically managed.', 'Initial HTTP load.', 'Input initialization.', 'Routing.'],
       correctIndex: 0,
-      explanation:
-        'Modern Angular supports built-in control flow syntax such as @if, @else, @for, and @switch for clearer template logic.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-11',
       type: 'mcq',
-      title: 'Dependency Injection',
-      prompt: 'What problem does Angular dependency injection primarily solve?',
-      options: [
-        'It allows classes to receive required dependencies without manually creating them',
-        'It converts TypeScript into JavaScript',
-        'It replaces route guards',
-        'It prevents all runtime errors'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Dependency injection improves testability and maintainability by letting Angular create and provide required services.'
+      title: 'takeUntilDestroyed',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why use takeUntilDestroyed?`,
+      options: ['Cache responses.', 'Tie Observable subscription lifetime to the Angular destruction lifecycle.', 'Retry requests.', 'Trigger change detection.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-12',
       type: 'mcq',
-      title: 'Service Scope',
-      prompt: 'What does providedIn: "root" usually mean in an Angular service?',
-      options: [
-        'The service is available as an application-wide singleton and can be tree-shaken if unused',
-        'The service can only be used inside root HTML elements',
-        'The service is recreated on every button click',
-        'The service is available only inside unit tests'
-      ],
-      correctIndex: 0,
-      explanation:
-        'providedIn: "root" registers a service with the root injector, commonly creating a singleton service available throughout the app.'
+      title: 'Async Pipe',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why prefer async pipe in templates?`,
+      options: ['It converts Observables to Promises permanently.', 'It disables change detection.', 'It sends HTTP.', 'It manages subscription/unsubscription and integrates emissions with template rendering.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-13',
       type: 'mcq',
-      title: 'Hierarchical Injectors',
-      prompt: 'A service is provided in a component providers array. What is the likely result?',
-      options: [
-        'A new instance is created for that component subtree',
-        'The application fails to compile',
-        'The service becomes available only to the router',
-        'The service is automatically converted into a pipe'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Angular has hierarchical dependency injection. Providing a service at the component level creates a scoped instance for that component and its children.'
+      title: 'OnPush',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does OnPush change detection optimize?`,
+      options: ['Guarantee zero renders.', 'Disable events.', 'Make objects immutable automatically.', 'Reduce checks by relying on inputs, events, reactive notifications, and explicit marking rather than always checking everything.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-14',
       type: 'mcq',
-      title: 'Lifecycle Hooks',
-      prompt: 'Which lifecycle hook is commonly used for component initialization after input-bound properties are set?',
-      options: ['ngOnInit', 'ngOnDestroy', 'ngAfterViewChecked', 'ngDoBootstrap'],
-      correctIndex: 0,
-      explanation:
-        'ngOnInit is commonly used to run initialization logic after Angular initializes input-bound properties.'
+      title: 'trackBy / @for track',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why track list items by stable identity?`,
+      options: ['Sort items.', 'Preserve DOM/component instances and avoid unnecessary recreation when collections change.', 'Create IDs server-side.', 'Disable signals.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-15',
       type: 'mcq',
-      title: 'ViewChild',
-      prompt: 'What is @ViewChild used for?',
-      options: [
-        'Accessing a child component, directive, or DOM element from the component class',
-        'Creating a route configuration',
-        'Adding authentication headers to HTTP requests',
-        'Declaring global CSS variables'
-      ],
-      correctIndex: 0,
-      explanation:
-        '@ViewChild gives the component class access to a child component, directive, or template element.'
+      title: 'Reactive Forms',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When are reactive forms strongest?`,
+      options: ['Only one checkbox.', 'Static content.', 'Complex/typed forms with explicit model, validation, testing, and dynamic behavior.', 'Routing.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-16',
       type: 'mcq',
-      title: 'Content Projection',
-      prompt: 'Which Angular element is used to project external content into a component template?',
-      options: ['<ng-content>', '<router-outlet>', '<ng-template-outlet>', '<content-view>'],
+      title: 'Async Validators',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should an async username validator avoid?`,
+      options: ['Firing uncontrolled requests for every keystroke without debounce/cancellation.', 'Returning Observable.', 'Using backend validation.', 'Displaying errors.'],
       correctIndex: 0,
-      explanation:
-        '<ng-content> is used for content projection, allowing parent-provided content to be inserted into a child component template.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-17',
       type: 'mcq',
-      title: 'Pipes',
-      prompt: 'What is the primary purpose of a pipe in Angular?',
-      options: [
-        'Transforming data for display in templates',
-        'Creating HTTP interceptors',
-        'Defining route permissions',
-        'Creating database tables'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Pipes transform values in templates. Common examples include date, currency, uppercase, lowercase, and async.'
+      title: 'Http Interceptors',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is a good interceptor use?`,
+      options: ['Business logic for one component.', 'Cross-cutting HTTP behavior such as auth headers, correlation IDs, logging, or centralized handling.', 'DOM manipulation.', 'Form layout.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-18',
       type: 'mcq',
-      title: 'Pure Pipes',
-      prompt: 'When does a pure pipe re-run by default?',
-      options: [
-        'Only when Angular detects a pure change to the input value or reference',
-        'On every mouse movement',
-        'Only when the application starts',
-        'Only after a route guard executes'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Pure pipes run only when their input value changes or an object reference changes, making them efficient for template transformations.'
+      title: 'Retry Interceptor',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When should an interceptor retry?`,
+      options: ['Every 4xx forever.', 'POST payments blindly.', 'Validation errors.', 'Only bounded transient failures with backoff and idempotency awareness.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-19',
       type: 'mcq',
-      title: 'Routing',
-      prompt: 'Which Angular directive marks where routed components should be displayed?',
-      options: ['<router-link>', '<router-outlet>', '<router-view>', '<ng-route>'],
-      correctIndex: 1,
-      explanation:
-        '<router-outlet> is the placeholder where Angular inserts the component matched by the current route.'
+      title: 'Route Guards',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is their security limitation?`,
+      options: ['They improve client navigation UX but backend authorization must still enforce access.', 'They cannot return async values.', 'They only work on desktop.', 'They encrypt tokens.'],
+      correctIndex: 0,
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-20',
       type: 'mcq',
-      title: 'Route Guards',
-      prompt: 'Which route guard is commonly used to prevent unauthorized users from entering a route?',
-      options: ['canActivate', 'canDeactivate', 'resolve', 'pathMatch'],
-      correctIndex: 0,
-      explanation:
-        'canActivate controls whether navigation to a route is allowed, commonly used for authentication and authorization.'
+      title: 'Lazy Routes',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the main benefit?`,
+      options: ['Remove routing.', 'Improve DB writes.', 'Reduce initial bundle by loading feature code when navigated to.', 'Disable DI.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-21',
       type: 'mcq',
-      title: 'Lazy Loading',
-      prompt: 'What is the primary benefit of lazy loading Angular routes?',
-      options: [
-        'It loads feature code only when needed, improving initial load performance',
-        'It disables dependency injection',
-        'It removes the need for route guards',
-        'It forces every component to load at startup'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Lazy loading improves performance by splitting the application into chunks and loading feature code only when the user navigates to it.'
+      title: 'Resolvers',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When should route resolvers be used carefully?`,
+      options: ['They never run.', 'They replace components.', 'When blocking navigation on data may hurt perceived performance; consider streaming/skeletons depending UX.', 'They are required for every route.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-22',
       type: 'mcq',
-      title: 'Reactive Forms',
-      prompt: 'Which class represents a group of form controls in Angular Reactive Forms?',
-      options: ['FormGroup', 'FormRoute', 'FormPipe', 'FormModule'],
+      title: 'Signals vs Observable',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `How should signals and Observables be distinguished?`,
+      options: ['Signals are synchronous reactive state primitives; Observables model potentially asynchronous streams over time.', 'They are identical.', 'Signals replace all HTTP.', 'Observables cannot represent state.'],
       correctIndex: 0,
-      explanation:
-        'FormGroup tracks the value and validation state of a group of related form controls.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-23',
       type: 'mcq',
-      title: 'Form Validation',
-      prompt: 'In Reactive Forms, where are validators commonly configured?',
-      options: [
-        'Inside FormControl or FormBuilder configuration',
-        'Only inside global CSS',
-        'Only inside angular.json',
-        'Inside the browser console'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Reactive Forms define validators in the form model using FormControl, FormGroup, or FormBuilder configuration.'
+      title: 'effect',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is effect best for?`,
+      options: ['Pure calculations only.', 'HTTP routing.', 'Declaring components.', 'Synchronizing reactive state with an external side effect, not deriving state that belongs in computed.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-24',
       type: 'mcq',
-      title: 'RxJS Observables',
-      prompt: 'Why are Observables important in Angular?',
-      options: [
-        'They represent asynchronous streams used by HttpClient, forms, router events, and reactive programming patterns',
-        'They are used only to write CSS',
-        'They replace all services',
-        'They are required only for images'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Angular uses RxJS Observables extensively for asynchronous data, event streams, HTTP responses, and reactive workflows.'
+      title: 'State Architecture',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A large app shares every value in one global store. What is the risk?`,
+      options: ['Angular forbids stores.', 'Unnecessary coupling/re-renders and loss of clear feature/local-state boundaries.', 'Global state always improves performance.', 'Signals cannot coexist.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-25',
       type: 'mcq',
-      title: 'HttpClient',
-      prompt: 'What does Angular HttpClient usually return when making HTTP requests?',
-      options: ['Observable', 'Promise only', 'Callback only', 'Plain HTML string always'],
-      correctIndex: 0,
-      explanation:
-        'Angular HttpClient methods return RxJS Observables that emit the HTTP response when subscribed.'
+      title: 'Content Projection',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When is ng-content useful?`,
+      options: ['Routing.', 'Building reusable shells/components that render caller-provided content.', 'Dependency injection.', 'HTTP caching.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-26',
       type: 'mcq',
-      title: 'Async Pipe',
-      prompt: 'What is the benefit of using the async pipe in a template?',
-      options: [
-        'It subscribes to an Observable or Promise and automatically unsubscribes when the component is destroyed',
-        'It converts CSS into JavaScript',
-        'It disables change detection',
-        'It prevents routes from loading'
-      ],
-      correctIndex: 0,
-      explanation:
-        'The async pipe helps reduce manual subscription management and prevents common memory leaks.'
+      title: 'ViewChild',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When should ViewChild be used sparingly?`,
+      options: ['All parent-child communication.', 'Global state.', 'Network calls.', 'Imperative access to child/DOM when declarative bindings cannot express the interaction cleanly.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-27',
       type: 'mcq',
-      title: 'RxJS Operators',
-      prompt: 'Which RxJS operator is commonly used to cancel a previous HTTP request when a new search term arrives?',
-      options: ['switchMap', 'mergeAll', 'scan', 'delay'],
+      title: 'Control Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is the value of @if/@for built-in control flow?`,
+      options: ['Clearer template control flow with modern syntax and optimized tracking features.', 'Server-side SQL.', 'DI scope.', 'HTTP auth.'],
       correctIndex: 0,
-      explanation:
-        'switchMap unsubscribes from the previous inner Observable and switches to the latest one, making it useful for search/autocomplete flows.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-28',
       type: 'mcq',
-      title: 'Memory Leaks',
-      prompt: 'Which pattern helps prevent memory leaks from long-lived manual subscriptions?',
-      options: [
-        'Using async pipe, takeUntilDestroyed, or explicit unsubscribe patterns',
-        'Putting all subscriptions inside CSS files',
-        'Calling subscribe inside every template expression',
-        'Disabling TypeScript strict mode'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Long-lived manual subscriptions should be cleaned up using safe patterns such as async pipe, takeUntilDestroyed, or explicit unsubscribe logic.'
+      title: 'Security',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does Angular sanitization protect against?`,
+      options: ['CSRF entirely.', 'Broken access control.', 'Unsafe values inserted into sensitive HTML/URL contexts that could enable XSS.', 'Database injection.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-29',
       type: 'mcq',
-      title: 'HTTP Interceptors',
-      prompt: 'What is a common enterprise use case for Angular HTTP interceptors?',
-      options: [
-        'Adding authentication headers, logging, retry logic, or centralized error handling',
-        'Defining component CSS only',
-        'Replacing the Angular compiler',
-        'Creating database indexes'
-      ],
-      correctIndex: 0,
-      explanation:
-        'HTTP interceptors act as middleware for requests and responses, commonly used for authentication, logging, retries, and error handling.'
+      title: 'DomSanitizer',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why is bypassSecurityTrust... dangerous?`,
+      options: ['It makes HTML invalid.', 'It disables routing.', 'It only works in tests.', 'It tells Angular to trust a value and can reintroduce XSS if the value is not truly controlled.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-30',
       type: 'mcq',
-      title: 'Functional Interceptors',
-      prompt: 'In modern Angular, which interceptor style is generally recommended for more predictable ordering?',
-      options: [
-        'Functional interceptors configured with withInterceptors',
-        'Random interceptors created inside templates',
-        'CSS interceptors',
-        'Interceptors declared only in index.html'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Modern Angular recommends functional interceptors with withInterceptors because their ordering is more predictable than DI-based interceptor ordering.'
+      title: 'Testing Components',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should component tests focus on?`,
+      options: ['Private implementation details only.', 'Rendered behavior, inputs/outputs, user interactions, and integration with injected collaborators.', 'CSS pixels only.', 'Production API.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-31',
       type: 'mcq',
-      title: 'Change Detection',
-      prompt: 'What does ChangeDetectionStrategy.OnPush help optimize?',
-      options: [
-        'It reduces unnecessary change detection checks by relying on input reference changes, events, async updates, and explicit triggers',
-        'It disables the router completely',
-        'It prevents services from being injected',
-        'It forces every component to re-render every millisecond'
-      ],
+      title: 'HTTP Testing',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use HTTP testing utilities?`,
+      options: ['Assert request method/url/body and simulate responses without calling real services.', 'Increase latency.', 'Test DNS.', 'Replace unit tests.'],
       correctIndex: 0,
-      explanation:
-        'OnPush is an important performance strategy for enterprise Angular apps because it limits unnecessary component checks.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-32',
       type: 'mcq',
-      title: 'Signals',
-      prompt: 'What is the purpose of signals in Angular?',
-      options: [
-        'They provide fine-grained reactive state tracking for values that can notify dependents when they change',
-        'They replace HTML templates with SQL queries',
-        'They are used only for HTTP status codes',
-        'They are a browser-only CSS feature'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Signals are Angular reactive primitives that track state changes and update dependent computations or views more granularly.'
+      title: 'E2E Testing',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What belongs in E2E tests?`,
+      options: ['All pure functions.', 'Every CSS token.', 'A small set of critical user journeys across the integrated app, not every edge case.', 'Only unit-level logic.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-33',
       type: 'mcq',
-      title: 'Computed Signals',
-      prompt: 'What is a computed signal used for?',
-      options: [
-        'Deriving a value from one or more signals and recalculating when dependencies change',
-        'Creating a new Angular CLI workspace',
-        'Declaring a database schema',
-        'Uploading files to the server automatically'
-      ],
-      correctIndex: 0,
-      explanation:
-        'computed is used to derive reactive values from other signals. It updates when its signal dependencies change.'
+      title: 'SSR',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use SSR?`,
+      options: ['Eliminate JavaScript always.', 'Improve initial render/SEO for suitable pages and support faster content visibility.', 'Replace APIs.', 'Avoid hydration.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-34',
       type: 'mcq',
-      title: 'Security',
-      prompt: 'Which security risk is Angular template sanitization designed to reduce?',
-      options: [
-        'Cross-site scripting attacks caused by unsafe HTML, URLs, or script content',
-        'Slow internet connection',
-        'Incorrect TypeScript imports',
-        'Large bundle size only'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Angular sanitization helps protect against XSS by treating template values as untrusted and sanitizing risky content.'
+      title: 'Hydration',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is hydration?`,
+      options: ['Caching API data only.', 'Compiling TypeScript.', 'Database replication.', 'Attaching Angular client behavior to server-rendered HTML instead of recreating the page from scratch.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-35',
       type: 'mcq',
-      title: 'Route-Level Authorization',
-      prompt: 'Why should sensitive authorization checks not rely only on Angular route guards?',
-      options: [
-        'Because client-side checks can be bypassed; authorization must also be enforced on the backend',
-        'Because route guards work only with CSS',
-        'Because Angular route guards cannot return booleans',
-        'Because backend APIs cannot authenticate users'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Route guards improve frontend UX, but real security must be enforced by backend APIs because client-side code can be inspected or bypassed.'
+      title: 'Deferred Loading',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When is deferrable view/loading useful?`,
+      options: ['Critical above-the-fold content only.', 'Auth guards.', 'Delay non-critical UI/code until viewport/interaction/idle conditions to improve startup performance.', 'All services.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-36',
       type: 'mcq',
-      title: 'Testing',
-      prompt: 'What is TestBed used for in Angular testing?',
-      options: [
-        'Creating an Angular testing environment for components, services, dependency injection, and template interaction',
-        'Replacing production routing permanently',
-        'Minifying CSS files only',
-        'Deploying applications to production'
-      ],
+      title: 'Architecture Flow',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the feature flow.\n\n{{image}}\n\nWhere should reusable HTTP/data orchestration usually live?`,
+      image: { src: '/assets/assessments/angular/architecture.png', alt: 'Angular feature architecture' },
+      options: ['In a service/facade boundary rather than directly scattered across presentation templates.', 'Inside CSS.', 'Inside route path strings.', 'Only in index.html.'],
       correctIndex: 0,
-      explanation:
-        'TestBed configures an Angular testing module/environment so tests can create components, inject services, and verify behavior.'
+      explanation: 'Correct: A. Service/facade boundaries improve separation. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-37',
       type: 'mcq',
-      title: 'Modern Angular Test Runner',
-      prompt: 'According to current Angular documentation, what is the default unit test runner for new Angular CLI projects?',
-      options: ['Karma', 'Vitest', 'Mocha', 'Protractor'],
-      correctIndex: 1,
-      explanation:
-        'Current Angular documentation states that Vitest is the default test runner for new Angular CLI projects, while Karma remains supported.'
+      title: 'Enterprise Boundaries',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What is a strong enterprise structure?`,
+      options: ['One global components folder.', 'One service for the whole app.', 'Circular dependencies.', 'Feature boundaries with local state, typed services, shared libraries only for genuinely reusable concerns, and lazy route ownership.'],
+      correctIndex: 3,
+      explanation: 'Correct: D.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-38',
       type: 'mcq',
-      title: 'HTTP Testing',
-      prompt: 'When unit testing a service that uses HttpClient, what should you generally do?',
-      options: [
-        'Mock the HTTP backend and assert expected requests/responses',
-        'Always call the real production API',
-        'Remove all error handling',
-        'Test only by refreshing the browser manually'
-      ],
-      correctIndex: 0,
-      explanation:
-        'HTTP-dependent services should usually be tested with a mocked HTTP backend so tests remain fast, reliable, and isolated.'
+      title: 'Observability',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What should frontend observability capture?`,
+      options: ['Only console.log.', 'User-impacting errors, route/load timings, API failures, release/version context, and correlation identifiers without leaking sensitive data.', 'Passwords.', 'Every DOM mutation.'],
+      correctIndex: 1,
+      explanation: 'Correct: B.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-39',
       type: 'mcq',
-      title: 'SSR and Hydration',
-      prompt: 'What is a major benefit of Angular server-side rendering and hydration?',
-      options: [
-        'Improved initial load experience, SEO support, and smoother transition from server-rendered HTML to client interactivity',
-        'Removing the need for JavaScript entirely in all cases',
-        'Replacing components with database tables',
-        'Disabling routing in production'
-      ],
-      correctIndex: 0,
-      explanation:
-        'SSR can improve perceived performance and SEO, while hydration connects server-rendered HTML to Angular client-side behavior.'
+      title: 'Accessibility',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What must custom interactive components support?`,
+      options: ['Mouse only.', 'ARIA without behavior.', 'Semantic roles/labels, keyboard operation, focus management, states, and suitable contrast.', 'Hidden focus.'],
+      correctIndex: 2,
+      explanation: 'Correct: C.  Why not A: it does not best fit the scenario, evidence, or professional practice. Why not B: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     },
     {
       id: 'ng-40',
       type: 'mcq',
-      title: 'Enterprise Architecture',
-      prompt: 'In a large Angular enterprise application, which practice usually improves maintainability the most?',
-      options: [
-        'Organizing code into clear feature boundaries with shared libraries, lazy routes, typed services, tests, and consistent state/data patterns',
-        'Putting all components, services, and styles into one file',
-        'Disabling TypeScript strictness to move faster',
-        'Avoiding tests until production bugs appear'
-      ],
+      title: 'Angular Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A large app has slow startup, subscription leaks, inconsistent state, hydration errors, and weak tests. Strongest plan?`,
+      options: ['Lazy/defer heavy features, standardize reactive lifetimes/state boundaries, fix deterministic SSR, add behavioral tests, and measure performance/error telemetry.', 'Disable SSR only.', 'Add more global state.', 'Ignore leaks.'],
       correctIndex: 0,
-      explanation:
-        'Enterprise Angular apps benefit from clear feature boundaries, consistent architecture, strong typing, lazy loading, reusable services, and automated testing.'
+      explanation: 'Correct: A.  Why not B: it does not best fit the scenario, evidence, or professional practice. Why not C: it does not best fit the scenario, evidence, or professional practice. Why not D: it does not best fit the scenario, evidence, or professional practice.'
     }
   ]
 };

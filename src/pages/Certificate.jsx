@@ -23,7 +23,8 @@ import {
   Zap,
   Link as LinkIcon,
   Award,
-  Users
+  Users,
+  ChevronDown,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import BadgePreviewModal from '../components/BadgePreviewModal';
@@ -142,13 +143,17 @@ export default function Certificate() {
   const certificateRef = useRef(null);
   const evidenceRef = useRef(null);
   const learningPathRef = useRef(null);
+  const userMenuRef = useRef(null);
 
   // State
   const [copied, setCopied] = useState('');
   const [stats, setStats] = useState({ certs: 0, paths: 0 });
   const [usageSummary, setUsageSummary] = useState({ totalCareerPoints: 0, totalCostUsd: 0 });
-  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
+  const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(() => (
+    typeof window !== 'undefined' && localStorage.getItem('careerSenseCertificateSidebarCollapsed') === 'true'
+  ));
   const [isMobileNavOpen, setIsMobileNavOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [scoreReportModalOpen, setScoreReportModalOpen] = useState(false);
   const [badgePreviewOpen, setBadgePreviewOpen] = useState(false);
   const [badgeStoredNotice, setBadgeStoredNotice] = useState(false);
@@ -210,6 +215,26 @@ export default function Certificate() {
   );
 
   // Effects
+  useEffect(() => {
+    localStorage.setItem('careerSenseCertificateSidebarCollapsed', String(isSidebarCollapsed));
+  }, [isSidebarCollapsed]);
+
+  useEffect(() => {
+    if (!isUserMenuOpen) return undefined;
+    const closeOnOutsideClick = (event) => {
+      if (!userMenuRef.current?.contains(event.target)) setIsUserMenuOpen(false);
+    };
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') setIsUserMenuOpen(false);
+    };
+    document.addEventListener('pointerdown', closeOnOutsideClick);
+    document.addEventListener('keydown', closeOnEscape);
+    return () => {
+      document.removeEventListener('pointerdown', closeOnOutsideClick);
+      document.removeEventListener('keydown', closeOnEscape);
+    };
+  }, [isUserMenuOpen]);
+
   useEffect(() => {
     setSelectedBadgeDesignId(storedBadge?.designId || getDefaultBadgeDesignId(certificate));
     setSelectedBadgePaletteId(storedBadge?.paletteId || getDefaultBadgePaletteId(certificate));
@@ -451,14 +476,38 @@ export default function Certificate() {
     }
   };
 
-  const actionItems = [
-    { id: 'back', label: 'My Certificates', icon: ArrowLeft, action: () => navigate('/my-certificates') },
-    { id: 'score', label: 'Score Report', icon: FileDown, action: handleDownloadReport },
-    { id: 'path', label: 'Learning Path', icon: Brain, action: () => learningPath ? scrollToSection(learningPathRef) : setIsGeneratePathModalOpen(true) },
-    { id: 'badge', label: 'Download Badge', icon: Award, action: handleOpenBadgePreview },
-    { id: 'linkedin', label: 'Share to LinkedIn', icon: Share2, action: handleShareLinkedIn },
-    { id: 'evidence', label: 'Public Link & Evidence', icon: ShieldCheck, action: () => scrollToSection(evidenceRef) },
-    { id: 'pdf', label: 'Download Certificate', icon: Download, action: handleDownloadCertificate, highlight: true, wide: true },
+  const actionSections = [
+    {
+      label: 'Navigate',
+      iconClass: 'text-cyan-400',
+      items: [
+        { id: 'back', label: 'My Certificates', icon: ArrowLeft, action: () => navigate('/my-certificates') },
+        { id: 'score', label: 'Score Report', icon: FileDown, action: handleDownloadReport },
+      ],
+    },
+    {
+      label: 'Develop',
+      iconClass: 'text-violet-400',
+      items: [
+        { id: 'path', label: 'Learning Path', icon: Brain, action: () => learningPath ? scrollToSection(learningPathRef) : setIsGeneratePathModalOpen(true) },
+      ],
+    },
+    {
+      label: 'Share & Verify',
+      iconClass: 'text-amber-400',
+      items: [
+        { id: 'badge', label: 'Download Badge', icon: Award, action: handleOpenBadgePreview },
+        { id: 'linkedin', label: 'Share to LinkedIn', icon: Share2, action: handleShareLinkedIn },
+        { id: 'evidence', label: 'Public Link & Evidence', icon: ShieldCheck, action: () => scrollToSection(evidenceRef) },
+      ],
+    },
+    {
+      label: 'Export',
+      iconClass: 'text-teal-300',
+      items: [
+        { id: 'pdf', label: 'Download Certificate', icon: Download, action: handleDownloadCertificate, highlight: true },
+      ],
+    },
   ];
 
   const userMeta = user?.currentRole && user?.currentCompany
@@ -548,7 +597,7 @@ export default function Certificate() {
         ) : null}
 
         <aside
-          className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#12584a] bg-[#08332a] text-slate-300 shadow-2xl transition-transform duration-300 md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
+          className={`fixed inset-y-0 left-0 z-40 flex w-[88vw] max-w-[320px] flex-col border-r border-[#0e483c] bg-[#04201b] text-slate-300 shadow-2xl transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] motion-reduce:transition-none md:static md:z-20 md:max-w-none md:translate-x-0 md:shadow-none ${
             isMobileNavOpen ? 'translate-x-0' : '-translate-x-full'
           } ${isSidebarCollapsed ? 'md:w-20' : 'md:w-64'}`}
         >
@@ -559,10 +608,7 @@ export default function Certificate() {
                 {!isSidebarCollapsed ? (
                   <div className="flex flex-col leading-none">
                     <span className="text-lg font-black tracking-tight text-white whitespace-nowrap">
-                      Career<span className="bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">Sense</span>
-                    </span>
-                    <span className="mt-1 text-[7.5px] font-extrabold uppercase tracking-wider text-slate-400 whitespace-nowrap">
-                      Skills Validation & Certification
+                      Career<span className="text-teal-300">Sense</span>
                     </span>
                   </div>
                 ) : null}
@@ -575,8 +621,9 @@ export default function Certificate() {
                     if (window.innerWidth < 768) setIsMobileNavOpen(false);
                     else setIsSidebarCollapsed(true);
                   }}
-                  className="flex h-8 w-8 items-center justify-center rounded-lg border border-teal-900/60 bg-teal-950/40 text-slate-400 transition hover:text-white"
+                  className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-teal-900/60 bg-teal-950/40 text-slate-400 transition hover:text-white"
                   aria-label={window.innerWidth < 768 ? 'Close sidebar' : 'Collapse sidebar'}
+                  title={window.innerWidth < 768 ? 'Close sidebar' : 'Collapse sidebar'}
                 >
                   {window.innerWidth < 768 ? <X className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
                 </button>
@@ -587,50 +634,71 @@ export default function Certificate() {
               <button
                 type="button"
                 onClick={() => setIsSidebarCollapsed(false)}
-                className="mt-3 flex w-full items-center justify-center rounded-lg border border-slate-700 bg-slate-700/70 py-2 text-slate-300 transition hover:bg-slate-600/80 hover:text-white"
+                className="mt-3 flex w-full items-center justify-center rounded-lg border border-teal-900/60 bg-teal-950/40 py-2 text-slate-400 transition hover:text-white"
                 aria-label="Expand sidebar"
+                title="Expand sidebar"
               >
                 <PanelLeftOpen className="h-4 w-4" />
               </button>
             ) : null}
           </div>
 
-          <div className={`custom-scrollbar flex-1 space-y-6 overflow-y-auto py-6 ${isSidebarCollapsed ? 'px-2' : 'px-3'}`}>
-            <nav className="space-y-1">
-              {!isSidebarCollapsed ? (
-                <p className="mb-2 px-3 text-[10px] font-bold uppercase tracking-widest text-slate-400/90">Actions</p>
-              ) : null}
-
-              {actionItems.map((item) => (
-                <SidebarActionItem
-                  key={item.id}
-                  icon={item.icon}
-                  label={item.label}
-                  collapsed={isSidebarCollapsed}
-                  highlight={item.highlight}
-                  onClick={item.action}
-                />
+          <div className={`custom-scrollbar flex-1 overflow-y-auto py-5 ${isSidebarCollapsed ? 'px-2' : 'px-3'}`}>
+            <nav className="space-y-5" aria-label="Certificate actions">
+              {actionSections.map((section) => (
+                <div key={section.label}>
+                  {!isSidebarCollapsed ? (
+                    <p className="mb-1.5 px-3 text-[9px] font-semibold uppercase tracking-[0.16em] text-teal-300/55">{section.label}</p>
+                  ) : (
+                    <div className="mx-2 mb-2 h-px bg-teal-900/70" aria-hidden="true" />
+                  )}
+                  <div className="space-y-1">
+                    {section.items.map((item) => (
+                      <SidebarActionItem
+                        key={item.id}
+                        icon={item.icon}
+                        iconClass={section.iconClass}
+                        label={item.label}
+                        collapsed={isSidebarCollapsed}
+                        highlight={item.highlight}
+                        onClick={item.action}
+                      />
+                    ))}
+                  </div>
+                </div>
               ))}
             </nav>
           </div>
 
-          <div className="border-t border-[#12584a] bg-[#08332a] p-3">
-            <div className={`group flex cursor-pointer items-center rounded-lg p-2 transition-colors hover:bg-teal-900/40 ${isSidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
+          <div ref={userMenuRef} className="relative border-t border-[#12584a] bg-[#08332a] p-3">
+            {isUserMenuOpen ? (
+              <div className={`absolute bottom-full mb-2 overflow-hidden rounded-xl border border-teal-900/80 bg-[#071f1a] p-1.5 shadow-2xl shadow-black/30 ${isSidebarCollapsed ? 'left-2 w-52' : 'inset-x-3'}`}>
+                <button type="button" onClick={() => handleNavigate('/my-profile')} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium text-slate-300 transition-colors hover:bg-white/[0.07] hover:text-white">
+                  <User className="h-4 w-4 text-cyan-400" /> Manage profile
+                </button>
+                <button type="button" onClick={() => handleNavigate('/usage-billing')} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-medium text-slate-300 transition-colors hover:bg-white/[0.07] hover:text-white">
+                  <Zap className="h-4 w-4 text-amber-400" /> Usage & Billing
+                </button>
+                <div className="my-1 h-px bg-teal-900/70" />
+                <button type="button" onClick={handleLogout} className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-xs font-semibold text-rose-300 transition-colors hover:bg-rose-950/45 hover:text-rose-200">
+                  <LogOut className="h-4 w-4" /> Sign out
+                </button>
+              </div>
+            ) : null}
+            <button type="button" onClick={() => setIsUserMenuOpen((open) => !open)} aria-expanded={isUserMenuOpen} className={`group flex w-full items-center rounded-xl p-2 text-left transition-colors hover:bg-white/[0.07] ${isSidebarCollapsed ? 'justify-center' : 'gap-3'}`}>
               <div className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full border border-teal-700 bg-teal-950">
                 {user?.avatar ? <img src={user.avatar} alt="Avatar" className="h-full w-full object-cover" /> : <User className="h-4 w-4 text-teal-300" />}
               </div>
               {!isSidebarCollapsed ? (
                 <>
-                  <div className="flex-1 overflow-hidden">
+                  <div className="min-w-0 flex-1 overflow-hidden">
                     <p className="truncate text-xs font-bold capitalize text-white transition-colors group-hover:text-teal-300">{user?.name}</p>
                     <p className="truncate text-[10px] text-slate-400">{userMeta}</p>
                   </div>
-                  <LogOut onClick={handleLogout} className="h-3 w-3 text-slate-500 transition-colors hover:text-red-400" />
+                  <ChevronDown className={`h-4 w-4 shrink-0 text-slate-500 transition-transform duration-200 ${isUserMenuOpen ? 'rotate-180' : ''}`} />
                 </>
-              ) : (
-                <LogOut onClick={handleLogout} className="ml-2 h-3 w-3 text-slate-500 transition-colors hover:text-red-400" />
-              )}
-            </div>
+              ) : null}
+            </button>
           </div>
         </aside>
 
@@ -986,21 +1054,27 @@ export default function Certificate() {
   );
 }
 
-function SidebarActionItem({ icon: Icon, label, highlight = false, collapsed = false, onClick }) {
+function SidebarActionItem({ icon: Icon, label, highlight = false, collapsed = false, iconClass = 'text-slate-400', onClick }) {
   return (
     <button
+      type="button"
       onClick={onClick}
       title={label}
-      className={`group mb-1 flex w-full items-center rounded-lg text-xs font-medium transition-all ${
+      className={`group relative flex w-full items-center rounded-xl text-xs transition-[background-color,color,transform] duration-200 ease-[cubic-bezier(0.25,1,0.5,1)] motion-reduce:transition-none ${
         collapsed ? 'justify-center px-2 py-3' : 'justify-between px-3 py-2.5'
       } ${
-        highlight ? 'border border-teal-500/20 bg-teal-600/10 text-teal-400' : 'text-slate-400 hover:bg-slate-800 hover:text-white'
+        highlight ? 'bg-teal-800/65 font-semibold text-white' : 'font-medium text-slate-300 hover:bg-white/[0.07] hover:text-white active:scale-[0.98] motion-reduce:active:scale-100'
       }`}
     >
       <div className={`flex items-center ${collapsed ? 'justify-center' : 'gap-3'}`}>
-        <Icon className={`h-4 w-4 ${highlight ? 'text-teal-400' : 'text-slate-500 transition-colors group-hover:text-white'}`} />
+        <Icon className={`h-[18px] w-[18px] shrink-0 ${highlight ? 'text-teal-300' : `${iconClass} transition-all group-hover:brightness-125`}`} />
         {!collapsed ? label : null}
       </div>
+      {collapsed ? (
+        <span className="pointer-events-none absolute left-full z-50 ml-3 -translate-x-1 whitespace-nowrap rounded-lg border border-slate-700 bg-slate-900 px-2.5 py-1.5 text-[11px] font-semibold text-white opacity-0 shadow-xl transition-[opacity,transform] duration-150 group-hover:translate-x-0 group-hover:opacity-100 group-focus-visible:translate-x-0 group-focus-visible:opacity-100 motion-reduce:transition-none">
+          {label}
+        </span>
+      ) : null}
     </button>
   );
 }

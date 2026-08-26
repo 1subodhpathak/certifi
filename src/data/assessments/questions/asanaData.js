@@ -1,9 +1,5 @@
 import { ASSESSMENT_TYPES } from '../../assessmentTypes';
 
-// Professional certification-level Asana project management assessment.
-// Questions progress from core task/project usage to advanced workflow design,
-// automation, portfolio tracking, capacity planning, reporting, governance,
-// permissions, and enterprise operating practices.
 export const asanaData = {
   id: ASSESSMENT_TYPES.asana,
   title: 'Asana Project Management Certification',
@@ -11,565 +7,457 @@ export const asanaData = {
   category: 'Project Management',
   durationMinutes: 50,
   pointsPerQuestion: 5,
-  description:
-    'Professional Asana assessment covering task management, projects, views, dependencies, forms, custom fields, automation, templates, portfolios, goals, workload, reporting, permissions, governance, and enterprise workflow design.',
-  instructions:
-    'Choose the best answer. Questions move from easy to hard and test practical Asana project management judgment, not just tool memorization.',
+  passingPercentage: 85,
+  description: 'Professional Asana assessment covering tasks/projects, Forms, custom fields, Rules, dependencies, Timeline/Gantt, Portfolios, Workload, Goals, Bundles, approvals, dashboards, permissions, capacity, and enterprise workflow governance.',
+  instructions: '40 scenario-based questions, 50 minutes, 200 marks. Use the dashboards, charts, tables, image/code exhibits, and process diagrams. Choose the strongest professional response.',
   questions: [
     {
       id: 'as-01',
       type: 'mcq',
-      title: 'Task Basics',
-      prompt: 'In Asana, what is the core unit of work?',
-      options: ['Project', 'Portfolio', 'Task', 'Workspace'],
-      correctIndex: 2,
-      explanation:
-        'Tasks are the fundamental building blocks of work in Asana. They represent specific pieces of work that can have owners, due dates, comments, attachments, subtasks, and custom fields.'
+      title: 'Portfolio Risk',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the portfolio.\n\n{{image}}\n\nWhich project needs the most immediate portfolio-level attention?`,
+      image: { src: '/assets/assessments/asana/portfolio.png', alt: 'Asana portfolio dashboard' },
+      options: ['Launch A.', 'Migration, because it has the highest budget/capacity risk and is off-track context.', 'Onboarding.', 'All are equally healthy.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Migration has the strongest risk signal. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-02',
       type: 'mcq',
-      title: 'Task Ownership',
-      prompt: 'What is the best practice for assigning ownership of an Asana task?',
-      options: [
-        'Assign one clear task owner whenever possible',
-        'Assign every task to the entire team',
-        'Leave all tasks unassigned until the deadline',
-        'Use comments instead of assignees'
-      ],
-      correctIndex: 0,
-      explanation:
-        'A clear task owner improves accountability. Collaborators can still follow and contribute, but one assignee should usually be responsible for completion.'
+      title: 'Capacity Planning',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review Workload.\n\n{{image}}\n\nWhat should happen first?`,
+      image: { src: '/assets/assessments/asana/workload.png', alt: 'Asana workload dashboard' },
+      options: ['Assign more work to Cara.', 'Ignore capacity percentages.', 'Remove due dates.', 'Rebalance critical work away from severely overloaded people and resolve unassigned tasks before deadlines slip further.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Several people exceed capacity and work is unassigned. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-03',
       type: 'mcq',
-      title: 'Due Dates',
-      prompt: 'Why should important tasks have due dates in Asana?',
-      options: [
-        'To make work visible in timelines, calendars, My Tasks, and workload planning',
-        'To prevent comments from being added',
-        'To automatically complete the task',
-        'To hide the task from project members'
-      ],
+      title: 'Intake Quality',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the Form audit.\n\n{{image}}\n\nWhat should be improved?`,
+      image: { src: '/assets/assessments/asana/form.png', alt: 'Asana form intake audit' },
+      options: ['Make business impact/required timing/approver inputs structured and required enough for routing/prioritization.', 'Remove the form.', 'Allow blank submissions.', 'Route every request to one person manually.'],
       correctIndex: 0,
-      explanation:
-        'Due dates help teams plan, prioritize, and track work across views such as List, Calendar, Timeline, My Tasks, and Workload.'
+      explanation: 'Correct: A. Missing decision data causes rework. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-04',
       type: 'mcq',
-      title: 'Subtasks',
-      prompt: 'When should subtasks be used?',
-      options: [
-        'When a larger task needs smaller actionable steps or contributors',
-        'When a project should be deleted',
-        'When work should be hidden from everyone',
-        'When a task has no owner'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Subtasks help break down larger tasks into smaller steps. They should still have clear owners and due dates when they represent real work.'
+      title: 'Dependency Scheduling',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the timeline.\n\n{{image}}\n\nWhat is wrong?`,
+      image: { src: '/assets/assessments/asana/timeline.png', alt: 'Asana launch timeline' },
+      options: ['All dates are fine.', 'Dependencies should be removed.', 'Successor tasks start before prerequisite work is complete, so dependencies/dates need to be rescheduled.', 'Only owners matter.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. The schedule violates dependencies. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-05',
       type: 'mcq',
-      title: 'Projects',
-      prompt: 'What is the primary purpose of an Asana project?',
-      options: [
-        'To organize related tasks around a workflow, initiative, campaign, or deliverable',
-        'To store only personal notes',
-        'To replace all team communication tools',
-        'To create user passwords'
-      ],
+      title: 'Automation Governance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Review the rule audit.\n\n{{image}}\n\nWhich rule is dangerous?`,
+      image: { src: '/assets/assessments/asana/rules.png', alt: 'Asana rule audit' },
+      options: ['Moving any overdue task directly to Done because it hides incomplete work.', 'Assigning high-priority review to Legal.', 'Routing Design requests.', 'Using conditions.'],
       correctIndex: 0,
-      explanation:
-        'Projects organize related tasks and give teams shared visibility into the work required to complete an initiative or workflow.'
+      explanation: 'Correct: A. Automation must not falsify work state. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-06',
       type: 'mcq',
-      title: 'Sections',
-      prompt: 'How are sections typically used inside an Asana project?',
-      options: [
-        'To group tasks by phase, status, category, sprint, or workflow stage',
-        'To create a new organization',
-        'To replace task assignees',
-        'To archive completed projects automatically'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Sections help organize tasks inside project views. Common examples include To Do, In Progress, Review, Blocked, and Done.'
+      title: 'Task Ownership',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Best practice for task ownership?`,
+      options: ['Assign the entire team.', 'Leave all tasks unassigned.', 'One clear assignee accountable for completion, with collaborators as needed.', 'Use comments instead of owners.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Clear ownership improves accountability. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-07',
       type: 'mcq',
-      title: 'Project Views',
-      prompt: 'Which Asana view is best for managing work as cards moving through workflow stages?',
-      options: ['Board view', 'Calendar view', 'Files view', 'Inbox'],
-      correctIndex: 0,
-      explanation:
-        'Board view is useful for Kanban-style workflows where tasks move across stages such as Backlog, In Progress, Review, and Complete.'
+      title: 'Due Dates',
+      difficulty: 'easy',
+      points: 5,
+      prompt: `Why use due dates?`,
+      options: ['Automatically complete tasks.', 'Set permissions.', 'Replace milestones.', 'Support prioritization, calendar/timeline visibility, reminders, and schedule management.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Dates make commitments visible. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-08',
       type: 'mcq',
-      title: 'List View',
-      prompt: 'When is List view usually the strongest choice?',
-      options: [
-        'When you need a structured task list with fields, sections, owners, and due dates',
-        'When you want to remove all project data',
-        'When you only need image previews',
-        'When you want to prevent sorting and filtering'
-      ],
-      correctIndex: 0,
-      explanation:
-        'List view is useful for structured project execution because tasks can be organized with sections, custom fields, assignees, dates, and statuses.'
+      title: 'Subtasks',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When are subtasks strongest?`,
+      options: ['To duplicate whole projects.', 'When a larger task needs actionable component steps with their own owners/dates as appropriate.', 'To store passwords.', 'To replace portfolios.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Subtasks break work down. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-09',
       type: 'mcq',
-      title: 'Calendar View',
-      prompt: 'Which use case is Calendar view best suited for?',
-      options: [
-        'Seeing tasks and deliverables by date',
-        'Managing billing settings',
-        'Writing automation code',
-        'Changing organization permissions'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Calendar view helps teams understand when tasks, launches, content, campaigns, or milestones are scheduled.'
+      title: 'Sections',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `How should sections be used?`,
+      options: ['Random grouping.', 'User permissions.', 'Meaningful workflow stages/categories such as Intake, Doing, Review, Done.', 'Goals only.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Sections help structure project work. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-10',
       type: 'mcq',
-      title: 'Timeline View',
-      prompt: 'Which Asana view is most useful for visualizing a project schedule, task duration, and dependencies?',
-      options: ['Timeline view', 'Inbox', 'My Tasks only', 'Search results'],
+      title: 'Board View',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is Board view strongest for?`,
+      options: ['Kanban-style workflow where tasks move through stages.', 'Portfolio strategy only.', 'Billing.', 'File storage.'],
       correctIndex: 0,
-      explanation:
-        'Timeline view helps teams plan and visualize how tasks fit together over time, including dependencies and schedule risks.'
+      explanation: 'Correct: A. Board view emphasizes status flow. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-11',
       type: 'mcq',
-      title: 'Gantt View',
-      prompt: 'What is the main value of Gantt view in Asana?',
-      options: [
-        'It helps plan complex project schedules with task duration, dependencies, and timeline structure',
-        'It sends direct messages to all employees',
-        'It stores passwords for integrations',
-        'It removes the need for task owners'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Gantt view is useful for structured project planning where duration, sequencing, dependencies, and schedule visibility matter.'
+      title: 'List View',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is List view strongest for?`,
+      options: ['Spatial maps.', 'Dense structured task management with fields, owners, dates, sorting, and sections.', 'Only images.', 'Only goals.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. List view provides tabular task control. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-12',
       type: 'mcq',
-      title: 'Dependencies',
-      prompt: 'How do you show that one task cannot start until another task is complete?',
-      options: ['Task dependencies', 'Task likes', 'Project color', 'Inbox archive'],
-      correctIndex: 0,
-      explanation:
-        'Task dependencies allow teams to show that one task is waiting on another, making schedule risks easier to identify.'
+      title: 'Calendar View',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is Calendar view strongest for?`,
+      options: ['Capacity by person.', 'Access control.', 'Budget approvals.', 'Date-based planning of tasks/milestones/content.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Calendar is date-centric. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-13',
       type: 'mcq',
-      title: 'Blocked Work',
-      prompt: 'A designer cannot start the landing page until the copy is approved. What is the best Asana setup?',
-      options: [
-        'Create a dependency between the design task and the copy approval task',
-        'Delete the design task',
-        'Assign the task to nobody',
-        'Move the project to Inbox'
-      ],
-      correctIndex: 0,
-      explanation:
-        'A dependency clearly shows that the design task is waiting on the copy approval task.'
+      title: 'Timeline/Gantt',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `When are Timeline/Gantt views most valuable?`,
+      options: ['Only personal reminders.', 'Goal scoring only.', 'Inbox triage.', 'When sequencing, duration, milestones, and dependencies drive schedule risk.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. These views surface schedule structure. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-14',
       type: 'mcq',
-      title: 'Milestones',
-      prompt: 'What is a milestone in Asana?',
-      options: [
-        'A significant checkpoint or achievement in a project timeline',
-        'A recurring comment',
-        'A private password',
-        'A task that cannot have a due date'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Milestones mark important progress points such as launch date, design approval, beta release, or executive review.'
+      title: 'Dependencies',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What does a dependency communicate?`,
+      options: ['Task priority only.', 'One task is waiting on or blocking another task.', 'Task privacy.', 'Portfolio membership.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Dependencies model sequencing. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-15',
       type: 'mcq',
       title: 'Critical Path',
-      prompt: 'What does the critical path help a project manager identify?',
-      options: [
-        'The dependent tasks that directly affect the project completion date',
-        'The tasks with the most comments only',
-        'The oldest completed tasks',
-        'The members who use Asana least often'
-      ],
-      correctIndex: 0,
-      explanation:
-        'The critical path highlights tasks that are crucial to the final delivery date, helping teams spot schedule risks.'
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why identify critical path?`,
+      options: ['It lists most-commented tasks.', 'It is the highest priority field.', 'Delay on those dependent tasks can directly delay project completion.', 'It measures capacity.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Critical-path work drives finish date. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-16',
       type: 'mcq',
-      title: 'Multi-Homing',
-      prompt: 'What does multi-homing a task mean in Asana?',
-      options: [
-        'Adding the same task to multiple projects without duplicating it',
-        'Assigning one task to every employee',
-        'Creating multiple duplicate tasks manually',
-        'Deleting a task from all projects'
-      ],
+      title: 'Milestones',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is a milestone?`,
+      options: ['A significant project checkpoint/achievement, typically zero-duration.', 'A recurring comment.', 'A private project.', 'A capacity setting.'],
       correctIndex: 0,
-      explanation:
-        'Multi-homing allows one task to appear in multiple projects while remaining a single source of truth.'
+      explanation: 'Correct: A. Milestones mark important dates/outcomes. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-17',
       type: 'mcq',
-      title: 'Avoiding Duplicate Work',
-      prompt: 'A legal review task is relevant to both a product launch project and a compliance project. What is the best approach?',
-      options: [
-        'Multi-home the same task into both projects',
-        'Create two duplicate tasks and update them separately',
-        'Keep the task only in private notes',
-        'Assign the task to no one'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Multi-homing avoids duplicate work and keeps comments, status, files, and completion state in one task.'
+      title: 'Multi-Homing',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why multi-home a task?`,
+      options: ['Assign multiple owners.', 'Show the same underlying task in multiple projects without creating duplicate copies.', 'Create duplicate comments.', 'Make work public.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Multi-homing preserves one source of truth. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-18',
       type: 'mcq',
-      title: 'Task Comments',
-      prompt: 'Where is the best place to discuss decisions related to a specific task?',
-      options: ['Task comments', 'Project color settings', 'Billing page', 'Workspace logo'],
-      correctIndex: 0,
-      explanation:
-        'Task comments keep discussion, decisions, questions, and updates attached to the work itself.'
+      title: 'Comments',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Where should task-specific decisions live?`,
+      options: ['Project color settings.', 'Billing.', 'Private unrelated chat only.', 'Task comments, with concise context and @mentions as needed.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Comments keep context attached to work. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-19',
       type: 'mcq',
       title: 'Collaborators',
-      prompt: 'What is the purpose of adding collaborators to a task?',
-      options: [
-        'To notify relevant people about updates, comments, and progress on that task',
-        'To make everyone the task owner',
-        'To hide the task from the assignee',
-        'To convert the task into a portfolio'
-      ],
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What are collaborators for?`,
+      options: ["People who should follow/participate in updates without becoming the task's assignee.", 'Multiple primary owners.', 'Permissions.', 'Portfolio goals.'],
       correctIndex: 0,
-      explanation:
-        'Collaborators follow task activity and receive relevant updates, while the assignee remains responsible for completion.'
+      explanation: 'Correct: A. Collaborators separate accountability from awareness. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-20',
       type: 'mcq',
       title: 'My Tasks',
-      prompt: 'What does My Tasks show?',
-      options: [
-        'Tasks assigned to you across projects',
-        'Only archived projects',
-        'Only organization billing data',
-        'Only tasks assigned to guests'
-      ],
-      correctIndex: 0,
-      explanation:
-        'My Tasks is a personalized view of work assigned to the user across Asana.'
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should My Tasks provide?`,
+      options: ['All company projects.', 'Only archived tasks.', 'A personal cross-project view of work assigned to the user, organized for execution.', 'Only comments.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. My Tasks is personal assigned-work management. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-21',
       type: 'mcq',
       title: 'Inbox',
-      prompt: 'What is the primary purpose of Asana Inbox?',
-      options: [
-        'A notification center for updates on work you follow',
-        'A place to store database backups',
-        'A replacement for project timelines',
-        'A tool used only by admins'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Inbox helps users keep track of comments, mentions, task updates, status updates, and other relevant activity.'
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is Asana Inbox?`,
+      options: ['A task capture form.', 'A portfolio.', 'A notification/activity center for followed work and updates.', 'A timeline.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Inbox helps users process work notifications. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-22',
       type: 'mcq',
       title: 'Forms',
-      prompt: 'What is the best way to collect standardized work requests from stakeholders into Asana?',
-      options: ['Forms', 'Random direct messages', 'Manual screenshots', 'Unstructured email threads only'],
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use Forms?`,
+      options: ['Standardize intake and convert submissions into structured tasks in a project.', 'Replace all projects.', 'Hide requests.', 'Create user accounts.'],
       correctIndex: 0,
-      explanation:
-        'Forms standardize intake by collecting required information and turning submissions into actionable tasks inside a project.'
+      explanation: 'Correct: A. Forms improve request quality. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-23',
       type: 'mcq',
-      title: 'Intake Workflow',
-      prompt: 'A marketing team receives incomplete campaign requests from multiple departments. What Asana setup would improve intake quality?',
-      options: [
-        'Use a Form with required questions mapped to useful task fields',
-        'Ask requesters to send informal chat messages',
-        'Create one blank task for every request',
-        'Remove all due dates from the project'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Forms can require key information upfront and route submissions into a structured project workflow.'
+      title: 'Custom Fields',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use custom fields?`,
+      options: ['Replace task descriptions entirely.', 'Set passwords.', 'Archive projects.', 'Add structured metadata such as priority, stage, cost, effort, department, or risk for filtering/reporting.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Fields create consistent structured data. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-24',
       type: 'mcq',
-      title: 'Custom Fields',
-      prompt: 'What are custom fields used for in Asana?',
-      options: [
-        'Adding structured data such as priority, status, budget, effort, department, or stage',
-        'Changing only the app theme',
-        'Creating user passwords',
-        'Deleting completed work automatically'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Custom fields add structured information to tasks and projects, making work easier to filter, sort, report, and standardize.'
+      title: 'Global Fields',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `When should a custom field be global/reused?`,
+      options: ['When every project needs a different meaning.', 'When the same definition should remain consistent across multiple projects for shared reporting/governance.', 'Only for personal work.', 'Never.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Shared fields support consistent analytics. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-25',
       type: 'mcq',
-      title: 'Global vs Local Fields',
-      prompt: 'When should a global custom field be preferred?',
-      options: [
-        'When the same field should be reused consistently across multiple projects or teams',
-        'When the field should exist in only one private project',
-        'When the field is not important for reporting',
-        'When the team wants inconsistent naming'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Global custom fields help maintain consistency across projects, especially for reporting and standardized processes.'
+      title: 'Rules',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What do Rules do?`,
+      options: ['Replace project owners.', 'Automate workflow actions using triggers, conditions, and actions.', 'Write code repositories.', 'Create billing invoices.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Rules automate repeatable work. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-26',
       type: 'mcq',
-      title: 'Rules',
-      prompt: 'What is the purpose of Rules in Asana?',
-      options: [
-        'To automate repetitive actions based on triggers and conditions',
-        'To replace all project owners',
-        'To prevent task comments',
-        'To manually export every task'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Rules automate workflow steps such as assigning tasks, moving tasks to sections, setting fields, adding collaborators, or triggering actions.'
+      title: 'Rule Design',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What makes a strong rule?`,
+      options: ['Site-wide scope by default.', 'No documentation.', 'Rules that mark overdue work Done.', 'Narrow trigger/conditions, clear action, tested behavior, ownership, and no hidden state corruption.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Automation must preserve process truth. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-27',
       type: 'mcq',
-      title: 'Automation Design',
-      prompt: 'A task should automatically move to the Review section when its status field changes to Ready for Review. Which Asana feature should be used?',
-      options: ['Rule', 'Portfolio', 'Inbox', 'Workspace logo'],
+      title: 'Project Templates',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Why use project templates?`,
+      options: ['Launch repeatable project structures with consistent tasks, sections, fields, milestones, and rules.', 'Prevent tailoring.', 'Hide work.', 'Remove owners.'],
       correctIndex: 0,
-      explanation:
-        'A rule can automate this workflow by using a trigger, such as a field value change, and an action, such as moving the task to a section.'
+      explanation: 'Correct: A. Templates standardize repeatable work. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-28',
       type: 'mcq',
-      title: 'Project Templates',
-      prompt: 'Why would a team use a project template?',
-      options: [
-        'To standardize repeatable workflows and quickly create projects with predefined tasks, sections, and structure',
-        'To hide project work from the organization',
-        'To remove the need for owners and due dates',
-        'To turn all tasks into emails'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Project templates help teams launch repeatable workflows consistently, such as campaigns, onboarding, launches, audits, and client projects.'
+      title: 'Task Templates',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Best use case?`,
+      options: ['Unique strategy documents only.', 'Portfolios.', 'Repeatable task types needing a consistent description/checklist/fields/collaborators.', 'Access control.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Task templates reduce setup variance. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-29',
       type: 'mcq',
-      title: 'Task Templates',
-      prompt: 'When are task templates useful?',
-      options: [
-        'When recurring task types need a consistent checklist, fields, description, and collaborators',
-        'When every task must be unique and unstructured',
-        'When a project has no repeatable work',
-        'When the team wants to avoid process consistency'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Task templates are useful for repeatable work items such as design requests, content briefs, approvals, onboarding steps, or QA reviews.'
+      title: 'Approvals',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What do approval tasks add?`,
+      options: ['Automatic project completion.', 'Multiple assignees.', 'Budget calculation.', 'Explicit approve/reject/request-changes decisions with traceability.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Approvals formalize review. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-30',
       type: 'mcq',
-      title: 'Approvals',
-      prompt: 'What is the purpose of an approval task?',
-      options: [
-        'To let an approver approve, reject, or request changes on work',
-        'To permanently delete task comments',
-        'To remove task ownership',
-        'To make a task invisible'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Approval tasks make review decisions explicit and trackable, which is useful for creative, legal, compliance, and stakeholder sign-offs.'
+      title: 'Project Status',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What belongs in a strong project status update?`,
+      options: ['Every task comment.', 'Health, progress/outcomes, milestones, risks/blockers, decisions, and next steps.', 'Only completed-task count.', 'Only budget.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Status should be decision-relevant. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-31',
       type: 'mcq',
-      title: 'Project Status Updates',
-      prompt: 'What is the best use of project status updates?',
-      options: [
-        'Communicating project health, progress, risks, blockers, and next steps to stakeholders',
-        'Changing user passwords',
-        'Replacing every task comment',
-        'Deleting old milestones'
-      ],
+      title: 'Dashboards',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What should a project dashboard emphasize?`,
+      options: ['A small set of useful indicators such as status, aging, priority, risk, completion, and workload.', 'Every available field.', 'Only colors.', 'Only comments.'],
       correctIndex: 0,
-      explanation:
-        'Status updates help project owners communicate whether a project is on track, at risk, or off track, along with key context.'
+      explanation: 'Correct: A. Dashboards should support decisions. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-32',
       type: 'mcq',
-      title: 'Dashboards',
-      prompt: 'Why would a project manager use dashboards or reporting in Asana?',
-      options: [
-        'To visualize project data such as task status, workload, priority, completion, or risks',
-        'To store only personal passwords',
-        'To prevent stakeholders from seeing progress',
-        'To replace all task assignees'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Dashboards help convert project data into useful insights for decision-making and stakeholder reporting.'
+      title: 'Portfolios',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `What is a Portfolio for?`,
+      options: ['Managing one checklist.', 'Writing comments.', 'Monitoring multiple projects together for health, ownership, dates, risk, and strategic context.', 'Setting passwords.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Portfolios provide program-level visibility. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-33',
       type: 'mcq',
-      title: 'Portfolios',
-      prompt: 'What is the primary purpose of an Asana portfolio?',
-      options: [
-        'To track multiple related projects at a higher level',
-        'To create subtasks inside one task only',
-        'To replace every project with a private note',
-        'To store browser cookies'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Portfolios give leaders and managers a high-level view of progress, health, ownership, timelines, and risks across multiple projects.'
+      title: 'Workload',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What does Workload help answer?`,
+      options: ['Which project has most comments.', 'Who is over/under capacity and whether assignments should be rebalanced across projects.', 'Who logs in most.', 'Which fields are global.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Workload supports capacity planning. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-34',
       type: 'mcq',
-      title: 'Portfolio Reporting',
-      prompt: 'A director wants to track 12 active launch projects and quickly identify which are at risk. What Asana feature is most appropriate?',
-      options: ['Portfolio', 'Single task comment', 'Personal scratchpad', 'Archived project'],
-      correctIndex: 0,
-      explanation:
-        'A portfolio is designed to monitor many projects together and surface project health, ownership, status, and progress.'
+      title: 'Goals',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Why link Goals to projects/portfolios?`,
+      options: ['Replace every task.', 'Hide projects.', 'Avoid measurement.', 'Connect strategic outcomes to execution and show how work contributes to objectives.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Goals connect strategy and work. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-35',
       type: 'mcq',
-      title: 'Workload',
-      prompt: 'What is the main purpose of Workload in Asana?',
-      options: [
-        'To visualize team capacity and understand how work is distributed across people',
-        'To create random task names',
-        'To permanently hide overdue tasks',
-        'To replace project timelines'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Workload helps managers understand capacity, balance work, and spot over-allocation across projects.'
+      title: 'Bundles',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `What problem do Bundles solve?`,
+      options: ['Replace Portfolios.', 'Store files.', 'Apply reusable workflow elements such as sections, fields, rules, and task templates consistently across multiple projects.', 'Manage billing.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. Bundles support scalable process governance. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-36',
       type: 'mcq',
-      title: 'Capacity Planning',
-      prompt: 'A manager sees one designer is overloaded while another has available capacity. What is the best Asana-based response?',
-      options: [
-        'Use Workload insights to rebalance assignments or adjust due dates',
-        'Ignore the imbalance until deadlines are missed',
-        'Delete all design tasks',
-        'Move every task to Inbox'
-      ],
+      title: 'Permissions',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A project contains sensitive HR work. Strongest practice?`,
+      options: ['Use appropriate project/team privacy and guest/access controls, then periodically review membership.', 'Share organization-wide.', 'Rely on task names to hide details.', 'Use comments as security.'],
       correctIndex: 0,
-      explanation:
-        'Workload visibility should be used to rebalance work, adjust priorities, or revise timelines before overload becomes a delivery risk.'
+      explanation: 'Correct: A. Sensitive work requires access governance. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-37',
       type: 'mcq',
-      title: 'Goals',
-      prompt: 'What is the purpose of Asana Goals?',
-      options: [
-        'To connect high-level objectives to the work that supports them',
-        'To create only personal reminders',
-        'To replace all project tasks',
-        'To remove executive visibility'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Goals help organizations connect strategy to execution by linking objectives with supporting work.'
+      title: 'Flow Review',
+      difficulty: 'medium',
+      points: 5,
+      prompt: `Review the work-management flow.\n\n{{image}}\n\nWhere should request quality and priority be established?`,
+      image: { src: '/assets/assessments/asana/asana_flow.png', alt: 'Asana work management flow' },
+      options: ['After Approval.', 'Only in Portfolio review.', 'Never.', 'During Intake/Triage before execution starts.'],
+      correctIndex: 3,
+      explanation: 'Correct: D. Triage converts requests into actionable prioritized work. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-38',
       type: 'mcq',
-      title: 'Strategy to Execution',
-      prompt: 'A company wants to connect quarterly objectives to the projects and portfolios delivering those outcomes. What should they use?',
-      options: ['Goals linked to supporting work', 'Only individual task comments', 'Unstructured chat messages', 'Archived templates'],
-      correctIndex: 0,
-      explanation:
-        'Goals provide a way to connect company or team objectives with the projects, portfolios, and work that drive progress.'
+      title: 'Enterprise Governance',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `Thirty similar projects drift in fields/rules/stages. Strongest response?`,
+      options: ['Let each manager recreate from memory.', 'Use governed templates/Bundles/global fields with clear ownership and controlled tailoring.', 'Delete all fields.', 'Centralize every task edit.'],
+      correctIndex: 1,
+      explanation: 'Correct: B. Reusable standards reduce process drift. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not C: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-39',
       type: 'mcq',
-      title: 'Bundles',
-      prompt: 'What is an Asana Bundle?',
-      options: [
-        'A reusable combination of rules, fields, sections, and task templates that can be applied across multiple projects',
-        'A group discount code',
-        'A private user password',
-        'A mobile-only notification'
-      ],
-      correctIndex: 0,
-      explanation:
-        'Bundles help teams apply consistent processes across many projects by grouping reusable workflow elements.'
+      title: 'Asana Professional Judgment',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `A program has weak intake, overloaded owners, schedule dependency conflicts, inconsistent rules, and unreliable portfolio status. Strongest plan?`,
+      options: ['Add more projects.', 'Remove deadlines.', 'Fix Form/triage standards, rebalance Workload, correct dependencies/dates, govern rules/templates/fields, and require evidence-based status/portfolio reporting.', 'Hide off-track work.'],
+      correctIndex: 2,
+      explanation: 'Correct: C. The remediation addresses intake, execution, capacity, automation, and governance. Why not A: it does not best fit the scenario, product behavior, or professional practice. Why not B: it does not best fit the scenario, product behavior, or professional practice. Why not D: it does not best fit the scenario, product behavior, or professional practice.'
     },
     {
       id: 'as-40',
       type: 'mcq',
-      title: 'Process Governance',
-      prompt: 'A program team manages 30 similar client onboarding projects and wants consistent stages, fields, rules, and task templates across all of them. What is the strongest approach?',
-      options: [
-        'Create and apply a Bundle to standardize the workflow across projects',
-        'Ask every project owner to manually recreate the workflow from memory',
-        'Avoid custom fields and automation completely',
-        'Use a different naming convention for every project'
-      ],
+      title: 'Asana Enterprise Operating Model',
+      difficulty: 'hard',
+      points: 5,
+      prompt: `An enterprise has hundreds of projects, inconsistent custom fields, duplicated rules, unreliable portfolio status, and teams recreating the same onboarding workflow manually.
+
+What is the strongest improvement?`,
+      options: ['Establish governed templates/Bundles and global fields, define ownership and status standards, rationalize rules, connect Portfolios/Goals, and allow controlled tailoring by workflow type.', 'Move every task into one project.', 'Remove all custom fields and automation.', 'Require executives to inspect individual tasks manually.'],
       correctIndex: 0,
-      explanation:
-        'Bundles are useful for governance because they help standardize project structure and workflow behavior across many projects.'
+      explanation: 'Correct: A. Scaled Asana use benefits from reusable standards, governed data, portfolio visibility, and controlled flexibility. Why not B: a single project does not scale operationally. Why not C: removing structure destroys useful automation and reporting. Why not D: executives need trustworthy portfolio-level information, not manual task inspection.'
     }
   ]
 };

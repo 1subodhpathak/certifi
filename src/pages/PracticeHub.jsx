@@ -110,39 +110,38 @@ const getCoverForAssessment = (assessmentId) => {
 const TRACKS = {
   ALL: 'All',
   AI_ENGINEERING: 'AI Engineering',
-  SKILLS: 'Skills',
-  LANGUAGES: 'Languages',
+  DATA_ANALYTICS: 'Data Analytics',
   ACCOUNTING: 'Accounting',
+  SKILLS: 'Skills & Tools',
+  LANGUAGES: 'Languages',
   TAXATION: 'Taxation',
   DOMAINS: 'Domains',
   AI_ML: 'AI/ML',
-  SCENARIO_LABS: 'Scenario Labs',
-  WORKPLACE: 'Workplace',
-  ANALYTICS: 'Analytics',
+  PROFESSIONAL_READINESS: 'Professional Readiness',
   CLOUD_SECURITY: 'Cloud & Security',
 };
 
 const TRACK_BY_ID = new Map([
-  [ASSESSMENT_TYPES.communication, TRACKS.WORKPLACE],
-  [ASSESSMENT_TYPES.sjt, TRACKS.WORKPLACE],
-  [ASSESSMENT_TYPES.culture, TRACKS.WORKPLACE],
-  [ASSESSMENT_TYPES.ethics, TRACKS.WORKPLACE],
-  [ASSESSMENT_TYPES.critical_thinking, TRACKS.WORKPLACE],
-  [ASSESSMENT_TYPES.conflict, TRACKS.WORKPLACE],
-  [ASSESSMENT_TYPES.eq, TRACKS.WORKPLACE],
-  [ASSESSMENT_TYPES.presentation, TRACKS.WORKPLACE],
+  [ASSESSMENT_TYPES.communication, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.sjt, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.culture, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.ethics, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.critical_thinking, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.conflict, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.eq, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.presentation, TRACKS.PROFESSIONAL_READINESS],
 
-  [ASSESSMENT_TYPES.aptitude, TRACKS.ANALYTICS],
-  [ASSESSMENT_TYPES.numerical, TRACKS.ANALYTICS],
-  [ASSESSMENT_TYPES.cognitive_ability, TRACKS.ANALYTICS],
+  [ASSESSMENT_TYPES.aptitude, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.numerical, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.cognitive_ability, TRACKS.PROFESSIONAL_READINESS],
   [ASSESSMENT_TYPES.finance, TRACKS.ACCOUNTING],
   [ASSESSMENT_TYPES.fin_modeling, TRACKS.ACCOUNTING],
 
-  [ASSESSMENT_TYPES.caseStudy, TRACKS.SCENARIO_LABS],
-  [ASSESSMENT_TYPES.architecture_sandbox, TRACKS.SCENARIO_LABS],
-  [ASSESSMENT_TYPES.product_case_ai, TRACKS.SCENARIO_LABS],
-  [ASSESSMENT_TYPES.debugging_duel, TRACKS.SCENARIO_LABS],
-  [ASSESSMENT_TYPES.daily_incident, TRACKS.SCENARIO_LABS],
+  [ASSESSMENT_TYPES.caseStudy, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.architecture_sandbox, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.product_case_ai, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.debugging_duel, TRACKS.PROFESSIONAL_READINESS],
+  [ASSESSMENT_TYPES.daily_incident, TRACKS.PROFESSIONAL_READINESS],
 
   [ASSESSMENT_TYPES.french, TRACKS.LANGUAGES],
   [ASSESSMENT_TYPES.german, TRACKS.LANGUAGES],
@@ -183,6 +182,20 @@ const TRACK_BY_ID = new Map([
   [ASSESSMENT_TYPES.r_prog, TRACKS.AI_ML],
   [ASSESSMENT_TYPES.spark, TRACKS.AI_ML],
 
+  [ASSESSMENT_TYPES.excel, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.powerbi, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.tableau, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.looker, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.sql_adv, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.r_prog, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.spark, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.pandas_ai, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.numpy_ai, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.mathematics_statistics, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.ga4, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.postgresql, TRACKS.DATA_ANALYTICS],
+  [ASSESSMENT_TYPES.python, TRACKS.DATA_ANALYTICS],
+
   [ASSESSMENT_TYPES.aws, TRACKS.CLOUD_SECURITY],
   [ASSESSMENT_TYPES.azure, TRACKS.CLOUD_SECURITY],
   [ASSESSMENT_TYPES.gcp, TRACKS.CLOUD_SECURITY],
@@ -194,6 +207,27 @@ const TRACK_BY_ID = new Map([
   [ASSESSMENT_TYPES.security_plus, TRACKS.CLOUD_SECURITY],
   [ASSESSMENT_TYPES.owasp, TRACKS.CLOUD_SECURITY],
 ]);
+
+const DATA_ANALYTICS_ROADMAP = [
+  ASSESSMENT_TYPES.numerical,
+  ASSESSMENT_TYPES.mathematics_statistics,
+  ASSESSMENT_TYPES.excel,
+  ASSESSMENT_TYPES.sql_adv,
+  ASSESSMENT_TYPES.postgresql,
+  ASSESSMENT_TYPES.python,
+  ASSESSMENT_TYPES.numpy_ai,
+  ASSESSMENT_TYPES.pandas_ai,
+  ASSESSMENT_TYPES.r_prog,
+  ASSESSMENT_TYPES.powerbi,
+  ASSESSMENT_TYPES.tableau,
+  ASSESSMENT_TYPES.looker,
+  ASSESSMENT_TYPES.ga4,
+  ASSESSMENT_TYPES.spark,
+];
+
+const DATA_ANALYTICS_ROADMAP_RANK = new Map(
+  DATA_ANALYTICS_ROADMAP.map((assessmentId, index) => [assessmentId, index]),
+);
 
 const DOMAIN_PREFIXES = ['domain-'];
 const DOMAIN_CATEGORY_KEYWORDS = ['industry knowledge'];
@@ -224,16 +258,17 @@ const getTrack = (assessment) => {
   const directTrack = TRACK_BY_ID.get(assessment.id);
   if (directTrack) return directTrack;
 
+  const assessmentId = assessment.id || '';
   const category = (assessment.category || '').toLowerCase();
 
   if (category.includes('ai engineering')) return TRACKS.AI_ENGINEERING;
-  if (assessment.id.startsWith('language-')) return TRACKS.LANGUAGES;
-  if (assessment.id.startsWith('tax-')) return TRACKS.TAXATION;
-  if (DOMAIN_PREFIXES.some((prefix) => assessment.id.startsWith(prefix))) return TRACKS.DOMAINS;
+  if (assessmentId.startsWith('language-')) return TRACKS.LANGUAGES;
+  if (assessmentId.startsWith('tax-')) return TRACKS.TAXATION;
+  if (DOMAIN_PREFIXES.some((prefix) => assessmentId.startsWith(prefix))) return TRACKS.DOMAINS;
   if (DOMAIN_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.DOMAINS;
   if (AI_ML_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.AI_ML;
-  if (ANALYTICS_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.ANALYTICS;
-  if (WORKPLACE_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.WORKPLACE;
+  if (ANALYTICS_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.DATA_ANALYTICS;
+  if (WORKPLACE_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.PROFESSIONAL_READINESS;
   if (/cloud|infrastructure|security|devops/.test(category)) return TRACKS.CLOUD_SECURITY;
   if (SKILLS_CATEGORY_KEYWORDS.some((keyword) => category.includes(keyword))) return TRACKS.SKILLS;
 
@@ -254,15 +289,14 @@ const formatAttempts = (attempts) => {
 const filterTabs = [
   TRACKS.ALL,
   TRACKS.AI_ENGINEERING,
+  TRACKS.DATA_ANALYTICS,
+  TRACKS.ACCOUNTING,
   TRACKS.SKILLS,
   TRACKS.LANGUAGES,
-  TRACKS.ACCOUNTING,
   TRACKS.TAXATION,
   TRACKS.DOMAINS,
   TRACKS.AI_ML,
-  TRACKS.SCENARIO_LABS,
-  TRACKS.WORKPLACE,
-  TRACKS.ANALYTICS,
+  TRACKS.PROFESSIONAL_READINESS,
   TRACKS.CLOUD_SECURITY,
 ];
 
@@ -278,6 +312,10 @@ export default function PracticeHub() {
   const [attemptMap, setAttemptMap] = useState(new Map());
   const [showCompletedAssessments, setShowCompletedAssessments] = useState(true);
   const completedScrollerRef = useRef(null);
+  const filterScrollerRef = useRef(null);
+  const filterTabRefs = useRef(new Map());
+  const [canScrollFiltersLeft, setCanScrollFiltersLeft] = useState(false);
+  const [canScrollFiltersRight, setCanScrollFiltersRight] = useState(false);
 
   useEffect(() => {
     try {
@@ -303,8 +341,37 @@ export default function PracticeHub() {
     })
   ), [attemptMap]);
 
-  const filteredAssessments = useMemo(() => (
-    assessments.filter((assessment) => {
+  useEffect(() => {
+    const scroller = filterScrollerRef.current;
+    if (!scroller) return undefined;
+
+    const updateScrollState = () => {
+      setCanScrollFiltersLeft(scroller.scrollLeft > 2);
+      setCanScrollFiltersRight(
+        scroller.scrollLeft + scroller.clientWidth < scroller.scrollWidth - 2,
+      );
+    };
+
+    updateScrollState();
+    scroller.addEventListener('scroll', updateScrollState, { passive: true });
+    window.addEventListener('resize', updateScrollState);
+
+    return () => {
+      scroller.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, []);
+
+  useEffect(() => {
+    filterTabRefs.current.get(activeFilter)?.scrollIntoView({
+      behavior: 'smooth',
+      block: 'nearest',
+      inline: 'center',
+    });
+  }, [activeFilter]);
+
+  const filteredAssessments = useMemo(() => {
+    const filtered = assessments.filter((assessment) => {
       const matchesFilter = activeFilter === 'All' || assessment.track === activeFilter;
       const q = searchQuery.trim().toLowerCase();
       const matchesSearch = !q || [
@@ -314,8 +381,17 @@ export default function PracticeHub() {
         assessment.description,
       ].filter(Boolean).some((value) => value.toLowerCase().includes(q));
       return matchesFilter && matchesSearch;
-    })
-  ), [assessments, activeFilter, searchQuery]);
+    });
+
+    if (activeFilter === TRACKS.DATA_ANALYTICS) {
+      return filtered.sort((a, b) => (
+        (DATA_ANALYTICS_ROADMAP_RANK.get(a.id) ?? Number.MAX_SAFE_INTEGER)
+        - (DATA_ANALYTICS_ROADMAP_RANK.get(b.id) ?? Number.MAX_SAFE_INTEGER)
+      ));
+    }
+
+    return filtered;
+  }, [assessments, activeFilter, searchQuery]);
   const completedAssessments = useMemo(
     () => filteredAssessments.filter((assessment) => assessment.hasAttempt),
     [filteredAssessments],
@@ -331,6 +407,15 @@ export default function PracticeHub() {
     const scrollAmount = Math.max(320, Math.round(container.clientWidth * 0.82));
     container.scrollBy({
       left: direction === 'left' ? -scrollAmount : scrollAmount,
+      behavior: 'smooth',
+    });
+  };
+
+  const scrollFilterTabs = (direction) => {
+    const scroller = filterScrollerRef.current;
+    if (!scroller) return;
+    scroller.scrollBy({
+      left: direction * Math.max(280, Math.round(scroller.clientWidth * 0.6)),
       behavior: 'smooth',
     });
   };
@@ -375,30 +460,69 @@ export default function PracticeHub() {
             </div>
           </div>
 
-          {/* Filter Tabs with hidden scrollbar via CSS utilities */}
-          <div className="overflow-x-auto px-5 py-4 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-            <div className="flex items-center gap-2">
-              {filterTabs.map((tab) => (
-                <button
-                  key={tab}
-                  type="button"
-                  onClick={() => setActiveFilter(tab)}
-                  className={`relative shrink-0 rounded-lg px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 ${
-                    activeFilter === tab
-                      ? 'font-semibold text-slate-900 after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-teal-500'
-                      : 'text-slate-500 hover:text-slate-800'
-                  }`}
+          {/* Single-line filter rail with a visible, styled horizontal scrollbar. */}
+          <div className="px-5 pb-3 pt-4">
+            <div className="flex items-stretch gap-2">
+              <button
+                type="button"
+                onClick={() => scrollFilterTabs(-1)}
+                disabled={!canScrollFiltersLeft}
+                aria-label="Scroll categories left"
+                className="mb-3 hidden w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-700 disabled:cursor-default disabled:opacity-30 sm:flex"
+              >
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+
+              <div className="relative min-w-0 flex-1">
+                {canScrollFiltersLeft && (
+                  <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-10 bg-gradient-to-r from-white to-transparent" />
+                )}
+                <div
+                  ref={filterScrollerRef}
+                  className="overflow-x-auto pb-3 [scrollbar-color:rgb(148_163_184)_rgb(241_245_249)] [scrollbar-width:thin] [&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-slate-100 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-slate-300 hover:[&::-webkit-scrollbar-thumb]:bg-teal-500"
                 >
-                  {trackAttributions[tab] ? (
-                    <>
-                      <span className="absolute -top-2 left-1/2 -translate-x-1/2 whitespace-nowrap text-[9px] font-semibold tracking-[0.06em] text-emerald-600">
-                        {trackAttributions[tab]}
-                      </span>
-                      {tab}
-                    </>
-                  ) : tab === 'All' ? 'All Modules' : tab}
-                </button>
-              ))}
+                  <div className="flex w-max min-w-full items-stretch gap-1.5">
+                    {filterTabs.map((tab) => (
+                      <button
+                        key={tab}
+                        ref={(element) => {
+                          if (element) filterTabRefs.current.set(tab, element);
+                          else filterTabRefs.current.delete(tab);
+                        }}
+                        type="button"
+                        onClick={() => setActiveFilter(tab)}
+                        className={`group relative flex min-h-14 shrink-0 flex-col items-center justify-center rounded-xl px-4 py-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 ${
+                          activeFilter === tab
+                            ? 'font-semibold text-slate-900 after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-teal-500'
+                            : 'font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-800'
+                        }`}
+                      >
+                        <span className={`min-h-3 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.08em] ${
+                          trackAttributions[tab] ? 'text-emerald-600' : 'text-transparent'
+                        }`} aria-hidden={!trackAttributions[tab]}>
+                          {trackAttributions[tab] || 'Category'}
+                        </span>
+                        <span className="whitespace-nowrap">
+                          {tab === 'All' ? 'All Modules' : tab}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                {canScrollFiltersRight && (
+                  <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-10 bg-gradient-to-l from-white to-transparent" />
+                )}
+              </div>
+
+              <button
+                type="button"
+                onClick={() => scrollFilterTabs(1)}
+                disabled={!canScrollFiltersRight}
+                aria-label="Scroll categories right"
+                className="mb-3 hidden w-9 shrink-0 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-600 shadow-sm transition hover:border-teal-200 hover:bg-teal-50 hover:text-teal-700 disabled:cursor-default disabled:opacity-30 sm:flex"
+              >
+                <ChevronRight className="h-4 w-4" />
+              </button>
             </div>
           </div>
         </section>
@@ -452,7 +576,11 @@ export default function PracticeHub() {
                 >
                   {completedAssessments.map((assessment) => (
                     <div key={assessment.id} className="w-[320px] min-w-[320px] snap-start lg:w-[calc((100%-4.5rem)/4)] lg:min-w-[calc((100%-4.5rem)/4)]">
-                      <AssessmentCard assessment={assessment} onOpen={() => navigate(`/practice-hub/test/${assessment.id}`)} />
+                      <AssessmentCard
+                        assessment={assessment}
+                        showTrackBadge={activeFilter === TRACKS.ALL}
+                        onOpen={() => navigate(`/practice-hub/test/${assessment.id}`)}
+                      />
                     </div>
                   ))}
                 </div>
@@ -496,7 +624,12 @@ export default function PracticeHub() {
             </div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {availableAssessments.map((assessment) => (
-                <AssessmentCard key={assessment.id} assessment={assessment} onOpen={() => navigate(`/practice-hub/test/${assessment.id}`)} />
+                <AssessmentCard
+                  key={assessment.id}
+                  assessment={assessment}
+                  showTrackBadge={activeFilter === TRACKS.ALL}
+                  onOpen={() => navigate(`/practice-hub/test/${assessment.id}`)}
+                />
               ))}
             </div>
           </section>
@@ -528,7 +661,7 @@ export default function PracticeHub() {
   );
 }
 
-function AssessmentCard({ assessment, onOpen }) {
+function AssessmentCard({ assessment, showTrackBadge = false, onOpen }) {
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-slate-200/75 bg-white shadow-sm transition-all duration-300 hover:border-teal-200 hover:shadow-lg hover:shadow-teal-900/5">
       <div className="relative aspect-[16/9] w-full shrink-0 overflow-hidden border-b border-slate-100 bg-slate-100/50">
@@ -543,9 +676,11 @@ function AssessmentCard({ assessment, onOpen }) {
             <LibraryBig className="h-8 w-8 text-slate-300" />
           </div>
         )}
-        <div className="absolute right-3 top-3 rounded-md bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-700 shadow-sm backdrop-blur">
-          {assessment.track}
-        </div>
+        {showTrackBadge ? (
+          <div className="absolute right-3 top-3 rounded-md bg-white/95 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-slate-700 shadow-sm backdrop-blur">
+            {assessment.track}
+          </div>
+        ) : null}
       </div>
 
       <div className="flex flex-1 flex-col p-5">
