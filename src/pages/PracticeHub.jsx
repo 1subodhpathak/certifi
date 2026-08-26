@@ -24,19 +24,22 @@ const coverModules = import.meta.glob('../assets/test-covers/**/*.{jpg,jpeg,png,
   import: 'default',
 });
 
-const coverByBaseName = Object.fromEntries(
-  Object.entries(coverModules).map(([path, asset]) => {
-    const fileName = path.split('/').pop() || '';
-    const baseName = fileName.replace(/\.[^.]+$/, '').toLowerCase();
-    return [baseName, asset];
-  }),
-);
+const coverByBaseName = {};
+Object.entries(coverModules).forEach(([path, asset]) => {
+  const fileName = path.split(/[\/\\]/).pop() || '';
+  const baseName = fileName.replace(/\.[^.]+$/, '').toLowerCase().trim();
+  const isPng = path.toLowerCase().endsWith('.png');
+  if (!coverByBaseName[baseName] || isPng) {
+    coverByBaseName[baseName] = asset;
+  }
+});
 
 const assessmentTypeEntries = Object.entries(ASSESSMENT_TYPES);
 const coverAssetOverrides = {
   [ASSESSMENT_TYPES.agentBuilder]: agentBuilderCover,
 };
 const coverOverrides = {
+  [ASSESSMENT_TYPES.numerical]: 'numerical',
   [ASSESSMENT_TYPES.communication]: 'communication',
   [ASSESSMENT_TYPES.caseStudy]: 'casestudy',
   [ASSESSMENT_TYPES.systemDesign]: 'systemdesign',
@@ -62,6 +65,9 @@ const coverOverrides = {
   [ASSESSMENT_TYPES.python_ai]: 'python for ai',
   [ASSESSMENT_TYPES.numpy_ai]: 'numpy',
   [ASSESSMENT_TYPES.pandas_ai]: 'pandas',
+  [ASSESSMENT_TYPES.r_prog]: 'r_prog',
+  [ASSESSMENT_TYPES.spark]: 'spark',
+  [ASSESSMENT_TYPES.postgresql]: 'postgresql',
   [ASSESSMENT_TYPES.openai_apis]: 'open ai',
   [ASSESSMENT_TYPES.langchain]: 'langchain',
   [ASSESSMENT_TYPES.llamaindex]: 'llama',
