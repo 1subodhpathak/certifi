@@ -24,6 +24,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { getPracticeAssessment } from '../../data/practiceAssessmentsData';
 import { usePracticeTestStore } from '../../core/stores/practiceTestStore';
 import { useProfileStore } from '../../core/stores/profileStore';
+import { recordUsage } from '../../services/usageLedger';
 import CertificatePreview, {
   downloadCertificatePdf,
   formatCertificateDate,
@@ -487,7 +488,19 @@ const AssessmentTest = ({ assessmentId, onBack }) => {
                 </div>
                 <div className="pt-4 flex flex-col gap-3">
                   <button 
-                    onClick={() => setStatus('active')}
+                    onClick={() => {
+                      recordUsage({
+                        action: 'Start Practice Assessment',
+                        area: assessment.title || assessment.id,
+                        careerPoints: 2500,
+                        status: 'completed',
+                        metadata: {
+                          assessmentId: assessment.id,
+                          fixedCharge: 2500,
+                        },
+                      });
+                      setStatus('active');
+                    }}
                     className="w-full py-4 bg-slate-900 text-white rounded-2xl font-black text-sm uppercase tracking-widest hover:bg-blue-600 transition-all shadow-lg"
                   >
                     Yes, Start Now

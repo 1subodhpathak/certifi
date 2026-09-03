@@ -15,6 +15,7 @@ import {
 import DashboardShell from '../components/DashboardShell';
 import { assessmentsMap } from '../data/assessments';
 import { ASSESSMENT_TYPES } from '../data/assessmentTypes';
+import { recordUsage } from '../services/usageLedger';
 import agentBuilderCover from '../assets/test-covers/AiEngineering/Agent Builder.png';
 
 const PRACTICE_ATTEMPTS_KEY = 'careerSensePracticeAttempts';
@@ -426,6 +427,21 @@ export default function PracticeHub() {
     });
   };
 
+  const handleStartAssessment = (assessment) => {
+    recordUsage({
+      action: 'Start Practice Assessment',
+      area: assessment.title || assessment.shortTitle || assessment.id,
+      careerPoints: 2500,
+      status: 'completed',
+      metadata: {
+        assessmentId: assessment.id,
+        track: assessment.track,
+        fixedCharge: 2500,
+      },
+    });
+    navigate(`/practice-hub/test/${assessment.id}`);
+  };
+
   return (
     <DashboardShell
       title="Practice Hub"
@@ -497,15 +513,13 @@ export default function PracticeHub() {
                         }}
                         type="button"
                         onClick={() => setActiveFilter(tab)}
-                        className={`group relative flex min-h-14 shrink-0 flex-col items-center justify-center rounded-xl px-4 py-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 ${
-                          activeFilter === tab
+                        className={`group relative flex min-h-14 shrink-0 flex-col items-center justify-center rounded-xl px-4 py-2 text-sm transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500 focus-visible:ring-offset-2 ${activeFilter === tab
                             ? 'font-semibold text-slate-900 after:absolute after:inset-x-4 after:bottom-0 after:h-0.5 after:rounded-full after:bg-teal-500'
                             : 'font-medium text-slate-500 hover:bg-slate-50 hover:text-slate-800'
-                        }`}
+                          }`}
                       >
-                        <span className={`min-h-3 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.08em] ${
-                          trackAttributions[tab] ? 'text-emerald-600' : 'text-transparent'
-                        }`} aria-hidden={!trackAttributions[tab]}>
+                        <span className={`min-h-3 whitespace-nowrap text-[9px] font-semibold uppercase tracking-[0.08em] ${trackAttributions[tab] ? 'text-emerald-600' : 'text-transparent'
+                          }`} aria-hidden={!trackAttributions[tab]}>
                           {trackAttributions[tab] || 'Category'}
                         </span>
                         <span className="whitespace-nowrap">
@@ -634,7 +648,7 @@ export default function PracticeHub() {
                   key={assessment.id}
                   assessment={assessment}
                   showTrackBadge={activeFilter === TRACKS.ALL}
-                  onOpen={() => navigate(`/practice-hub/test/${assessment.id}`)}
+                  onOpen={() => handleStartAssessment(assessment)}
                 />
               ))}
             </div>

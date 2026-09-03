@@ -551,13 +551,12 @@ export default function CreateAssessment() {
                           setQuestionCount(value);
                         }
                       }}
-                      className={`absolute top-0 -translate-x-1/2 text-center transition-all ${
-                        isLocked
+                      className={`absolute top-0 -translate-x-1/2 text-center transition-all ${isLocked
                           ? 'text-slate-400 cursor-pointer hover:text-amber-600'
                           : questionCount === value
-                          ? 'text-teal-700 font-bold scale-110'
-                          : 'text-slate-600 hover:text-slate-900'
-                      }`}
+                            ? 'text-teal-700 font-bold scale-110'
+                            : 'text-slate-600 hover:text-slate-900'
+                        }`}
                       style={{ left: `calc(8px + (${percentage} * (100% - 16px) / 100))` }}
                     >
                       <span className="flex items-center gap-0.5">
