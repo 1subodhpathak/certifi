@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { ChevronDown, CircleUserRound, CreditCard, LogOut, Menu, Star, X } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { getUsageSummary } from '../../services/usageLedger';
-import { isExemptUser } from '../../services/pointsQuota';
+// import { isExemptUser } from '../../services/pointsQuota';
 import { SignedIn, SignedOut, SignInButton, useClerk, useUser } from '@clerk/clerk-react';
 import { useCertifiStore } from '../../store/useCertifiStore';
 
@@ -121,6 +121,28 @@ export default function HomeNavbar() {
     navigate('/');
   };
 
+  const [subData, setSubData] = useState<{ plan: string; tokensRemaining: number }>({
+    plan: 'free',
+    tokensRemaining: 10000,
+  });
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const fetchSub = async () => {
+      try {
+        const apiBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || 'https://server.datasenseai.com';
+        const res = await fetch(`${apiBase}/careersense/subscription/status?clerkId=${user.id}`);
+        const data = await res.json();
+        if (data.success) {
+          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 10000 });
+        }
+      } catch (err) {
+        console.error('Error fetching subscription status in HomeNavbar:', err);
+      }
+    };
+    fetchSub();
+  }, [user?.id]);
+
   return (
     <nav className="relative z-50 w-full border-b border-slate-200 bg-white/90 shadow-[0_10px_30px_rgba(0,0,0,0.12)] backdrop-blur-md">
       <div className="mx-auto flex w-full max-w-[1600px] items-center justify-between gap-3 px-4 py-1.5 sm:px-8 sm:py-2">
@@ -167,48 +189,26 @@ export default function HomeNavbar() {
           <SignedIn>
             {isSynced ? (
               <>
-                <div className="group relative hidden lg:flex cursor-pointer">
-                  <div className="flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 shadow-sm transition-all hover:border-amber-300 hover:shadow-md">
+                <div className="hidden lg:flex">
+                  <div className="flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 shadow-sm">
                     <div className="flex h-7 w-7 items-center justify-center rounded-full bg-amber-50 text-amber-500">
-                      <Star className="h-4 w-4" />
+                      <Star className="h-4 w-4 fill-amber-400" />
                     </div>
                     <div className="leading-tight">
-                      <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">CS Points Used</p>
-                      <p className="text-[13px] font-black text-slate-900">{totalCareerPoints}</p>
-                    </div>
-                  </div>
-
-                  <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
-                    <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
-                      <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-                        {isExemptUser(user?.primaryEmailAddress?.emailAddress)
-                          ? 'Free Account Limit : Unlimited Career Points (Test Account)'
-                          : 'Free Account Limit : 15000 Career Points'}
-                      </span>
+                      <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">AI Tokens Remaining</p>
+                      <p className="text-[13px] font-black text-slate-900">{subData.tokensRemaining.toLocaleString()}</p>
                     </div>
                   </div>
                 </div>
 
-                <div className="group relative hidden lg:flex cursor-pointer">
-                  <div className="flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md">
+                <div className="hidden lg:flex">
+                  <div className="flex h-10 items-center gap-2 rounded-xl border border-slate-200 bg-white/90 px-3 shadow-sm">
                     <div className="flex h-7 w-7 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
                       <span className="text-[13px] font-black">$</span>
                     </div>
                     <div className="leading-tight">
                       <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-slate-400">Bill</p>
                       <p className="text-[13px] font-black text-slate-900">${totalCostUsd.toFixed(4)}</p>
-                    </div>
-                  </div>
-
-                  <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
-                    <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
-                      <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
-                      <span className="flex items-center gap-1.5">
-                        <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-                        Free Account : Bill getting paid by Instructor
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -316,8 +316,8 @@ export default function HomeNavbar() {
                 {isSynced ? (
                   <div className="grid grid-cols-2 gap-2 mb-2">
                     <div className="rounded-2xl border border-slate-200 bg-white px-3 py-3 shadow-sm">
-                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points</p>
-                      <p className="mt-1 text-base font-black text-slate-900">{totalCareerPoints}</p>
+                      <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">AI Tokens Remaining</p>
+                      <p className="mt-1 text-base font-black text-slate-900">{subData.tokensRemaining.toLocaleString()}</p>
                     </div>
                     <div className="rounded-2xl border border-slate-200 bg-white px-3 py-3 shadow-sm">
                       <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>

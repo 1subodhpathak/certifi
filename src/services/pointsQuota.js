@@ -1,80 +1,39 @@
 import { getUsageSummary } from './usageLedger';
 
-export const DEFAULT_CS_POINTS_LIMIT = 15000;
-export const EXEMPT_TEST_EMAILS = ['pathaksubodh945@gmail.com'];
-
 /**
- * Checks if a given email is exempt from CS points limits (e.g. test accounts)
+ * Returns current CS Points & Subscription Tokens usage status
  */
-export function isExemptUser(email = '') {
-  const normalized = String(email || window?.clerkUserEmail || '').trim().toLowerCase();
-  return EXEMPT_TEST_EMAILS.includes(normalized);
-}
-
-/**
- * Gets the total CS Points limit for a user email
- */
-export function getUserCsPointsLimit(email = '') {
-  if (isExemptUser(email)) {
-    return Infinity;
-  }
-  return DEFAULT_CS_POINTS_LIMIT;
-}
-
-/**
- * Returns current CS Points usage status
- */
-export function getCsPointsQuotaStatus(email = '') {
+export function getCsPointsQuotaStatus(email = '', userSub = null) {
   const summary = getUsageSummary();
   const usedPoints = summary.totalCareerPoints || 0;
-  const exempt = isExemptUser(email);
-  const limit = getUserCsPointsLimit(email);
-
-  if (exempt) {
-    return {
-      used: usedPoints,
-      limit: Infinity,
-      remaining: Infinity,
-      percentUsed: 0,
-      isExempt: true,
-      isExceeded: false,
-      message: 'Test Account — Unlimited CareerPoints',
-    };
-  }
-
-  const remaining = Math.max(0, limit - usedPoints);
-  const percentUsed = Math.min(100, Math.round((usedPoints / limit) * 100));
-  const isExceeded = usedPoints >= limit;
+  const tokensRemaining = userSub?.tokensRemaining ?? 10000;
+  const plan = userSub?.plan || 'free';
+  const isExceeded = tokensRemaining <= 0;
 
   return {
     used: usedPoints,
-    limit,
-    remaining,
-    percentUsed,
-    isExempt: false,
+    tokensRemaining,
+    plan,
     isExceeded,
     message: isExceeded
-      ? `You have reached your free account limit of ${limit.toLocaleString()} CareerPoints. Upgrade your plan or contact support to continue generating AI assessments.`
-      : `${remaining.toLocaleString()} CareerPoints remaining out of ${limit.toLocaleString()} free allowance.`,
+      ? `Your AI Tokens are exhausted (0 remaining). Please top up or upgrade your CareerSense subscription.`
+      : `${tokensRemaining.toLocaleString()} AI Tokens remaining on your ${plan.toUpperCase()} Plan.`,
   };
 }
 
 /**
- * Validates if the user has enough CS Points before initiating an AI request
+ * Validates if the user has enough AI Tokens before initiating an AI request
  */
-export function validateCsPointsQuota(email = '', requestedEstimate = 100) {
-  const status = getCsPointsQuotaStatus(email);
-  if (status.isExempt) {
-    return { allowed: true, status };
-  }
-
-  if (status.used + requestedEstimate > status.limit) {
+export function validateCsPointsQuota(email = '', requestedEstimate = 100, userSub = null) {
+  const status = getCsPointsQuotaStatus(email, userSub);
+  if (status.isExceeded) {
     return {
       allowed: false,
       status,
-      error: `CareerPoints limit reached (${status.used.toLocaleString()} / ${status.limit.toLocaleString()} points used). Upgrade your plan to generate more AI assessments.`,
+      error: `AI Tokens exhausted (0 remaining). Upgrade your plan or top up tokens on CareerSense to continue generating AI assessments.`,
     };
   }
 
   return { allowed: true, status };
 }
+

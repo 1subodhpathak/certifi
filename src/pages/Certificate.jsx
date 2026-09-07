@@ -57,6 +57,7 @@ import { convertPointsToUsd } from '../services/usageLedger';
 import { recordUsage } from '../services/usageLedger';
 import { getStoredLearningPaths, saveLearningPath } from '../services/learningPathRegistry';
 import { getBadgeDisplayName } from '../services/badgeTitles';
+import { useCertifiStore } from '../store/useCertifiStore';
 
 const globalStyles = `
 @import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Manrope:wght@400;500;600;700;800&display=swap');
@@ -510,9 +511,45 @@ export default function Certificate() {
     },
   ];
 
+  const storeCerts = useCertifiStore((state) => state.certificates);
+  const storeBadges = useCertifiStore((state) => state.badges);
+  const storePaths = useCertifiStore((state) => state.learningPaths);
+  const storeUsageLogs = useCertifiStore((state) => state.usageLogs);
+  const isSynced = useCertifiStore((state) => state.isSynced);
+
+  const isClerkLoggedIn = typeof window !== 'undefined' && !!window.clerkUserId;
+
+  const displayStats = {
+    certs: isClerkLoggedIn ? (isSynced ? storeCerts.length : 0) : stats.certs,
+    badges: isClerkLoggedIn ? (isSynced ? storeBadges.length : 0) : stats.badges,
+    paths: isClerkLoggedIn ? (isSynced ? storePaths.length : 0) : stats.paths,
+    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.costUsd || 0), 0) : 0) : usageSummary.totalCostUsd,
+  };
+
+  const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 10000 });
+
+  useEffect(() => {
+    if (!user) return;
+    const clerkId = user.id || window?.clerkUserId;
+    if (!clerkId) return;
+    const fetchSub = async () => {
+      try {
+        const apiBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || 'https://server.datasenseai.com';
+        const res = await fetch(`${apiBase}/careersense/subscription/status?clerkId=${clerkId}`);
+        const data = await res.json();
+        if (data.success) {
+          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 10000 });
+        }
+      } catch (err) {
+        console.error('Error fetching subscription status in Certificate:', err);
+      }
+    };
+    fetchSub();
+  }, [user]);
+
   const userMeta = user?.currentRole && user?.currentCompany
     ? `${user.currentRole} at ${user.currentCompany}`
-    : user?.currentRole || user?.currentCompany || user?.plan || 'Free Account';
+    : user?.currentRole || user?.currentCompany || (subData?.plan ? `${subData.plan.toUpperCase()} Plan` : 'Free Account');
 
   const handleNavigate = (path) => {
     setIsMobileNavOpen(false);
@@ -668,6 +705,21 @@ export default function Certificate() {
                 </div>
               ))}
             </nav>
+
+            {!isSidebarCollapsed ? (
+              <div className="mt-6 rounded-xl bg-white/[0.055] p-3 ring-1 ring-inset ring-white/[0.07]">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">Active Tier</p>
+                  <p className="text-[10px] font-bold uppercase tracking-wider text-teal-300">
+                    {(subData?.plan || 'free').toUpperCase()} Plan
+                  </p>
+                </div>
+                <div className="mt-2 flex items-center justify-between gap-2">
+                  <span className="text-[10px] text-slate-400">AI Tokens Remaining:</span>
+                  <span className="text-xs font-bold text-amber-400">{(subData?.tokensRemaining ?? 10000).toLocaleString()}</span>
+                </div>
+              </div>
+            ) : null}
           </div>
 
           <div ref={userMenuRef} className="relative border-t border-[#12584a] bg-[#08332a] p-3">
@@ -722,28 +774,28 @@ export default function Certificate() {
 
               <div className="hidden items-center gap-4 xl:flex">
                 <UsagePill
-                  label="CS Points Used"
-                  value={String(usageSummary.totalCareerPoints)}
+                  label="AI Tokens Remaining"
+                  value={(subData?.tokensRemaining ?? 10000).toLocaleString()}
                   accent="amber"
-                  icon={<Zap className="h-4 w-4" />}
+                  icon={<Zap className="h-4 w-4 fill-amber-400" />}
                 />
                 <UsagePill
                   label="Bill"
-                  value={`$${usageSummary.totalCostUsd.toFixed(4)}`}
+                  value={`$${displayStats.totalCostUsd.toFixed(4)}`}
                   accent="emerald"
                   icon={<span className="text-sm font-black">$</span>}
                 />
                 <div className="h-8 w-px bg-slate-100" />
-                <CounterPill label="Certs" value={String(stats.certs)} icon={<Award className="h-4 w-4" />} accent="teal" />
+                <CounterPill label="Certs" value={String(displayStats.certs)} icon={<Award className="h-4 w-4" />} accent="teal" />
                 <div className="h-8 w-px bg-slate-100" />
-                <CounterPill label="Paths" value={String(stats.paths)} icon={<TrendingUp className="h-4 w-4" />} accent="blue" />
+                <CounterPill label="Paths" value={String(displayStats.paths)} icon={<TrendingUp className="h-4 w-4" />} accent="blue" />
               </div>
 
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:hidden">
-                <CompactStat label="Points" value={String(usageSummary.totalCareerPoints)} />
-                <CompactStat label="Bill" value={`$${usageSummary.totalCostUsd.toFixed(4)}`} />
-                <CompactStat label="Certs" value={String(stats.certs)} />
-                <CompactStat label="Paths" value={String(stats.paths)} />
+                <CompactStat label="Tokens" value={(subData?.tokensRemaining ?? 10000).toLocaleString()} />
+                <CompactStat label="Bill" value={`$${displayStats.totalCostUsd.toFixed(4)}`} />
+                <CompactStat label="Certs" value={String(displayStats.certs)} />
+                <CompactStat label="Paths" value={String(displayStats.paths)} />
               </div>
             </div>
           </header>

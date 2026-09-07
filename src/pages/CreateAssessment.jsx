@@ -111,8 +111,6 @@ export default function CreateAssessment() {
   const [skillValidationSuggestions, setSkillValidationSuggestions] = useState([]);
   const [isSkillOverviewOpen, setIsSkillOverviewOpen] = useState(false);
   const [skillOverview, setSkillOverview] = useState(null);
-  const [showPremiumModal, setShowPremiumModal] = useState(false);
-  const [premiumNotice, setPremiumNotice] = useState('');
   const deferredAssessmentTitle = useDeferredValue(assessmentTitle);
   const quotaStatus = getCsPointsQuotaStatus(user?.email);
 
@@ -509,7 +507,7 @@ export default function CreateAssessment() {
                   <span className="text-sm font-medium text-slate-700">Number of Questions</span>
                   <span className="inline-flex items-center gap-1 rounded-full border border-teal-200/80 bg-teal-50 px-2 py-0.5 text-[10px] font-bold text-teal-700">
                     <Sparkles className="h-3 w-3 text-teal-600" />
-                    Free Plan: Max 20 Qs
+                    Max 30 Qs
                   </span>
                 </div>
                 <span className="text-sm font-semibold text-slate-900">{summary.questionCount}</span>
@@ -521,15 +519,7 @@ export default function CreateAssessment() {
                   max="30"
                   step="1"
                   value={questionCount}
-                  onChange={(event) => {
-                    const val = Number(event.target.value);
-                    if (val > 20) {
-                      setQuestionCount(20);
-                      setShowPremiumModal(true);
-                    } else {
-                      setQuestionCount(val);
-                    }
-                  }}
+                  onChange={(event) => setQuestionCount(Number(event.target.value))}
                   disabled={isGenerating}
                   className="custom-range-input cursor-pointer"
                 />
@@ -537,43 +527,22 @@ export default function CreateAssessment() {
               <div className="relative mt-1 h-6 px-2 text-xs font-semibold text-slate-700">
                 {QUESTION_MARKERS.map((value) => {
                   const percentage = ((value - 5) / (30 - 5)) * 100;
-                  const isLocked = value > 20;
 
                   return (
                     <button
                       key={value}
                       type="button"
-                      onClick={() => {
-                        if (isLocked) {
-                          setQuestionCount(20);
-                          setShowPremiumModal(true);
-                        } else {
-                          setQuestionCount(value);
-                        }
-                      }}
-                      className={`absolute top-0 -translate-x-1/2 text-center transition-all ${isLocked
-                          ? 'text-slate-400 cursor-pointer hover:text-amber-600'
-                          : questionCount === value
-                            ? 'text-teal-700 font-bold scale-110'
-                            : 'text-slate-600 hover:text-slate-900'
+                      onClick={() => setQuestionCount(value)}
+                      className={`absolute top-0 -translate-x-1/2 text-center transition-all ${questionCount === value
+                          ? 'text-teal-700 font-bold scale-110'
+                          : 'text-slate-600 hover:text-slate-900 cursor-pointer'
                         }`}
                       style={{ left: `calc(8px + (${percentage} * (100% - 16px) / 100))` }}
                     >
-                      <span className="flex items-center gap-0.5">
-                        {value}
-                        {isLocked && <Lock className="h-2.5 w-2.5 text-amber-500" />}
-                      </span>
+                      <span>{value}</span>
                     </button>
                   );
                 })}
-              </div>
-
-              {/* Premium Feature Lock Notice */}
-              <div className="mt-3.5 flex items-center gap-2 rounded-xl border border-amber-200/60 bg-amber-50/40 px-3 py-2 text-[11px] text-amber-800">
-                <Lock className="h-3.5 w-3.5 text-amber-600 shrink-0" />
-                <span>
-                  <span className="font-bold">25-30 Questions</span> is a Premium Feature (Coming Soon). Up to 20 questions available on Free Plan.
-                </span>
               </div>
             </div>
 
@@ -819,42 +788,6 @@ export default function CreateAssessment() {
           </div>
         </div>
       ) : null}
-
-      {/* Premium Feature Locked Modal */}
-      {showPremiumModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="absolute inset-0" onClick={() => setShowPremiumModal(false)} />
-          <div className="relative z-10 w-full max-w-md overflow-hidden rounded-2xl border border-amber-200 bg-white p-6 shadow-2xl animate-in zoom-in-95 duration-200 text-center">
-            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-amber-50 text-amber-600 border border-amber-200/80 shadow-sm">
-              <Lock className="h-7 w-7" />
-            </div>
-
-            <div className="mt-4">
-              <span className="inline-flex items-center gap-1 rounded-full bg-amber-100/80 px-3 py-1 text-xs font-extrabold uppercase tracking-wider text-amber-800 border border-amber-200">
-                <Sparkles className="h-3.5 w-3.5 text-amber-600" />
-                Premium Feature
-              </span>
-              <h3 className="mt-2.5 text-xl font-extrabold text-slate-900">25 & 30 Questions Limit</h3>
-              <p className="mt-2.5 text-sm leading-relaxed text-slate-600">
-                Custom assessments with 25 to 30 questions are reserved for <span className="font-bold text-slate-900">Premium Subscriptions</span> (Coming Soon).
-              </p>
-              <div className="mt-3.5 rounded-xl border border-amber-200 bg-amber-50/90 p-3 text-xs font-medium text-amber-900">
-                On the Free Plan, custom assessments are limited to a maximum of 20 questions. Your selection has been set to 20 questions.
-              </div>
-            </div>
-
-            <div className="mt-6">
-              <button
-                type="button"
-                onClick={() => setShowPremiumModal(false)}
-                className="w-full rounded-xl bg-slate-900 px-4 py-3 text-sm font-bold text-white shadow-lg transition hover:bg-slate-800"
-              >
-                Got It, Keep 20 Questions
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
     </DashboardShell>
   );
 }
