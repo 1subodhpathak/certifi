@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import DashboardShell from '../components/DashboardShell';
 import ReportDownloadModal from '../components/ReportDownloadModal';
+import DownloadGateModal from '../components/common/DownloadGateModal';
+import { checkDownloadPass } from '../services/downloadGateService';
 import { useAuth } from '../context/AuthContext';
 import { getPassingThreshold, getCertificateIneligibilityMessage } from '../services/assessmentThresholds';
 import { generateCertificateId, getStoredCertificates, saveCertificate } from '../services/certificateRegistry';
@@ -83,6 +85,7 @@ export default function PracticeReport() {
   const [isGeneratePathModalOpen, setIsGeneratePathModalOpen] = useState(false);
   const [isGeneratingLearningPath, setIsGeneratingLearningPath] = useState(false);
   const [isDownloadReportModalOpen, setIsDownloadReportModalOpen] = useState(false);
+  const [isDownloadGateOpen, setIsDownloadGateOpen] = useState(false);
   const [isPreparingReportPdf, setIsPreparingReportPdf] = useState(false);
 
   const result = state;
@@ -226,7 +229,7 @@ export default function PracticeReport() {
     setIsLearningPathSaved(true);
   };
 
-  const handleDownloadReport = async () => {
+  const executeDownloadPracticeReport = async () => {
     setIsPreparingReportPdf(true);
     try {
       await downloadPracticeReportPdf({
@@ -241,6 +244,24 @@ export default function PracticeReport() {
     } finally {
       setIsPreparingReportPdf(false);
     }
+  };
+
+  const handleDownloadReport = async () => {
+    const userId = user?.id || user?.userId || user?.email;
+    if (userId) {
+      try {
+        const passCheck = await checkDownloadPass(userId, 'practice_report_pdf', result?.id || result?.assessmentId || 'default');
+        if (!passCheck.canDownload) {
+          setIsDownloadReportModalOpen(false);
+          setIsDownloadGateOpen(true);
+          return;
+        }
+      } catch (e) {
+        console.warn('Download pass verification check error:', e);
+      }
+    }
+
+    await executeDownloadPracticeReport();
   };
 
   const handlePreviewReport = async () => {
@@ -330,6 +351,16 @@ export default function PracticeReport() {
             isProcessing={isPreparingReportPdf}
           />
         ) : null}
+
+        <DownloadGateModal
+          isOpen={isDownloadGateOpen}
+          onClose={() => setIsDownloadGateOpen(false)}
+          clerkUser={user}
+          resourceType="practice_report_pdf"
+          resourceId={result?.id || result?.assessmentId || 'default'}
+          resourceName="Practice Performance Report PDF"
+          onSuccessDownload={executeDownloadPracticeReport}
+        />
         
         {/* Actions Header */}
         <div className="mb-6 flex items-center justify-between border-b border-slate-300 pb-4">
