@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getUsageSummary } from '../services/usageLedger';
-import { isExemptUser } from '../services/pointsQuota';
 import { getStoredBadges } from '../services/badgeRegistry';
 import { getStoredCertificates } from '../services/certificateRegistry';
 import { getStoredLearningPaths } from '../services/learningPathRegistry';
@@ -162,20 +161,36 @@ export default function DashboardShell({
     paths: isClerkLoggedIn ? (isSynced ? storePaths.length : 0) : stats.paths,
     totalCareerPoints: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) : 0) : usageSummary.totalCareerPoints,
     totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.costUsd || 0), 0) : 0) : usageSummary.totalCostUsd,
+    totalCareerPoints: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) : 0) : usageSummary.totalCareerPoints,
+    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.costUsd || 0), 0) : 0) : usageSummary.totalCostUsd,
   };
+
+  const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 10000 });
 
   const userMeta = user.currentRole && user.currentCompany
     ? `${user.currentRole} at ${user.currentCompany}`
-    : user.currentRole || user.currentCompany || user.plan || 'Free Account';
+    : user.currentRole || user.currentCompany || (subData?.plan ? `${subData.plan.toUpperCase()} Plan` : 'Free Account');
 
-  const pointsTooltip = isExemptUser(user?.email)
-    ? 'Free Account Limit : Unlimited Career Points (Test Account)'
-    : 'Free Account Limit : 15000 Career Points';
-  const billTooltip = 'Free Account : Bill getting paid by Instructor';
-  const pointsLimit = isExemptUser(user?.email) ? null : 15000;
-  const pointsProgress = pointsLimit
-    ? Math.min(100, Math.round((displayStats.totalCareerPoints / pointsLimit) * 100))
-    : 100;
+  useEffect(() => {
+    if (!user) return;
+    const clerkId = user.id || window?.clerkUserId;
+    if (!clerkId) return;
+    const fetchSub = async () => {
+      try {
+        const apiBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || 'https://server.datasenseai.com';
+        const res = await fetch(`${apiBase}/careersense/subscription/status?clerkId=${clerkId}`);
+        const data = await res.json();
+        if (data.success) {
+          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 10000 });
+        }
+      } catch (err) {
+        console.error('Error fetching subscription status in DashboardShell:', err);
+      }
+    };
+    fetchSub();
+  }, [user]);
+
+
   const profileCompletionChecks = [
     Boolean(user?.name?.trim()),
     Boolean(user?.email?.trim()),
@@ -229,47 +244,23 @@ export default function DashboardShell({
 
   const usageBadges = (
     <>
-      <div className="group relative cursor-pointer">
-        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition-all hover:border-amber-300 hover:shadow-md">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
-            <Zap className="h-4 w-4" />
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">CS Points Used</p>
-            <p className="text-sm font-black text-slate-900">{displayStats.totalCareerPoints}</p>
-          </div>
+      <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-amber-50 text-amber-500">
+          <Zap className="h-4 w-4 fill-amber-400" />
         </div>
-
-        <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
-          <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
-            <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
-              {pointsTooltip}
-            </span>
-          </div>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">AI Tokens Remaining</p>
+          <p className="text-sm font-black text-slate-900">{subData.tokensRemaining.toLocaleString()}</p>
         </div>
       </div>
 
-      <div className="group relative cursor-pointer">
-        <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm transition-all hover:border-emerald-300 hover:shadow-md">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
-            <span className="text-sm font-black">$</span>
-          </div>
-          <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
-            <p className="text-sm font-black text-slate-900">${displayStats.totalCostUsd.toFixed(4)}</p>
-          </div>
+      <div className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 shadow-sm">
+        <div className="flex h-8 w-8 items-center justify-center rounded-full bg-emerald-50 text-emerald-600">
+          <span className="text-sm font-black">$</span>
         </div>
-
-        <div className="pointer-events-none absolute left-1/2 top-full z-50 mt-2 -translate-x-1/2 opacity-0 transition-all duration-150 ease-out group-hover:translate-y-0.5 group-hover:opacity-100">
-          <div className="relative whitespace-nowrap rounded-xl border border-teal-500/30 bg-slate-900/95 px-3 py-1.5 text-xs font-semibold text-teal-300 shadow-xl shadow-slate-950/20 backdrop-blur-md">
-            <div className="absolute -top-1 left-1/2 h-2 w-2 -translate-x-1/2 rotate-45 border-l border-t border-teal-500/30 bg-slate-900/95" />
-            <span className="flex items-center gap-1.5">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              {billTooltip}
-            </span>
-          </div>
+        <div>
+          <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">Bill</p>
+          <p className="text-sm font-black text-slate-900">${displayStats.totalCostUsd.toFixed(4)}</p>
         </div>
       </div>
     </>
@@ -302,7 +293,7 @@ export default function DashboardShell({
       </div>
 
       <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:hidden">
-        <CompactStat label="Points" value={String(displayStats.totalCareerPoints)} />
+        <CompactStat label="Tokens" value={subData.tokensRemaining.toLocaleString()} />
         <CompactStat label="Bill" value={`$${displayStats.totalCostUsd.toFixed(4)}`} />
         <CompactStat label="Certs" value={String(displayStats.certs)} />
         <CompactStat label="Paths" value={String(displayStats.paths)} />
@@ -409,20 +400,15 @@ export default function DashboardShell({
           {!isSidebarCollapsed ? (
             <div className="mt-6 rounded-xl bg-white/[0.055] p-3 ring-1 ring-inset ring-white/[0.07]">
               <div className="flex items-center justify-between gap-3">
-                <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">Career points</p>
-                <p className="text-[10px] font-semibold tabular-nums text-teal-300">
-                  {pointsLimit ? `${pointsProgress}%` : 'Unlimited'}
+                <p className="text-[10px] font-semibold uppercase tracking-[0.12em] text-slate-400">Active Tier</p>
+                <p className="text-[10px] font-bold uppercase tracking-wider text-teal-300">
+                  {subData.plan} Plan
                 </p>
               </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-slate-950/45">
-                <div
-                  className="h-full origin-left rounded-full bg-teal-400 transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] motion-reduce:transition-none"
-                  style={{ transform: `scaleX(${pointsProgress / 100})` }}
-                />
+              <div className="mt-2 flex items-center justify-between gap-2">
+                <span className="text-[10px] text-slate-400">AI Tokens Remaining:</span>
+                <span className="text-xs font-bold text-amber-400">{subData.tokensRemaining.toLocaleString()}</span>
               </div>
-              <p className="mt-2 text-[10px] text-slate-400">
-                {displayStats.totalCareerPoints.toLocaleString()}{pointsLimit ? ` of ${pointsLimit.toLocaleString()} used` : ' points used'}
-              </p>
             </div>
           ) : null}
         </div>

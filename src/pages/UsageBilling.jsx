@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import DashboardShell from '../components/DashboardShell';
 import { getUsageLogs, getUsageSummary } from '../services/usageLedger';
 import { useCertifiStore } from '../store/useCertifiStore';
@@ -50,11 +50,30 @@ export default function UsageBilling() {
     [logs]
   );
 
+  const [userSub, setUserSub] = useState({ plan: 'free', tokensRemaining: 10000, status: 'active' });
+
+  useEffect(() => {
+    if (!user?.id) return;
+    const fetchSub = async () => {
+      try {
+        const apiBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_BACKEND_URL || import.meta.env.VITE_API_BASE_URL || 'https://server.datasenseai.com';
+        const res = await fetch(`${apiBase}/careersense/subscription/status?clerkId=${user.id}`);
+        const data = await res.json();
+        if (data.success) {
+          setUserSub(data);
+        }
+      } catch (err) {
+        console.error('Error fetching subscription in UsageBilling:', err);
+      }
+    };
+    fetchSub();
+  }, [user?.id]);
+
   if (isSignedIn && !isSynced) {
     return (
       <DashboardShell
         title="Usage & Billing Ledger"
-        subtitle="Track Career Points, overall billing, and every action across learning paths."
+        subtitle="Track AI Tokens, overall billing, and every action across learning paths."
         activeTab="usage-billing"
         contentClassName="bg-[#f4fafa] px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8"
       >
@@ -69,7 +88,7 @@ export default function UsageBilling() {
   return (
     <DashboardShell
       title="Usage & Billing Ledger"
-      subtitle="Track Career Points, overall billing, and every action across learning paths."
+      subtitle="Track AI Tokens, overall billing, and every action across learning paths."
       activeTab="usage-billing"
       contentClassName="bg-[#f4fafa] px-4 pb-16 sm:px-6 sm:pb-20 lg:px-8"
     >
@@ -80,7 +99,7 @@ export default function UsageBilling() {
           <div className="mb-5">
             <h2 className="text-lg font-bold tracking-tight text-slate-900">Platform Metrics</h2>
             <p className="text-sm text-slate-500">
-              CareerPoints represent platform compute usage. Billing is estimated from recorded activity.
+              AI Tokens represent platform computational quota. Billing is estimated from recorded activity.
             </p>
           </div>
 
@@ -100,30 +119,11 @@ export default function UsageBilling() {
                 <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
                   {formatUsd(summary.totalCostUsd)}
                 </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">Settled</p>
+                <p className="mt-2 text-sm font-medium text-slate-500">Recorded activity API estimate</p>
               </div>
             </div>
 
-            {/* Skills Points Earned Card */}
-            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-teal-200 hover:shadow-md">
-              <div className="absolute -right-4 -top-4 rounded-full bg-teal-50/50 p-8 transition-transform group-hover:scale-110">
-                <Gauge className="h-8 w-8 text-teal-100" />
-              </div>
-              <div className="relative">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-teal-50 text-teal-600 ring-1 ring-teal-200/50">
-                    <Gauge className="h-3.5 w-3.5" />
-                  </div>
-                  CareerPoints Used
-                </div>
-                <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
-                  {summary.totalCareerPoints.toLocaleString()}
-                </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">Earned from Certifi assessments</p>
-              </div>
-            </div>
-
-            {/* CareerPoints Quota Card */}
+            {/* AI Tokens Remaining Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-md">
               <div className="absolute -right-4 -top-4 rounded-full bg-amber-50/50 p-8 transition-transform group-hover:scale-110">
                 <Zap className="h-8 w-8 text-amber-100" />
@@ -131,66 +131,60 @@ export default function UsageBilling() {
               <div className="relative">
                 <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
                   <div className="flex h-6 w-6 items-center justify-center rounded-md bg-amber-50 text-amber-600 ring-1 ring-amber-200/50">
-                    <Zap className="h-3.5 w-3.5" />
+                    <Zap className="h-3.5 w-3.5 fill-amber-500" />
                   </div>
-                  CareerPoints Quota
+                  AI Tokens Remaining
                 </div>
-                <div className="mt-4 flex items-baseline gap-2">
-                  <span className="text-3xl font-black tracking-tight text-slate-900">
-                    {quotaStatus.isExempt
-                      ? 'Unlimited'
-                      : `${quotaStatus.used.toLocaleString()} / ${quotaStatus.limit.toLocaleString()}`}
-                  </span>
+                <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
+                  {(userSub.tokensRemaining || 10000).toLocaleString()}
+                </div>
+                <p className="mt-2 text-sm font-medium text-slate-500">CareerSense reverse countdown balance</p>
+              </div>
+            </div>
+
+            {/* Active Operational Tier Card */}
+            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-teal-200 hover:shadow-md">
+              <div className="absolute -right-4 -top-4 rounded-full bg-teal-50/50 p-8 transition-transform group-hover:scale-110">
+                <ShieldCheck className="h-8 w-8 text-teal-100" />
+              </div>
+              <div className="relative">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-teal-50 text-teal-600 ring-1 ring-teal-200/50">
+                    <ShieldCheck className="h-3.5 w-3.5" />
+                  </div>
+                  Active Operational Tier
+                </div>
+                <div className="mt-4 text-3xl font-black tracking-tight text-[#0EA8B9]">
+                  {(userSub.plan || 'free').toUpperCase()} Plan
                 </div>
                 <p className="mt-2 text-xs font-semibold text-slate-500">
-                  {quotaStatus.isExempt ? 'Test Account Exemption' : `${quotaStatus.remaining.toLocaleString()} CareerPoints Remaining`}
+                  Subscription Status: <span className="font-bold text-slate-700">{userSub.status ? userSub.status.toUpperCase() : 'ACTIVE'}</span>
                 </p>
               </div>
             </div>
           </div>
 
-          {/* Quota Progress Banner */}
-          <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold text-slate-900">CareerPoints Usage Limit</span>
-                  {quotaStatus.isExempt ? (
-                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-0.5 text-xs font-bold text-emerald-800">
-                      <ShieldCheck className="h-3.5 w-3.5" />
-                      Test Account Exempt
-                    </span>
-                  ) : (
-                    <span className="rounded-full bg-slate-100 px-2.5 py-0.5 text-xs font-bold text-slate-600">
-                      15,000 CareerPoints Allowance
-                    </span>
-                  )}
-                </div>
-                <p className="mt-1 text-xs text-slate-500">
-                  {quotaStatus.message}
-                </p>
+          {/* Subscription Banner */}
+          <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-sm font-bold text-slate-900">CareerSense Subscription Framework</span>
+                <span className="rounded-full bg-teal-50 border border-teal-200 px-3 py-0.5 text-xs font-bold text-teal-700 uppercase">
+                  {(userSub.plan || 'free')} TIER
+                </span>
               </div>
-
-              {!quotaStatus.isExempt && (
-                <div className="min-w-[200px] text-right">
-                  <span className="text-xs font-bold text-slate-700">{quotaStatus.percentUsed}% Used</span>
-                </div>
-              )}
+              <p className="mt-1 text-xs text-slate-500">
+                Certifi platform AI usage draws directly from your CareerSense token balance. You have {(userSub.tokensRemaining || 10000).toLocaleString()} AI tokens available.
+              </p>
             </div>
-
-            {!quotaStatus.isExempt && (
-              <div className="mt-4 h-3 w-full overflow-hidden rounded-full bg-slate-100">
-                <div
-                  className={`h-full transition-all duration-500 ${quotaStatus.percentUsed >= 90
-                    ? 'bg-rose-500'
-                    : quotaStatus.percentUsed >= 70
-                      ? 'bg-amber-500'
-                      : 'bg-teal-500'
-                    }`}
-                  style={{ width: `${quotaStatus.percentUsed}%` }}
-                />
-              </div>
-            )}
+            <a
+              href="https://careersenseai.com/pricing"
+              target="_blank"
+              rel="noreferrer"
+              className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-teal-700"
+            >
+              Manage Subscription & Tokens →
+            </a>
           </div>
         </section>
 
