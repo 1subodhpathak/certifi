@@ -29,6 +29,8 @@ import {
 import { useAuth } from '../context/AuthContext';
 import BadgePreviewModal from '../components/BadgePreviewModal';
 import ReportDownloadModal from '../components/ReportDownloadModal';
+import DownloadGateModal from '../components/common/DownloadGateModal';
+import { checkDownloadPass } from '../services/downloadGateService';
 import shagunSignature from '../assets/ShagunSignature.png';
 import csSeal from '../assets/CSSeal.png';
 import csWatermark from '../assets/CSWatermark4.png';
@@ -158,6 +160,9 @@ export default function Certificate() {
   const [scoreReportModalOpen, setScoreReportModalOpen] = useState(false);
   const [badgePreviewOpen, setBadgePreviewOpen] = useState(false);
   const [badgeStoredNotice, setBadgeStoredNotice] = useState(false);
+  const [isDownloadGateOpen, setIsDownloadGateOpen] = useState(false);
+  const [pendingDownloadAction, setPendingDownloadAction] = useState(null);
+  const [gateResource, setGateResource] = useState({ type: 'certificate_pdf', name: 'Verified Certificate' });
   
   const [learningPath, setLearningPath] = useState(null);
   const [isLearningPathSaved, setIsLearningPathSaved] = useState(false);
@@ -333,13 +338,43 @@ export default function Certificate() {
     window.setTimeout(() => setCopied(''), 1800);
   };
 
-  const handleDownloadCertificate = () => window.print();
+  const handleDownloadCertificate = async () => {
+    const userId = user?.id || user?.userId || user?.email;
+    if (userId) {
+      try {
+        const passCheck = await checkDownloadPass(userId, 'certificate_pdf', certificate?.id || 'default');
+        if (!passCheck.canDownload) {
+          setGateResource({ type: 'certificate_pdf', name: 'Verified Certificate' });
+          setPendingDownloadAction(() => () => window.print());
+          setIsDownloadGateOpen(true);
+          return;
+        }
+      } catch (e) {
+        console.warn('Download pass verification check error:', e);
+      }
+    }
+    window.print();
+  };
 
   const handleDownloadReport = () => setScoreReportModalOpen(true);
 
-  const handleConfirmDownloadReport = () => {
-    downloadScoreReport(certificate, attempt);
+  const handleConfirmDownloadReport = async () => {
     setScoreReportModalOpen(false);
+    const userId = user?.id || user?.userId || user?.email;
+    if (userId) {
+      try {
+        const passCheck = await checkDownloadPass(userId, 'certificate_report_pdf', certificate?.id || 'default');
+        if (!passCheck.canDownload) {
+          setGateResource({ type: 'certificate_report_pdf', name: 'Certificate Score Report PDF' });
+          setPendingDownloadAction(() => () => downloadScoreReport(certificate, attempt));
+          setIsDownloadGateOpen(true);
+          return;
+        }
+      } catch (e) {
+        console.warn('Download pass verification check error:', e);
+      }
+    }
+    downloadScoreReport(certificate, attempt);
   };
 
   const handlePreviewReport = async () => {
@@ -1101,6 +1136,21 @@ export default function Certificate() {
         onClose={() => setBadgePreviewOpen(false)}
         onStore={handleStoreBadge}
         onDownload={handleDownloadBadge}
+      />
+
+      <DownloadGateModal
+        isOpen={isDownloadGateOpen}
+        onClose={() => setIsDownloadGateOpen(false)}
+        clerkUser={user}
+        resourceType={gateResource.type}
+        resourceId={certificate?.id || 'default'}
+        resourceName={gateResource.name}
+        onSuccessDownload={() => {
+          if (pendingDownloadAction) {
+            pendingDownloadAction();
+            setPendingDownloadAction(null);
+          }
+        }}
       />
     </>
   );

@@ -23,6 +23,8 @@ import MermaidDiagram from '../components/shared/MermaidDiagram';
 import { estimateLearningPathCareerPoints, generateLearningPath } from '../services/aiService';
 import { useAuth } from '../context/AuthContext';
 import ReportDownloadModal from '../components/ReportDownloadModal';
+import DownloadGateModal from '../components/common/DownloadGateModal';
+import { checkDownloadPass } from '../services/downloadGateService';
 import {
   findCertificateByAttemptId,
   generateCertificateId,
@@ -57,6 +59,7 @@ export default function TestReport() {
   const [attemptRecord, setAttemptRecord] = useState(null);
   const [shareCopied, setShareCopied] = useState(false);
   const [isDownloadReportModalOpen, setIsDownloadReportModalOpen] = useState(false);
+  const [isDownloadGateOpen, setIsDownloadGateOpen] = useState(false);
   const [isPreparingReportPdf, setIsPreparingReportPdf] = useState(false);
   const [isGeneratePathModalOpen, setIsGeneratePathModalOpen] = useState(false);
   const [isGeneratingLearningPath, setIsGeneratingLearningPath] = useState(false);
@@ -338,7 +341,7 @@ export default function TestReport() {
     window.setTimeout(() => setShareCopied(false), 1800);
   };
 
-  const handleDownloadReport = async () => {
+  const executeDownloadAssessmentReport = async () => {
     if (!attemptRecord || !reportDownloadMeta) return;
 
     setIsPreparingReportPdf(true);
@@ -357,6 +360,26 @@ export default function TestReport() {
     } finally {
       setIsPreparingReportPdf(false);
     }
+  };
+
+  const handleDownloadReport = async () => {
+    if (!attemptRecord || !reportDownloadMeta) return;
+
+    const userId = user?.id || user?.userId || user?.email;
+    if (userId) {
+      try {
+        const passCheck = await checkDownloadPass(userId, 'assessment_report_pdf', attemptRecord?.id || 'default');
+        if (!passCheck.canDownload) {
+          setIsDownloadReportModalOpen(false);
+          setIsDownloadGateOpen(true);
+          return;
+        }
+      } catch (e) {
+        console.warn('Download pass verification check error:', e);
+      }
+    }
+
+    await executeDownloadAssessmentReport();
   };
 
   const handlePreviewReport = async () => {
@@ -417,6 +440,15 @@ export default function TestReport() {
           isProcessing={isPreparingReportPdf}
         />
       ) : null}
+      <DownloadGateModal
+        isOpen={isDownloadGateOpen}
+        onClose={() => setIsDownloadGateOpen(false)}
+        clerkUser={user}
+        resourceType="assessment_report_pdf"
+        resourceId={attemptRecord?.id || 'default'}
+        resourceName="Assessment Score Report PDF"
+        onSuccessDownload={executeDownloadAssessmentReport}
+      />
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
