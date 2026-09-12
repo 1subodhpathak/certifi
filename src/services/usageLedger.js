@@ -1,7 +1,7 @@
 import { useCertifiStore } from '../store/useCertifiStore';
 
 const STORAGE_KEY = 'careerSenseUsageLedger';
-const USD_PER_TOKEN = 1 / 10000;
+const USD_PER_TOKEN = 1 / 100000;
 
 export function estimateTokensFromText(...texts) {
   const totalChars = texts.filter(Boolean).join(' ').length;
@@ -59,7 +59,7 @@ export function getUsageLogs() {
 export function getUsageSummary() {
   const logs = getUsageLogs();
   const totalCareerPoints = logs.reduce((sum, log) => sum + (log.careerPoints || 0), 0);
-  const totalCostUsd = logs.reduce((sum, log) => sum + (log.costUsd || 0), 0);
+  const totalCostUsd = totalCareerPoints / 100000;
 
   return {
     totalCareerPoints,

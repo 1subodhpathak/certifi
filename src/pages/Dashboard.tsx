@@ -255,7 +255,7 @@ export default function Dashboard() {
       contentClassName="bg-[#f4fafa] px-4 pb-12 pt-6 sm:px-8"
     >
       <div className="mx-auto max-w-7xl space-y-8">
-        
+
         {/* Executive Header */}
         <section className="relative overflow-hidden rounded-2xl border border-teal-100 bg-white shadow-sm">
           <div className="absolute inset-0 bg-gradient-to-br from-teal-50/50 via-white to-white pointer-events-none" />
@@ -314,16 +314,16 @@ export default function Dashboard() {
           <MetricCard icon={Award} label="Verified Credentials" value={dashboardData.certificates.length} hint="Secure certificates generated and stored." tone="emerald" />
           <MetricCard icon={BookOpen} label="Learning Paths" value={dashboardData.learningPaths.length} hint="AI-generated roadmaps currently active." tone="blue" />
           <MetricCard icon={Target} label="Pass Rate" value={`${dashboardData.attempts.length ? Math.round((dashboardData.passedAttempts / dashboardData.attempts.length) * 100) : 0}%`} hint="Percentage of assessments meeting the threshold." tone="violet" />
-          
-          <MetricCard icon={Gauge} label="CareerPoints" value={dashboardData.usageSummary.totalCareerPoints.toLocaleString()} hint="Total API points consumed for generations." tone="amber" />
-          <MetricCard icon={Wallet} label="Usage Billing" value={`$${dashboardData.usageSummary.totalCostUsd.toFixed(4)}`} hint="Estimated infrastructural cost incurred." tone="teal" />
+
+          <MetricCard icon={Gauge} label="Tokens" value={dashboardData.usageSummary.totalCareerPoints.toLocaleString()} hint="Total API points consumed for generations." tone="amber" />
+          <MetricCard icon={Wallet} label="Bills" value={`$${dashboardData.usageSummary.totalCostUsd.toFixed(4)}`} hint="Estimated infrastructural cost incurred." tone="teal" />
           <MetricCard icon={Flame} label="Activity Streak" value={`${dashboardData.streak} Day${dashboardData.streak === 1 ? '' : 's'}`} hint="Consecutive days of active platform usage." tone="amber" />
           <MetricCard icon={Trophy} label="Peak Performance" value={`${dashboardData.highestScore}%`} hint="Highest recorded score across all attempts." tone="teal" />
         </section>
 
         {/* Detailed Panels */}
         <section className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
-          
+
           {/* Performance Overview */}
           <SectionCard
             title="Performance Analytics"
@@ -414,9 +414,8 @@ export default function Dashboard() {
                 {dashboardData.recentActivity.map((activity) => (
                   <div key={activity.id} className="group flex items-center justify-between rounded-xl p-3 transition-colors hover:bg-slate-50">
                     <div className="flex items-center gap-3">
-                      <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
-                        activity.status === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'
-                      }`}>
+                      <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${activity.status === 'completed' ? 'bg-emerald-50 text-emerald-600' : 'bg-slate-100 text-slate-500'
+                        }`}>
                         <Activity className="h-4 w-4" />
                       </div>
                       <div>
@@ -429,8 +428,8 @@ export default function Dashboard() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold text-slate-900">{activity.careerPoints} CPs</p>
-                      <p className="text-xs text-slate-500 mt-0.5">${Number(activity.costUsd || 0).toFixed(4)}</p>
+                      <p className="text-sm font-semibold text-slate-900">{activity.careerPoints} tokens</p>
+                      <p className="text-xs text-slate-500 mt-0.5">${Number(activity.careerPoints ? activity.careerPoints / 100000 : (activity.costUsd || 0)).toFixed(4)}</p>
                     </div>
                   </div>
                 ))}
@@ -445,7 +444,7 @@ export default function Dashboard() {
               </div>
             )}
           </SectionCard>
-          
+
         </section>
       </div>
     </DashboardShell>

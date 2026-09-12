@@ -155,14 +155,13 @@ export default function DashboardShell({
 
   const isClerkLoggedIn = typeof window !== 'undefined' && !!window.clerkUserId;
 
+  const computedPoints = isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) : 0) : usageSummary.totalCareerPoints;
   const displayStats = {
     certs: isClerkLoggedIn ? (isSynced ? storeCerts.length : 0) : stats.certs,
     badges: isClerkLoggedIn ? (isSynced ? storeBadges.length : 0) : stats.badges,
     paths: isClerkLoggedIn ? (isSynced ? storePaths.length : 0) : stats.paths,
-    totalCareerPoints: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) : 0) : usageSummary.totalCareerPoints,
-    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.costUsd || 0), 0) : 0) : usageSummary.totalCostUsd,
-    totalCareerPoints: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) : 0) : usageSummary.totalCareerPoints,
-    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.costUsd || 0), 0) : 0) : usageSummary.totalCostUsd,
+    totalCareerPoints: computedPoints,
+    totalCostUsd: computedPoints / 100000,
   };
 
   const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 10000 });
