@@ -558,7 +558,7 @@ export default function Certificate() {
     certs: isClerkLoggedIn ? (isSynced ? storeCerts.length : 0) : stats.certs,
     badges: isClerkLoggedIn ? (isSynced ? storeBadges.length : 0) : stats.badges,
     paths: isClerkLoggedIn ? (isSynced ? storePaths.length : 0) : stats.paths,
-    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.costUsd || 0), 0) : 0) : usageSummary.totalCostUsd,
+    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) / 100000 : 0) : (usageSummary.totalCareerPoints ? usageSummary.totalCareerPoints / 100000 : usageSummary.totalCostUsd),
   };
 
   const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 10000 });

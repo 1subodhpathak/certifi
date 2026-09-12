@@ -85,9 +85,7 @@ export default function HomeNavbar() {
   const totalCareerPoints = isSynced
     ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0)
     : usageSummary.totalCareerPoints;
-  const totalCostUsd = isSynced
-    ? storeUsageLogs.reduce((sum, log) => sum + (log.costUsd || 0), 0)
-    : usageSummary.totalCostUsd;
+  const totalCostUsd = totalCareerPoints / 100000;
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
   const displayName = user?.fullName || user?.firstName || 'CareerSense member';

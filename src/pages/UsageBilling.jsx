@@ -103,26 +103,7 @@ export default function UsageBilling() {
             </p>
           </div>
 
-          <div className="grid gap-5 md:grid-cols-3">
-            {/* Current Balance Card */}
-            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-md">
-              <div className="absolute -right-4 -top-4 rounded-full bg-blue-50/50 p-8 transition-transform group-hover:scale-110">
-                <CircleDollarSign className="h-8 w-8 text-blue-100" />
-              </div>
-              <div className="relative">
-                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
-                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600 ring-1 ring-blue-200/50">
-                    <CircleDollarSign className="h-3.5 w-3.5" />
-                  </div>
-                  Bill
-                </div>
-                <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
-                  {formatUsd(summary.totalCostUsd)}
-                </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">Recorded activity API estimate</p>
-              </div>
-            </div>
-
+          <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
             {/* AI Tokens Remaining Card */}
             <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-amber-200 hover:shadow-md">
               <div className="absolute -right-4 -top-4 rounded-full bg-amber-50/50 p-8 transition-transform group-hover:scale-110">
@@ -135,10 +116,48 @@ export default function UsageBilling() {
                   </div>
                   AI Tokens Remaining
                 </div>
-                <div className="mt-4 text-4xl font-black tracking-tight text-slate-900">
+                <div className="mt-4 text-3xl font-black tracking-tight text-slate-900">
                   {(userSub.tokensRemaining || 10000).toLocaleString()}
                 </div>
-                <p className="mt-2 text-sm font-medium text-slate-500">CareerSense reverse countdown balance</p>
+                <p className="mt-2 text-xs font-medium text-slate-500">CareerSense Reverse Balance</p>
+              </div>
+            </div>
+
+            {/* Lifetime tokens used Card */}
+            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-blue-200 hover:shadow-md">
+              <div className="absolute -right-4 -top-4 rounded-full bg-blue-50/50 p-8 transition-transform group-hover:scale-110">
+                <Gauge className="h-8 w-8 text-blue-100" />
+              </div>
+              <div className="relative">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-blue-50 text-blue-600 ring-1 ring-blue-200/50">
+                    <Gauge className="h-3.5 w-3.5" />
+                  </div>
+                  Lifetime tokens used
+                </div>
+                <div className="mt-4 text-3xl font-black tracking-tight text-slate-900">
+                  {(summary.totalCareerPoints || 0).toLocaleString()}
+                </div>
+                <p className="mt-2 text-xs font-medium text-slate-500">Total Platform Consumption</p>
+              </div>
+            </div>
+
+            {/* Lifetime bills Card */}
+            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-teal-200 hover:shadow-md">
+              <div className="absolute -right-4 -top-4 rounded-full bg-teal-50/50 p-8 transition-transform group-hover:scale-110">
+                <CircleDollarSign className="h-8 w-8 text-teal-100" />
+              </div>
+              <div className="relative">
+                <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-slate-500">
+                  <div className="flex h-6 w-6 items-center justify-center rounded-md bg-teal-50 text-teal-600 ring-1 ring-teal-200/50">
+                    <CircleDollarSign className="h-3.5 w-3.5" />
+                  </div>
+                  Lifetime bills
+                </div>
+                <div className="mt-4 text-3xl font-black tracking-tight text-slate-900">
+                  {formatUsd(summary.totalCareerPoints / 100000)}
+                </div>
+                <p className="mt-2 text-xs font-medium text-slate-500">Recorded Activity API Estimate</p>
               </div>
             </div>
 
@@ -158,7 +177,7 @@ export default function UsageBilling() {
                   {(userSub.plan || 'free').toUpperCase()} Plan
                 </div>
                 <p className="mt-2 text-xs font-semibold text-slate-500">
-                  Subscription Status: <span className="font-bold text-slate-700">{userSub.status ? userSub.status.toUpperCase() : 'ACTIVE'}</span>
+                  CareerSense Subscription
                 </p>
               </div>
             </div>
@@ -181,25 +200,27 @@ export default function UsageBilling() {
               href="https://careersenseai.com/pricing"
               target="_blank"
               rel="noreferrer"
-              className="shrink-0 inline-flex items-center gap-1.5 rounded-xl bg-teal-600 px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-teal-700"
+              className="inline-flex items-center justify-center rounded-xl bg-slate-900 px-5 py-2.5 text-xs font-bold text-white transition hover:bg-slate-800"
             >
               Manage Subscription & Tokens →
             </a>
           </div>
         </section>
 
-        {/* Transaction History Table */}
-        <section className="rounded-2xl border border-slate-200/75 bg-white shadow-sm overflow-hidden">
-          <div className="border-b border-slate-100 px-6 py-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between bg-white">
-            <div>
-              <h3 className="text-lg font-bold tracking-tight text-slate-900">Transaction History</h3>
-              <p className="text-sm text-slate-500 mt-0.5">
-                A detailed chronological ledger of Career Points utilization.
-              </p>
-            </div>
-            <div className="inline-flex items-center gap-1.5 rounded-lg border border-slate-200 bg-slate-50 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-slate-600 shadow-sm">
-              <ReceiptText className="h-4 w-4 text-slate-400" />
-              System Logs
+        {/* Detailed Ledger Section */}
+        <section className="rounded-2xl border border-slate-200/75 bg-white shadow-sm">
+          <div className="border-b border-slate-100 px-6 py-5">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="text-lg font-bold tracking-tight text-slate-900">Transaction History</h3>
+                <p className="text-sm text-slate-500">A detailed ledger of API, evaluation, and certificate events.</p>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-600">
+                  <Database className="h-3.5 w-3.5" />
+                  {logs.length} Total Events
+                </span>
+              </div>
             </div>
           </div>
 
@@ -215,7 +236,7 @@ export default function UsageBilling() {
             </div>
           ) : (
             <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
+              <table className="w-full text-left text-sm text-slate-600">
                 <thead>
                   <tr className="bg-slate-50/80 border-b border-slate-200/80">
                     <th className="px-6 py-3.5 text-xs font-bold uppercase tracking-wider text-slate-500">Action & Date</th>
@@ -264,10 +285,10 @@ export default function UsageBilling() {
                         </span>
                       </td>
                       <td className="px-6 py-4 align-top font-semibold text-slate-900">
-                        {log.careerPoints.toLocaleString()} <span className="text-xs font-normal text-slate-400 ml-0.5">CPs</span>
+                        {log.careerPoints.toLocaleString()} <span className="text-xs font-normal text-slate-400 ml-0.5">tokens</span>
                       </td>
                       <td className="px-6 py-4 align-top font-semibold text-slate-900">
-                        {formatUsd(log.costUsd || 0)}
+                        {formatUsd((log.careerPoints || 0) / 100000)}
                       </td>
                       <td className="px-6 py-4 align-top">
                         {log.status === 'completed' ? (
