@@ -6,7 +6,7 @@ import { getUsageSummary } from './usageLedger';
 export function getCsPointsQuotaStatus(email = '', userSub = null) {
   const summary = getUsageSummary();
   const usedPoints = summary.totalCareerPoints || 0;
-  const tokensRemaining = userSub?.tokensRemaining ?? 10000;
+  const tokensRemaining = userSub?.tokensRemaining ?? 30000;
   const plan = userSub?.plan || 'free';
   const isExceeded = tokensRemaining <= 0;
 

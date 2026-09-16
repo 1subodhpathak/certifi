@@ -92,16 +92,16 @@ const buildProfileProgress = (user) => {
   if (!user) return 0;
 
   const checks = [
-    Boolean(user.name),
+    Boolean(user.name || user.fullName),
     Boolean(user.email),
     Boolean(user.phone),
-    Boolean(user.currentRole),
+    Boolean(user.currentRole || user.currentJobTitle),
     Boolean(user.currentCompany),
     Boolean(user.location),
     Boolean(user.bio),
     Array.isArray(user.education) && user.education.length > 0,
-    Array.isArray(user.certifications) && user.certifications.length > 0,
-    Array.isArray(user.awards) && user.awards.length > 0,
+    Boolean(user.avatar || user.imageUrl),
+    Boolean(user.profileStatus),
   ];
 
   const completed = checks.filter(Boolean).length;
@@ -429,7 +429,7 @@ export default function Dashboard() {
                     </div>
                     <div className="text-right">
                       <p className="text-sm font-semibold text-slate-900">{activity.careerPoints} tokens</p>
-                      <p className="text-xs text-slate-500 mt-0.5">${Number(activity.careerPoints ? activity.careerPoints / 100000 : (activity.costUsd || 0)).toFixed(4)}</p>
+                      <p className="text-xs text-slate-500 mt-0.5">${Number(activity.careerPoints ? activity.careerPoints / 20000 : (activity.costUsd || 0)).toFixed(4)}</p>
                     </div>
                   </div>
                 ))}

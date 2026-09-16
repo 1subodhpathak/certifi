@@ -3,7 +3,7 @@ import DashboardShell from '../components/DashboardShell';
 import { getUsageLogs, getUsageSummary } from '../services/usageLedger';
 import { useCertifiStore } from '../store/useCertifiStore';
 import { useAuth as useClerkAuth, useUser } from '@clerk/clerk-react';
-import { Loader2, ShieldCheck, Zap } from 'lucide-react';
+import { Loader2, ShieldCheck, Zap, ArrowUpRight } from 'lucide-react';
 import { getCsPointsQuotaStatus } from '../services/pointsQuota';
 import {
   CircleDollarSign,
@@ -50,7 +50,7 @@ export default function UsageBilling() {
     [logs]
   );
 
-  const [userSub, setUserSub] = useState({ plan: 'free', tokensRemaining: 10000, status: 'active' });
+  const [userSub, setUserSub] = useState({ plan: 'free', tokensRemaining: 30000, status: 'active' });
 
   useEffect(() => {
     if (!user?.id) return;
@@ -117,7 +117,7 @@ export default function UsageBilling() {
                   AI Tokens Remaining
                 </div>
                 <div className="mt-4 text-3xl font-black tracking-tight text-slate-900">
-                  {(userSub.tokensRemaining || 10000).toLocaleString()}
+                  {(userSub.tokensRemaining || 30000).toLocaleString()}
                 </div>
                 <p className="mt-2 text-xs font-medium text-slate-500">CareerSense Reverse Balance</p>
               </div>
@@ -155,14 +155,14 @@ export default function UsageBilling() {
                   Lifetime bills
                 </div>
                 <div className="mt-4 text-3xl font-black tracking-tight text-slate-900">
-                  {formatUsd(summary.totalCareerPoints / 100000)}
+                  {formatUsd(summary.totalCareerPoints / 20000)}
                 </div>
-                <p className="mt-2 text-xs font-medium text-slate-500">Recorded Activity API Estimate</p>
+                <p className="mt-2 text-xs font-medium text-slate-500">Bills are managed by careersenseAi, you dont need to pay</p>
               </div>
             </div>
 
             {/* Active Operational Tier Card */}
-            <div className="group relative overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-teal-200 hover:shadow-md">
+            <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200/75 bg-white p-6 shadow-sm transition-all hover:border-teal-200 hover:shadow-md">
               <div className="absolute -right-4 -top-4 rounded-full bg-teal-50/50 p-8 transition-transform group-hover:scale-110">
                 <ShieldCheck className="h-8 w-8 text-teal-100" />
               </div>
@@ -180,6 +180,17 @@ export default function UsageBilling() {
                   CareerSense Subscription
                 </p>
               </div>
+              <div className="relative mt-3 flex justify-end">
+                <a
+                  href="https://careersenseai.com/pricing"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  title="Upgrade Plan"
+                  className="inline-flex h-8 w-8 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700 shadow-xs transition-all duration-200 hover:scale-105 hover:border-teal-500 hover:bg-teal-500 hover:text-white"
+                >
+                  <ArrowUpRight className="h-4 w-4" />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -193,7 +204,7 @@ export default function UsageBilling() {
                 </span>
               </div>
               <p className="mt-1 text-xs text-slate-500">
-                Certifi platform AI usage draws directly from your CareerSense token balance. You have {(userSub.tokensRemaining || 10000).toLocaleString()} AI tokens available.
+                Certifi platform AI usage draws directly from your CareerSense token balance. You have {(userSub.tokensRemaining || 30000).toLocaleString()} AI tokens available.
               </p>
             </div>
             <a
@@ -288,7 +299,7 @@ export default function UsageBilling() {
                         {log.careerPoints.toLocaleString()} <span className="text-xs font-normal text-slate-400 ml-0.5">tokens</span>
                       </td>
                       <td className="px-6 py-4 align-top font-semibold text-slate-900">
-                        {formatUsd((log.careerPoints || 0) / 100000)}
+                        {formatUsd((log.careerPoints || 0) / 20000)}
                       </td>
                       <td className="px-6 py-4 align-top">
                         {log.status === 'completed' ? (

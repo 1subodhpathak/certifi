@@ -85,7 +85,7 @@ export default function HomeNavbar() {
   const totalCareerPoints = isSynced
     ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0)
     : usageSummary.totalCareerPoints;
-  const totalCostUsd = totalCareerPoints / 100000;
+  const totalCostUsd = totalCareerPoints / 20000;
 
   const closeMobileMenu = () => setMobileMenuOpen(false);
   const displayName = user?.fullName || user?.firstName || 'CareerSense member';
@@ -121,7 +121,7 @@ export default function HomeNavbar() {
 
   const [subData, setSubData] = useState<{ plan: string; tokensRemaining: number }>({
     plan: 'free',
-    tokensRemaining: 10000,
+    tokensRemaining: 30000,
   });
 
   useEffect(() => {
@@ -132,7 +132,7 @@ export default function HomeNavbar() {
         const res = await fetch(`${apiBase}/careersense/subscription/status?clerkId=${user.id}`);
         const data = await res.json();
         if (data.success) {
-          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 10000 });
+          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 30000 });
         }
       } catch (err) {
         console.error('Error fetching subscription status in HomeNavbar:', err);

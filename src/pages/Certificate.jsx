@@ -558,10 +558,10 @@ export default function Certificate() {
     certs: isClerkLoggedIn ? (isSynced ? storeCerts.length : 0) : stats.certs,
     badges: isClerkLoggedIn ? (isSynced ? storeBadges.length : 0) : stats.badges,
     paths: isClerkLoggedIn ? (isSynced ? storePaths.length : 0) : stats.paths,
-    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) / 100000 : 0) : (usageSummary.totalCareerPoints ? usageSummary.totalCareerPoints / 100000 : usageSummary.totalCostUsd),
+    totalCostUsd: isClerkLoggedIn ? (isSynced ? storeUsageLogs.reduce((sum, log) => sum + (log.careerPoints || 0), 0) / 20000 : 0) : (usageSummary.totalCareerPoints ? usageSummary.totalCareerPoints / 20000 : usageSummary.totalCostUsd),
   };
 
-  const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 10000 });
+  const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 30000 });
 
   useEffect(() => {
     if (!user) return;
@@ -573,7 +573,7 @@ export default function Certificate() {
         const res = await fetch(`${apiBase}/careersense/subscription/status?clerkId=${clerkId}`);
         const data = await res.json();
         if (data.success) {
-          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 10000 });
+          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 30000 });
         }
       } catch (err) {
         console.error('Error fetching subscription status in Certificate:', err);
@@ -751,7 +751,7 @@ export default function Certificate() {
                 </div>
                 <div className="mt-2 flex items-center justify-between gap-2">
                   <span className="text-[10px] text-slate-400">AI Tokens Remaining:</span>
-                  <span className="text-xs font-bold text-amber-400">{(subData?.tokensRemaining ?? 10000).toLocaleString()}</span>
+                  <span className="text-xs font-bold text-amber-400">{(subData?.tokensRemaining ?? 30000).toLocaleString()}</span>
                 </div>
               </div>
             ) : null}
@@ -810,7 +810,7 @@ export default function Certificate() {
               <div className="hidden items-center gap-4 xl:flex">
                 <UsagePill
                   label="AI Tokens Remaining"
-                  value={(subData?.tokensRemaining ?? 10000).toLocaleString()}
+                  value={(subData?.tokensRemaining ?? 30000).toLocaleString()}
                   accent="amber"
                   icon={<Zap className="h-4 w-4 fill-amber-400" />}
                 />
@@ -827,7 +827,7 @@ export default function Certificate() {
               </div>
 
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 xl:hidden">
-                <CompactStat label="Tokens" value={(subData?.tokensRemaining ?? 10000).toLocaleString()} />
+                <CompactStat label="Tokens" value={(subData?.tokensRemaining ?? 30000).toLocaleString()} />
                 <CompactStat label="Bill" value={`$${displayStats.totalCostUsd.toFixed(4)}`} />
                 <CompactStat label="Certs" value={String(displayStats.certs)} />
                 <CompactStat label="Paths" value={String(displayStats.paths)} />

@@ -161,10 +161,10 @@ export default function DashboardShell({
     badges: isClerkLoggedIn ? (isSynced ? storeBadges.length : 0) : stats.badges,
     paths: isClerkLoggedIn ? (isSynced ? storePaths.length : 0) : stats.paths,
     totalCareerPoints: computedPoints,
-    totalCostUsd: computedPoints / 100000,
+    totalCostUsd: computedPoints / 20000,
   };
 
-  const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 10000 });
+  const [subData, setSubData] = useState({ plan: 'free', tokensRemaining: 30000 });
 
   const userMeta = user.currentRole && user.currentCompany
     ? `${user.currentRole} at ${user.currentCompany}`
@@ -180,7 +180,7 @@ export default function DashboardShell({
         const res = await fetch(`${apiBase}/careersense/subscription/status?clerkId=${clerkId}`);
         const data = await res.json();
         if (data.success) {
-          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 10000 });
+          setSubData({ plan: data.plan || 'free', tokensRemaining: data.tokensRemaining ?? 30000 });
         }
       } catch (err) {
         console.error('Error fetching subscription status in DashboardShell:', err);
