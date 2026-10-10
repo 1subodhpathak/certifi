@@ -262,6 +262,13 @@ export default function DashboardShell({
           <p className="text-sm font-black text-slate-900">${displayStats.totalCostUsd.toFixed(4)}</p>
         </div>
       </div>
+
+      <a
+        href="https://careersenseai.com/pricing"
+        className="flex h-10 items-center justify-center gap-1.5 rounded-xl border border-teal-200 bg-teal-50 px-3.5 text-xs font-bold text-teal-800 shadow-sm transition hover:bg-teal-100"
+      >
+        <span>Pricing</span>
+      </a>
     </>
   );
 
@@ -408,6 +415,12 @@ export default function DashboardShell({
                 <span className="text-[10px] text-slate-400">AI Tokens Remaining:</span>
                 <span className="text-xs font-bold text-amber-400">{subData.tokensRemaining.toLocaleString()}</span>
               </div>
+              <a
+                href="https://careersenseai.com/pricing"
+                className="mt-2.5 flex items-center justify-center rounded-lg bg-teal-600/30 px-3 py-1.5 text-[11px] font-bold text-teal-300 transition hover:bg-teal-600/40"
+              >
+                Pricing &amp; Plans
+              </a>
             </div>
           ) : null}
         </div>
