@@ -181,6 +181,12 @@ export default function HomeNavbar() {
               </a>
             );
           })}
+          <a
+            href="https://careersenseai.com/pricing"
+            className="relative rounded-md py-2 transition-colors hover:text-teal-700 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-teal-500/40"
+          >
+            Pricing
+          </a>
         </div>
 
         <div className="hidden items-center gap-3 md:flex">
@@ -307,6 +313,13 @@ export default function HomeNavbar() {
                   {item.label}
                 </a>
               ))}
+              <a
+                href="https://careersenseai.com/pricing"
+                onClick={closeMobileMenu}
+                className="rounded-2xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:bg-slate-50"
+              >
+                Pricing
+              </a>
             </div>
 
             <div className="grid gap-2 rounded-[1.5rem] border border-slate-200 bg-slate-50/90 p-3">
