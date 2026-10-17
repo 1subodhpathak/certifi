@@ -86,6 +86,7 @@ export default function PracticeReport() {
   const [isGeneratingLearningPath, setIsGeneratingLearningPath] = useState(false);
   const [isDownloadReportModalOpen, setIsDownloadReportModalOpen] = useState(false);
   const [isDownloadGateOpen, setIsDownloadGateOpen] = useState(false);
+  const [isCheckingPass, setIsCheckingPass] = useState(false);
   const [isPreparingReportPdf, setIsPreparingReportPdf] = useState(false);
 
   const result = state;
@@ -247,18 +248,25 @@ export default function PracticeReport() {
   };
 
   const handleDownloadReport = async () => {
+    if (isCheckingPass) return;
     const userId = user?.id || user?.userId || user?.email;
-    if (userId) {
-      try {
-        const passCheck = await checkDownloadPass(userId, 'practice_report_pdf', result?.id || result?.assessmentId || 'default');
-        if (!passCheck.canDownload) {
-          setIsDownloadReportModalOpen(false);
-          setIsDownloadGateOpen(true);
-          return;
-        }
-      } catch (e) {
-        console.warn('Download pass verification check error:', e);
+    if (!userId) {
+      setIsDownloadReportModalOpen(false);
+      setIsDownloadGateOpen(true);
+      return;
+    }
+    setIsCheckingPass(true);
+    try {
+      const passCheck = await checkDownloadPass(userId, 'practice_report_pdf', result?.id || result?.assessmentId || 'default');
+      if (!passCheck.canDownload) {
+        setIsDownloadReportModalOpen(false);
+        setIsDownloadGateOpen(true);
+        return;
       }
+    } catch (e) {
+      console.warn('Download pass verification check error:', e);
+    } finally {
+      setIsCheckingPass(false);
     }
 
     await executeDownloadPracticeReport();
@@ -348,7 +356,7 @@ export default function PracticeReport() {
             previewLabel="Preview Report"
             confirmLabel="Prepare & Download PDF"
             confirmIcon={Download}
-            isProcessing={isPreparingReportPdf}
+            isProcessing={isPreparingReportPdf || isCheckingPass}
           />
         ) : null}
 

@@ -24,6 +24,7 @@ import { estimateLearningPathCareerPoints, generateLearningPath } from '../servi
 import { useAuth } from '../context/AuthContext';
 import ReportDownloadModal from '../components/ReportDownloadModal';
 import DownloadGateModal from '../components/common/DownloadGateModal';
+import CertifiNextStepsModal from '../components/common/CertifiNextStepsModal';
 import { checkDownloadPass } from '../services/downloadGateService';
 import {
   findCertificateByAttemptId,
@@ -58,8 +59,10 @@ export default function TestReport() {
   const [issuedCertificate, setIssuedCertificate] = useState(null);
   const [attemptRecord, setAttemptRecord] = useState(null);
   const [shareCopied, setShareCopied] = useState(false);
+  const [isNextStepsModalOpen, setIsNextStepsModalOpen] = useState(false);
   const [isDownloadReportModalOpen, setIsDownloadReportModalOpen] = useState(false);
   const [isDownloadGateOpen, setIsDownloadGateOpen] = useState(false);
+  const [isCheckingPass, setIsCheckingPass] = useState(false);
   const [isPreparingReportPdf, setIsPreparingReportPdf] = useState(false);
   const [isGeneratePathModalOpen, setIsGeneratePathModalOpen] = useState(false);
   const [isGeneratingLearningPath, setIsGeneratingLearningPath] = useState(false);
@@ -363,20 +366,26 @@ export default function TestReport() {
   };
 
   const handleDownloadReport = async () => {
-    if (!attemptRecord || !reportDownloadMeta) return;
+    if (!attemptRecord || !reportDownloadMeta || isCheckingPass) return;
 
     const userId = user?.id || user?.userId || user?.email;
-    if (userId) {
-      try {
-        const passCheck = await checkDownloadPass(userId, 'assessment_report_pdf', attemptRecord?.id || 'default');
-        if (!passCheck.canDownload) {
-          setIsDownloadReportModalOpen(false);
-          setIsDownloadGateOpen(true);
-          return;
-        }
-      } catch (e) {
-        console.warn('Download pass verification check error:', e);
+    if (!userId) {
+      setIsDownloadReportModalOpen(false);
+      setIsDownloadGateOpen(true);
+      return;
+    }
+    setIsCheckingPass(true);
+    try {
+      const passCheck = await checkDownloadPass(userId, 'assessment_report_pdf', attemptRecord?.id || 'default');
+      if (!passCheck.canDownload) {
+        setIsDownloadReportModalOpen(false);
+        setIsDownloadGateOpen(true);
+        return;
       }
+    } catch (e) {
+      console.warn('Download pass verification check error:', e);
+    } finally {
+      setIsCheckingPass(false);
     }
 
     await executeDownloadAssessmentReport();
@@ -437,7 +446,7 @@ export default function TestReport() {
           previewLabel="Preview Report"
           confirmLabel="Prepare & Download PDF"
           confirmIcon={Download}
-          isProcessing={isPreparingReportPdf}
+          isProcessing={isPreparingReportPdf || isCheckingPass}
         />
       ) : null}
       <DownloadGateModal
@@ -448,6 +457,13 @@ export default function TestReport() {
         resourceId={attemptRecord?.id || 'default'}
         resourceName="Assessment Score Report PDF"
         onSuccessDownload={executeDownloadAssessmentReport}
+      />
+      <CertifiNextStepsModal
+        isOpen={isNextStepsModalOpen}
+        onClose={() => setIsNextStepsModalOpen(false)}
+        skillName={skill || attemptRecord?.title || ''}
+        score={attemptRecord?.score ? `${attemptRecord.score}%` : ''}
+        candidateName={user?.name || user?.fullName || ''}
       />
       <div className="mx-auto max-w-6xl">
         <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
@@ -535,6 +551,14 @@ export default function TestReport() {
                   {certificateEligible
                     ? (certificateClaimed ? 'View Certificate' : 'Claim Certificate')
                     : `Locked (Min ${requiredPassingThreshold}%)`}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsNextStepsModalOpen(true)}
+                  className="inline-flex items-center gap-2 rounded-xl border border-teal-600/30 bg-teal-50 px-4 py-3 text-sm font-bold text-teal-800 shadow-sm hover:bg-teal-100 transition-colors"
+                >
+                  <Sparkles className="h-4 w-4 text-teal-600" />
+                  Next Career Steps
                 </button>
               </div>
             </div>

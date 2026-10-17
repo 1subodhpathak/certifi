@@ -65,6 +65,7 @@ const PracticeHub = lazy(() => import('./pages/PracticeHub'));
 const PracticeSession = lazy(() => import('./pages/PracticeSession'));
 const PracticeReport = lazy(() => import('./pages/PracticeReport'));
 const PublicProfile = lazy(() => import('./pages/PublicProfile'));
+const WelcomeTokensModal = lazy(() => import('./components/common/WelcomeTokensModal'));
 
 const PageLoader = () => (
   <div className="flex h-screen flex-col items-center justify-center gap-4 bg-slate-50 text-center">
@@ -97,6 +98,7 @@ function App() {
       <Router>
         <AuthStoreSynchronizer />
         <Suspense fallback={<PageLoader />}>
+          <WelcomeTokensModal />
           <Routes>
             {/* Public Routes */}
             <Route path="/" element={<Home />} />
