@@ -30,6 +30,7 @@ import { useAuth } from '../context/AuthContext';
 import BadgePreviewModal from '../components/BadgePreviewModal';
 import ReportDownloadModal from '../components/ReportDownloadModal';
 import DownloadGateModal from '../components/common/DownloadGateModal';
+import CertifiNextStepsModal from '../components/common/CertifiNextStepsModal';
 import { checkDownloadPass } from '../services/downloadGateService';
 import shagunSignature from '../assets/ShagunSignature.png';
 import csSeal from '../assets/CSSeal.png';
@@ -161,6 +162,8 @@ export default function Certificate() {
   const [badgePreviewOpen, setBadgePreviewOpen] = useState(false);
   const [badgeStoredNotice, setBadgeStoredNotice] = useState(false);
   const [isDownloadGateOpen, setIsDownloadGateOpen] = useState(false);
+  const [isNextStepsModalOpen, setIsNextStepsModalOpen] = useState(false);
+  const [isCheckingPass, setIsCheckingPass] = useState(false);
   const [pendingDownloadAction, setPendingDownloadAction] = useState(null);
   const [gateResource, setGateResource] = useState({ type: 'certificate_pdf', name: 'Verified Certificate' });
   
@@ -246,6 +249,18 @@ export default function Certificate() {
     setSelectedBadgePaletteId(storedBadge?.paletteId || getDefaultBadgePaletteId(certificate));
     setBadgePaletteOptions(getBadgePalettes());
   }, [certificate, storedBadge?.designId, storedBadge?.paletteId]);
+
+  useEffect(() => {
+    if (!certificate?.id) return;
+    const sessionKey = `cs_cert_next_steps_${certificate.id}`;
+    if (!sessionStorage.getItem(sessionKey)) {
+      const timer = setTimeout(() => {
+        sessionStorage.setItem(sessionKey, 'true');
+        setIsNextStepsModalOpen(true);
+      }, 1800);
+      return () => clearTimeout(timer);
+    }
+  }, [certificate?.id]);
 
   useEffect(() => {
     if (!user) return;
@@ -339,19 +354,27 @@ export default function Certificate() {
   };
 
   const handleDownloadCertificate = async () => {
+    if (isCheckingPass) return;
     const userId = user?.id || user?.userId || user?.email;
-    if (userId) {
-      try {
-        const passCheck = await checkDownloadPass(userId, 'certificate_pdf', certificate?.id || 'default');
-        if (!passCheck.canDownload) {
-          setGateResource({ type: 'certificate_pdf', name: 'Verified Certificate' });
-          setPendingDownloadAction(() => () => window.print());
-          setIsDownloadGateOpen(true);
-          return;
-        }
-      } catch (e) {
-        console.warn('Download pass verification check error:', e);
+    if (!userId) {
+      setGateResource({ type: 'certificate_pdf', name: 'Verified Certificate' });
+      setPendingDownloadAction(() => () => window.print());
+      setIsDownloadGateOpen(true);
+      return;
+    }
+    setIsCheckingPass(true);
+    try {
+      const passCheck = await checkDownloadPass(userId, 'certificate_pdf', certificate?.id || 'default');
+      if (!passCheck.canDownload) {
+        setGateResource({ type: 'certificate_pdf', name: 'Verified Certificate' });
+        setPendingDownloadAction(() => () => window.print());
+        setIsDownloadGateOpen(true);
+        return;
       }
+    } catch (e) {
+      console.warn('Download pass verification check error:', e);
+    } finally {
+      setIsCheckingPass(false);
     }
     window.print();
   };
@@ -361,18 +384,25 @@ export default function Certificate() {
   const handleConfirmDownloadReport = async () => {
     setScoreReportModalOpen(false);
     const userId = user?.id || user?.userId || user?.email;
-    if (userId) {
-      try {
-        const passCheck = await checkDownloadPass(userId, 'certificate_report_pdf', certificate?.id || 'default');
-        if (!passCheck.canDownload) {
-          setGateResource({ type: 'certificate_report_pdf', name: 'Certificate Score Report PDF' });
-          setPendingDownloadAction(() => () => downloadScoreReport(certificate, attempt));
-          setIsDownloadGateOpen(true);
-          return;
-        }
-      } catch (e) {
-        console.warn('Download pass verification check error:', e);
+    if (!userId) {
+      setGateResource({ type: 'certificate_report_pdf', name: 'Certificate Score Report PDF' });
+      setPendingDownloadAction(() => () => downloadScoreReport(certificate, attempt));
+      setIsDownloadGateOpen(true);
+      return;
+    }
+    setIsCheckingPass(true);
+    try {
+      const passCheck = await checkDownloadPass(userId, 'certificate_report_pdf', certificate?.id || 'default');
+      if (!passCheck.canDownload) {
+        setGateResource({ type: 'certificate_report_pdf', name: 'Certificate Score Report PDF' });
+        setPendingDownloadAction(() => () => downloadScoreReport(certificate, attempt));
+        setIsDownloadGateOpen(true);
+        return;
       }
+    } catch (e) {
+      console.warn('Download pass verification check error:', e);
+    } finally {
+      setIsCheckingPass(false);
     }
     downloadScoreReport(certificate, attempt);
   };
@@ -538,6 +568,13 @@ export default function Certificate() {
       ],
     },
     {
+      label: 'Career Progression',
+      iconClass: 'text-cyan-400',
+      items: [
+        { id: 'next-steps', label: 'Next Career Steps', icon: Sparkles, action: () => setIsNextStepsModalOpen(true), highlight: true },
+      ],
+    },
+    {
       label: 'Export',
       iconClass: 'text-teal-300',
       items: [
@@ -635,6 +672,7 @@ export default function Certificate() {
         previewLabel="Preview Report"
         confirmLabel="Download Score Report"
         confirmIcon={FileDown}
+        isProcessing={isCheckingPass}
       />
       
       <BadgePreviewModal
@@ -842,13 +880,28 @@ export default function Certificate() {
                   <h3 className="text-base font-semibold tracking-tight text-slate-900">Certificate Actions</h3>
                   <p className="mt-1 text-sm text-slate-500">Use the sidebar for full record actions or download this certificate instantly from here.</p>
                 </div>
-                <button
-                  onClick={handleDownloadCertificate}
-                  className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2"
-                >
-                  <Download className="h-4 w-4 shrink-0" />
-                  Download Certificate
-                </button>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <button
+                    type="button"
+                    onClick={() => setIsNextStepsModalOpen(true)}
+                    className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl border border-teal-600/30 bg-teal-50 px-4 py-2.5 text-sm font-bold text-teal-800 shadow-xs transition-all hover:bg-teal-100 hover:border-teal-600"
+                  >
+                    <Sparkles className="h-4 w-4 shrink-0 text-teal-600" />
+                    Next Career Steps
+                  </button>
+                  <button
+                    onClick={handleDownloadCertificate}
+                    disabled={isCheckingPass}
+                    className="inline-flex shrink-0 items-center justify-center gap-2 rounded-xl bg-teal-600 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-teal-700 focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 disabled:opacity-60"
+                  >
+                    {isCheckingPass ? (
+                      <Loader2 className="h-4 w-4 shrink-0 animate-spin text-white" />
+                    ) : (
+                      <Download className="h-4 w-4 shrink-0" />
+                    )}
+                    {isCheckingPass ? 'Preparing...' : 'Download Certificate'}
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -1151,6 +1204,14 @@ export default function Certificate() {
             setPendingDownloadAction(null);
           }
         }}
+      />
+
+      <CertifiNextStepsModal
+        isOpen={isNextStepsModalOpen}
+        onClose={() => setIsNextStepsModalOpen(false)}
+        skillName={certificate?.skill || ''}
+        score={certificate?.score || ''}
+        candidateName={certificate?.studentName || user?.name || ''}
       />
     </>
   );
