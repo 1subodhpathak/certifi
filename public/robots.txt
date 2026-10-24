@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /verify
+Allow: /verify-certificate
+Disallow: /dashboard
+Disallow: /create-assessment
+Disallow: /learning-paths
+Disallow: /subscription
+Disallow: /usage-billing
+Disallow: /my-profile
+Disallow: /practice-hub
+Disallow: /test
+Disallow: /report
+
+Sitemap: https://certifi.careersenseai.com/sitemap.xml
