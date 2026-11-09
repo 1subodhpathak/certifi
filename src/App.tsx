@@ -46,8 +46,9 @@ import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/common/ProtectedRoute';
 import { useCertifiStore } from './store/useCertifiStore';
 
-// Lazy load pages for code splitting (reduces initial bundle size and solves blank first-load screen)
-const Home = lazy(() => import('./pages/Home'));
+import Home from './pages/Home';
+
+// Lazy load non-landing pages for code splitting (reduces initial bundle size and solves blank first-load screen)
 const Login = lazy(() => import('./pages/Login'));
 const Dashboard = lazy(() => import('./pages/Dashboard'));
 const CreateAssessment = lazy(() => import('./pages/CreateAssessment'));

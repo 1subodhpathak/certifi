@@ -5,12 +5,12 @@ import AnimatedHeroBackground from './AnimatedHeroBackground';
 import HeroCertificationPreview from './HeroCertificationPreview';
 
 const fadeInUp = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 1, y: 0 },
   visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
 };
 
 const staggerContainer = {
-  hidden: { opacity: 0 },
+  hidden: { opacity: 1 },
   visible: {
     opacity: 1,
     transition: { staggerChildren: 0.1 },
@@ -65,7 +65,7 @@ export default function HomeHeroSection({
       </div>
 
       <div className="relative mx-auto grid min-h-[calc(100svh-5rem)] max-w-[1400px] items-center gap-8 md:gap-10 lg:grid-cols-[1.02fr,0.98fr] lg:gap-10">
-        <motion.div initial="hidden" animate="visible" variants={staggerContainer} className="relative z-10 text-left">
+        <motion.div initial={false} animate="visible" variants={staggerContainer} className="relative z-10 text-left">
           <motion.h1 variants={fadeInUp} className="mb-4 text-4xl font-extrabold leading-[1.04] tracking-tight text-slate-950 md:text-5xl lg:text-[3.15rem]">
             Get{' '}
             <span
@@ -157,7 +157,7 @@ export default function HomeHeroSection({
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={false}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           className="relative z-10 hidden lg:self-center lg:block"
