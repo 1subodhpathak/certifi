@@ -1,21 +1,7 @@
 import { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
 import { ArrowRight, Award, BookOpenCheck, Code2, FileCheck2, Search } from 'lucide-react';
 import AnimatedHeroBackground from './AnimatedHeroBackground';
 import HeroCertificationPreview from './HeroCertificationPreview';
-
-const fadeInUp = {
-  hidden: { opacity: 1, y: 0 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-const staggerContainer = {
-  hidden: { opacity: 1 },
-  visible: {
-    opacity: 1,
-    transition: { staggerChildren: 0.1 },
-  },
-};
 
 const HERO_WORDS = ['Smarter', 'Trusted', 'Verified', 'Career-ready'];
 
@@ -46,7 +32,8 @@ export default function HomeHeroSection({
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-white px-4 pb-6 pt-5 sm:px-6 sm:pt-6 md:pt-5">
+    <section className="relative overflow-hidden bg-white px-4 pb-8 pt-5 sm:px-6 sm:pt-6 md:pt-6">
+      {/* Mobile background decor */}
       <div className="absolute inset-0 z-0 bg-[linear-gradient(180deg,#f8fffd_0%,#f5f8fc_46%,#ffffff_100%)] md:hidden" />
       <div
         className="absolute inset-0 z-0 opacity-70 md:hidden"
@@ -60,20 +47,22 @@ export default function HomeHeroSection({
       />
       <div className="absolute left-[-18%] top-[8%] z-0 h-56 w-56 rounded-full bg-teal-100/70 blur-3xl md:hidden" />
       <div className="absolute bottom-[-8%] right-[-10%] z-0 h-64 w-64 rounded-full bg-cyan-100/70 blur-3xl md:hidden" />
+      
+      {/* Desktop background decor */}
       <div className="hidden md:block">
         <AnimatedHeroBackground />
       </div>
 
-      <div className="relative mx-auto grid min-h-[calc(100svh-5rem)] max-w-[1400px] items-center gap-8 md:gap-10 lg:grid-cols-[1.02fr,0.98fr] lg:gap-10">
-        <motion.div initial={false} animate="visible" variants={staggerContainer} className="relative z-10 text-left">
-          <motion.h1 variants={fadeInUp} className="mb-4 text-4xl font-extrabold leading-[1.04] tracking-tight text-slate-950 md:text-5xl lg:text-[3.15rem]">
+      <div className="relative mx-auto grid min-h-[500px] max-w-[1400px] items-start gap-8 sm:gap-10 lg:min-h-[calc(100vh-5rem)] lg:grid-cols-[1.02fr,0.98fr] lg:items-center">
+        <div className="relative z-10 text-left">
+          <h1 className="mb-4 text-4xl font-extrabold leading-[1.08] tracking-tight text-slate-950 md:text-5xl lg:text-[3.15rem]">
             Get{' '}
             <span
               style={{
                 display: 'inline-block',
                 transition: 'opacity 0.26s ease, transform 0.26s ease',
                 opacity: heroWordVisible ? 1 : 0,
-                transform: heroWordVisible ? 'translateY(0px)' : 'translateY(-10px)',
+                transform: heroWordVisible ? 'translateY(0px)' : 'translateY(-6px)',
               }}
               className="text-teal-600"
             >
@@ -81,14 +70,14 @@ export default function HomeHeroSection({
             </span>
             <br />
             certified with evidence
-          </motion.h1>
+          </h1>
 
-          <motion.p variants={fadeInUp} className="mb-6 max-w-[560px] text-base font-medium leading-[1.7] text-slate-700 lg:text-[1.02rem]">
+          <p className="mb-6 max-w-[560px] text-base font-medium leading-[1.7] text-slate-700 lg:text-[1.02rem]">
             Certifi.AI turns technical assessments into verified proof of skill. Generate role-specific tests, evaluate real
             performance, and issue credentials people can trust.
-          </motion.p>
+          </p>
 
-          <motion.div variants={fadeInUp} className="mb-6 grid gap-3 sm:grid-cols-3">
+          <div className="mb-6 grid gap-3 sm:grid-cols-3">
             <button
               onClick={onStartAssessment}
               className="group flex h-12 w-full items-center justify-center gap-2 rounded-lg bg-teal-600 px-4 font-semibold text-white shadow-lg shadow-teal-600/20 transition hover:bg-teal-700"
@@ -118,9 +107,9 @@ export default function HomeHeroSection({
               <Award className="h-4 w-4 text-amber-500" />
               Sample Certificate
             </button>
-          </motion.div>
+          </div>
 
-          <motion.div variants={fadeInUp} className="mb-6 grid gap-3 sm:grid-cols-3">
+          <div className="mb-6 grid gap-3 sm:grid-cols-3">
             {[
               {
                 title: 'Skill Assessments',
@@ -146,24 +135,19 @@ export default function HomeHeroSection({
                 <p className="mt-1 text-xs font-medium leading-5 text-slate-500">{item.detail}</p>
               </div>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div variants={fadeInUp} className="flex flex-wrap gap-5 border-t border-slate-200 pt-4">
+          <div className="flex flex-wrap gap-5 border-t border-slate-200 pt-4">
             <Highlight stat="15-30" label="Questions per assessment" />
             <Highlight stat="80%" label="Score threshold for certification" />
             <Highlight stat="Instant" label="Certificate Generation" />
             <Highlight stat="Live" label="Certificate Verification" />
-          </motion.div>
-        </motion.div>
+          </div>
+        </div>
 
-        <motion.div
-          initial={false}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8 }}
-          className="relative z-10 hidden lg:self-center lg:block"
-        >
+        <div className="relative z-10 hidden lg:self-center lg:block">
           <HeroCertificationPreview />
-        </motion.div>
+        </div>
       </div>
     </section>
   );
