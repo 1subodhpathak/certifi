@@ -247,12 +247,8 @@ export function AuthProvider({ children }) {
     window.clerkUserEmail = activeUser.email;
   }
 
-  if (!isClerkUserLoaded) {
-    return null;
-  }
-
   return (
-    <AuthContext.Provider value={{ user: activeUser, login, logout, updateProfile, loading: false }}>
+    <AuthContext.Provider value={{ user: activeUser, login, logout, updateProfile, loading: !isClerkUserLoaded }}>
       {children}
     </AuthContext.Provider>
   );
